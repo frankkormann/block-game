@@ -50,6 +50,10 @@ Download the latest `jar` file from the releases tab and run it.
 		<td>Pause</td>
 		<td>K</td>
 	</tr>
+	<tr>
+		<td>Restart level</td>
+		<td>Y</td>
+	</tr>
 </table>
 
 ## Technical details
