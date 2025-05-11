@@ -1,15 +1,3 @@
-<style>
-	tr td {
-		vertical-align: top;
-	}
-	td {
-		min-width: 150px;
-	}
-	ul {
-		margin: 0px;
-	}
-</style>
-
 **Spoiler warning:** This file documents every object in the game. If you want
 to experience the puzzles as they were intended, play the game before reading.
 
@@ -49,10 +37,8 @@ constructor.
 Areas are special rectangles that apply an effect to all Moving Rectangles that
 are touching them.
 
+<p align="center"><b>All rectangles</b></p>
 <table>
-	<tr>
-		<td colspan=2><center><b>All rectangles</b></center></td>
-	</tr>
 	<tr>
 		<td>type</td>
 		<td>Identifier for type of rectangle</td>
@@ -73,10 +59,10 @@ are touching them.
 		<td>height</td>
 		<td>Height in the Y dimension</td>
 	</tr>
-	
+</table>
+<p align="center"><b>Moving Rectangle</b></p>
+<table>
 	<tr>
-		<td colspan=2><center><b>Moving Rectangle</b></center></td>
-	</tr>
 		<td><i>Description</i></td>
 		<td>Can be pushed around or controlled by the player</td>
 	</tr>
@@ -93,10 +79,10 @@ are touching them.
 		<td>controlledByPlayer</td>
 		<td>(Optional) Set to "true" to enable player control</td>
 	</tr>
-	
+</table>
+<p align="center"><b>Wall Rectangle</b></p>
+<table>
 	<tr>
-		<td colspan=2><center><b>Wall Rectangle</b></center></td>
-	</tr>
 		<td><i>Description</i>
 		<td>Immovable wall</td>
 	</tr>
@@ -111,13 +97,12 @@ are touching them.
 				<li>STAY: does not interact with window edges
 				<li>PREVENT: stops window edge from passing through it
 				<li>MOVE: is pushed by window edge
-			<ul>
+			</ul>
 		</td>
 	</tr>
-	
-	<tr>
-		<td colspan=2><center><b>Antigravity Area</b></center></td>
-	</tr>
+</table>
+<p align="center"><b>Antigravity Area</b></p>
+<table>
 	<tr>
 		<td><i>Description</i></td>
 		<td>Disables Moving Rectangle's gravity while touching</td>
@@ -126,10 +111,9 @@ are touching them.
 		<td>type</td>
 		<td>.AntigravityArea</td>
 	</tr>
-	
-	<tr>
-		<td colspan=2><center><b>Force Area</b></center</td>
-	</tr>
+</table>
+<p align="center"><b>Force Area</b></p>
+<table>
 	<tr>
 		<td><i>Description</i></td>
 		<td>Apply a constant force to Moving Rectangles</td>
@@ -142,10 +126,9 @@ are touching them.
 		<td>yForce</td>
 		<td>Value of force to apply in the Y direction</td>
 	</tr>
-	
-	<tr>
-		<td colspan=2><center><b>Goal Area</b></center</td>
-	</tr>
+</table>
+<p align="center"><b>Goal Area</b></p>
+<table>
 	<tr>
 		<td><i>Description</i></td>
 		<td>Load the next level after a controllable Moving Rectangle has been
@@ -155,12 +138,10 @@ are touching them.
 		<td>nextLevel</td>
 		<td>Path to the next level's JSON</td>
 	</tr>
-	
+</table>
+<p align="center"><b>Grow Area</b></p>
+<table>
 	<tr>
-		<td colspan=2><center><b>Grow Area</b></center</td>
-	</tr>
-	<tr>
-	
 		<td><i>Description</i></td>
 		<td>Grow a smaller Moving Rectangle until it is as wide/tall as this
 			</td>
@@ -173,12 +154,10 @@ are touching them.
 		<td>yGrowth</td>
 		<td>Rate to increase height in pixels/frame</td>
 	</tr>
-	
+</table>
+<p align="center"><b>Shrink Area</b></p>
+<table>
 	<tr>
-		<td colspan=2><center><b>Shrink Area</b></center</td>
-	</tr>
-	<tr>
-	
 		<td><i>Description</i></td>
 		<td>Shrink a larger Moving Rectangle until it is as wide/tall as this
 			</td>
