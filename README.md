@@ -1,9 +1,3 @@
-<style>
-	td {
-		min-width: 150px;
-	}
-</style>
-
 # Block Game
 
 This is a puzzle game about moving blocks around.
@@ -19,7 +13,6 @@ This is a puzzle game about moving blocks around.
 			<a href="https://www.java.com/en/download/">java.com</a>.</td>
 	</tr>
 	<tr>
-
 		<td>Operating system</td>
 		<td>Developed and tested on Windows 11. It probably works on other
 			platforms supported by Java, but this is not guaranteed.</td>
