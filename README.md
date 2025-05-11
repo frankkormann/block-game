@@ -11,6 +11,7 @@ This is a puzzle game about moving blocks around.
 ## Playing the game
 
 ### System requirements
+
 <table>
 	<tr>
 		<td>Java</td>
