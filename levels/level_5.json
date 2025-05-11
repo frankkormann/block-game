@@ -1,0 +1,104 @@
+{
+	"name": "Skewer Mover",
+	"width": 800,
+	"height": 500,
+	"rectangles": [
+		{
+			"type": ".MovingRectangle",
+			"controlledByPlayer": "true",
+			"x": 390,
+			"y": 290,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 320,
+			"y": 260,
+			"width": 180,
+			"height": 30,
+			"color": "BLUE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 320,
+			"y": 310,
+			"width": 180,
+			"height": 10,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 600,
+			"y": 480,
+			"width": 100,
+			"height": 20,
+			"color": "GREEN"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 300,
+			"y": 140,
+			"width": 200,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 300,
+			"y": 160,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "PREVENT"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 480,
+			"y": 160,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 300,
+			"y": 270,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 200,
+			"y": 290,
+			"width": 120,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 480,
+			"y": 290,
+			"width": 20,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 200,
+			"y": 320,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".GoalArea",
+			"x": 375,
+			"y": 210,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1.json"
+		}
+	]
+}

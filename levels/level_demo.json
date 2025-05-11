@@ -1,0 +1,150 @@
+{
+	"name": "Demo",
+	"width": 800,
+	"height": 500,
+	"rectangles": [
+		{
+			"type": ".MovingRectangle",
+			"controlledByPlayer": "true",
+			"x": 20,
+			"y": 400,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 90,
+			"y": 400,
+			"width": 40,
+			"height": 20,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 130,
+			"y": 400,
+			"width": 20,
+			"height": 20,
+			"color": "BLUE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 160,
+			"y": 400,
+			"width": 20,
+			"height": 10,
+			"color": "GREEN"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 190,
+			"y": 400,
+			"width": 10,
+			"height": 40,
+			"color": "ORANGE",
+			"attachments": [
+				{
+					"type": ".GrowArea",
+					"x": 130,
+					"y": 400,
+					"width": 60,
+					"height": 40,
+					"xGrowth": 1,
+					"yGrowth": 0
+				},
+				{
+					"type": ".ShrinkArea",
+					"x": 200,
+					"y": 400,
+					"width": 10,
+					"height": 40,
+					"xShrink": 1,
+					"yShrink": 0
+				}
+			]
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 50,
+			"y": 320,
+			"width": 200,
+			"height": 20,
+			"resizeBehavior": "PREVENT"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 780,
+			"y": 260,
+			"width": 20,
+			"height": 160,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 450,
+			"y": 340,
+			"width": 20,
+			"height": 80,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 480,
+			"width": 200,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 200,
+			"y": 680,
+			"width": 200,
+			"height": 30,
+			"resizeBehavior": "PREVENT"
+		},
+		{
+			"type": ".GoalArea",
+			"x": 280,
+			"y": 640,
+			"width": 40,
+			"height": 40,
+			"nextLevel": "/level_1.json"
+		},
+		{
+			"type": ".ForceArea",
+			"x": 480,
+			"y": 420,
+			"width": 40,
+			"height": 80,
+			"xForce": 0,
+			"yForce": -3
+		},
+		{
+			"type": ".AntigravityArea",
+			"x": 300,
+			"y": 300,
+			"width": 150,
+			"height": 70
+		},
+		{
+			"type": ".GrowArea",
+			"x": 0,
+			"y": 430,
+			"width": 20,
+			"height": 50,
+			"xGrowth": 0,
+			"yGrowth": 1
+		},
+		{
+			"type": ".ShrinkArea",
+			"x": 20,
+			"y": 430,
+			"width": 20,
+			"height": 50,
+			"xShrink": 0,
+			"yShrink": 1
+		}
+	]
+}
