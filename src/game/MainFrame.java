@@ -105,7 +105,7 @@ public class MainFrame extends JFrame {
 		width = level.getWidth() + getInsets().left + getInsets().right;
 		height = level.getHeight() + getInsets().top + getInsets().bottom
 				+ TitleBar.HEIGHT;
-		titleBar.setTitle(level.getName());
+		titleBar.setTitle("Block Game - " + level.getName());
 	}
 
 	/**
