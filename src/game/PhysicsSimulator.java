@@ -34,7 +34,7 @@ public class PhysicsSimulator {
 	private List<WallRectangle> walls;
 	private List<Area> areas;
 	private Map<MovingRectangle, MovingRectangle> collisionMap;
-	private Map<MainFrame.Direction, MovingRectangle> sideRects;
+	private Map<MovingRectangle, MainFrame.Direction> sideRects;
 
 	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
 
@@ -63,14 +63,14 @@ public class PhysicsSimulator {
 	 * @param yOffset Y coordinate of top left corner
 	 */
 	public void createSides(int width, int height, int xOffset, int yOffset) {
-		sideRects.put(MainFrame.Direction.NORTH,
-				new MovingRectangle(xOffset, yOffset, width, 1));
-		sideRects.put(MainFrame.Direction.SOUTH,
-				new MovingRectangle(xOffset, yOffset + height, width, 1));
-		sideRects.put(MainFrame.Direction.WEST,
-				new MovingRectangle(xOffset, yOffset, 1, height));
-		sideRects.put(MainFrame.Direction.EAST,
-				new MovingRectangle(xOffset + width, yOffset, 1, height));
+		sideRects.put(new MovingRectangle(xOffset, yOffset, width, 1),
+				MainFrame.Direction.NORTH);
+		sideRects.put(new MovingRectangle(xOffset, yOffset + height, width, 1),
+				MainFrame.Direction.SOUTH);
+		sideRects.put(new MovingRectangle(xOffset, yOffset, 1, height),
+				MainFrame.Direction.WEST);
+		sideRects.put(new MovingRectangle(xOffset + width, yOffset, 1, height),
+				MainFrame.Direction.EAST);
 	}
 
 	/**
@@ -199,10 +199,10 @@ public class PhysicsSimulator {
 
 		sideRectangleResizes.clear();
 
-		sideRects.values().forEach(s -> s.updateLastPosition());
+		sideRects.keySet().forEach(s -> s.updateLastPosition());
 
-		for (MainFrame.Direction direction : sideRects.keySet()) {
-			MovingRectangle side = sideRects.get(direction);
+		for (MovingRectangle side : sideRects.keySet()) {
+			MainFrame.Direction direction = sideRects.get(side);
 			int difference = 0;
 			switch (direction) {
 				case NORTH:
@@ -286,7 +286,7 @@ public class PhysicsSimulator {
 
 		for (MovingRectangle other : colliders) {
 			if (other.getResizeBehavior() == Rectangle.ResizeBehavior.STAY
-					&& sideRects.containsValue(rect)) {
+					&& sideRects.containsKey(rect)) {
 				continue;
 			}
 
@@ -328,7 +328,7 @@ public class PhysicsSimulator {
 		int[] pushedAmount = { 0, 0 };
 		for (WallRectangle wall : walls) {
 			if (wall.getResizeBehavior() == Rectangle.ResizeBehavior.STAY
-					&& sideRects.containsValue(rect)) {
+					&& sideRects.containsKey(rect)) {
 				continue;
 			}
 
