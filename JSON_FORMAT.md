@@ -119,6 +119,10 @@ are touching them.
 		<td>Apply a constant force to Moving Rectangles</td>
 	</tr>
 	<tr>
+		<td>type</td>
+		<td>.ForceArea</td>
+	</tr>
+	<tr>
 		<td>xForce</td>
 		<td>Value of force to apply in the X direction</td>
 	</tr>
@@ -135,6 +139,10 @@ are touching them.
 			touching this for a long enough time</td>
 	</tr>
 	<tr>
+		<td>type</td>
+		<td>.GoalArea</td>
+	</tr>
+	<tr>
 		<td>nextLevel</td>
 		<td>Path to the next level's JSON</td>
 	</tr>
@@ -145,6 +153,10 @@ are touching them.
 		<td><i>Description</i></td>
 		<td>Grow a smaller Moving Rectangle until it is as wide/tall as this
 			</td>
+	</tr>
+	<tr>
+		<td>type</td>
+		<td>.GrowArea</td>
 	</tr>
 	<tr>
 		<td>xGrowth</td>
@@ -161,6 +173,10 @@ are touching them.
 		<td><i>Description</i></td>
 		<td>Shrink a larger Moving Rectangle until it is as wide/tall as this
 			</td>
+	</tr>
+	<tr>
+		<td>type</td>
+		<td>.ShrinkArea</td>
 	</tr>
 	<tr>
 		<td>xShrink</td>
