@@ -489,6 +489,10 @@ public class PhysicsSimulator {
 		return sideRectangleResizes;
 	}
 
+	/**
+	 * Struct-like object to hold which Rectangle a MovingRectangle was pushed by
+	 * and how much it was pushed, for use in a Map.
+	 */
 	private class RectangleMapObject {
 		public Rectangle pushedBy;
 		public int[] pushedAmount;
