@@ -141,6 +141,10 @@ public class TitleBar extends JPanel
 	@Override
 	public void mouseExited(MouseEvent e) {}
 
+	/**
+	 * Simple button which sets its color depending on whether it is being hovered
+	 * over or not.
+	 */
 	private class TitleButton extends JButton {
 
 		private TitleButton(String icon, Color color, Color hoverColor) {
