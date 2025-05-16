@@ -33,7 +33,6 @@ public class PhysicsSimulator {
 	private List<MovingRectangle> movingRectangles;
 	private List<WallRectangle> walls;
 	private List<Area> areas;
-	private Map<MovingRectangle, MovingRectangle> collisionMap;
 	private Map<MovingRectangle, MainFrame.Direction> sideRects;
 
 	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
@@ -46,7 +45,6 @@ public class PhysicsSimulator {
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
-		collisionMap = new HashMap<>();
 		sideRects = new HashMap<>();
 
 		sideRectangleResizes = new HashMap<>();
@@ -159,8 +157,7 @@ public class PhysicsSimulator {
 
 			rect.moveVelocity();
 
-			collisionMap.clear();
-			propagateCollision(rect, movingRectangles);
+			propagateCollision(rect, movingRectangles, null);
 		}
 	}
 
@@ -251,8 +248,7 @@ public class PhysicsSimulator {
 		side.setWidth(newWidth);
 		side.setHeight(newHeight);
 
-		collisionMap.clear();
-		int[] pushedBack = propagateCollision(side, movingRectangles);
+		int[] pushedBack = propagateCollision(side, movingRectangles, null);
 
 		if (pushedBack[0] != 0) { // Infer side's direction based on how it collided
 			return pushedBack[0];
@@ -267,15 +263,24 @@ public class PhysicsSimulator {
 	 * <p>
 	 * {@code collisionMap} should be cleared before this is called.
 	 * 
-	 * @param rect {@code Rectangle} to propagate collision from
+	 * @param rect         {@code Rectangle} to propagate collision from
+	 * @param colliders    {@code List} of {@code MovingRectangles} to calculate
+	 *                     collision with
+	 * @param collisionMap Set to {@code null}
 	 * 
 	 * @return { Δx, Δy } amount {@code rect} was pushed back
 	 */
+	// collisionMap is used to track which Rectangles pushed each other and how much
 	private int[] propagateCollision(MovingRectangle rect,
-			List<MovingRectangle> colliders) {
+			List<MovingRectangle> colliders,
+			Map<MovingRectangle, RectangleMapObject> collisionMap) {
+		if (collisionMap == null) {
+			collisionMap = new HashMap<>();
+		}
+
 		int[] collisionData;
 		int[] pushedAmount = { 0, 0 };
-		Map<MovingRectangle, int[]> collided = new HashMap<>();
+		int numberCollided = 0;
 		// Copy before removing rect
 		colliders = new ArrayList<>(colliders);
 		colliders.remove(rect);
@@ -296,20 +301,20 @@ public class PhysicsSimulator {
 			}
 
 			other.moveCollision(collisionData[0], collisionData[1]);
-			collisionMap.put(other, rect);
-			collided.put(other, collisionData);
+			collisionMap.put(other, new RectangleMapObject(rect, collisionData));
+			numberCollided++;
 			// Now compute collision from other moving
-			int[] pushback = propagateCollision(other, colliders);
+			int[] pushback = propagateCollision(other, colliders, collisionMap);
 			rect.moveCollision(pushback[0], pushback[1]);
 			pushedAmount[0] += pushback[0];
 			pushedAmount[1] += pushback[1];
 		}
 
 		// Pull back Rectangles that collided to be aligned with the edge of this
-		if (collided.size() >= 2) {
+		if (numberCollided >= 2) {
 			for (MovingRectangle c : collisionMap.keySet()) {
-				if (collisionMap.get(c) == rect) {
-					pullback(rect, c, collided.get(c), collided.get(c)[0] != 0);
+				if (collisionMap.get(c).pushedBy == rect) {
+					pullback(rect, c, collisionMap);
 				}
 			}
 		}
@@ -414,29 +419,32 @@ public class PhysicsSimulator {
 	 * @param direction boolean representing direction; {@code true} for x and
 	 *                  {@code false} for y
 	 */
-	private void pullback(Rectangle rect, MovingRectangle other, int[] maxPull,
-			boolean direction) {
-
+	private void pullback(Rectangle rect, MovingRectangle other,
+			Map<MovingRectangle, RectangleMapObject> collisionMap) {
 		int xChange = 0;
 		int yChange = 0;
-		if (direction) {
+
+		int[] pushedAmount = collisionMap.get(other).pushedAmount;
+
+		if (pushedAmount[1] == 0) {  // not pushed in y direction -> x collision
 			xChange = pullToX(rect, other);
 		}
 		else {
 			yChange = pullToY(rect, other);
 		}
 
-		if (maxPull != null && Math.abs(xChange) > Math.abs(maxPull[0])) {
-			xChange = -maxPull[0];
+		if (Math.abs(xChange) > Math.abs(pushedAmount[0])) {
+			xChange = -pushedAmount[0];
 		}
-		if (maxPull != null && Math.abs(yChange) > Math.abs(maxPull[1])) {
-			yChange = -maxPull[1];
+		if (Math.abs(yChange) > Math.abs(pushedAmount[1])) {
+			yChange = -pushedAmount[1];
 		}
 		other.moveCollision(xChange, yChange);
 
+		// TODO: collisionMap needs to contain maxPull data
 		for (MovingRectangle c : collisionMap.keySet()) {
-			if (collisionMap.get(c) == other) {
-				pullback(other, c, null, direction);
+			if (collisionMap.get(c).pushedBy == other) {
+				pullback(other, c, collisionMap);
 			}
 		}
 	}
@@ -479,6 +487,16 @@ public class PhysicsSimulator {
 
 	public Map<MainFrame.Direction, Integer> getResizes() {
 		return sideRectangleResizes;
+	}
+
+	private class RectangleMapObject {
+		public Rectangle pushedBy;
+		public int[] pushedAmount;
+
+		public RectangleMapObject(Rectangle pushedBy, int[] pushedAmount) {
+			this.pushedBy = pushedBy;
+			this.pushedAmount = pushedAmount;
+		}
 	}
 
 }
