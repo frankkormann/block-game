@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Frank Kormann
  */
-
 public class ShrinkArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(246, 34, 23, 128);

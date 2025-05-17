@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Frank Kormann
  */
-
 public class Level {
 
 	private String name;

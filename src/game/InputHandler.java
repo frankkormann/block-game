@@ -34,7 +34,6 @@ import java.util.Set;
  * 
  * @author Frank Kormann
  */
-
 public class InputHandler extends KeyAdapter {
 
 	private Set<Integer> keysPressed;

@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Frank Kormann
  */
-
 public class AntigravityArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(255, 119, 255, 96);

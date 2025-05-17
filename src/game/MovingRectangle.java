@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Frank Kormann
  */
-
 public class MovingRectangle extends Rectangle {
 
 	public enum Colors {

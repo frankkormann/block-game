@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Frank Kormann
  */
-
 public class WallRectangle extends Rectangle {
 
 	public static final Color STAY_COLOR = new Color(229, 229, 229, 255);

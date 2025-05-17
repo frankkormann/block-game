@@ -22,7 +22,6 @@ import java.util.Set;
  * 
  * @author Frank Kormann
  */
-
 public class PhysicsSimulator {
 
 	private static int FRICTION = -1;

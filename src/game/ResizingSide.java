@@ -20,7 +20,6 @@ import javax.swing.JPanel;
  * 
  * @author Frank Kormann
  */
-
 public class ResizingSide extends JPanel implements MouseListener, MouseMotionListener {
 
 	public static final int THICKNESS = 20;

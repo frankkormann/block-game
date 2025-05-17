@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Frank Kormann
  */
-
 public class GoalArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(246, 190, 0, 128);

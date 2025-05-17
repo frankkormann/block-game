@@ -28,7 +28,6 @@ import com.formdev.flatlaf.FlatLightLaf;
  * 
  * @author Frank Kormann
  */
-
 public class GameController implements KeyListener, WindowListener {
 
 	public static final String FIRST_LEVEL = "/level_1.json";

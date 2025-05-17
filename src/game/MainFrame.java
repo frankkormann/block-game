@@ -32,7 +32,6 @@ import javax.swing.SwingUtilities;
  * 
  * @author Frank Kormann
  */
-
 public class MainFrame extends JFrame {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";

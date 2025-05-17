@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Frank Kormann
  */
-
 public class GrowArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(22, 245, 41, 128);

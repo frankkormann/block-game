@@ -24,7 +24,6 @@ import java.util.Set;
  *
  * @author Frank Kormann
  */
-
 public abstract class Area extends Rectangle {
 
 	private Set<MovingRectangle> rectsInside;

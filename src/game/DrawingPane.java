@@ -18,7 +18,6 @@ import javax.swing.JPanel;
  *
  * @author Frank Kormann
  */
-
 public class DrawingPane extends JPanel {
 
 	private List<Rectangle> rectangles;
