@@ -80,7 +80,6 @@ public class MainFrame extends JFrame {
 		addKeyListener(inputHandler);
 		setLayout(null);
 		setResizable(false);
-		setVisible(true);
 
 		getLayeredPane().add(titleBar, -1);
 		getLayeredPane().add(drawingPane);
@@ -216,8 +215,6 @@ public class MainFrame extends JFrame {
 
 	@Override
 	public void pack() {
-		validate();
-
 		setBounds(x, y, width, height);
 		width = getWidth();
 		height = getHeight();
