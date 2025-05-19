@@ -63,6 +63,7 @@ public class GameController implements KeyListener, WindowListener {
 
 	public void startGame() {
 		loadLevel(getClass().getResource(FIRST_LEVEL));
+		mainFrame.setVisible(true);
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				if (running) {

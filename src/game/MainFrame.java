@@ -80,7 +80,6 @@ public class MainFrame extends JFrame {
 		addKeyListener(inputHandler);
 		setLayout(null);
 		setResizable(false);
-		setVisible(true);
 
 		getLayeredPane().add(titleBar, -1);
 		getLayeredPane().add(drawingPane);
