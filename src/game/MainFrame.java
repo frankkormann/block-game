@@ -215,8 +215,6 @@ public class MainFrame extends JFrame {
 
 	@Override
 	public void pack() {
-		validate();
-
 		setBounds(x, y, width, height);
 		width = getWidth();
 		height = getHeight();
