@@ -100,6 +100,7 @@ public class MainFrame extends JFrame {
 		drawingPane.clear();
 		drawingPane.setOffsets(0, 0);
 
+		super.pack();  // set insets
 		width = level.getWidth() + getInsets().left + getInsets().right;
 		height = level.getHeight() + getInsets().top + getInsets().bottom
 				+ TitleBar.HEIGHT;
