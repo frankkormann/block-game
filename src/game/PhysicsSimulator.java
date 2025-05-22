@@ -256,13 +256,19 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Moves {@code rect} so that it does not intersect any {@code Rectangles} or
-	 * window edges and moves other {@code Rectangles} so that they do not intersect
+	 * Moves {@code rect} so that it does not intersect any {@code WallRectangles}.
+	 * Moves other {@code MovingRectangles} so that they do not intersect
+	 * {@code rect}. Acts recursively on each {@code MovingRectangle} moved by
 	 * {@code rect}.
 	 * <p>
-	 * {@code collisionMap} should be cleared before this is called.
+	 * {@code WallRectangle} collisions are calculated before
+	 * {@code MovingRectangle} collisions. If {@code rect} collides with two or more
+	 * {@code MovingRectangles}, an extra alignment step is performed to make sure
+	 * nothing was moved that should not have been.
+	 * <p>
+	 * Note: WallRectangles are read from global {@code List<WallRectangle> walls}
 	 * 
-	 * @param rect         {@code Rectangle} to propagate collision from
+	 * @param rect         {@code MovingRectangle} to propagate collision from
 	 * @param colliders    {@code List} of {@code MovingRectangles} to calculate
 	 *                     collision with
 	 * @param collisionMap Set to {@code null}
