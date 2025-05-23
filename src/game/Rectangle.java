@@ -91,7 +91,7 @@ public abstract class Rectangle {
 	 * Draws a double-headed horizontal arrow.
 	 * <p>
 	 * Note: {@code lineWidth} is not the overall width of the arrow. That is, the
-	 * arrow will have a length of {@code lineWidth + 2 *
+	 * arrow will have a total length of {@code lineWidth + 2 *
 	 * headWidth}.
 	 * 
 	 * @param g          Graphics instance
@@ -125,7 +125,7 @@ public abstract class Rectangle {
 	 * Draws a double-headed vertical arrow.
 	 * <p>
 	 * Note: {@code lineHeight} is not the overall height of the arrow. That is, the
-	 * arrow will have a height of {@code lineHeight + 2 *
+	 * arrow will have a total height of {@code lineHeight + 2 *
 	 * headHeight}.
 	 * 
 	 * @param g          Graphics instance
