@@ -92,11 +92,10 @@ are touching them.
 	</tr>
 	<tr>
 		<td>resizeBehavior</td>
-		<td>One of STAY, PREVENT, or MOVE
+		<td>One of STAY or PREVENT:
 			<ul>
 				<li>STAY: does not interact with window edges
 				<li>PREVENT: stops window edge from passing through it
-				<li>MOVE: is pushed by window edge
 			</ul>
 		</td>
 	</tr>
