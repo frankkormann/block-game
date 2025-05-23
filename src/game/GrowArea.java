@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,6 +34,23 @@ public class GrowArea extends Area {
 		super(x, y, width, height, DEFAULT_COLOR);
 		this.xGrowth = xGrowth;
 		this.yGrowth = yGrowth;
+	}
+
+	@Override
+	public void draw(Graphics g, int xOffset, int yOffset) {
+		super.draw(g, xOffset, yOffset);
+
+		int x = getX() + xOffset;
+		int y = getY() + yOffset;
+		g.setColor(getColor().darker());
+		if (xGrowth != 0) {
+			drawHorizontalArrow(g, getX() + 10, getY() + (getHeight() / 2), 10, 20,
+					getWidth() - 40, 8, xOffset, yOffset);
+		}
+		if (yGrowth != 0) {
+			drawVerticalArrow(g, getX() + (getWidth() / 2), getY() + 10, 20, 10, 8,
+					getHeight() - 40, xOffset, yOffset);
+		}
 	}
 
 	@Override
