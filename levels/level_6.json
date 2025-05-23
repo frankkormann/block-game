@@ -34,7 +34,7 @@
 			"y": 200,
 			"width": 150,
 			"height": 20,
-			"resizeBehavior": "STAY"
+			"resizeBehavior": "PREVENT"
 		},
 		{
 			"type": ".WallRectangle",
@@ -57,22 +57,6 @@
 			"x": 455,
 			"y": 320,
 			"width": 190,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 455,
-			"y": 80,
-			"width": 20,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 625,
-			"y": 80,
-			"width": 20,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
