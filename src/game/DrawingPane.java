@@ -55,11 +55,13 @@ public class DrawingPane extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		g.translate(-xOffset, -yOffset);
+
 		for (Area a : areas) { // Make sure Areas are painted on the bottom layer
-			a.draw(g, -xOffset, -yOffset);
+			a.draw(g);
 		}
 		for (Rectangle r : rectangles) {
-			r.draw(g, -xOffset, -yOffset);
+			r.draw(g);
 		}
 	}
 

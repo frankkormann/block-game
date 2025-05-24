@@ -40,13 +40,12 @@ public class GoalArea extends Area {
 	}
 
 	@Override
-	public void draw(Graphics g, int xOffset, int yOffset) {
-		super.draw(g, xOffset, yOffset);
+	public void draw(Graphics g) {
+		super.draw(g);
 		// Create a loading bar effect as timer approaches TIMEOUT
 		g.setColor(getColor().darker());
 		int fillHeight = getHeight() * timer / TIMEOUT;
-		g.fillRect(getX() + xOffset, getY() + yOffset + getHeight() - fillHeight,
-				getWidth(), fillHeight);
+		g.fillRect(getX(), getY() + getHeight() - fillHeight, getWidth(), fillHeight);
 	}
 
 	@Override

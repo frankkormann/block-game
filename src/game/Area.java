@@ -38,10 +38,10 @@ public abstract class Area extends Rectangle {
 	}
 
 	@Override
-	public void draw(Graphics g, int xOffset, int yOffset) {
+	public void draw(Graphics g) {
 		g = g.create();
 		g.setColor(getColor());
-		g.fillRect(getX() + xOffset, getY() + yOffset, getWidth(), getHeight());
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
 	public abstract void onEnter(MovingRectangle rect);

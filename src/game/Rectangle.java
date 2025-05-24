@@ -72,17 +72,17 @@ public abstract class Rectangle {
 		updateLastPosition();
 	}
 
-	public void draw(Graphics g, int xOffset, int yOffset) {
+	public void draw(Graphics g) {
 		g = g.create();
 		// Create a darker border
 		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
 				(int) (color.getGreen() / BORDER_DARKNESS),
 				(int) (color.getBlue() / BORDER_DARKNESS));
 		g.setColor(border);
-		g.fillRect(x + xOffset, y + yOffset, width, height);
+		g.fillRect(x, y, width, height);
 		// Draw main rectangle inside border rectangle
 		g.setColor(color);
-		g.fillRect(x + xOffset + BORDER_THICKNESS, y + yOffset + BORDER_THICKNESS,
+		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
 	}
 
@@ -107,9 +107,7 @@ public abstract class Rectangle {
 	 * @see Rectangle#drawVerticalArrow
 	 */
 	public void drawHorizontalArrow(Graphics g, int x, int y, int headWidth,
-			int headHeight, int lineWidth, int lineHeight, int xOffset, int yOffset) {
-		x += xOffset;
-		y += yOffset;
+			int headHeight, int lineWidth, int lineHeight) {
 		// This is messy, but I don't see a better way to do it
 		int[] xVals = { x, x + headWidth, x + headWidth, x + headWidth + lineWidth,
 				x + headWidth + lineWidth, x + 2 * headWidth + lineWidth,
@@ -141,9 +139,7 @@ public abstract class Rectangle {
 	 * @see Rectangle#drawHorizontalArrow
 	 */
 	public void drawVerticalArrow(Graphics g, int x, int y, int headWidth,
-			int headHeight, int lineWidth, int lineHeight, int xOffset, int yOffset) {
-		x += xOffset;
-		y += yOffset;
+			int headHeight, int lineWidth, int lineHeight) {
 		// This is messy, but I don't see a better way to do it
 		int[] xVals = { x, x + headWidth / 2, x + lineWidth / 2, x + lineWidth / 2,
 				x + headWidth / 2, x, x - headWidth / 2, x - lineWidth / 2,

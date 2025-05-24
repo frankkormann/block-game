@@ -37,19 +37,19 @@ public class GrowArea extends Area {
 	}
 
 	@Override
-	public void draw(Graphics g, int xOffset, int yOffset) {
-		super.draw(g, xOffset, yOffset);
+	public void draw(Graphics g) {
+		super.draw(g);
 
-		int x = getX() + xOffset;
-		int y = getY() + yOffset;
+		int x = getX();
+		int y = getY();
 		g.setColor(getColor().darker());
 		if (xGrowth != 0) {
 			drawHorizontalArrow(g, getX() + 10, getY() + (getHeight() / 2), 10, 20,
-					getWidth() - 40, 8, xOffset, yOffset);
+					getWidth() - 40, 8);
 		}
 		if (yGrowth != 0) {
 			drawVerticalArrow(g, getX() + (getWidth() / 2), getY() + 10, 20, 10, 8,
-					getHeight() - 40, xOffset, yOffset);
+					getHeight() - 40);
 		}
 	}
 
