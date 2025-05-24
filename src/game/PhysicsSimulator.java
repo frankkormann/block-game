@@ -32,7 +32,7 @@ public class PhysicsSimulator {
 	private List<MovingRectangle> movingRectangles;
 	private List<WallRectangle> walls;
 	private List<Area> areas;
-	private Map<MovingRectangle, MainFrame.Direction> sideRects;
+	private List<SideRectangle> sideRectangles;
 
 	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
 
@@ -44,7 +44,7 @@ public class PhysicsSimulator {
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
-		sideRects = new HashMap<>();
+		sideRectangles = new ArrayList<>();
 
 		sideRectangleResizes = new HashMap<>();
 
@@ -60,14 +60,14 @@ public class PhysicsSimulator {
 	 * @param yOffset Y coordinate of top left corner
 	 */
 	public void createSides(int width, int height, int xOffset, int yOffset) {
-		sideRects.put(new MovingRectangle(xOffset, yOffset, width, 1),
-				MainFrame.Direction.NORTH);
-		sideRects.put(new MovingRectangle(xOffset, yOffset + height, width, 1),
-				MainFrame.Direction.SOUTH);
-		sideRects.put(new MovingRectangle(xOffset, yOffset, 1, height),
-				MainFrame.Direction.WEST);
-		sideRects.put(new MovingRectangle(xOffset + width, yOffset, 1, height),
-				MainFrame.Direction.EAST);
+		sideRectangles.add(new SideRectangle(xOffset, yOffset, width, 1,
+				MainFrame.Direction.NORTH));
+		sideRectangles.add(new SideRectangle(xOffset, yOffset + height, width, 1,
+				MainFrame.Direction.SOUTH));
+		sideRectangles.add(new SideRectangle(xOffset, yOffset, 1, height,
+				MainFrame.Direction.WEST));
+		sideRectangles.add(new SideRectangle(xOffset + width, yOffset, 1, height,
+				MainFrame.Direction.EAST));
 	}
 
 	/**
@@ -195,10 +195,10 @@ public class PhysicsSimulator {
 
 		sideRectangleResizes.clear();
 
-		sideRects.keySet().forEach(s -> s.updateLastPosition());
+		sideRectangles.forEach(s -> s.updateLastPosition());
 
-		for (MovingRectangle side : sideRects.keySet()) {
-			MainFrame.Direction direction = sideRects.get(side);
+		for (SideRectangle side : sideRectangles) {
+			MainFrame.Direction direction = side.getDirection();
 			int difference = 0;
 			switch (direction) {
 				case NORTH:
@@ -249,7 +249,7 @@ public class PhysicsSimulator {
 
 		int[] pushedBack = propagateCollision(side, movingRectangles, null);
 
-		if (pushedBack[0] != 0) { // Infer side's direction based on how it collided
+		if (pushedBack[0] != 0) {  // Infer side's direction based on how it collided
 			return pushedBack[0];
 		}
 		return pushedBack[1];
@@ -295,11 +295,6 @@ public class PhysicsSimulator {
 		pushedAmount[1] += wallPushback[1];
 
 		for (MovingRectangle other : colliders) {
-			if (other.getResizeBehavior() == Rectangle.ResizeBehavior.STAY
-					&& sideRects.containsKey(rect)) {
-				continue;
-			}
-
 			collisionData = calculateCollision(rect, other);
 			if (collisionData[0] == 0 && collisionData[1] == 0) {
 				continue;
@@ -337,11 +332,6 @@ public class PhysicsSimulator {
 	private int[] handleCollisionWithWalls(MovingRectangle rect) {
 		int[] pushedAmount = { 0, 0 };
 		for (WallRectangle wall : walls) {
-			if (wall.getResizeBehavior() == Rectangle.ResizeBehavior.STAY
-					&& sideRects.containsKey(rect)) {
-				continue;
-			}
-
 			int[] collisionData = calculateCollision(wall, rect);
 			if (collisionData[0] == 0 && collisionData[1] == 0) {
 				continue;
@@ -361,8 +351,8 @@ public class PhysicsSimulator {
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
 	 * 
-	 * @return { Δx, Δy } amount to move {@code rect} to resolve collision with
-	 *         {@code other}
+	 * @return { Δx, Δy } amount to move {@code other} to resolve collision with
+	 *         {@code rect}
 	 */
 	private int[] calculateCollision(Rectangle rect, Rectangle other) {
 		if (rect == other) {
@@ -373,7 +363,7 @@ public class PhysicsSimulator {
 		int yChange = 0;
 		boolean inBoundsX = rect.intersectsX(other);
 		boolean inBoundsY = rect.intersectsY(other);
-		// "Used to be" values so rectangles can tell whether they should be moved in x
+		// "Used to be" values so Rectangles can tell whether they should be moved in x
 		// or y direction
 		boolean usedToBeInBoundsX = rect.usedToIntersectX(other);
 		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);

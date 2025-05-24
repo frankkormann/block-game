@@ -41,7 +41,7 @@ public abstract class Rectangle {
 	 * STAY - Do not interact with window edges
 	 */
 	public enum ResizeBehavior {
-		MOVE, PREVENT, STAY
+		MOVE, STAY, PREVENT_X, PREVENT_Y
 	}
 
 	private Color color;
@@ -172,6 +172,22 @@ public abstract class Rectangle {
 	}
 
 	/**
+	 * Returns true if this thinks it can interact with {@code other}. For example,
+	 * if this is a {@code SideRectangle} and {@code other} has
+	 * {@code ResizeBehavior} of {@code STAY}.
+	 * <p>
+	 * This method should usually be called both ways. It is possible that
+	 * {@code this.canInteract(other)} is {@code true} but
+	 * {@code other.canInteract(this)} is {@code false}.
+	 * 
+	 * @param other {@code Rectangle} which is to be tested against
+	 * @return {@code true} if this thinks it can interact with {@code other}
+	 */
+	public boolean canInteract(Rectangle other) {
+		return true;
+	}
+
+	/**
 	 * Calculate whether this intersects with other in the x direction.
 	 * 
 	 * @param other Other Rectangle
@@ -183,7 +199,7 @@ public abstract class Rectangle {
 				|| (x < other.getX() + other.getWidth()
 						&& other.getX() + other.getWidth() <= x + width)
 				|| (other.getX() < x && x < other.getX() + other.getWidth());
-		return inBoundsX;
+		return canInteract(other) && other.canInteract(this) && inBoundsX;
 	}
 
 	/**
@@ -198,7 +214,7 @@ public abstract class Rectangle {
 				|| (y < other.getY() + other.getHeight()
 						&& other.getY() + other.getHeight() <= y + height)
 				|| (other.getY() <= y && y < other.getY() + other.getHeight());
-		return inBoundsY;
+		return canInteract(other) && other.canInteract(this) && inBoundsY;
 	}
 
 	/**
@@ -216,7 +232,7 @@ public abstract class Rectangle {
 						&& other.getLastX() + other.getLastWidth() <= lastX + lastWidth)
 				|| (other.getLastX() < lastX
 						&& lastX < other.getLastX() + other.getLastWidth());
-		return usedToBeInBoundsX;
+		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsX;
 	}
 
 	/**
@@ -234,7 +250,7 @@ public abstract class Rectangle {
 						+ other.getLastHeight() <= lastY + lastHeight)
 				|| (other.getLastY() < lastY
 						&& lastY < other.getLastY() + other.getLastHeight());
-		return usedToBeInBoundsY;
+		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsY;
 	}
 
 	public int getX() {
