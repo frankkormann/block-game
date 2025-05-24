@@ -203,24 +203,24 @@ public class PhysicsSimulator {
 			switch (direction) {
 				case NORTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
-					difference = calculateCollisionForSide(side, xOffset - width,
-							yOffset - side.getHeight(), 3 * width, side.getHeight());
+					difference = calculateCollisionForSide(side, xOffset - 50 * width,
+							yOffset - side.getHeight(), 101 * width, side.getHeight());
 					break;
 				case SOUTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
-					difference = calculateCollisionForSide(side, xOffset - width,
-							yOffset + height, 3 * width, side.getHeight());
+					difference = calculateCollisionForSide(side, xOffset - 50 * width,
+							yOffset + height, 101 * width, side.getHeight());
 					break;
 				case WEST:
 					movingRectangles.sort((r1, r2) -> r1.getX() - r2.getX());
 					difference = calculateCollisionForSide(side,
-							xOffset - side.getWidth(), yOffset - height,
-							side.getWidth(), 3 * height);
+							xOffset - side.getWidth(), yOffset - 50 * height,
+							side.getWidth(), 101 * height);
 					break;
 				case EAST:
 					movingRectangles.sort((r1, r2) -> r2.getX() - r1.getX());
 					difference = calculateCollisionForSide(side, xOffset + width,
-							yOffset - height, side.getWidth(), 3 * height);
+							yOffset - 50 * height, side.getWidth(), 101 * height);
 					break;
 			}
 			sideRectangleResizes.put(direction, difference);
