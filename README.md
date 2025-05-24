@@ -27,7 +27,7 @@ This is a puzzle game about moving blocks around.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>3.12 MB</td>
+		<td>2.91 MB</td>
 	</tr>
 </table>
 
