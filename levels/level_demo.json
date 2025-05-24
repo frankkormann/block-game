@@ -70,7 +70,7 @@
 			"y": 320,
 			"width": 200,
 			"height": 20,
-			"resizeBehavior": "PREVENT"
+			"resizeBehavior": "PREVENT_X"
 		},
 		{
 			"type": ".WallRectangle",
@@ -102,7 +102,7 @@
 			"y": 680,
 			"width": 200,
 			"height": 30,
-			"resizeBehavior": "PREVENT"
+			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": ".GoalArea",
