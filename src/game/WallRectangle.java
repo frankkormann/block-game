@@ -16,7 +16,6 @@ public class WallRectangle extends Rectangle {
 
 	public static final Color STAY_COLOR = new Color(229, 229, 229, 255);
 	public static final Color PREVENT_COLOR = new Color(85, 85, 85, 255);
-	public static final int PREVENT_BORDER_WIDTH = 2;
 
 	@JsonCreator
 	public WallRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
@@ -30,14 +29,22 @@ public class WallRectangle extends Rectangle {
 		super.draw(g);
 		g.setColor(PREVENT_COLOR);
 		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_X) {
-			g.fillRect(getX(), getY(), PREVENT_BORDER_WIDTH, getHeight());
-			g.fillRect(getX() + getWidth() - PREVENT_BORDER_WIDTH, getY(),
-					PREVENT_BORDER_WIDTH, getHeight());
+			g.drawLine(getX(), getY(), getX(), getY() + getHeight());
+			g.drawLine(getX() + getWidth(), getY(), getX() + getWidth(),
+					getY() + getHeight());
+			for (int y = getY(); y < getY() + getHeight(); y += 5) {
+				g.drawLine(getX() + 3, y, getX(), y + 3);
+				g.drawLine(getX() + getWidth(), y, getX() + getWidth() - 3, y + 3);
+			}
 		}
 		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_Y) {
-			g.fillRect(getX(), getY(), getWidth(), PREVENT_BORDER_WIDTH);
-			g.fillRect(getX(), getY() + getHeight() - PREVENT_BORDER_WIDTH, getWidth(),
-					PREVENT_BORDER_WIDTH);
+			g.drawLine(getX(), getY(), getX() + getWidth(), getY());
+			g.drawLine(getX(), getY() + getHeight(), getX() + getWidth(),
+					getY() + getHeight());
+			for (int x = getX(); x < getX() + getWidth(); x += 5) {
+				g.drawLine(x, getY() + 3, x + 3, getY());
+				g.drawLine(x, getY() + getHeight(), x + 3, getY() + getHeight() - 3);
+			}
 		}
 	}
 
