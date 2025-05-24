@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,10 +21,22 @@ public class WallRectangle extends Rectangle {
 	public WallRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width, @JsonProperty("height") int height,
 			@JsonProperty("resizeBehavior") Rectangle.ResizeBehavior resizeBehavior) {
-		this(x, y, width, height,
-				resizeBehavior == Rectangle.ResizeBehavior.PREVENT ? PREVENT_COLOR
-						: STAY_COLOR,
-				resizeBehavior);
+		this(x, y, width, height, STAY_COLOR, resizeBehavior);
+	}
+
+	public void draw(Graphics g, int xOffset, int yOffset) {
+		super.draw(g, xOffset, yOffset);
+		g.setColor(PREVENT_COLOR);
+		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_X) {
+			g.fillRect(getX() + xOffset, getY() + yOffset, 5, getHeight());
+			g.fillRect(getX() + getWidth() - 5 + xOffset, getY() + yOffset, 5,
+					getHeight());
+		}
+		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_Y) {
+			g.fillRect(getX() + xOffset, getY() + yOffset, getWidth(), 5);
+			g.fillRect(getX() + xOffset, getY() + getHeight() - 5 + yOffset, getWidth(),
+					5);
+		}
 	}
 
 	public WallRectangle(int x, int y, int width, int height, Color color,
