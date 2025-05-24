@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Calculate the next position for all {@code Rectangles} every frame.
@@ -334,28 +335,16 @@ public class PhysicsSimulator {
 	 * @return { dx, dy } of amount {@code rect} was pushed back
 	 */
 	private int[] handleCollisionWithWalls(MovingRectangle rect) {
-		int[] pushedAmount = { 0, 0 };
-		for (WallRectangle wall : walls) {
-			int[] collisionData = calculateCollision(wall, rect);
-			if (collisionData[0] == 0 && collisionData[1] == 0) {
-				continue;
-			}
-			rect.moveCollision(collisionData[0], collisionData[1]);
-			pushedAmount[0] += collisionData[0];
-			pushedAmount[1] += collisionData[1];
-		}
-		for (SideRectangle side : sideRectangles) {
-			if (side.isActingLikeWall()) {
-				int[] collisionData = calculateCollision(side, rect);
-				if (collisionData[0] == 0 && collisionData[1] == 0) {
-					continue;
-				}
-				rect.moveCollision(collisionData[0], collisionData[1]);
-				pushedAmount[0] += collisionData[0];
-				pushedAmount[1] += collisionData[1];
-			}
-		}
-		return pushedAmount;
+		int startingX = rect.getX();
+		int startingY = rect.getY();
+
+		Stream.concat(walls.stream(),
+				sideRectangles.stream().filter(s -> s.isActingLikeWall()))
+				.map(w -> calculateCollision(w, rect))
+				.filter(c -> c != new int[] { 0, 0 })
+				.forEach(c -> rect.moveCollision(c[0], c[1]));
+
+		return new int[] { rect.getX() - startingX, rect.getY() - startingY };
 	}
 
 	/**
