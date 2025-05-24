@@ -198,6 +198,7 @@ public class PhysicsSimulator {
 		sideRectangles.forEach(s -> s.updateLastPosition());
 
 		for (SideRectangle side : sideRectangles) {
+			side.setActLikeWall(false);
 			MainFrame.Direction direction = side.getDirection();
 			int difference = 0;
 			switch (direction) {
@@ -225,6 +226,7 @@ public class PhysicsSimulator {
 							yOffset - 50 * height, side.getWidth(), 101 * height);
 					break;
 			}
+			side.setActLikeWall(true);
 			sideRectangleResizes.put(direction, difference);
 		}
 	}
@@ -341,6 +343,17 @@ public class PhysicsSimulator {
 			rect.moveCollision(collisionData[0], collisionData[1]);
 			pushedAmount[0] += collisionData[0];
 			pushedAmount[1] += collisionData[1];
+		}
+		for (SideRectangle side : sideRectangles) {
+			if (side.isActingLikeWall()) {
+				int[] collisionData = calculateCollision(side, rect);
+				if (collisionData[0] == 0 && collisionData[1] == 0) {
+					continue;
+				}
+				rect.moveCollision(collisionData[0], collisionData[1]);
+				pushedAmount[0] += collisionData[0];
+				pushedAmount[1] += collisionData[1];
+			}
 		}
 		return pushedAmount;
 	}
