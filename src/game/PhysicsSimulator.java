@@ -201,6 +201,8 @@ public class PhysicsSimulator {
 			MainFrame.Direction direction = side.getDirection();
 			int difference = 0;
 			switch (direction) {
+				// Width/height are super high to prevent bug where MovingRectangles
+				// could phase through the floor, because the floor was not wide enough
 				case NORTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
 					difference = calculateCollisionForSide(side, xOffset - 50 * width,
