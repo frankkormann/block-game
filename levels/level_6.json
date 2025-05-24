@@ -34,7 +34,7 @@
 			"y": 200,
 			"width": 150,
 			"height": 20,
-			"resizeBehavior": "PREVENT"
+			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": ".WallRectangle",
