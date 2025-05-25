@@ -35,6 +35,11 @@ public class TitleBar extends JPanel
 
 	public static final int HEIGHT = 30;
 
+	public static final String TITLE_ICON = "/title_icon.png";
+	public static final String MINIMIZE_ICON = "/minimize_icon.png";
+	public static final String CLOSE_ICON = "/close_icon.png";
+	public static final String CLOSE_HOVER_ICON = "/close_icon_hover.png";
+
 	private int mouseX, mouseY;
 	private MainFrame actionListener;
 
@@ -49,40 +54,50 @@ public class TitleBar extends JPanel
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
-		// Create icon and title on the left
-		JPanel leftHolder = new JPanel();
-		leftHolder.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-		add(leftHolder, BorderLayout.WEST);
+		titleLabel = new JLabel();
+		buttonHolder = createButtons();
+
+		add(buttonHolder, BorderLayout.EAST);
+		add(createIconAndTitle(titleLabel), BorderLayout.WEST);
+	}
+
+	private JPanel createButtons() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+
+		TitleButton minimizeButton = new TitleButton(MINIMIZE_ICON,
+				new Color(0, 0, 0, 0), new Color(0, 0, 0, 16));
+		minimizeButton.setActionCommand("minimize");
+		minimizeButton.addActionListener(this);
+
+		TitleButton closeButton = new TitleButton(CLOSE_ICON, CLOSE_HOVER_ICON,
+				new Color(0, 0, 0, 0), new Color(210, 46, 29));
+		closeButton.setActionCommand("exit");
+		closeButton.addActionListener(this);
+
+		panel.add(minimizeButton);
+		panel.add(closeButton);
+
+		return panel;
+	}
+
+	private JPanel createIconAndTitle(JLabel titleLabel) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
 		JLabel icon = new JLabel();
 		try {
-			icon.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("/title_icon.png"))));
+			icon.setIcon(
+					new ImageIcon(ImageIO.read(getClass().getResource(TITLE_ICON))));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		leftHolder.add(icon);
 
-		titleLabel = new JLabel();
-		leftHolder.add(titleLabel);
+		panel.add(icon);
+		panel.add(titleLabel);
 
-		// Create both buttons on the right
-		buttonHolder = new JPanel();
-		buttonHolder.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-		add(buttonHolder, BorderLayout.EAST);
-
-		TitleButton minimizeButton = new TitleButton("/minimize_icon.png",
-				new Color(0, 0, 0, 0), new Color(0, 0, 0, 16));
-		minimizeButton.setActionCommand("minimize");
-		minimizeButton.addActionListener(this);
-		buttonHolder.add(minimizeButton);
-
-		TitleButton closeButton = new TitleButton("/close_icon.png",
-				"/close_icon_hover.png", new Color(0, 0, 0, 0), new Color(210, 46, 29));
-		closeButton.setActionCommand("exit");
-		closeButton.addActionListener(this);
-		buttonHolder.add(closeButton);
+		return panel;
 	}
 
 	public void setTitle(String title) {
