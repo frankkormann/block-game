@@ -100,7 +100,7 @@ public class MainFrame extends JFrame {
 		drawingPane.clear();
 		drawingPane.setOffsets(0, 0);
 
-		super.pack();  // set insets
+		pack();  // set insets
 		width = level.getWidth() + getInsets().left + getInsets().right;
 		height = level.getHeight() + getInsets().top + getInsets().bottom
 				+ TitleBar.HEIGHT;
@@ -149,7 +149,6 @@ public class MainFrame extends JFrame {
 				widthChange += change;
 				break;
 		}
-
 	}
 
 	/**
@@ -199,7 +198,7 @@ public class MainFrame extends JFrame {
 		widthChange = 0;
 		heightChange = 0;
 
-		pack();
+		arrangeComponents();
 	}
 
 	public void move2(int xDifference, int yDifference) {
@@ -214,8 +213,7 @@ public class MainFrame extends JFrame {
 		y = getY();
 	}
 
-	@Override
-	public void pack() {
+	public void arrangeComponents() {
 		setBounds(x, y, width, height);
 		width = getWidth();
 		height = getHeight();

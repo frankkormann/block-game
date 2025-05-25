@@ -31,7 +31,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 public class GameController implements KeyListener, WindowListener {
 
 	public static final String FIRST_LEVEL = "/level_1.json";
-	public static final String RECORDING = "/test.rec";
+	public static final String RECORDING = "/up-to-7.rec";
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
@@ -57,7 +57,8 @@ public class GameController implements KeyListener, WindowListener {
 
 		running = true;
 
-//		inputHandler.beginReading(getClass().getResource(RECORDING));
+		inputHandler.beginReading(getClass().getResource(RECORDING));
+		System.out.println(getClass().getResource(RECORDING).getPath());
 //		inputHandler.beginWriting(getClass().getResource(RECORDING));
 	}
 
@@ -92,7 +93,7 @@ public class GameController implements KeyListener, WindowListener {
 			e.printStackTrace();
 		}
 
-		mainFrame.pack();
+		mainFrame.arrangeComponents();
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
 				mainFrame.getNextYOffset());
