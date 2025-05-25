@@ -64,17 +64,27 @@ public class GrowArea extends Area {
 	 */
 	@Override
 	public void everyFrame(MovingRectangle rect) {
-		if (rect.getX() > getX()) {
-			rect.changeWidth(xGrowth, true);
+		int possibleChange;
+
+		possibleChange = rect.getX() - getX();
+		if (possibleChange > 0) {
+			rect.changeWidth(Math.min(xGrowth, possibleChange), true);
 		}
-		if (rect.getX() + rect.getWidth() < getX() + getWidth()) {
-			rect.changeWidth(xGrowth, false);
+
+		possibleChange = getX() + getWidth() - rect.getX() - rect.getWidth();
+		if (possibleChange > 0) {
+			rect.changeWidth(Math.min(xGrowth, possibleChange), false);
 		}
-		if (rect.getY() > getY()) {
-			rect.changeHeight(yGrowth, true);
+
+		possibleChange = rect.getY() - getY();
+		if (possibleChange > 0) {
+			rect.changeHeight(Math.min(yGrowth, possibleChange), true);
 		}
-		if (rect.getY() + rect.getHeight() < getY() + getHeight()) {
-			rect.changeHeight(yGrowth, false);
+
+		possibleChange = getY() + getHeight() - rect.getY() - rect.getHeight();
+		if (possibleChange > 0) {
+			rect.changeHeight(Math.min(yGrowth, possibleChange), false);
+
 		}
 	}
 
