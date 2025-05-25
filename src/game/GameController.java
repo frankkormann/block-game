@@ -58,7 +58,6 @@ public class GameController implements KeyListener, WindowListener {
 		running = true;
 
 		inputHandler.beginReading(getClass().getResource(RECORDING));
-		System.out.println(getClass().getResource(RECORDING).getPath());
 //		inputHandler.beginWriting(getClass().getResource(RECORDING));
 	}
 
