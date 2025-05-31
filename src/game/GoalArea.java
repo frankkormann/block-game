@@ -33,6 +33,10 @@ public class GoalArea extends Area {
 		super(x, y, width, height, DEFAULT_COLOR);
 		timer = 0;
 		this.nextLevel = nextLevel;
+
+		if (nextLevel == null) {
+			System.err.println("GoalArea at " + x + ", " + y + ": nextLevel is null");
+		}
 	}
 
 	public boolean hasWon() {
