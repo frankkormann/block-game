@@ -87,7 +87,7 @@
 		{
 			"type": ".WallRectangle",
 			"x": 570,
-			"y": 150,
+			"y": 130,
 			"width": 180,
 			"height": 20,
 			"resizeBehavior": "STAY"
@@ -95,7 +95,7 @@
 		{
 			"type": ".WallRectangle",
 			"x": 730,
-			"y": 170,
+			"y": 150,
 			"width": 20,
 			"height": 180,
 			"resizeBehavior": "PREVENT_Y"
@@ -112,7 +112,7 @@
 		{
 			"type": ".GoalArea",
 			"x": 635,
-			"y": 100,
+			"y": 80,
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_1.json"
