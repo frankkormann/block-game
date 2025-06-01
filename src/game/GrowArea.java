@@ -40,8 +40,6 @@ public class GrowArea extends Area {
 	public void draw(Graphics g) {
 		super.draw(g);
 
-		int x = getX();
-		int y = getY();
 		g.setColor(getColor().darker());
 		if (xGrowth != 0) {
 			drawHorizontalArrow(g, getX() + 10, getY() + (getHeight() / 2), 10, 20,
