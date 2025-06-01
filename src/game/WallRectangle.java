@@ -33,8 +33,8 @@ public class WallRectangle extends Rectangle {
 			g.drawLine(getX() + getWidth(), getY(), getX() + getWidth(),
 					getY() + getHeight());
 			for (int y = getY(); y < getY() + getHeight(); y += 5) {
-				g.drawLine(getX() + 3, y, getX(), y + 3);
-				g.drawLine(getX() + getWidth(), y, getX() + getWidth() - 3, y + 3);
+				g.drawLine(getX() + 5, y, getX(), y + 5);
+				g.drawLine(getX() + getWidth(), y, getX() + getWidth() - 5, y + 5);
 			}
 		}
 		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_Y) {
@@ -42,8 +42,8 @@ public class WallRectangle extends Rectangle {
 			g.drawLine(getX(), getY() + getHeight(), getX() + getWidth(),
 					getY() + getHeight());
 			for (int x = getX(); x < getX() + getWidth(); x += 5) {
-				g.drawLine(x, getY() + 3, x + 3, getY());
-				g.drawLine(x, getY() + getHeight(), x + 3, getY() + getHeight() - 3);
+				g.drawLine(x, getY() + 5, x + 5, getY());
+				g.drawLine(x, getY() + getHeight(), x + 5, getY() + getHeight() - 5);
 			}
 		}
 	}
