@@ -52,7 +52,7 @@ Download the latest `jar` file from the releases tab and run it.
 	</tr>
 	<tr>
 		<td>Restart level</td>
-		<td>Y</td>
+		<td>R</td>
 	</tr>
 </table>
 
