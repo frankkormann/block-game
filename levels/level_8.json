@@ -1,6 +1,6 @@
 {
-	"name": "Big or Small",
-	"width": 800,
+	"name": "Small, Medium, Large",
+	"width": 560,
 	"height": 500,
 	"rectangles": [
 		{
@@ -14,7 +14,7 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 70,
+			"x": 80,
 			"y": 290,
 			"width": 10,
 			"height": 40,
@@ -22,7 +22,7 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 80,
+			"x": 100,
 			"y": 290,
 			"width": 10,
 			"height": 40,
@@ -39,18 +39,26 @@
 		{
 			"type": ".WallRectangle",
 			"x": 50,
-			"y": 230,
-			"width": 10,
-			"height": 120,
-			"resizeBehavior": "STAY"
+			"y": 150,
+			"width": 20,
+			"height": 180,
+			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": ".WallRectangle",
 			"x": 165,
-			"y": 230,
+			"y": 270,
 			"width": 10,
-			"height": 120,
+			"height": 60,
 			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 250,
+			"y": 150,
+			"width": 20,
+			"height": 180,
+			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": ".WallRectangle",
@@ -73,7 +81,7 @@
 			"x": 50,
 			"y": 350,
 			"width": 10,
-			"height": 30,
+			"height": 230,
 			"resizeBehavior": "STAY"
 		},
 		{
@@ -86,19 +94,43 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 570,
+			"x": 50,
 			"y": 130,
-			"width": 180,
+			"width": 220,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 730,
-			"y": 150,
+			"x": 490,
+			"y": 130,
 			"width": 20,
-			"height": 180,
-			"resizeBehavior": "PREVENT_Y"
+			"height": 400,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 260,
+			"y": 510,
+			"width": 230,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 260,
+			"y": 530,
+			"width": 10,
+			"height": 50,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 50,
+			"y": 580,
+			"width": 220,
+			"height": 20,
+			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".GrowArea",
@@ -111,7 +143,7 @@
 		},
 		{
 			"type": ".GoalArea",
-			"x": 635,
+			"x": 135,
 			"y": 80,
 			"width": 50,
 			"height": 50,
