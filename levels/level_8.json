@@ -81,7 +81,7 @@
 			"x": 50,
 			"y": 350,
 			"width": 10,
-			"height": 230,
+			"height": 240,
 			"resizeBehavior": "STAY"
 		},
 		{
@@ -121,13 +121,13 @@
 			"x": 260,
 			"y": 530,
 			"width": 10,
-			"height": 50,
+			"height": 60,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
 			"x": 50,
-			"y": 580,
+			"y": 590,
 			"width": 220,
 			"height": 20,
 			"resizeBehavior": "STAY"
