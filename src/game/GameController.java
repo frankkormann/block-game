@@ -30,7 +30,7 @@ import com.formdev.flatlaf.FlatLightLaf;
  */
 public class GameController implements KeyListener, WindowListener {
 
-	public static final String FIRST_LEVEL = "/level_8.json";
+	public static final String FIRST_LEVEL = "/level_1.json";
 	public static final String RECORDING = "/test.rec";
 
 	private MainFrame mainFrame;
