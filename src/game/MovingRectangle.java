@@ -73,7 +73,7 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Apply one frame's worth of velocity and clamp to max speeds.
+	 * Applies one frame's worth of velocity and clamps to max speeds
 	 */
 	public void moveVelocity() {
 		// Speed limits
@@ -96,7 +96,16 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Zero velocities and set ground status if necessary
+	 * Sets {@code x += xChange}, {@code y += yChange}, roughly. Sets velocity to
+	 * zero in each direction that this moved.
+	 * <p>
+	 * If this was moved up, its ground status becomes {@code ON_GROUND} because it
+	 * must be standing on something.
+	 * <p>
+	 * If this is colliding with something because its {@code width} or
+	 * {@code height} changed, its {@code width} and {@code height} will be reduced
+	 * to compensate. In this case, the full {@code xChange} and {@code yChange}
+	 * will not be applied to this's {@code x} and {@code y}.
 	 */
 	public void moveCollision(int xChange, int yChange) {
 
@@ -110,39 +119,29 @@ public class MovingRectangle extends Rectangle {
 			}
 		}
 
-		// If the block is colliding because it grew, calculate how much to shrink it
-		// and how much to actually move it
-		if (xChange != 0) {
-			int widthChange;
-			if (xChange > 0) {
-				widthChange = -getLeftWidthChange();
-			}
-			else {
-				widthChange = -getWidth() + getLeftWidthChange() + getLastWidth();
-				xChange -= widthChange; // Doesn't use addToLeft parameter in
-										 // changeWidth() to fix a bug with growing in a
-										 // space confined between two walls
-			}
-			setX(getX() + xChange);
-			if (widthChange < 0) { // Don't add width
-				changeWidth(widthChange, false);
-			}
+		if (xChange > 0) {
+			xChange -= getLeftWidthChange();
+			changeWidth(-getLeftWidthChange(), true);
+		}
+		if (xChange < 0) {
+			int rightWidthChange = getWidth() - getLastWidth() - getLeftWidthChange();
+			xChange += rightWidthChange;
+			changeWidth(-rightWidthChange, false);
 		}
 
-		if (yChange != 0) {
-			int heightChange;
-			if (yChange > 0) {
-				heightChange = -getTopHeightChange();
-			}
-			else {
-				heightChange = -getHeight() + getTopHeightChange() + getLastHeight();
-				yChange -= heightChange; // Same reasoning applies as in width section
-			}
-			setY(getY() + yChange);
-			if (heightChange < 0) { // Don't add height
-				changeHeight(heightChange, false);
-			}
+		if (yChange > 0) {
+			yChange -= getTopHeightChange();
+			changeHeight(-getTopHeightChange(), true);
 		}
+		if (yChange < 0) {
+			int bottomHeightChange = getHeight() - getLastHeight()
+					- getTopHeightChange();
+			yChange += bottomHeightChange;
+			changeHeight(-bottomHeightChange, false);
+		}
+
+		setX(getX() + xChange);
+		setY(getY() + yChange);
 
 	}
 
