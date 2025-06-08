@@ -372,12 +372,14 @@ public class PhysicsSimulator {
 		boolean usedToBeInBoundsX = rect.usedToIntersectX(other);
 		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
 
-		// Move other so that it is adjacent to rect
 		if (inBoundsX && inBoundsY) {
+			// If other was fully outside rect and is now fully inside, it doesn't
+			// collide. This is very rare in normal gameplay except when moving over the
+			// seam between two adjacent walls, so no collision here is correct
 			if (usedToBeInBoundsY) {
 				xChange = pullToX(rect, other);
 			}
-			else {
+			else if (usedToBeInBoundsX) {
 				yChange = pullToY(rect, other);
 			}
 		}
