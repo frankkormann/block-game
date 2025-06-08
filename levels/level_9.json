@@ -15,7 +15,7 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 140,
-			"y": 200,
+			"y": 190,
 			"width": 60,
 			"height": 120,
 			"color": "RED"
@@ -30,18 +30,18 @@
 		},		
 		{
 			"type": ".MovingRectangle",
-			"x": 190,
-			"y": 490,
+			"x": 290,
+			"y": 470,
 			"width": 10,
-			"height": 10,
+			"height": 20,
 			"color": "GREEN"
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 250,
-			"y": 490,
+			"x": 310,
+			"y": 470,
 			"width": 10,
-			"height": 10,
+			"height": 20,
 			"color": "BLUE"
 		},
 		{
