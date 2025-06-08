@@ -15,7 +15,7 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 80,
-			"y": 290,
+			"y": 270,
 			"width": 10,
 			"height": 40,
 			"color": "RED"
@@ -23,7 +23,7 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 100,
-			"y": 290,
+			"y": 270,
 			"width": 10,
 			"height": 40,
 			"color": "GREEN"
@@ -31,7 +31,7 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 145,
-			"y": 290,
+			"y": 270,
 			"width": 10,
 			"height": 40,
 			"color": "BLUE"
@@ -65,13 +65,13 @@
 			"x": 50,
 			"y": 150,
 			"width": 10,
-			"height": 180,
-			"resizeBehavior": "PREVENT_Y"
+			"height": 160,
+			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
 			"x": 210,
-			"y": 270,
+			"y": 250,
 			"width": 10,
 			"height": 60,
 			"resizeBehavior": "STAY"
@@ -81,37 +81,37 @@
 			"x": 260,
 			"y": 150,
 			"width": 10,
-			"height": 180,
+			"height": 160,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 50,
+			"y": 310,
+			"width": 150,
+			"height": 20,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 210,
+			"y": 310,
+			"width": 60,
+			"height": 20,
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": ".WallRectangle",
 			"x": 50,
 			"y": 330,
-			"width": 150,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 210,
-			"y": 330,
-			"width": 60,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 50,
-			"y": 350,
 			"width": 10,
-			"height": 240,
+			"height": 250,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
 			"x": 260,
-			"y": 350,
+			"y": 330,
 			"width": 10,
 			"height": 30,
 			"resizeBehavior": "STAY"
@@ -129,45 +129,45 @@
 			"x": 350,
 			"y": 130,
 			"width": 20,
-			"height": 120,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 490,
-			"y": 270,
-			"width": 20,
-			"height": 260,
+			"height": 100,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
 			"x": 370,
-			"y": 230,
-			"width": 55,
+			"y": 210,
+			"width": 50,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 425,
-			"y": 230,
+			"x": 420,
+			"y": 210,
 			"width": 20,
 			"height": 60,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 445,
-			"y": 270,
-			"width": 45,
+			"x": 440,
+			"y": 250,
+			"width": 50,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
+			"x": 490,
+			"y": 250,
+			"width": 20,
+			"height": 270,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
 			"x": 260,
-			"y": 510,
+			"y": 500,
 			"width": 230,
 			"height": 20,
 			"resizeBehavior": "STAY"
@@ -175,7 +175,7 @@
 		{
 			"type": ".WallRectangle",
 			"x": 260,
-			"y": 530,
+			"y": 520,
 			"width": 10,
 			"height": 60,
 			"resizeBehavior": "STAY"
@@ -183,7 +183,7 @@
 		{
 			"type": ".WallRectangle",
 			"x": 50,
-			"y": 590,
+			"y": 580,
 			"width": 220,
 			"height": 20,
 			"resizeBehavior": "STAY"
@@ -191,7 +191,7 @@
 		{
 			"type": ".GrowArea",
 			"x": 60,
-			"y": 350,
+			"y": 330,
 			"width": 200,
 			"height": 30,
 			"xGrowth": 1,
