@@ -15,7 +15,7 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 140,
-			"y": 190,
+			"y": 200,
 			"width": 60,
 			"height": 120,
 			"color": "RED"
