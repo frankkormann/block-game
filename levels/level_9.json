@@ -103,7 +103,7 @@
 		{
 			"type": ".WallRectangle",
 			"x": 350,
-			"y": 400,
+			"y": 380,
 			"width": 30,
 			"height": 10,
 			"resizeBehavior": "STAY"
@@ -167,9 +167,9 @@
 		{
 			"type": ".GrowArea",
 			"x": 350,
-			"y": 410,
+			"y": 390,
 			"width": 30,
-			"height": 80,
+			"height": 100,
 			"xGrowth": 0,
 			"yGrowth": 1
 		},
