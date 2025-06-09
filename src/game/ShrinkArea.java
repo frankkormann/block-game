@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ShrinkArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(246, 34, 23, 128);
+	public static final int MINIMUM_SIZE = 5;
 
 	private int xShrink, yShrink;
 
@@ -46,17 +47,54 @@ public class ShrinkArea extends Area {
 	 */
 	@Override
 	public void everyFrame(MovingRectangle rect) {
-		if (rect.getX() < getX()) {
-			rect.changeWidth(-xShrink, true);
+
+		shrinkRect(rect, getY() - rect.getY(), MainFrame.Direction.NORTH);
+		shrinkRect(rect, rect.getY() + rect.getHeight() - getY() - getHeight(),
+				MainFrame.Direction.SOUTH);
+		shrinkRect(rect, getX() - rect.getX(), MainFrame.Direction.WEST);
+		shrinkRect(rect, rect.getX() + rect.getWidth() - getX() - getWidth(),
+				MainFrame.Direction.EAST);
+
+	}
+
+	/**
+	 * Shrinks {@code rect} in {@code direction}, bounded by {@code possibleChange}
+	 * and respecting {@code MINIMUM_SIZE}.
+	 * 
+	 * @param rect           {@code MovingRectangle} to shrink
+	 * @param possibleChange maximum amount {@code rect} is allowed to shrink
+	 * @param direction      {@code MainFrame.Direction} to remove width from
+	 *                       {@code rect} in
+	 */
+	private void shrinkRect(MovingRectangle rect, int possibleChange,
+			MainFrame.Direction direction) {
+		int actualChange;
+
+		if (direction == MainFrame.Direction.WEST
+				|| direction == MainFrame.Direction.EAST) {
+			actualChange = Math.min(xShrink,
+					Math.min(possibleChange, rect.getWidth() - MINIMUM_SIZE));
 		}
-		if (rect.getX() + rect.getWidth() > getX() + getWidth()) {
-			rect.changeWidth(-xShrink, false);
+		else {
+			actualChange = Math.min(yShrink,
+					Math.min(possibleChange, rect.getHeight() - MINIMUM_SIZE));
 		}
-		if (rect.getY() < getY()) {
-			rect.changeHeight(-yShrink, true);
-		}
-		if (rect.getY() + rect.getHeight() > getY() + getHeight()) {
-			rect.changeHeight(-yShrink, false);
+
+		if (actualChange > 0) {
+			switch (direction) {
+				case NORTH:
+					rect.changeHeight(-actualChange, true);
+					break;
+				case SOUTH:
+					rect.changeHeight(-actualChange, false);
+					break;
+				case WEST:
+					rect.changeWidth(-actualChange, true);
+					break;
+				case EAST:
+					rect.changeWidth(-actualChange, false);
+					break;
+			}
 		}
 	}
 
