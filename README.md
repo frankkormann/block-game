@@ -108,7 +108,7 @@ to create in your first round of programming courses.</sup>
 
 ## License
 
-MIT License (MIT)
+MIT License
 
 Copyright (c) 2025 Frank Kormann
 
