@@ -10,7 +10,7 @@
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER",
-			"controlledByPlayer": "TRUE"
+			"controlledByPlayer": "true"
 		},
 		{
 			"type": ".MovingRectangle",
