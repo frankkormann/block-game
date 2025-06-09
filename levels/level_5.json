@@ -1,12 +1,12 @@
 {
 	"name": "Skewer Mover",
-	"width": 800,
+	"width": 500,
 	"height": 500,
 	"rectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
-			"x": 390,
+			"x": 240,
 			"y": 290,
 			"width": 20,
 			"height": 20,
@@ -14,7 +14,7 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 320,
+			"x": 170,
 			"y": 260,
 			"width": 180,
 			"height": 30,
@@ -22,7 +22,7 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 320,
+			"x": 170,
 			"y": 310,
 			"width": 180,
 			"height": 10,
@@ -30,7 +30,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 300,
+			"x": 150,
 			"y": 140,
 			"width": 200,
 			"height": 20,
@@ -38,7 +38,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 300,
+			"x": 150,
 			"y": 160,
 			"width": 20,
 			"height": 100,
@@ -46,7 +46,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 480,
+			"x": 330,
 			"y": 160,
 			"width": 20,
 			"height": 100,
@@ -54,7 +54,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 280,
+			"x": 130,
 			"y": 270,
 			"width": 20,
 			"height": 20,
@@ -62,7 +62,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 260,
+			"x": 110,
 			"y": 290,
 			"width": 60,
 			"height": 10,
@@ -70,7 +70,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 500,
+			"x": 350,
 			"y": 290,
 			"width": 40,
 			"height": 10,
@@ -78,7 +78,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 280,
+			"x": 130,
 			"y": 320,
 			"width": 240,
 			"height": 20,
@@ -86,7 +86,7 @@
 		},
 		{
 			"type": ".GoalArea",
-			"x": 375,
+			"x": 225,
 			"y": 210,
 			"width": 50,
 			"height": 50,
