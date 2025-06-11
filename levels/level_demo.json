@@ -38,7 +38,7 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 190,
+			"x": 260,
 			"y": 400,
 			"width": 10,
 			"height": 40,
@@ -46,7 +46,7 @@
 			"attachments": [
 				{
 					"type": ".GrowArea",
-					"x": 130,
+					"x": 200,
 					"y": 400,
 					"width": 60,
 					"height": 40,
@@ -55,7 +55,7 @@
 				},
 				{
 					"type": ".ShrinkArea",
-					"x": 200,
+					"x": 270,
 					"y": 400,
 					"width": 10,
 					"height": 40,
