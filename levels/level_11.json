@@ -1,0 +1,49 @@
+{
+	"name": "Defeating a Giant",
+	"width": 800,
+	"height": 500,
+	"rectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 70,
+			"y": 480,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": "true"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 200,
+			"y": 200,
+			"width": 100,
+			"height": 300,
+			"color": "RED"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 801,
+			"y": 0,
+			"width": 1,
+			"height": 500,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": ".ShrinkArea",
+			"x": 500,
+			"y": 0,
+			"width": 40,
+			"height": 500,
+			"xShrink": 0,
+			"yShrink": 1
+		},
+		{
+			"type": ".GoalArea",
+			"x": 700,
+			"y": 450,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1.json"
+		}
+	]
+}
