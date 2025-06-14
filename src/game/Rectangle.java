@@ -116,7 +116,7 @@ public abstract class Rectangle {
 		int[] yVals = { y, y - headHeight / 2, y - lineHeight / 2, y - lineHeight / 2,
 				y - headHeight / 2, y, y + headHeight / 2, y + lineHeight / 2,
 				y + lineHeight / 2, y + headHeight / 2, y };
-		g.drawPolygon(xVals, yVals, xVals.length);
+		g.fillPolygon(xVals, yVals, xVals.length);
 	}
 
 	/**
@@ -168,9 +168,7 @@ public abstract class Rectangle {
 	}
 
 	/**
-	 * Returns true if this thinks it can interact with {@code other}. For example,
-	 * if this is a {@code SideRectangle} and {@code other} has
-	 * {@code ResizeBehavior} of {@code STAY}.
+	 * Returns true if this thinks it can interact with {@code other}.
 	 * <p>
 	 * This method should usually be called both ways. It is possible that
 	 * {@code this.canInteract(other)} is {@code true} but
