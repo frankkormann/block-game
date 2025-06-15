@@ -2,8 +2,10 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -84,6 +86,62 @@ public abstract class Rectangle {
 		g.setColor(color);
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
+	}
+
+	/**
+	 * Draws an arrow pointing at ({@code tipX}, {@code tipY}) in {@code direction}.
+	 * <p>
+	 * Note that {@code headLength}, {@code headWidth}, {@code tailLength}, and
+	 * {@code tailWidth} always correspond to the same parts of the arrow, no matter
+	 * which direction it is pointing in. For example, {@code headWidth} is a
+	 * vertical distance on an easterly arrow but a horizontal distance on a
+	 * northerly arrow.
+	 * 
+	 * @param g          {@code Graphics} instance; must be able to be cast to
+	 *                   Graphics2D
+	 * @param tipX       X coordinate arrow is pointing at
+	 * @param tipY       Y coordinate arrow is pointing at
+	 * @param headLength distance from arrow tip to beginning of tail
+	 * @param headWidth  size of base of head
+	 * @param tailLength distance from beginning to end of tail
+	 * @param tailWidth  size of base of tail
+	 * @param direction  orientation arrow tip is pointing towards
+	 */
+	protected void drawArrow(Graphics g, int tipX, int tipY, int headLength,
+			int headWidth, int tailLength, int tailWidth,
+			MainFrame.Direction direction) {
+
+		Graphics2D g2d = (Graphics2D) g.create();
+
+		int[] headX = { tipX - headWidth / 2, tipX, tipX + headWidth / 2 };
+		int[] headY = { tipY + headLength, tipY, tipY + headLength };
+		int tailX = tipX - tailWidth / 2;
+		int tailY = tipY + headLength;
+
+		switch (direction) {
+			case NORTH:
+				// already transformed
+				break;
+			case SOUTH:
+				g2d.rotate(Math.PI, tipX, tipY);
+				break;
+			case WEST:
+				g2d.rotate(-Math.PI / 2, tipX, tipY);
+				break;
+			case EAST:
+				g2d.rotate(Math.PI / 2, tipX, tipY);
+				break;
+		}
+
+		g2d.fillPolygon(headX, headY, 3);
+		g2d.fillRect(tailX, tailY, tailWidth, tailLength);
+
+	}
+
+	private void transformArray(int[] arr, Function<Integer, Integer> transformation) {
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = transformation.apply(arr[i]);
+		}
 	}
 
 	// TODO Think of a better arrow-drawing method
