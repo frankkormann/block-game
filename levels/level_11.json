@@ -31,9 +31,9 @@
 		{
 			"type": ".ShrinkArea",
 			"x": 500,
-			"y": 0,
+			"y": -20,
 			"width": 40,
-			"height": 500,
+			"height": 520,
 			"xShrink": 0,
 			"yShrink": 1
 		},
