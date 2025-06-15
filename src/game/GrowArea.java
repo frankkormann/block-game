@@ -46,16 +46,6 @@ public class GrowArea extends Area {
 		super.draw(g);
 
 		g.setColor(getColor().darker());
-		if (yGrowth != 0) {
-			drawArrow(g, getX() + getWidth() / 2, getY() + ARROW_INSET,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
-					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.NORTH);
-			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() - ARROW_INSET,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
-					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.SOUTH);
-		}
 		if (xGrowth != 0) {
 			drawArrow(g, getX() + ARROW_INSET, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
@@ -65,6 +55,16 @@ public class GrowArea extends Area {
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
 					MainFrame.Direction.EAST);
+		}
+		if (yGrowth != 0) {
+			drawArrow(g, getX() + getWidth() / 2, getY() + ARROW_INSET,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.NORTH);
+			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() - ARROW_INSET,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.SOUTH);
 		}
 
 	}
