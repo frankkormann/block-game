@@ -66,7 +66,6 @@ public class GrowArea extends Area {
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
 					MainFrame.Direction.SOUTH);
 		}
-
 	}
 
 	@Override
