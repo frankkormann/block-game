@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -136,77 +135,6 @@ public abstract class Rectangle {
 		g2d.fillPolygon(headX, headY, 3);
 		g2d.fillRect(tailX, tailY, tailWidth, tailLength);
 
-	}
-
-	private void transformArray(int[] arr, Function<Integer, Integer> transformation) {
-		for (int i = 0; i < arr.length; i++) {
-			arr[i] = transformation.apply(arr[i]);
-		}
-	}
-
-	// TODO Think of a better arrow-drawing method
-	/**
-	 * Draws a double-headed horizontal arrow.
-	 * <p>
-	 * Note: {@code lineWidth} is not the overall width of the arrow. That is, the
-	 * arrow will have a total length of {@code lineWidth + 2 *
-	 * headWidth}.
-	 * 
-	 * @param g          Graphics instance
-	 * @param x          Coordinate of left arrow tip
-	 * @param y          Coordinate of left arrow tip
-	 * @param headWidth  Length of a head
-	 * @param headHeight Height of a head
-	 * @param lineWidth  Length of the connecting line
-	 * @param lineHeight Height of the connecting line
-	 * @param xOffset    Coordinate of window's top left corner
-	 * @param yOffset    Coordinate of window's top left corner
-	 * 
-	 * @see Rectangle#drawVerticalArrow
-	 */
-	public void drawHorizontalArrow(Graphics g, int x, int y, int headWidth,
-			int headHeight, int lineWidth, int lineHeight) {
-		// This is messy, but I don't see a better way to do it
-		int[] xVals = { x, x + headWidth, x + headWidth, x + headWidth + lineWidth,
-				x + headWidth + lineWidth, x + 2 * headWidth + lineWidth,
-				x + headWidth + lineWidth, x + headWidth + lineWidth, x + headWidth,
-				x + headWidth, x };
-		int[] yVals = { y, y - headHeight / 2, y - lineHeight / 2, y - lineHeight / 2,
-				y - headHeight / 2, y, y + headHeight / 2, y + lineHeight / 2,
-				y + lineHeight / 2, y + headHeight / 2, y };
-		g.fillPolygon(xVals, yVals, xVals.length);
-	}
-
-	/**
-	 * Draws a double-headed vertical arrow.
-	 * <p>
-	 * Note: {@code lineHeight} is not the overall height of the arrow. That is, the
-	 * arrow will have a total height of {@code lineHeight + 2 *
-	 * headHeight}.
-	 * 
-	 * @param g          Graphics instance
-	 * @param x          Coordinate of top arrow tip
-	 * @param y          Coordinate of top arrow tip
-	 * @param headWidth  Length of a head
-	 * @param headHeight Height of a head
-	 * @param lineWidth  Length of the connecting line
-	 * @param lineHeight Height of the connecting line
-	 * @param xOffset    Coordinate of window's top left corner
-	 * @param yOffset    Coordinate of window's top left corner
-	 * 
-	 * @see Rectangle#drawHorizontalArrow
-	 */
-	public void drawVerticalArrow(Graphics g, int x, int y, int headWidth,
-			int headHeight, int lineWidth, int lineHeight) {
-		// This is messy, but I don't see a better way to do it
-		int[] xVals = { x, x + headWidth / 2, x + lineWidth / 2, x + lineWidth / 2,
-				x + headWidth / 2, x, x - headWidth / 2, x - lineWidth / 2,
-				x - lineWidth / 2, x - headWidth / 2, x };
-		int[] yVals = { y, y + headHeight, y + headHeight, y + headHeight + lineHeight,
-				y + headHeight + lineHeight, y + 2 * headHeight + lineHeight,
-				y + headHeight + lineHeight, y + headHeight + lineHeight,
-				y + headHeight, y + headHeight, y };
-		g.drawPolygon(xVals, yVals, xVals.length);
 	}
 
 	public void updateLastPosition() {
