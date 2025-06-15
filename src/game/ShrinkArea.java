@@ -19,6 +19,11 @@ public class ShrinkArea extends Area {
 	public static final Color DEFAULT_COLOR = new Color(246, 34, 23, 128);
 	public static final int MINIMUM_SIZE = 5;
 
+	public static final int ARROW_INSET = 5;
+	public static final int ARROW_HEAD_WIDTH = 20;
+	public static final int ARROW_HEAD_LENGTH = 10;
+	public static final int ARROW_TAIL_WIDTH = 8;
+
 	private int xShrink, yShrink;
 
 	public ShrinkArea() {
@@ -43,14 +48,24 @@ public class ShrinkArea extends Area {
 
 		g.setColor(getColor().darker());
 		if (xShrink != 0) {
-			drawArrow(g, getX() + getWidth() / 2, getY() + 10, 10, 20,
-					getHeight() / 2 - 20, 8, MainFrame.Direction.NORTH);
-			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() - 10, 10, 20,
-					getHeight() / 2 - 20, 8, MainFrame.Direction.SOUTH);
+			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.WEST);
+			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.EAST);
 		}
 		if (yShrink != 0) {
-			drawArrow(g, getX() + 10, getY() + getHeight() / 2, 10, 20,
-					getWidth() / 2 - 10, 8, MainFrame.Direction.WEST);
+			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.SOUTH);
+			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.NORTH);
 		}
 	}
 
