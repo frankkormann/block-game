@@ -18,10 +18,10 @@ public class GrowArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(22, 245, 41, 128);
 
-	public static final int ARROW_INSET = 10;
-	public static final int ARROW_HEAD_HEIGHT = 20;
-	public static final int ARROW_HEAD_WIDTH = 10;
-	public static final int ARROW_LINE_HEIGHT = 8;
+	public static final int ARROW_INSET = 5;
+	public static final int ARROW_HEAD_WIDTH = 20;
+	public static final int ARROW_HEAD_LENGTH = 10;
+	public static final int ARROW_TAIL_WIDTH = 8;
 
 	private int xGrowth, yGrowth;
 
@@ -45,45 +45,67 @@ public class GrowArea extends Area {
 	public void draw(Graphics g) {
 		super.draw(g);
 
-		// I can't think of a less messy way to draw these arrows
 		g.setColor(getColor().darker());
-		if (xGrowth != 0) {
-			int rightX = getX() + getWidth();
-			int middleY = getY() + (getHeight() / 2);
-			int[] headY = new int[] { middleY, middleY - (ARROW_HEAD_HEIGHT / 2),
-					middleY + (ARROW_HEAD_HEIGHT / 2) };
-
-			g.fillPolygon(new int[] { getX() + ARROW_INSET,
-					getX() + ARROW_INSET + ARROW_HEAD_WIDTH,
-					getX() + ARROW_INSET + ARROW_HEAD_WIDTH }, headY, 3);
-			g.fillPolygon(new int[] { rightX - ARROW_INSET,
-					rightX - ARROW_INSET - ARROW_HEAD_WIDTH,
-					rightX - ARROW_INSET - ARROW_HEAD_WIDTH }, headY, 3);
-			g.fillRect(getX() + ARROW_INSET + ARROW_HEAD_WIDTH,
-					middleY - (ARROW_LINE_HEIGHT / 2),
-					getWidth() - (2 * ARROW_INSET) - (2 * ARROW_HEAD_WIDTH),
-					ARROW_LINE_HEIGHT);
-		}
 		if (yGrowth != 0) {
-			int bottomY = getY() + getHeight();
-			int middleX = getX() + (getWidth() / 2);
-			int[] headX = new int[] { middleX, middleX - (ARROW_HEAD_HEIGHT / 2),
-					middleX + (ARROW_HEAD_HEIGHT / 2) };
-
-			g.fillPolygon(headX,
-					new int[] { getY() + ARROW_INSET,
-							getY() + ARROW_INSET + ARROW_HEAD_WIDTH,
-							getY() + ARROW_INSET + ARROW_HEAD_WIDTH },
-					3);
-			g.fillPolygon(headX,
-					new int[] { bottomY - ARROW_INSET,
-							bottomY - ARROW_INSET - ARROW_HEAD_WIDTH,
-							bottomY - ARROW_INSET - ARROW_HEAD_WIDTH },
-					3);
-			g.fillRect(middleX - (ARROW_LINE_HEIGHT / 2),
-					getY() + ARROW_INSET + ARROW_HEAD_WIDTH, ARROW_LINE_HEIGHT,
-					getHeight() - (2 * ARROW_INSET) - (2 * ARROW_HEAD_WIDTH));
+			drawArrow(g, getX() + getWidth() / 2, getY() + ARROW_INSET,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.NORTH);
+			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() - ARROW_INSET,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.SOUTH);
 		}
+		if (xGrowth != 0) {
+			drawArrow(g, getX() + ARROW_INSET, getY() + getHeight() / 2,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.WEST);
+			drawArrow(g, getX() + getWidth() - ARROW_INSET, getY() + getHeight() / 2,
+					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
+					MainFrame.Direction.EAST);
+		}
+
+//		// I can't think of a less messy way to draw these arrows
+//		g.setColor(getColor().darker());
+//		if (xGrowth != 0) {
+//			int rightX = getX() + getWidth();
+//			int middleY = getY() + (getHeight() / 2);
+//			int[] headY = new int[] { middleY, middleY - (ARROW_HEAD_HEIGHT / 2),
+//					middleY + (ARROW_HEAD_HEIGHT / 2) };
+//
+//			g.fillPolygon(new int[] { getX() + ARROW_INSET,
+//					getX() + ARROW_INSET + ARROW_HEAD_WIDTH,
+//					getX() + ARROW_INSET + ARROW_HEAD_WIDTH }, headY, 3);
+//			g.fillPolygon(new int[] { rightX - ARROW_INSET,
+//					rightX - ARROW_INSET - ARROW_HEAD_WIDTH,
+//					rightX - ARROW_INSET - ARROW_HEAD_WIDTH }, headY, 3);
+//			g.fillRect(getX() + ARROW_INSET + ARROW_HEAD_WIDTH,
+//					middleY - (ARROW_LINE_HEIGHT / 2),
+//					getWidth() - (2 * ARROW_INSET) - (2 * ARROW_HEAD_WIDTH),
+//					ARROW_LINE_HEIGHT);
+//		}
+//		if (yGrowth != 0) {
+//			int bottomY = getY() + getHeight();
+//			int middleX = getX() + (getWidth() / 2);
+//			int[] headX = new int[] { middleX, middleX - (ARROW_HEAD_HEIGHT / 2),
+//					middleX + (ARROW_HEAD_HEIGHT / 2) };
+//
+//			g.fillPolygon(headX,
+//					new int[] { getY() + ARROW_INSET,
+//							getY() + ARROW_INSET + ARROW_HEAD_WIDTH,
+//							getY() + ARROW_INSET + ARROW_HEAD_WIDTH },
+//					3);
+//			g.fillPolygon(headX,
+//					new int[] { bottomY - ARROW_INSET,
+//							bottomY - ARROW_INSET - ARROW_HEAD_WIDTH,
+//							bottomY - ARROW_INSET - ARROW_HEAD_WIDTH },
+//					3);
+//			g.fillRect(middleX - (ARROW_LINE_HEIGHT / 2),
+//					getY() + ARROW_INSET + ARROW_HEAD_WIDTH, ARROW_LINE_HEIGHT,
+//					getHeight() - (2 * ARROW_INSET) - (2 * ARROW_HEAD_WIDTH));
+//		}
 	}
 
 	@Override

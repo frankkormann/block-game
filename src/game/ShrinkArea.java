@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,6 +35,23 @@ public class ShrinkArea extends Area {
 		super(x, y, width, height, DEFAULT_COLOR);
 		this.xShrink = xShrink;
 		this.yShrink = yShrink;
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		super.draw(g);
+
+		g.setColor(getColor().darker());
+		if (xShrink != 0) {
+			drawArrow(g, getX() + getWidth() / 2, getY() + 10, 10, 20,
+					getHeight() / 2 - 20, 8, MainFrame.Direction.NORTH);
+			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() - 10, 10, 20,
+					getHeight() / 2 - 20, 8, MainFrame.Direction.SOUTH);
+		}
+		if (yShrink != 0) {
+			drawArrow(g, getX() + 10, getY() + getHeight() / 2, 10, 20,
+					getWidth() / 2 - 10, 8, MainFrame.Direction.WEST);
+		}
 	}
 
 	@Override
