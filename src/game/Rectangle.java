@@ -35,11 +35,11 @@ public abstract class Rectangle {
 	private static final int BORDER_THICKNESS = 1;
 
 	/**
-	 * MOVE - Be pushed by window edges
+	 * {@code MOVE} - Be pushed by window edges
 	 * <p>
-	 * PREVENT - Stop window edges from passing through this
+	 * {@code PREVENT} - Stop window edges from passing through this
 	 * <p>
-	 * STAY - Do not interact with window edges
+	 * {@code STAY} - Do not interact with window edges
 	 */
 	public enum ResizeBehavior {
 		MOVE, STAY, PREVENT_X, PREVENT_Y
