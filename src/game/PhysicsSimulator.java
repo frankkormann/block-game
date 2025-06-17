@@ -152,7 +152,7 @@ public class PhysicsSimulator {
 	 * 
 	 * @param playerVelocityChanges int array in format { change in x-velocity,
 	 *                              change in y-velocity } for changes to velocity
-	 *                              of {@code MovingRectangles} with
+	 *                              of {@code MovingRectangle}s with
 	 *                              {@code isControlledByPlayer() == true}
 	 */
 	private void moveAllMovingRectangles(int[] playerVelocityChanges) {
