@@ -108,7 +108,7 @@ public class GameController implements KeyListener, WindowListener {
 	private void advanceFrame() {
 		mainFrame.resizeAll(inputHandler.getResizes());
 
-		physicsSimulator.updateAndMoveObjects(inputHandler.getKeysPressed(),
+		physicsSimulator.updateAndMoveObjects(inputHandler.getInputs(),
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
 		if (physicsSimulator.getNextLevel() != null) {
