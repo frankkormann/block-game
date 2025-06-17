@@ -74,7 +74,7 @@ public class PhysicsSimulator {
 	/**
 	 * Adds a {@code Rectangle} to this simulation.
 	 * 
-	 * @param rectangle Rectangle to add
+	 * @param rectangle {@code Rectangle} to add
 	 */
 	public void add(Rectangle rectangle) {
 		// sort rectangle into the correct list
