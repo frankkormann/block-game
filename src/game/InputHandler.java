@@ -177,12 +177,10 @@ public class InputHandler extends KeyAdapter {
 		Set<Input> inputs = EnumSet.noneOf(Input.class);
 
 		try {
-			while (true) {
-				int next = read();
-				if (next == 0) {
-					break;
-				}
-				inputs.add(Input.values()[next]);
+			int numberOfInputs = read();
+			for (int i = 0; i < numberOfInputs; i++) {
+				int inputOrdinal = read();
+				inputs.add(Input.values()[inputOrdinal]);
 			}
 		}
 		catch (IOException e) {
@@ -194,10 +192,10 @@ public class InputHandler extends KeyAdapter {
 
 	private void writeInputsToFile(Set<Input> inputs) {
 		try {
+			writer.write(inputs.size());
 			for (Input inp : inputs) {
 				writer.write(inp.ordinal());
 			}
-			writer.write(0);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -224,7 +222,6 @@ public class InputHandler extends KeyAdapter {
 				resizes.put(MainFrame.Direction.SOUTH, read());
 				resizes.put(MainFrame.Direction.WEST, read());
 				resizes.put(MainFrame.Direction.EAST, read());
-				read();
 			}
 			catch (IOException e) {
 				e.printStackTrace();
@@ -237,7 +234,6 @@ public class InputHandler extends KeyAdapter {
 				writer.write(resizes.get(MainFrame.Direction.SOUTH));
 				writer.write(resizes.get(MainFrame.Direction.WEST));
 				writer.write(resizes.get(MainFrame.Direction.EAST));
-				writer.write(0);
 			}
 			catch (IOException e) {
 				e.printStackTrace();
