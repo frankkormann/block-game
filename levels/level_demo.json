@@ -107,15 +107,15 @@
 		{
 			"type": ".GoalArea",
 			"x": 280,
-			"y": 640,
-			"width": 40,
-			"height": 40,
+			"y": 630,
+			"width": 50,
+			"height": 50,
 			"nextLevel": "/level_1.json"
 		},
 		{
 			"type": ".ForceArea",
 			"x": 480,
-			"y": 420,
+			"y": 360,
 			"width": 40,
 			"height": 80,
 			"xForce": 0,
@@ -145,6 +145,24 @@
 			"height": 50,
 			"xShrink": 0,
 			"yShrink": 1
+		},
+		{
+			"type": ".GrowArea",
+			"x": 580,
+			"y": 450,
+			"width": 50,
+			"height": 25,
+			"xGrowth": 1,
+			"yGrowth": 0
+		},
+		{
+			"type": ".ShrinkArea",
+			"x": 580,
+			"y": 475,
+			"width": 50,
+			"height": 25,
+			"xShrink": 1,
+			"yShrink": 0
 		}
 	]
 }
