@@ -26,7 +26,7 @@
 			"y": 360,
 			"width": 80,
 			"height": 40,
-			"color": "RED"
+			"color": "BLUE"
 		},
 		{
 			"type": ".WallRectangle",
