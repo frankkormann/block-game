@@ -149,10 +149,6 @@ public abstract class Rectangle {
 		}
 	}
 
-	public void setAttachments(List<Area> attachments) {
-		this.attachedAreas = attachments;
-	}
-
 	/**
 	 * Returns true if this thinks it can interact with {@code other}.
 	 * <p>
@@ -333,6 +329,10 @@ public abstract class Rectangle {
 
 	public Color getColor() {
 		return color;
+	}
+
+	public void setAttachments(List<Area> attachments) {
+		this.attachedAreas = attachments;
 	}
 
 	public List<Area> getAttachments() {
