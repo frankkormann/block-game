@@ -143,11 +143,14 @@ public class InputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Get the keys pressed on this frame. If in reading mode, these will be read
-	 * from the reading file. Otherwise, they will be taken from the keyboard. If in
-	 * writing mode, these will also be written to the writing file.
+	 * Gets the inputs pressed on this frame.
+	 * <p>
+	 * If in reading mode, these will be read from the reading file. Otherwise, they
+	 * will be taken from the keyboard.
+	 * <p>
+	 * If in writing mode, these will also be written to the writing file.
 	 * 
-	 * @return {@code Set} of KeyCodes
+	 * @return {@code Set} of {@code Input}s
 	 */
 	public Set<Input> getInputs() {
 		Set<Input> inputs = EnumSet.noneOf(Input.class);
@@ -173,6 +176,9 @@ public class InputHandler extends KeyAdapter {
 		return inputs;
 	}
 
+	/**
+	 * Returns the {@code Input}s pressed on this frame in the reading file.
+	 */
 	private Set<Input> readInputsFromFile() {
 		Set<Input> inputs = EnumSet.noneOf(Input.class);
 
@@ -190,6 +196,12 @@ public class InputHandler extends KeyAdapter {
 		return inputs;
 	}
 
+	/**
+	 * First writes the number of {@code Input}s pressed this frame, then each
+	 * {@code Input}'s ordinal in turn.
+	 * 
+	 * @param inputs {@code Set} of {@code Input}s to write
+	 */
 	private void writeInputsToFile(Set<Input> inputs) {
 		try {
 			writer.write(inputs.size());
