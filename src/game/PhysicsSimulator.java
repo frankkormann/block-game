@@ -96,11 +96,11 @@ public class PhysicsSimulator {
 	 * Also resolves collision between {@code Rectangles} and apply all
 	 * {@code Areas} that need to be applied.
 	 * 
-	 * @param keysPressed Set of keycodes for user input this frame
-	 * @param width       Width of the play area
-	 * @param height      Height of the play area
-	 * @param xOffset     X coordinate of top left corner
-	 * @param yOffset     Y coordinate of top left corner
+	 * @param inputs  {@code Set} of {@code Input}s from the player this frame
+	 * @param width   Width of the play area
+	 * @param height  Height of the play area
+	 * @param xOffset X coordinate of top left corner
+	 * @param yOffset Y coordinate of top left corner
 	 */
 	public void updateAndMoveObjects(Set<InputHandler.Input> inputs, int width,
 			int height, int xOffset, int yOffset) {
@@ -119,7 +119,7 @@ public class PhysicsSimulator {
 	 * particular {@code MovingRectangle} may augment or override the velocity
 	 * changes returned here.
 	 * 
-	 * @param keysPressed {@code Set} of keycodes of keyboard input
+	 * @param inputs {@code Set} of {@code Input}s from the player
 	 * 
 	 * @return int array in format { change in x-velocity, change in y-velocity }
 	 */
