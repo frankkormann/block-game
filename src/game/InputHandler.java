@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,8 +18,8 @@ import java.util.Set;
  * Get inputs from the user or a file. Optionally write inputs to a file.
  * <p>
  * By default, inputs will be taken from the user. Key presses will be taken
- * from the keyboard and window resizes will be taken from calls to resize.
- * These calls are provided by the {@code ResizingSide} class.
+ * from the keyboard and window resizes will be taken from calls to
+ * {@code resize}. These calls are provided by the {@code ResizingSide} class.
  * <p>
  * If a {@code URL} is given to {@code beginReading(URL)}, input will be taken
  * from that file instead.
@@ -30,11 +31,21 @@ import java.util.Set;
  * {@link#getResizes()}. These methods should both be called every frame to
  * ensure file reading/writing does not get desynchronized. These methods should
  * always be called in the same order.
- * <p>
  * 
  * @author Frank Kormann
  */
 public class InputHandler extends KeyAdapter {
+
+	public enum Input {
+		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
+		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT), RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
+
+		public final int[] keyCodes;
+
+		private Input(int... keyCodes) {
+			this.keyCodes = keyCodes;
+		}
+	}
 
 	private Set<Integer> keysPressed;
 	private Map<MainFrame.Direction, Integer> resizesSinceLastFrame;
@@ -111,7 +122,14 @@ public class InputHandler extends KeyAdapter {
 		}
 	}
 
-	// Wrap read() to deal with end-of-file and cast to signed int
+	/**
+	 * Wraps {@code reader.read()} to deal with end-of-file and return a nicer
+	 * value.
+	 * 
+	 * @return next value from global {@code reader} as signed {@code int}
+	 * 
+	 * @throws IOException
+	 */
 	private int read() throws IOException {
 		int value = reader.read();
 		reader.mark(1);
@@ -131,41 +149,53 @@ public class InputHandler extends KeyAdapter {
 	 * 
 	 * @return {@code Set} of KeyCodes
 	 */
-	public Set<Integer> getKeysPressed() {
-		Set<Integer> keys = new HashSet<>();
+	public Set<Input> getInputs() {
+		Set<Input> inputs = EnumSet.noneOf(Input.class);
+
 		if (reader == null) {
-			keys = keysPressed;
+			for (Input inp : Input.values()) {
+				for (int key : inp.keyCodes) {
+					if (keysPressed.contains(key)) {
+						inputs.add(inp);
+						break;
+					}
+				}
+			}
 		}
 		else {
-			keys = readKeysFromFile();
+			inputs = readInputsFromFile();
 		}
+
 		if (writer != null) {
-			writeKeysToFile(keys);
+			writeInputsToFile(inputs);
 		}
-		return keys;
+
+		return inputs;
 	}
 
-	private Set<Integer> readKeysFromFile() {
-		Set<Integer> keys = new HashSet<>();
+	private Set<Input> readInputsFromFile() {
+		Set<Input> inputs = EnumSet.noneOf(Input.class);
+
 		try {
 			while (true) {
 				int next = read();
 				if (next == 0) {
 					break;
 				}
-				keys.add(next);
+				inputs.add(Input.values()[next]);
 			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		return keys;
+
+		return inputs;
 	}
 
-	private void writeKeysToFile(Set<Integer> keyCodes) {
+	private void writeInputsToFile(Set<Input> inputs) {
 		try {
-			for (int key : keyCodes) {
-				writer.write(key);
+			for (Input inp : inputs) {
+				writer.write(inp.ordinal());
 			}
 			writer.write(0);
 		}

@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,10 +102,10 @@ public class PhysicsSimulator {
 	 * @param xOffset     X coordinate of top left corner
 	 * @param yOffset     Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<Integer> keysPressed, int width, int height,
-			int xOffset, int yOffset) {
+	public void updateAndMoveObjects(Set<InputHandler.Input> inputs, int width,
+			int height, int xOffset, int yOffset) {
 
-		int[] playerVelocityChanges = calculatePlayerVelocityChanges(keysPressed);
+		int[] playerVelocityChanges = calculatePlayerVelocityChanges(inputs);
 		moveAllMovingRectangles(playerVelocityChanges);
 
 		moveAllSides(width, height, xOffset, yOffset);
@@ -124,21 +123,18 @@ public class PhysicsSimulator {
 	 * 
 	 * @return int array in format { change in x-velocity, change in y-velocity }
 	 */
-	private int[] calculatePlayerVelocityChanges(Set<Integer> keysPressed) {
+	private int[] calculatePlayerVelocityChanges(Set<InputHandler.Input> inputs) {
 		int xVelocityChange = 0;
 		int yVelocityChange = 0;
 
-		if (keysPressed.contains(KeyEvent.VK_D)
-				|| keysPressed.contains(KeyEvent.VK_RIGHT)) {
+		if (inputs.contains(InputHandler.Input.RIGHT)) {
 			xVelocityChange += PLAYER_X_ACCELERATION;
 		}
 
-		if (keysPressed.contains(KeyEvent.VK_A)
-				|| keysPressed.contains(KeyEvent.VK_LEFT)) {
+		if (inputs.contains(InputHandler.Input.LEFT)) {
 			xVelocityChange -= PLAYER_X_ACCELERATION;
 		}
-		if (keysPressed.contains(KeyEvent.VK_W) || keysPressed.contains(KeyEvent.VK_UP)
-				|| keysPressed.contains(KeyEvent.VK_SPACE)) {
+		if (inputs.contains(InputHandler.Input.UP)) {
 			yVelocityChange = PLAYER_JUMP_VELOCITY;
 		}
 
