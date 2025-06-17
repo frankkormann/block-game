@@ -112,6 +112,18 @@ public class PhysicsSimulator {
 		moveAllSides(width, height, xOffset, yOffset);
 	}
 
+	/**
+	 * Determines how the velocity should change for each {@code MovingRectangle}
+	 * with {@code isControlledByPlayer() == true}.
+	 * <p>
+	 * Only keyboard input is taken into account. Other factors that affect each
+	 * particular {@code MovingRectangle} may augment or override the velocity
+	 * changes returned here.
+	 * 
+	 * @param keysPressed {@code Set} of keycodes of keyboard input
+	 * 
+	 * @return int array in format { change in x-velocity, change in y-velocity }
+	 */
 	private int[] calculatePlayerVelocityChanges(Set<Integer> keysPressed) {
 		int xVelocityChange = 0;
 		int yVelocityChange = 0;
@@ -133,6 +145,16 @@ public class PhysicsSimulator {
 		return new int[] { xVelocityChange, yVelocityChange };
 	}
 
+	/**
+	 * For each {@code MovingRectangle}, applies keyboard input if appropriate,
+	 * applies {@code Area} effects, applies friction and gravity, applies movement
+	 * from velocity, then computes collision.
+	 * 
+	 * @param playerVelocityChanges int array in format { change in x-velocity,
+	 *                              change in y-velocity } for changes to velocity
+	 *                              of {@code MovingRectangles} with
+	 *                              {@code isControlledByPlayer() == true}
+	 */
 	private void moveAllMovingRectangles(int[] playerVelocityChanges) {
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
@@ -161,6 +183,12 @@ public class PhysicsSimulator {
 		}
 	}
 
+	/**
+	 * Tests if {@code rect} intersects any {@code Area}s and applies effects of any
+	 * it does intersect.
+	 * 
+	 * @param rect {@code MovingRectangle} to consider
+	 */
 	private void applyAreasToMovingRectangle(MovingRectangle rect) {
 		for (Area area : areas) {
 			area.handle(rect);
@@ -170,6 +198,12 @@ public class PhysicsSimulator {
 		}
 	}
 
+	/**
+	 * Accelerates {@code rect} downward due to gravity and reduces x-velocity due
+	 * to friction if appropriate.
+	 *
+	 * @param rect {@code MovingRectangle} to consider
+	 */
 	private void applyNaturalForcesToMovingRectangle(MovingRectangle rect) {
 		if (rect.hasGravity()) {
 			rect.setYVelocity(rect.getYVelocity() + GRAVITY);
@@ -204,7 +238,7 @@ public class PhysicsSimulator {
 			int difference = 0;
 			switch (direction) {
 				// Width/height are super high to prevent bug where MovingRectangles
-				// could phase through the floor, because the floor was not wide enough
+				// could phase through the floor because the floor was not wide enough
 				case NORTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
 					difference = calculateCollisionForSide(side, xOffset - 50 * width,
