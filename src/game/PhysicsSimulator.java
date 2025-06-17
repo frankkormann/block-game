@@ -53,7 +53,7 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Set up {@code MovingRectangles} that represent window edges.
+	 * Sets up {@code SideRectangles} that represent window edges.
 	 * 
 	 * @param width   Width of play area
 	 * @param height  Height of play area
