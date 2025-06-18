@@ -1,0 +1,122 @@
+{
+	"name": "Cave In",
+	"width": 700,
+	"height": 450,
+	"rectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 210,
+			"y": 290,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": "true"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 270,
+			"y": 120,
+			"width": 80,
+			"height": 150,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 350,
+			"y": 120,
+			"width": 80,
+			"height": 150,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 270,
+			"y": 270,
+			"width": 80,
+			"height": 40,
+			"color": "GREEN"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 350,
+			"y": 270,
+			"width": 80,
+			"height": 40,
+			"color": "BLUE"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 250,
+			"y": 100,
+			"width": 350,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 250,
+			"y": 160,
+			"width": 20,
+			"height": 110,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 580,
+			"y": 120,
+			"width": 20,
+			"height": 140,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 430,
+			"y": 260,
+			"width": 170,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 590,
+			"y": 270,
+			"width": 10,
+			"height": 40,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 100,
+			"y": 310,
+			"width": 500,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".ShrinkArea",
+			"x": 100,
+			"y": 270,
+			"width": 40,
+			"height": 40,
+			"xShrink": 1,
+			"yShrink": 0
+		},
+		{
+			"type": ".GrowArea",
+			"x": 490,
+			"y": 270,
+			"width": 100,
+			"height": 40,
+			"xGrowth": 1,
+			"yGrowth": 0
+		},
+		{
+			"type": ".GoalArea",
+			"x": 480,
+			"y": 210,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1.json"
+		}
+	]
+}
