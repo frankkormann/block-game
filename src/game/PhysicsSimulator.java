@@ -154,8 +154,6 @@ public class PhysicsSimulator {
 	private void moveAllMovingRectangles(int[] playerVelocityChanges) {
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
-		movingRectangles.forEach(r -> applyAreasToMovingRectangle(r));
-
 		for (MovingRectangle rect : movingRectangles) {
 			if (rect.isControlledByPlayer()) {
 				rect.setXVelocity(rect.getXVelocity() + playerVelocityChanges[0]);
@@ -165,6 +163,7 @@ public class PhysicsSimulator {
 			}
 
 			applyNaturalForcesToMovingRectangle(rect);
+			applyAreasToMovingRectangle(rect);
 			rect.setState(MovingRectangle.State.IN_AIR);
 
 			// No need to do collision if it didn't move
