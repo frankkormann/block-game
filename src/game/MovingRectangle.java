@@ -101,11 +101,6 @@ public class MovingRectangle extends Rectangle {
 	 * <p>
 	 * If this was moved up, its ground status becomes {@code ON_GROUND} because it
 	 * must be standing on something.
-	 * <p>
-	 * If this is colliding with something because its {@code width} or
-	 * {@code height} changed, its {@code width} and {@code height} will be reduced
-	 * to compensate. In this case, the full {@code xChange} and {@code yChange}
-	 * will not be applied to this's {@code x} and {@code y}.
 	 */
 	public void moveCollision(int xChange, int yChange) {
 
