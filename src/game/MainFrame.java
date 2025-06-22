@@ -36,6 +36,8 @@ public class MainFrame extends JFrame {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";
 
+	private static final String WINDOW_TITLE = "Block Game";
+
 	private static final int WIDTH_MINIMUM = 150;
 	private static final int HEIGHT_MINIMUM = 150;
 	// TODO Figure out how to work around maximum window size
@@ -52,7 +54,7 @@ public class MainFrame extends JFrame {
 	}
 
 	public MainFrame(InputHandler inputHandler) {
-		super("Block Game");
+		super(WINDOW_TITLE);
 
 		// x, y, width, and height are instantiated in createAndShowWindow()
 		xChange = 0;
@@ -104,7 +106,7 @@ public class MainFrame extends JFrame {
 		width = level.getWidth() + getInsets().left + getInsets().right;
 		height = level.getHeight() + getInsets().top + getInsets().bottom
 				+ TitleBar.HEIGHT;
-		titleBar.setTitle("Block Game - " + level.getName());
+		titleBar.setTitle(WINDOW_TITLE + " - " + level.getName());
 	}
 
 	/**
