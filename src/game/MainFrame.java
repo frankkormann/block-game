@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
  * immediately (at the next frame), leading to stuttering.
  * <p>
  * Moving this around the screen without resizing it is not buffered. This has
- * no effect on game physics and could not cause visual issues.
+ * no effect on game physics and should not cause visual issues.
  * <p>
  * Whenever a level needs to be loaded, use {@code setUpLevel} to load the
  * width/height and title. Then add each {@code Rectangle} with {@code add}.
