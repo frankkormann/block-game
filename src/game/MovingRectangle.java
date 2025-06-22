@@ -119,23 +119,22 @@ public class MovingRectangle extends Rectangle {
 			}
 		}
 
-		if (xChange > 0) {
+		if (xChange > 0 && getLeftWidthChange() > 0) {
 			xChange -= getLeftWidthChange();
 			changeWidth(-getLeftWidthChange(), true);
 		}
-		if (xChange < 0) {
-			int rightWidthChange = getWidth() - getLastWidth() - getLeftWidthChange();
+		int rightWidthChange = getWidth() - getLastWidth() - getLeftWidthChange();
+		if (xChange < 0 && rightWidthChange > 0) {
 			xChange += rightWidthChange;
 			changeWidth(-rightWidthChange, false);
 		}
 
-		if (yChange > 0) {
+		if (yChange > 0 && getTopHeightChange() > 0) {
 			yChange -= getTopHeightChange();
 			changeHeight(-getTopHeightChange(), true);
 		}
-		if (yChange < 0) {
-			int bottomHeightChange = getHeight() - getLastHeight()
-					- getTopHeightChange();
+		int bottomHeightChange = getHeight() - getLastHeight() - getTopHeightChange();
+		if (yChange < 0 && bottomHeightChange > 0) {
 			yChange += bottomHeightChange;
 			changeHeight(-bottomHeightChange, false);
 		}
