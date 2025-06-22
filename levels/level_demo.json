@@ -148,19 +148,19 @@
 		},
 		{
 			"type": ".GrowArea",
-			"x": 550,
+			"x": 680,
 			"y": 450,
 			"width": 80,
-			"height": 50,
+			"height": 25,
 			"xGrowth": 1,
 			"yGrowth": 0
 		},
 		{
 			"type": ".ShrinkArea",
 			"x": 680,
-			"y": 450,
-			"width": 40,
-			"height": 50,
+			"y": 475,
+			"width": 80,
+			"height": 25,
 			"xShrink": 1,
 			"yShrink": 0
 		}
