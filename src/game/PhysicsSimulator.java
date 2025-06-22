@@ -337,12 +337,19 @@ public class PhysicsSimulator {
 				continue;
 			}
 
+			collisionData[0] = -correctGrowthForCollision(rect, -collisionData[0],
+					true);
+			collisionData[1] = -correctGrowthForCollision(rect, -collisionData[1],
+					false);
+
 			other.moveCollision(collisionData[0], collisionData[1]);
 			collisionMap.put(other, new RectangleMapObject(rect, collisionData));
 			numberCollided++;
 			// Now compute collision from other moving
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
+
 			rect.moveCollision(pushback[0], pushback[1]);
+
 			pushedAmount[0] += pushback[0];
 			pushedAmount[1] += pushback[1];
 		}
@@ -374,6 +381,8 @@ public class PhysicsSimulator {
 				sideRectangles.stream().filter(s -> s.isActingLikeWall()))
 				.map(w -> calculateCollision(w, rect))
 				.filter(c -> c != new int[] { 0, 0 })
+				.map(c -> new int[] { correctGrowthForCollision(rect, c[0], true),
+						correctGrowthForCollision(rect, c[1], false) })
 				.forEach(c -> rect.moveCollision(c[0], c[1]));
 
 		return new int[] { rect.getX() - startingX, rect.getY() - startingY };
@@ -438,6 +447,46 @@ public class PhysicsSimulator {
 
 		}
 		return new int[] { xChange, yChange };
+	}
+
+	// TODO Write comment
+	public int correctGrowthForCollision(MovingRectangle rect, int change,
+			boolean isX) {
+
+		int lowerSideChange, upperSideChange;
+
+		if (isX) {
+			lowerSideChange = rect.getLeftWidthChange();
+			upperSideChange = rect.getWidth() - rect.getLastWidth()
+					- rect.getLeftWidthChange();
+		}
+		else {
+			lowerSideChange = rect.getTopHeightChange();
+			upperSideChange = rect.getHeight() - rect.getLastHeight()
+					- rect.getTopHeightChange();
+		}
+
+		if (change > 0 && lowerSideChange > 0) {
+			change -= lowerSideChange;
+			if (isX) {
+				rect.changeWidth(-lowerSideChange, true);
+			}
+			else {
+				rect.changeHeight(-lowerSideChange, true);
+			}
+		}
+
+		if (change < 0 && upperSideChange > 0) {
+			change += upperSideChange;
+			if (isX) {
+				rect.changeWidth(-upperSideChange, false);
+			}
+			else {
+				rect.changeHeight(-upperSideChange, false);
+			}
+		}
+
+		return change;
 	}
 
 	/**
