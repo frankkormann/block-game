@@ -154,6 +154,8 @@ public class PhysicsSimulator {
 	private void moveAllMovingRectangles(int[] playerVelocityChanges) {
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
+		movingRectangles.forEach(r -> applyAreasToMovingRectangle(r));
+
 		for (MovingRectangle rect : movingRectangles) {
 			if (rect.isControlledByPlayer()) {
 				rect.setXVelocity(rect.getXVelocity() + playerVelocityChanges[0]);
@@ -162,7 +164,6 @@ public class PhysicsSimulator {
 				}
 			}
 
-			applyAreasToMovingRectangle(rect);
 			applyNaturalForcesToMovingRectangle(rect);
 			rect.setState(MovingRectangle.State.IN_AIR);
 
