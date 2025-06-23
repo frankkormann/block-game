@@ -1,0 +1,178 @@
+{
+	"name": "Smooth Over",
+	"width": 800,
+	"height": 400,
+	"rectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 100,
+			"y": 290,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": "true"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 70,
+			"y": 290,
+			"width": 10,
+			"height": 20,
+			"color": "BLUE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 320,
+			"y": 270,
+			"width": 40,
+			"height": 120,
+			"color": "GREEN"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 360,
+			"y": 330,
+			"width": 40,
+			"height": 60,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 400,
+			"y": 310,
+			"width": 40,
+			"height": 80,
+			"color": "BLUE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 440,
+			"y": 290,
+			"width": 40,
+			"height": 100,
+			"color": "ORANGE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 500,
+			"y": 0,
+			"width": 80,
+			"height": 140,
+			"color": "RED"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 0,
+			"width": 500,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 580,
+			"y": 0,
+			"width": 220,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 10,
+			"width": 10,
+			"height": 300,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 500,
+			"y": 140,
+			"width": 70,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 580,
+			"y": 140,
+			"width": 210,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 790,
+			"y": 10,
+			"width": 10,
+			"height": 300,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 310,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 300,
+			"y": 310,
+			"width": 20,
+			"height": 90,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 320,
+			"y": 390,
+			"width": 160,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 480,
+			"y": 310,
+			"width": 20,
+			"height": 90,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 500,
+			"y": 310,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".GrowArea",
+			"x": 230,
+			"y": 230,
+			"width": 30,
+			"height": 80,
+			"xGrowth": 0,
+			"yGrowth": 1
+		},
+		{
+			"type": ".ShrinkArea",
+			"x": 260,
+			"y": 230,
+			"width": 30,
+			"height": 80,
+			"xShrink": 0,
+			"yShrink": 1
+		},
+		{
+			"type": ".GoalArea",
+			"x": 655,
+			"y": 90,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1.json"
+		}
+	]
+}
