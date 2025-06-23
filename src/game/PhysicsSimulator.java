@@ -450,7 +450,7 @@ public class PhysicsSimulator {
 	}
 
 	// TODO Write comment
-	public int correctGrowthForCollision(MovingRectangle rect, int change,
+	private int correctGrowthForCollision(MovingRectangle rect, int change,
 			boolean isX) {
 
 		int lowerSideChange, upperSideChange;
