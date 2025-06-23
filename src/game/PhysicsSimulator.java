@@ -154,6 +154,10 @@ public class PhysicsSimulator {
 	private void moveAllMovingRectangles(int[] playerVelocityChanges) {
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
+		// sort by distance from bottom of screen for consistency
+		movingRectangles.sort(
+				(r1, r2) -> r2.getY() + r2.getHeight() - r1.getY() - r1.getHeight());
+
 		for (MovingRectangle rect : movingRectangles) {
 			if (rect.isControlledByPlayer()) {
 				rect.setXVelocity(rect.getXVelocity() + playerVelocityChanges[0]);
