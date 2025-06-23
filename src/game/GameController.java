@@ -33,6 +33,8 @@ public class GameController implements KeyListener, WindowListener {
 	public static final String FIRST_LEVEL = "/level_1.json";
 	public static final String RECORDING = "/test.rec";
 
+	public static final int MILLISECONDS_BETWEEN_FRAMES = 20;
+
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
 	private InputHandler inputHandler;
@@ -70,7 +72,7 @@ public class GameController implements KeyListener, WindowListener {
 					advanceFrame();
 				}
 			}
-		}, 0, 20);
+		}, 0, MILLISECONDS_BETWEEN_FRAMES);
 	}
 
 	private void loadLevel(URL url) {
