@@ -1,178 +1,122 @@
 {
-	"name": "Smooth Over",
-	"width": 800,
-	"height": 400,
+	"name": "Thick and Thin",
+	"width": 600,
+	"height": 500,
 	"rectangles": [
 		{
 			"type": ".MovingRectangle",
-			"x": 100,
+			"controlledByPlayer": "true",
+			"x": 350,
 			"y": 290,
 			"width": 20,
 			"height": 20,
-			"color": "PLAYER",
-			"controlledByPlayer": "true"
+			"color": "PLAYER"
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 70,
-			"y": 290,
-			"width": 10,
-			"height": 20,
+			"x": 280,
+			"y": 260,
+			"width": 180,
+			"height": 30,
 			"color": "BLUE"
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 320,
-			"y": 270,
-			"width": 40,
-			"height": 120,
+			"x": 80,
+			"y": 330,
+			"width": 50,
+			"height": 10,
 			"color": "GREEN"
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 360,
-			"y": 330,
-			"width": 40,
-			"height": 60,
+			"x": 80,
+			"y": 280,
+			"width": 100,
+			"height": 50,
 			"color": "RED"
 		},
 		{
-			"type": ".MovingRectangle",
-			"x": 400,
-			"y": 310,
-			"width": 40,
-			"height": 80,
-			"color": "BLUE"
+			"type": ".WallRectangle",
+			"x": 260,
+			"y": 140,
+			"width": 200,
+			"height": 20,
+			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".MovingRectangle",
-			"x": 440,
-			"y": 290,
-			"width": 40,
+			"type": ".WallRectangle",
+			"x": 260,
+			"y": 160,
+			"width": 20,
 			"height": 100,
-			"color": "ORANGE"
-		},
-		{
-			"type": ".MovingRectangle",
-			"x": 500,
-			"y": 0,
-			"width": 80,
-			"height": 140,
-			"color": "RED"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 0,
-			"y": 0,
-			"width": 500,
-			"height": 10,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 580,
-			"y": 0,
-			"width": 220,
-			"height": 10,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 0,
-			"y": 10,
-			"width": 10,
-			"height": 300,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 500,
-			"y": 140,
-			"width": 70,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 580,
-			"y": 140,
-			"width": 210,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 790,
-			"y": 10,
-			"width": 10,
-			"height": 300,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 0,
-			"y": 310,
-			"width": 300,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 300,
-			"y": 310,
+			"x": 260,
+			"y": 280,
 			"width": 20,
-			"height": 90,
+			"height": 30,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 320,
-			"y": 390,
-			"width": 160,
+			"x": 440,
+			"y": 160,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 440,
+			"y": 300,
+			"width": 20,
 			"height": 10,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 480,
+			"x": 260,
 			"y": 310,
-			"width": 20,
-			"height": 90,
+			"width": 200,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 500,
-			"y": 310,
-			"width": 300,
+			"x": 80,
+			"y": 340,
+			"width": 180,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": ".GrowArea",
-			"x": 230,
-			"y": 230,
+			"x": 200,
+			"y": 280,
 			"width": 30,
-			"height": 80,
+			"height": 60,
 			"xGrowth": 0,
 			"yGrowth": 1
 		},
 		{
 			"type": ".ShrinkArea",
-			"x": 260,
-			"y": 230,
+			"x": 230,
+			"y": 280,
 			"width": 30,
-			"height": 80,
+			"height": 60,
 			"xShrink": 0,
 			"yShrink": 1
 		},
 		{
 			"type": ".GoalArea",
-			"x": 655,
-			"y": 90,
+			"x": 335,
+			"y": 210,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_1.json"
+			"nextLevel": "/level_14.json"
 		}
 	]
 }
