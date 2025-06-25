@@ -125,6 +125,15 @@ public class InputHandler extends KeyAdapter {
 		}
 	}
 
+	public void flushWriter() {
+		try {
+			writer.flush();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Stops writing and closes the file. If this is not writing, this method has no
 	 * effect.
