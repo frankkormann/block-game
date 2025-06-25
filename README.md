@@ -57,6 +57,23 @@ Download the latest `jar` file from the releases tab and run it.
 	</tr>
 </table>
 
+**Replays**
+
+<table>
+	<tr>
+		<td>Save current level<t/d>
+		<td>Control + shift + S</td>
+	</tr>
+	<tr>
+		<td>Playback</td>
+		<td>Control + shift + P</td>
+	</tr>
+	<tr>
+		<td>Stop playback</td>
+		<td>E</td>
+	</tr>
+</table>
+
 ### Reporting a bug
 
 If you encounter a bug, press `Control + Shift + S` to save a recording of the
