@@ -1,6 +1,6 @@
 # Block Game
 
-This is a puzzle game about moving blocks around. It includes nine levels so far
+This is a puzzle game about moving blocks around. It includes 15 levels so far
 with plans for many more.
 
 ## Playing the game
@@ -28,7 +28,7 @@ with plans for many more.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>2.91 MB</td>
+		<td>2.92 MB</td>
 	</tr>
 </table>
 
