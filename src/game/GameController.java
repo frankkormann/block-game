@@ -127,6 +127,9 @@ public class GameController implements KeyListener, WindowListener {
 		mainFrame.incorporateChanges();
 	}
 
+	/**
+	 * Begins writing input to a new temp file.
+	 */
 	private void beginTempRecording() {
 		inputHandler.endWriting();
 		try {
@@ -139,12 +142,16 @@ public class GameController implements KeyListener, WindowListener {
 		}
 	}
 
+	/**
+	 * Opens a file chooser dialogue prompt to save a recording of the current
+	 * level.
+	 */
 	private void saveRecording() {
-		JFileChooser saveDialog = new JFileChooser();
-		saveDialog.showSaveDialog(mainFrame);
-		File saveFile = saveDialog.getSelectedFile();
+		JFileChooser saveDialogue = new JFileChooser();
+		saveDialogue.showSaveDialog(mainFrame);
+		File saveFile = saveDialogue.getSelectedFile();
 
-		if (saveFile != null) {
+		if (saveFile != null && recording != null) {
 			try {
 				inputHandler.flushWriter();
 				Files.copy(recording.toPath(), saveFile.toPath(),
@@ -156,10 +163,13 @@ public class GameController implements KeyListener, WindowListener {
 		}
 	}
 
+	/**
+	 * Opens a file chooser dialogue prompt to start playback of a recording.
+	 */
 	private void startPlayback() {
-		JFileChooser openDialog = new JFileChooser();
-		openDialog.showOpenDialog(mainFrame);
-		File openFile = openDialog.getSelectedFile();
+		JFileChooser openDialogue = new JFileChooser();
+		openDialogue.showOpenDialog(mainFrame);
+		File openFile = openDialogue.getSelectedFile();
 
 		if (openFile != null) {
 			try {
