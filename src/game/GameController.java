@@ -15,7 +15,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -68,6 +70,8 @@ public class GameController implements KeyListener, WindowListener {
 		fileChooser = new JFileChooser();  // global file chooser so it remembers which
 											  // directory the user was in if they open
 											  // it multiple times
+		fileChooser.setFileFilter(
+				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 
 		running = true;
 	}
@@ -153,11 +157,29 @@ public class GameController implements KeyListener, WindowListener {
 	 * level.
 	 */
 	private void saveRecording() {
-		int result = fileChooser.showSaveDialog(mainFrame);
-		File saveFile = fileChooser.getSelectedFile();
 
-		if (result == JFileChooser.APPROVE_OPTION && saveFile != null
+		int fileChooserResult;
+		File saveFile;
+
+		boolean canSave;
+		do {
+			canSave = true;
+
+			fileChooserResult = fileChooser.showSaveDialog(mainFrame);
+			saveFile = fileChooser.getSelectedFile();
+
+			if (fileChooserResult == JFileChooser.APPROVE_OPTION && saveFile.exists()) {
+				String message = saveFile.getName()
+						+ " already exists.\nDo you want to replace it?";
+				canSave = JOptionPane.showConfirmDialog(fileChooser, message,
+						"Confirm save",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION;
+			}
+		} while (!canSave);
+
+		if (fileChooserResult == JFileChooser.APPROVE_OPTION && saveFile != null
 				&& recording != null) {
+
 			try {
 				inputHandler.flushWriter();
 				Files.copy(recording.toPath(), saveFile.toPath(),
@@ -167,6 +189,7 @@ public class GameController implements KeyListener, WindowListener {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	/**
