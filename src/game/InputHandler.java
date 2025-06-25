@@ -108,6 +108,8 @@ public class InputHandler extends KeyAdapter {
 	 * Starts writing input to the file at {@code URL}. The file must exist; it is
 	 * not created if it does not exist. If this is already writing to a file, this
 	 * method has no effect.
+	 * <p>
+	 * Any data previously in the file is overwritten.
 	 * 
 	 * @param location {@code URL} of file to write to
 	 */
