@@ -149,6 +149,14 @@
 			"resizeBehavior": "STAY"
 		},
 		{
+			"type": ".WallRectangle",
+			"x": 580,
+			"y": 300,
+			"width": 10,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
 			"type": ".GrowArea",
 			"x": 230,
 			"y": 230,
