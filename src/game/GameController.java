@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -63,17 +64,6 @@ public class GameController implements KeyListener, WindowListener {
 		mainFrame.addWindowListener(this);
 
 		running = true;
-
-//		try {
-//			inputHandler.beginReading(
-//					new File("C:\\Users\\frank.COMPUTER\\Desktop\\level_1.rec")
-//							.toURL());
-//		}
-//		catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		inputHandler.beginWriting(getClass().getResource(RECORDING));
 	}
 
 	public void startGame() {
@@ -138,6 +128,7 @@ public class GameController implements KeyListener, WindowListener {
 	}
 
 	private void beginTempRecording() {
+		inputHandler.endWriting();
 		try {
 			recording = File.createTempFile("blockgame", null);
 			inputHandler.beginWriting(recording.toURL());
@@ -165,8 +156,26 @@ public class GameController implements KeyListener, WindowListener {
 		}
 	}
 
+	private void startPlayback() {
+		JFileChooser openDialog = new JFileChooser();
+		openDialog.showOpenDialog(mainFrame);
+		File openFile = openDialog.getSelectedFile();
+
+		if (openFile != null) {
+			try {
+				inputHandler.beginReading(openFile.toURI().toURL());
+			}
+			catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
+
+		int shiftCtrlMask = KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK;
+
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_E:
 				inputHandler.endReading();
@@ -183,10 +192,16 @@ public class GameController implements KeyListener, WindowListener {
 				loadLevel(currentLevel);
 				break;
 			case KeyEvent.VK_S:
-				int mask = KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK;
-				if ((e.getModifiersEx() & mask) == mask) {
+				if ((e.getModifiersEx() & shiftCtrlMask) == shiftCtrlMask) {
 					running = false;
 					saveRecording();
+					running = true;
+				}
+				break;
+			case KeyEvent.VK_P:
+				if ((e.getModifiersEx() & shiftCtrlMask) == shiftCtrlMask) {
+					running = false;
+					startPlayback();
 					running = true;
 				}
 				break;
