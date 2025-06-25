@@ -45,7 +45,9 @@ public class GameController implements KeyListener, WindowListener {
 	private InputHandler inputHandler;
 
 	private URL currentLevel;
+
 	private File recording;
+	private JFileChooser fileChooser;
 
 	private boolean running;
 
@@ -62,6 +64,10 @@ public class GameController implements KeyListener, WindowListener {
 		mainFrame.addKeyListener(this);
 
 		mainFrame.addWindowListener(this);
+
+		fileChooser = new JFileChooser();  // global file chooser so it remembers which
+											  // directory the user was in if they open
+											  // it multiple times
 
 		running = true;
 	}
@@ -147,11 +153,11 @@ public class GameController implements KeyListener, WindowListener {
 	 * level.
 	 */
 	private void saveRecording() {
-		JFileChooser saveDialogue = new JFileChooser();
-		saveDialogue.showSaveDialog(mainFrame);
-		File saveFile = saveDialogue.getSelectedFile();
+		int result = fileChooser.showSaveDialog(mainFrame);
+		File saveFile = fileChooser.getSelectedFile();
 
-		if (saveFile != null && recording != null) {
+		if (result == JFileChooser.APPROVE_OPTION && saveFile != null
+				&& recording != null) {
 			try {
 				inputHandler.flushWriter();
 				Files.copy(recording.toPath(), saveFile.toPath(),
@@ -167,11 +173,10 @@ public class GameController implements KeyListener, WindowListener {
 	 * Opens a file chooser dialogue prompt to start playback of a recording.
 	 */
 	private void startPlayback() {
-		JFileChooser openDialogue = new JFileChooser();
-		openDialogue.showOpenDialog(mainFrame);
-		File openFile = openDialogue.getSelectedFile();
+		int result = fileChooser.showOpenDialog(mainFrame);
+		File openFile = fileChooser.getSelectedFile();
 
-		if (openFile != null) {
+		if (result == JFileChooser.APPROVE_OPTION && openFile != null) {
 			try {
 				inputHandler.beginReading(openFile.toURI().toURL());
 			}
