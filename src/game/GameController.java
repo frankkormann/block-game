@@ -165,6 +165,7 @@ public class GameController implements KeyListener, WindowListener {
 		do {
 			canSave = true;
 
+			fileChooser.setSelectedFile(new File("Untitled.rec"));
 			fileChooserResult = fileChooser.showSaveDialog(mainFrame);
 			saveFile = fileChooser.getSelectedFile();
 
