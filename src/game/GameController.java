@@ -5,11 +5,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +44,7 @@ public class GameController implements KeyListener, WindowListener {
 	private InputHandler inputHandler;
 
 	private URL currentLevel;
+	private File recording;
 
 	private boolean running;
 
@@ -59,7 +64,15 @@ public class GameController implements KeyListener, WindowListener {
 
 		running = true;
 
-//		inputHandler.beginReading(getClass().getResource(RECORDING));
+//		try {
+//			inputHandler.beginReading(
+//					new File("C:\\Users\\frank.COMPUTER\\Desktop\\level_1.rec")
+//							.toURL());
+//		}
+//		catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //		inputHandler.beginWriting(getClass().getResource(RECORDING));
 	}
 
@@ -100,6 +113,8 @@ public class GameController implements KeyListener, WindowListener {
 				mainFrame.getNextYOffset());
 
 		mainFrame.moveToMiddleOfScreen();
+
+		beginTempRecording();
 	}
 
 	private void addRectangleToGame(Rectangle rectangle) {
@@ -122,10 +137,38 @@ public class GameController implements KeyListener, WindowListener {
 		mainFrame.incorporateChanges();
 	}
 
+	private void beginTempRecording() {
+		try {
+			recording = File.createTempFile("blockgame", null);
+			inputHandler.beginWriting(recording.toURL());
+			recording.deleteOnExit();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void saveRecording() {
+		JFileChooser saveDialog = new JFileChooser();
+		saveDialog.showSaveDialog(mainFrame);
+		File saveFile = saveDialog.getSelectedFile();
+
+		if (saveFile != null) {
+			try {
+				inputHandler.flushWriter();
+				Files.copy(recording.toPath(), saveFile.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-			case KeyEvent.VK_S:
+			case KeyEvent.VK_E:
 				inputHandler.endReading();
 				break;
 			case KeyEvent.VK_K:
@@ -138,6 +181,14 @@ public class GameController implements KeyListener, WindowListener {
 				break;
 			case KeyEvent.VK_R:
 				loadLevel(currentLevel);
+				break;
+			case KeyEvent.VK_S:
+				int mask = KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK;
+				if ((e.getModifiersEx() & mask) == mask) {
+					running = false;
+					saveRecording();
+					running = true;
+				}
 				break;
 		}
 	}
