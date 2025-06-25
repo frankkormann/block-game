@@ -118,10 +118,7 @@ public class InputHandler extends KeyAdapter {
 			return;
 		}
 		try {
-			File file = new File(location.getFile());
-			file.delete();
-			file.createNewFile();
-			writer = Files.newBufferedWriter(file.toPath());
+			writer = Files.newBufferedWriter(new File(location.getFile()).toPath());
 		}
 		catch (IOException e) {
 			e.printStackTrace();
