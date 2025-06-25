@@ -57,20 +57,24 @@ Download the latest `jar` file from the releases tab and run it.
 	</tr>
 </table>
 
-**Replays**
+**Advanced**
 
 <table>
 	<tr>
-		<td>Save current level<t/d>
+		<td>Save replay of current level<t/d>
 		<td>Control + shift + S</td>
 	</tr>
 	<tr>
-		<td>Playback</td>
+		<td>Playback replay</td>
 		<td>Control + shift + P</td>
 	</tr>
 	<tr>
 		<td>Stop playback</td>
 		<td>E</td>
+	</tr>
+	<tr>
+		<td>Advance frame while paused</td>
+		<td>L</td>
 	</tr>
 </table>
 
