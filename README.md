@@ -57,6 +57,16 @@ Download the latest `jar` file from the releases tab and run it.
 	</tr>
 </table>
 
+### Reporting a bug
+
+If you encounter a bug, press `Control + Shift + S` to save a recording of the
+current level. Then open an issue on this GitHub page and include:
+
+- The level you encountered the bug
+- The recording file
+- A description of the bug
+- Any other information you think is relevant
+
 ## Technical details
 
 ### Version information
