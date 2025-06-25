@@ -165,8 +165,8 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * Incorporates all pending changes to x, y, width, and height, then packs this
-	 * and repaints it.
+	 * Incorporates all pending changes to x, y, width, and height, then lays out
+	 * components and repaints this.
 	 * <p>
 	 * If this is called from anywhere other than the AWT event dispatching thread,
 	 * it will call itself from the AWT event dispatching thread.
