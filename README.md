@@ -1,7 +1,7 @@
 # Block Game
 
-This is a puzzle game about moving blocks around. It includes 15 levels so far
-with plans for many more.
+This is a puzzle game about moving blocks around. Solve 15 hand-crafted levels
+by interacting with the environment in varied, creative ways.
 
 ## Playing the game
 
