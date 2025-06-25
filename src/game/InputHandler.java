@@ -69,6 +69,12 @@ public class InputHandler extends KeyAdapter {
 		}
 	}
 
+	/**
+	 * Takes input from the file at {@code URL}. If this is already reading from a
+	 * file, this method has no effect.
+	 * 
+	 * @param location {@code URL} of file to read from
+	 */
 	public void beginReading(URL location) {
 		if (reader != null) {
 			return;
@@ -81,6 +87,10 @@ public class InputHandler extends KeyAdapter {
 		}
 	}
 
+	/**
+	 * Stops reading and closes the file. If this is not reading, this method has no
+	 * effect.
+	 */
 	public void endReading() {
 		if (reader == null) {
 			return;
@@ -94,6 +104,13 @@ public class InputHandler extends KeyAdapter {
 		}
 	}
 
+	/**
+	 * Starts writing input to the file at {@code URL}. The file must exist; it is
+	 * not created if it does not exist. If this is already writing to a file, this
+	 * method has no effect.
+	 * 
+	 * @param location {@code URL} of file to write to
+	 */
 	public void beginWriting(URL location) {
 		if (writer != null) {
 			return;
@@ -109,6 +126,10 @@ public class InputHandler extends KeyAdapter {
 		}
 	}
 
+	/**
+	 * Stops writing and closes the file. If this is not writing, this method has no
+	 * effect.
+	 */
 	public void endWriting() {
 		if (writer == null) {
 			return;
