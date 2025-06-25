@@ -166,8 +166,13 @@ public class GameController implements KeyListener, WindowListener {
 			canSave = true;
 
 			fileChooser.setSelectedFile(new File("Untitled.rec"));
+
 			fileChooserResult = fileChooser.showSaveDialog(mainFrame);
 			saveFile = fileChooser.getSelectedFile();
+
+			if (!saveFile.getName().matches("^.*\\..*$")) {
+				saveFile = new File(saveFile.getPath() + ".rec");
+			}
 
 			if (fileChooserResult == JFileChooser.APPROVE_OPTION && saveFile.exists()) {
 				String message = saveFile.getName()
