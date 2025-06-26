@@ -2,7 +2,7 @@
 	"name": "Skewer Mover",
 	"width": 500,
 	"height": 500,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
@@ -27,7 +27,9 @@
 			"width": 180,
 			"height": 10,
 			"color": "RED"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 150,
@@ -83,7 +85,9 @@
 			"width": 240,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 225,

@@ -2,7 +2,7 @@
 	"name": "The Beanstalk",
 	"width": 500,
 	"height": 700,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
@@ -19,7 +19,9 @@
 			"width": 10,
 			"height": 20,
 			"color": "GREEN"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": -20,
@@ -51,7 +53,9 @@
 			"width": 20,
 			"height": 160,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".GrowArea",
 			"x": 120,
@@ -60,7 +64,9 @@
 			"height": 60,
 			"xGrowth": 0,
 			"yGrowth": 1
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 380,

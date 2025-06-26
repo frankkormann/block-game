@@ -2,7 +2,7 @@
 	"name": "Don't Trap Yourself",
 	"width": 900,
 	"height": 370,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"x": 830,
@@ -35,7 +35,9 @@
 			"width": 200,
 			"height": 30,
 			"color": "ORANGE"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 30,
@@ -91,7 +93,9 @@
 			"width": 240,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".ShrinkArea",
 			"x": 650,
@@ -100,7 +104,9 @@
 			"height": 100,
 			"xShrink": 1,
 			"yShrink": 0
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 550,

@@ -2,7 +2,7 @@
 	"name": "Thick and Thin",
 	"width": 600,
 	"height": 500,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
@@ -35,7 +35,9 @@
 			"width": 100,
 			"height": 50,
 			"color": "RED"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 260,
@@ -91,7 +93,9 @@
 			"width": 180,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".GrowArea",
 			"x": 200,
@@ -109,7 +113,9 @@
 			"height": 60,
 			"xShrink": 0,
 			"yShrink": 1
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 335,

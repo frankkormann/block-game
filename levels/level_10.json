@@ -2,7 +2,7 @@
 	"name": "Too Big",
 	"width": 300,
 	"height": 400,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"x": 230,
@@ -27,7 +27,9 @@
 			"width": 80,
 			"height": 40,
 			"color": "BLUE"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 60,
@@ -67,7 +69,9 @@
 			"width": 80,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".ShrinkArea",
 			"x": 10,
@@ -76,7 +80,9 @@
 			"height": 60,
 			"xShrink": 1,
 			"yShrink": 0
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 95,

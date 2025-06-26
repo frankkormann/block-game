@@ -2,7 +2,7 @@
 	"name": "Stacking",
 	"width": 500,
 	"height": 800,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
@@ -27,7 +27,9 @@
 			"width": 10,
 			"height": 60,
 			"color": "BLUE"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": -20,
@@ -67,7 +69,9 @@
 			"width": 150,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 390,

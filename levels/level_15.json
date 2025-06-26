@@ -2,7 +2,7 @@
 	"name": "Pull Into Form",
 	"width": 600,
 	"height": 600,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"x": 150,
@@ -27,7 +27,9 @@
 			"width": 30,
 			"height": 50,
 			"color": "RED"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 370,
@@ -91,7 +93,9 @@
 			"width": 140,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".GrowArea",
 			"x": 250,
@@ -109,7 +113,9 @@
 			"height": 40,
 			"xShrink": 1,
 			"yShrink": 0
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 405,

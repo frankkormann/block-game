@@ -2,7 +2,7 @@
 	"name": "Smooth Over",
 	"width": 800,
 	"height": 400,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"x": 100,
@@ -59,7 +59,9 @@
 			"width": 80,
 			"height": 140,
 			"color": "RED"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 0,
@@ -155,7 +157,9 @@
 			"width": 10,
 			"height": 10,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".GrowArea",
 			"x": 230,
@@ -173,7 +177,9 @@
 			"height": 80,
 			"xShrink": 0,
 			"yShrink": 1
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 655,

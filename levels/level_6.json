@@ -2,7 +2,7 @@
 	"name": "The Embiggening",
 	"width": 1100,
 	"height": 400,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
@@ -27,7 +27,9 @@
 			"width": 20,
 			"height": 120,
 			"color": "RED"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 475,
@@ -59,7 +61,9 @@
 			"width": 190,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".GrowArea",
 			"x": 0,
@@ -77,7 +81,9 @@
 			"height": 30,
 			"xGrowth": 1,
 			"yGrowth": 0
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 525,

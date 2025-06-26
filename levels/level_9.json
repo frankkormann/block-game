@@ -2,7 +2,7 @@
 	"name": "Blocked Off",
 	"width": 500,
 	"height": 600,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"x": 140,
@@ -43,7 +43,9 @@
 			"width": 10,
 			"height": 20,
 			"color": "BLUE"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 120,
@@ -163,7 +165,9 @@
 			"width": 120,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".GrowArea",
 			"x": 350,
@@ -172,7 +176,9 @@
 			"height": 100,
 			"xGrowth": 0,
 			"yGrowth": 1
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 295,

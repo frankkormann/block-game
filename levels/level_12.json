@@ -2,7 +2,7 @@
 	"name": "Cave In",
 	"width": 700,
 	"height": 450,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"x": 210,
@@ -43,7 +43,9 @@
 			"width": 80,
 			"height": 40,
 			"color": "BLUE"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 250,
@@ -91,7 +93,9 @@
 			"width": 500,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".ShrinkArea",
 			"x": 100,
@@ -109,7 +113,9 @@
 			"height": 40,
 			"xGrowth": 1,
 			"yGrowth": 0
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 480,

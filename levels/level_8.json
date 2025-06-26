@@ -2,7 +2,7 @@
 	"name": "Small, Medium, Large",
 	"width": 560,
 	"height": 500,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"x": 430,
@@ -35,7 +35,9 @@
 			"width": 10,
 			"height": 40,
 			"color": "BLUE"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 120,
@@ -179,7 +181,9 @@
 			"width": 220,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".GrowArea",
 			"x": 60,
@@ -188,7 +192,9 @@
 			"height": 30,
 			"xGrowth": 1,
 			"yGrowth": 0
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 135,
