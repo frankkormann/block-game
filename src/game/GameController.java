@@ -23,11 +23,6 @@ import com.formdev.flatlaf.FlatLightLaf;
  * {@code InputHandler}.
  * <p>
  * Level data is read from JSON files. See the README for more details.
- * <p>
- * While all in-game controls are handled by {@code InputHandler}, this handles
- * meta-controls. Specifically, this listens to keyboard input to pause the
- * game, advance one frame while paused, restart the current level, and stop
- * reading from an input recording file.
  * 
  * @author Frank Kormann
  */
