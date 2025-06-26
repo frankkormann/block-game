@@ -2,6 +2,7 @@
 	"name": "Smooth Over",
 	"width": 800,
 	"height": 400,
+	"solution": "/level_14.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

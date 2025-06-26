@@ -2,6 +2,7 @@
 	"name": "The Embiggening",
 	"width": 1100,
 	"height": 400,
+	"solution": "/level_6.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

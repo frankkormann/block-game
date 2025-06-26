@@ -2,6 +2,7 @@
 	"name": "Too Big",
 	"width": 300,
 	"height": 400,
+	"solution": "/level_10.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

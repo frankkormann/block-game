@@ -2,6 +2,7 @@
 	"name": "Stacking",
 	"width": 500,
 	"height": 800,
+	"solution": "/level_3.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

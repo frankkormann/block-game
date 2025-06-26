@@ -2,6 +2,7 @@
 	"name": "Cave In",
 	"width": 700,
 	"height": 450,
+	"solution": "/level_12.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

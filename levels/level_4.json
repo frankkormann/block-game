@@ -2,6 +2,7 @@
 	"name": "Reverse Order",
 	"width": 800,
 	"height": 500,
+	"solution": "/level_4.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

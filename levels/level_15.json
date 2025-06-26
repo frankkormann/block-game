@@ -2,6 +2,7 @@
 	"name": "Pull Into Form",
 	"width": 600,
 	"height": 600,
+	"solution": "/level_15.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

@@ -2,6 +2,7 @@
 	"name": "Small, Medium, Large",
 	"width": 560,
 	"height": 500,
+	"solution": "/level_8.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

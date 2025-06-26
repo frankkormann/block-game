@@ -2,6 +2,7 @@
 	"name": "The Beanstalk",
 	"width": 500,
 	"height": 700,
+	"solution": "/level_7.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",

@@ -2,6 +2,7 @@
 	"name": "Skewer Mover",
 	"width": 500,
 	"height": 500,
+	"solution": "/level_5.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
