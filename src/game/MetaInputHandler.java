@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * Handles inputs related to pausing, restarting the level, showing hints, etc.
+ * Handles inputs that are not directly related to playing the game.
  * 
  * @author Frank Kormann
  */
