@@ -15,8 +15,6 @@ import javax.swing.JPanel;
  * The x- and y-offsets need to be set properly with {@code setOffsets}. Because
  * the top-left corner will not always be at (0, 0), this keeps track of its
  * offset relative to (0, 0) to determine where to draw each {@code Rectangle}.
- * 
- * {@code Areas} are drawn underneath other {@code Rectangles}.
  *
  * @author Frank Kormann
  */
