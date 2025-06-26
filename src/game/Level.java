@@ -12,6 +12,7 @@ public class Level {
 
 	public String name;
 	public int width, height;
+	public String solution;
 
 	public List<MovingRectangle> movingRectangles;
 	public List<WallRectangle> walls;
@@ -22,6 +23,7 @@ public class Level {
 	public Level() {
 		name = "";
 		width = height = 0;
+		solution = "";
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
