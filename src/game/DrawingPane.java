@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class DrawingPane extends JPanel {
 
-	private TreeMap<Integer, ArrayList<Rectangle>> rectangleLists;
+	private TreeMap<Integer, List<Rectangle>> rectangleLists;
 
 	private int xOffset, yOffset;
 
@@ -53,8 +54,7 @@ public class DrawingPane extends JPanel {
 
 		g.translate(-xOffset, -yOffset);
 
-		for (Map.Entry<Integer, ArrayList<Rectangle>> entry : rectangleLists
-				.entrySet()) {
+		for (Map.Entry<Integer, List<Rectangle>> entry : rectangleLists.entrySet()) {
 			for (Rectangle rect : entry.getValue()) {
 				rect.draw(g);
 			}
