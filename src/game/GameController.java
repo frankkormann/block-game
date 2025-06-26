@@ -95,12 +95,14 @@ public class GameController implements KeyListener, WindowListener {
 			ObjectMapper mapper = new ObjectMapper();
 			Level level = mapper.readValue(url, Level.class);
 			mainFrame.setUpLevel(level);
-			for (Rectangle rect : level.getRectangles()) {
+
+			for (Rectangle rect : level.rectangles) {
 				addRectangleToGame(rect);
 				for (Area attached : rect.getAttachments()) {
 					addRectangleToGame(attached);
 				}
 			}
+
 			currentLevel = url;
 		}
 		catch (IOException e) {
