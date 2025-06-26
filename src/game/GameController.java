@@ -87,7 +87,7 @@ public class GameController implements KeyListener, WindowListener {
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				if (running) {
-					advanceFrame();
+					nextFrame();
 				}
 			}
 		}, 0, MILLISECONDS_BETWEEN_FRAMES);
@@ -142,7 +142,7 @@ public class GameController implements KeyListener, WindowListener {
 		beginTempRecording();
 	}
 
-	private void advanceFrame() {
+	private void nextFrame() {
 		mainFrame.resizeAll(gameInputHandler.getResizes());
 
 		physicsSimulator.updateAndMoveObjects(gameInputHandler.getInputs(),
@@ -250,7 +250,7 @@ public class GameController implements KeyListener, WindowListener {
 				break;
 			case KeyEvent.VK_L:
 				if (!running) {
-					advanceFrame();
+					nextFrame();
 				}
 				break;
 			case KeyEvent.VK_R:
