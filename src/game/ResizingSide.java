@@ -27,9 +27,9 @@ public class ResizingSide extends JPanel implements MouseListener, MouseMotionLi
 	private int mouseX, mouseY;
 
 	private MainFrame.Direction direction;
-	private InputHandler resizeListener;
+	private GameInputHandler resizeListener;
 
-	public ResizingSide(MainFrame.Direction direction, InputHandler resizeListener) {
+	public ResizingSide(MainFrame.Direction direction, GameInputHandler resizeListener) {
 		this.direction = direction;
 		this.resizeListener = resizeListener;
 

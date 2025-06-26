@@ -53,7 +53,7 @@ public class MainFrame extends JFrame {
 		NORTH, SOUTH, WEST, EAST;
 	}
 
-	public MainFrame(InputHandler inputHandler) {
+	public MainFrame(GameInputHandler gameInputHandler) {
 		super(WINDOW_TITLE);
 
 		// x, y, width, and height are instantiated in createAndShowWindow()
@@ -67,19 +67,19 @@ public class MainFrame extends JFrame {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				createAndShowWindow(inputHandler);
+				createAndShowWindow(gameInputHandler);
 			}
 		});
 	}
 
-	private void createAndShowWindow(InputHandler inputHandler) {
+	private void createAndShowWindow(GameInputHandler gameInputHandler) {
 		try {
 			setIconImage(ImageIO.read(getClass().getResource(TASKBAR_ICON)));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		addKeyListener(inputHandler);
+		addKeyListener(gameInputHandler);
 		setLayout(null);
 		setResizable(false);
 
@@ -87,7 +87,7 @@ public class MainFrame extends JFrame {
 		getLayeredPane().add(drawingPane);
 
 		for (Direction direction : Direction.values()) {
-			ResizingSide side = new ResizingSide(direction, inputHandler);
+			ResizingSide side = new ResizingSide(direction, gameInputHandler);
 			getLayeredPane().add(side, 0);
 		}
 	}

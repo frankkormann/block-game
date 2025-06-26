@@ -99,16 +99,16 @@ public class PhysicsSimulator {
 	 * Also resolves collision between {@code Rectangles} and apply all
 	 * {@code Areas} that need to be applied.
 	 * 
-	 * @param inputs  {@code Set} of {@code Input}s from the player this frame
+	 * @param gameInputs  {@code Set} of {@code Input}s from the player this frame
 	 * @param width   Width of the play area
 	 * @param height  Height of the play area
 	 * @param xOffset X coordinate of top left corner
 	 * @param yOffset Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<InputHandler.Input> inputs, int width,
+	public void updateAndMoveObjects(Set<GameInputHandler.GameInput> gameInputs, int width,
 			int height, int xOffset, int yOffset) {
 
-		int[] playerVelocityChanges = calculatePlayerVelocityChanges(inputs);
+		int[] playerVelocityChanges = calculatePlayerVelocityChanges(gameInputs);
 		moveAllMovingRectangles(playerVelocityChanges);
 
 		moveAllSides(width, height, xOffset, yOffset);
@@ -122,22 +122,22 @@ public class PhysicsSimulator {
 	 * particular {@code MovingRectangle} may augment or override the velocity
 	 * changes returned here.
 	 * 
-	 * @param inputs {@code Set} of {@code Input}s from the player
+	 * @param gameInputs {@code Set} of {@code Input}s from the player
 	 * 
 	 * @return int array in format { change in x-velocity, change in y-velocity }
 	 */
-	private int[] calculatePlayerVelocityChanges(Set<InputHandler.Input> inputs) {
+	private int[] calculatePlayerVelocityChanges(Set<GameInputHandler.GameInput> gameInputs) {
 		int xVelocityChange = 0;
 		int yVelocityChange = 0;
 
-		if (inputs.contains(InputHandler.Input.RIGHT)) {
+		if (gameInputs.contains(GameInputHandler.GameInput.RIGHT)) {
 			xVelocityChange += PLAYER_X_ACCELERATION;
 		}
 
-		if (inputs.contains(InputHandler.Input.LEFT)) {
+		if (gameInputs.contains(GameInputHandler.GameInput.LEFT)) {
 			xVelocityChange -= PLAYER_X_ACCELERATION;
 		}
-		if (inputs.contains(InputHandler.Input.UP)) {
+		if (gameInputs.contains(GameInputHandler.GameInput.UP)) {
 			yVelocityChange = PLAYER_JUMP_VELOCITY;
 		}
 

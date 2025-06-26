@@ -45,7 +45,7 @@ public class GameController implements KeyListener, WindowListener {
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
-	private InputHandler inputHandler;
+	private GameInputHandler gameInputHandler;
 
 	private URL currentLevel;
 
@@ -63,9 +63,9 @@ public class GameController implements KeyListener, WindowListener {
 	}
 
 	public GameController() {
-		inputHandler = new InputHandler();
+		gameInputHandler = new GameInputHandler();
 		// physicsSimulator is instantiated when the first level is loaded
-		mainFrame = new MainFrame(inputHandler);
+		mainFrame = new MainFrame(gameInputHandler);
 		mainFrame.addKeyListener(this);
 
 		mainFrame.addWindowListener(this);
@@ -143,9 +143,9 @@ public class GameController implements KeyListener, WindowListener {
 	}
 
 	private void advanceFrame() {
-		mainFrame.resizeAll(inputHandler.getResizes());
+		mainFrame.resizeAll(gameInputHandler.getResizes());
 
-		physicsSimulator.updateAndMoveObjects(inputHandler.getInputs(),
+		physicsSimulator.updateAndMoveObjects(gameInputHandler.getInputs(),
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
 
@@ -162,10 +162,10 @@ public class GameController implements KeyListener, WindowListener {
 	 * Begins writing input to a new temp file.
 	 */
 	private void beginTempRecording() {
-		inputHandler.endWriting();
+		gameInputHandler.endWriting();
 		try {
 			recording = File.createTempFile("blockgame", null);
-			inputHandler.beginWriting(recording.toURL());
+			gameInputHandler.beginWriting(recording.toURL());
 			recording.deleteOnExit();
 		}
 		catch (IOException e) {
@@ -208,7 +208,7 @@ public class GameController implements KeyListener, WindowListener {
 				&& recording != null) {
 
 			try {
-				inputHandler.flushWriter();
+				gameInputHandler.flushWriter();
 				Files.copy(recording.toPath(), saveFile.toPath(),
 						StandardCopyOption.REPLACE_EXISTING);
 			}
@@ -228,7 +228,7 @@ public class GameController implements KeyListener, WindowListener {
 
 		if (result == JFileChooser.APPROVE_OPTION && openFile != null) {
 			try {
-				inputHandler.beginReading(openFile.toURI().toURL());
+				gameInputHandler.beginReading(openFile.toURI().toURL());
 			}
 			catch (MalformedURLException e) {
 				e.printStackTrace();
@@ -243,7 +243,7 @@ public class GameController implements KeyListener, WindowListener {
 
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_E:
-				inputHandler.endReading();
+				gameInputHandler.endReading();
 				break;
 			case KeyEvent.VK_K:
 				running = !running;
@@ -278,8 +278,8 @@ public class GameController implements KeyListener, WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		inputHandler.endReading();
-		inputHandler.endWriting();
+		gameInputHandler.endReading();
+		gameInputHandler.endWriting();
 		System.exit(0);
 	}
 

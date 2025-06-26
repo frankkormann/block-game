@@ -34,15 +34,15 @@ import java.util.Set;
  * 
  * @author Frank Kormann
  */
-public class InputHandler extends KeyAdapter {
+public class GameInputHandler extends KeyAdapter {
 
-	public enum Input {
+	public enum GameInput {
 		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
 		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT), RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
 
 		public final int[] keyCodes;
 
-		private Input(int... keyCodes) {
+		private GameInput(int... keyCodes) {
 			this.keyCodes = keyCodes;
 		}
 	}
@@ -54,7 +54,7 @@ public class InputHandler extends KeyAdapter {
 	// Used during writing mode, null otherwise
 	private BufferedWriter writer;
 
-	public InputHandler() {
+	public GameInputHandler() {
 		keysPressed = new HashSet<>();
 		resizesSinceLastFrame = new HashMap<>();
 		zeroAllDirectionsInResizes();
@@ -181,60 +181,60 @@ public class InputHandler extends KeyAdapter {
 	 * 
 	 * @return {@code Set} of {@code Input}s
 	 */
-	public Set<Input> getInputs() {
-		Set<Input> inputs = EnumSet.noneOf(Input.class);
+	public Set<GameInput> getInputs() {
+		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
 
 		if (reader == null) {
-			for (Input inp : Input.values()) {
+			for (GameInput inp : GameInput.values()) {
 				for (int key : inp.keyCodes) {
 					if (keysPressed.contains(key)) {
-						inputs.add(inp);
+						gameInputs.add(inp);
 						break;
 					}
 				}
 			}
 		}
 		else {
-			inputs = readInputsFromFile();
+			gameInputs = readInputsFromFile();
 		}
 
 		if (writer != null) {
-			writeInputsToFile(inputs);
+			writeInputsToFile(gameInputs);
 		}
 
-		return inputs;
+		return gameInputs;
 	}
 
 	/**
 	 * Returns the {@code Input}s pressed on this frame in the reading file.
 	 */
-	private Set<Input> readInputsFromFile() {
-		Set<Input> inputs = EnumSet.noneOf(Input.class);
+	private Set<GameInput> readInputsFromFile() {
+		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
 
 		try {
 			int numberOfInputs = read();
 			for (int i = 0; i < numberOfInputs; i++) {
 				int inputOrdinal = read();
-				inputs.add(Input.values()[inputOrdinal]);
+				gameInputs.add(GameInput.values()[inputOrdinal]);
 			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return inputs;
+		return gameInputs;
 	}
 
 	/**
 	 * First writes the number of {@code Input}s pressed this frame, then each
 	 * {@code Input}'s ordinal in turn.
 	 * 
-	 * @param inputs {@code Set} of {@code Input}s to write
+	 * @param gameInputs {@code Set} of {@code Input}s to write
 	 */
-	private void writeInputsToFile(Set<Input> inputs) {
+	private void writeInputsToFile(Set<GameInput> gameInputs) {
 		try {
-			writer.write(inputs.size());
-			for (Input inp : inputs) {
+			writer.write(gameInputs.size());
+			for (GameInput inp : gameInputs) {
 				writer.write(inp.ordinal());
 			}
 		}
