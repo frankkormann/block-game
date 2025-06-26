@@ -28,11 +28,14 @@ bigger to accommodate its title bar and other decorations.
 
 ### Rectangles
 
-Every level must have a `rectangles` field corresponding to a list of rectangle
-objects. Every rectangle must fill the `type`, `x`, `y`, `width`, and `height`
-fields. Additionally, it must contain data for any unique attributes listed
-below. This data corresponds to the values taken by a rectangle's `@JsonCreator`
-constructor.
+A level's rectangles are declared in the `movingRectangles`, `walls`, `areas`,
+and `goals` fields. Each of these fields corresponds to a list of rectangle
+objects of its type.
+
+
+Every rectangle must fill the `type`, `x`, `y`, `width`, and `height` fields
+Additionally, it must contain data for any unique attributes listed below. This
+data corresponds to the values taken by a rectangle's `@JsonCreator` constructor.
 
 Areas are special rectangles that apply an effect to all Moving Rectangles that
 are touching them.
@@ -60,6 +63,9 @@ are touching them.
 		<td>Height in the Y dimension</td>
 	</tr>
 </table>
+
+#### movingRectangles
+
 <p align="center"><b>Moving Rectangle</b></p>
 <table>
 	<tr>
@@ -80,6 +86,9 @@ are touching them.
 		<td>(Optional) Set to "true" to enable player control</td>
 	</tr>
 </table>
+
+#### wallRectangles
+
 <p align="center"><b>Wall Rectangle</b></p>
 <table>
 	<tr>
@@ -100,6 +109,9 @@ are touching them.
 		</td>
 	</tr>
 </table>
+
+#### areas
+
 <p align="center"><b>Antigravity Area</b></p>
 <table>
 	<tr>
@@ -128,22 +140,6 @@ are touching them.
 	<tr>
 		<td>yForce</td>
 		<td>Value of force to apply in the Y direction</td>
-	</tr>
-</table>
-<p align="center"><b>Goal Area</b></p>
-<table>
-	<tr>
-		<td><i>Description</i></td>
-		<td>Load the next level after a controllable Moving Rectangle has been
-			touching this for a long enough time</td>
-	</tr>
-	<tr>
-		<td>type</td>
-		<td>.GoalArea</td>
-	</tr>
-	<tr>
-		<td>nextLevel</td>
-		<td>Path to the next level's JSON</td>
 	</tr>
 </table>
 <p align="center"><b>Grow Area</b></p>
@@ -184,6 +180,25 @@ are touching them.
 	<tr>
 		<td>yShrink</td>
 		<td>Rate to decrease height in pixels/frame</td>
+	</tr>
+</table>
+
+#### goals
+
+<p align="center"><b>Goal Area</b></p>
+<table>
+	<tr>
+		<td><i>Description</i></td>
+		<td>Load the next level after a controllable Moving Rectangle has been
+			touching this for a long enough time</td>
+	</tr>
+	<tr>
+		<td>type</td>
+		<td>.GoalArea</td>
+	</tr>
+	<tr>
+		<td>nextLevel</td>
+		<td>Path to the next level's JSON</td>
 	</tr>
 </table>
 
