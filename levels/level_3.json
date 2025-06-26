@@ -24,7 +24,7 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 300,
-			"y": 700,
+			"y": 740,
 			"width": 10,
 			"height": 60,
 			"color": "BLUE"
