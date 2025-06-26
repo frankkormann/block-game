@@ -32,6 +32,7 @@ public class PhysicsSimulator {
 	private List<MovingRectangle> movingRectangles;
 	private List<WallRectangle> walls;
 	private List<Area> areas;
+	private List<GoalArea> goals;
 	private List<SideRectangle> sideRectangles;
 
 	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
@@ -44,6 +45,7 @@ public class PhysicsSimulator {
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
+		goals = new ArrayList<>();
 		sideRectangles = new ArrayList<>();
 
 		sideRectangleResizes = new HashMap<>();
@@ -80,6 +82,10 @@ public class PhysicsSimulator {
 
 	public void addArea(Area area) {
 		areas.add(area);
+	}
+
+	public void addGoalArea(GoalArea goal) {
+		goals.add(goal);
 	}
 
 	/**
@@ -162,6 +168,7 @@ public class PhysicsSimulator {
 
 			applyNaturalForcesToMovingRectangle(rect);
 			applyAreasToMovingRectangle(rect);
+			applyGoalAreas(rect);
 			rect.setState(MovingRectangle.State.IN_AIR);
 
 			// No need to do collision if it didn't move
@@ -186,8 +193,15 @@ public class PhysicsSimulator {
 	private void applyAreasToMovingRectangle(MovingRectangle rect) {
 		for (Area area : areas) {
 			area.handle(rect);
-			if (area instanceof GoalArea && ((GoalArea) area).hasWon()) {
-				nextLevel = ((GoalArea) area).getNextLevel();
+		}
+	}
+
+	private void applyGoalAreas(MovingRectangle rect) {
+		for (GoalArea goal : goals) {
+			goal.handle(rect);
+
+			if (goal.hasWon()) {
+				nextLevel = goal.getNextLevel();
 			}
 		}
 	}

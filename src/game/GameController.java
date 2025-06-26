@@ -112,6 +112,10 @@ public class GameController implements KeyListener, WindowListener {
 				physicsSimulator.addArea(area);
 				mainFrame.addArea(area);
 			}
+			for (GoalArea goal : level.goals) {
+				physicsSimulator.addGoalArea(goal);
+				mainFrame.addArea(goal);
+			}
 
 			currentLevel = url;
 		}
@@ -135,6 +139,7 @@ public class GameController implements KeyListener, WindowListener {
 		physicsSimulator.updateAndMoveObjects(inputHandler.getInputs(),
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
+
 		if (physicsSimulator.getNextLevel() != null) {
 			loadLevel(physicsSimulator.getNextLevel());
 			return;
