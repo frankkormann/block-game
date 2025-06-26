@@ -17,6 +17,7 @@ public class Level {
 	public List<WallRectangle> walls;
 	public List<Area> areas;
 	public List<GoalArea> goals;
+	public List<HintRectangle> hints;
 
 	public Level() {
 		name = "";
@@ -25,6 +26,7 @@ public class Level {
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
 		goals = new ArrayList<>();
+		hints = new ArrayList<>();
 	}
 
 }
