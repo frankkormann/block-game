@@ -7,7 +7,7 @@
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
-			"x": 50,
+			"x": 170,
 			"y": 470,
 			"width": 20,
 			"height": 20,
