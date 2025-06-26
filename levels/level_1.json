@@ -2,6 +2,7 @@
 	"name": "Pushing Stairs",
 	"width": 800,
 	"height": 500,
+	"solution": "/level_1.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
