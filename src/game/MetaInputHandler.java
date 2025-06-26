@@ -18,7 +18,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MetaInputHandler extends KeyAdapter {
 
 	public enum MetaInput {
-
 		PAUSE(KeyEvent.VK_K, 0), FRAME_ADVANCE(KeyEvent.VK_L, 0),
 		RELOAD_LEVEL(KeyEvent.VK_R, 0), TOGGLE_HINTS(KeyEvent.VK_H, 0),
 		PLAY_SOLUTION(KeyEvent.VK_H, MetaInput.SHIFT_CONTROL_MASK),
