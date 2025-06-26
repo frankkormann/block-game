@@ -77,6 +77,7 @@ public class GameController extends WindowAdapter {
 
 	private void loadLevel(URL url) {
 		physicsSimulator = new PhysicsSimulator();
+		paused = false;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
