@@ -2,7 +2,7 @@
 	"name": "Playground",
 	"width": 800,
 	"height": 500,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
@@ -63,7 +63,9 @@
 					"yShrink": 0
 				}
 			]
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 50,
@@ -103,15 +105,9 @@
 			"width": 200,
 			"height": 30,
 			"resizeBehavior": "PREVENT_Y"
-		},
-		{
-			"type": ".GoalArea",
-			"x": 280,
-			"y": 630,
-			"width": 50,
-			"height": 50,
-			"nextLevel": "/level_1.json"
-		},
+		}
+	],
+	"areas": [
 		{
 			"type": ".ForceArea",
 			"x": 480,
@@ -163,6 +159,16 @@
 			"height": 25,
 			"xShrink": 1,
 			"yShrink": 0
+		}
+	],
+	"goals": [
+		{
+			"type": ".GoalArea",
+			"x": 280,
+			"y": 630,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1.json"
 		}
 	]
 }
