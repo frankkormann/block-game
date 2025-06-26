@@ -17,6 +17,24 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MetaInputHandler extends KeyAdapter {
 
+	public enum MetaInput {
+		PAUSE(KeyEvent.VK_K, 0), FRAME_ADVANCE(KeyEvent.VK_L, 0),
+		RELOAD_LEVEL(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK),
+		TOGGLE_HINTS(KeyEvent.VK_H, 0),
+		SAVE_RECORDING(KeyEvent.VK_S,
+				KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
+		PLAY_RECORDING(KeyEvent.VK_P,
+				KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
+		STOP_RECORDING(KeyEvent.VK_S, 0);
+
+		public final int keyCode, mask;
+
+		private MetaInput(int keyCode, int mask) {
+			this.keyCode = keyCode;
+			this.mask = mask;
+		}
+	}
+
 	private GameController actionListener;
 	private List<HintRectangle> hints;
 
@@ -40,50 +58,48 @@ public class MetaInputHandler extends KeyAdapter {
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		int shiftCtrlMask = KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK;
+	}
 
-		switch (e.getKeyCode()) {
-			case KeyEvent.VK_E:
-				actionListener.endPlayback();
-				break;
-			case KeyEvent.VK_K:
-				actionListener.setPaused(!actionListener.isPaused());
-				break;
-			case KeyEvent.VK_L:
+	private void handleInput(MetaInput input) {
+		switch (input) {
+			case FRAME_ADVANCE:
 				if (actionListener.isPaused()) {
 					actionListener.nextFrame();
 				}
 				break;
-			case KeyEvent.VK_R:
+			case PAUSE:
+				actionListener.setPaused(!actionListener.isPaused());
+				break;
+			case PLAY_RECORDING: {
+				boolean wasPaused = actionListener.isPaused();
+				actionListener.setPaused(true);
+				File openFile = promptFileOpenLocation();
+				if (openFile != null) {
+					actionListener.startPlayback(openFile);
+				}
+				actionListener.setPaused(wasPaused);
+				break;
+			}
+			case RELOAD_LEVEL:
 				actionListener.reloadLevel();
 				break;
-			case KeyEvent.VK_S:
-				if ((e.getModifiersEx() & shiftCtrlMask) == shiftCtrlMask) {
-					boolean wasPaused = actionListener.isPaused();
-					actionListener.setPaused(true);
-					File saveFile = promptFileSaveLocation();
-					if (saveFile != null) {
-						actionListener.saveRecording(saveFile);
-					}
-					actionListener.setPaused(wasPaused);
+			case SAVE_RECORDING: {
+				boolean wasPaused = actionListener.isPaused();
+				actionListener.setPaused(true);
+				File saveFile = promptFileSaveLocation();
+				if (saveFile != null) {
+					actionListener.saveRecording(saveFile);
 				}
+				actionListener.setPaused(wasPaused);
 				break;
-			case KeyEvent.VK_P:
-				if ((e.getModifiersEx() & shiftCtrlMask) == shiftCtrlMask) {
-					boolean wasPaused = actionListener.isPaused();
-					actionListener.setPaused(true);
-					File openFile = promptFileOpenLocation();
-					if (openFile != null) {
-						actionListener.startPlayback(openFile);
-					}
-					actionListener.setPaused(wasPaused);
-				}
+			}
+			case STOP_RECORDING:
+				actionListener.endPlayback();
 				break;
-			case KeyEvent.VK_H:
+			case TOGGLE_HINTS:
 				hints.forEach(h -> h.toggleVisible());
 				break;
 		}
-
 	}
 
 	private File promptFileSaveLocation() {
