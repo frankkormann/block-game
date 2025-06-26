@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import javax.swing.JPanel;
@@ -20,7 +21,7 @@ import javax.swing.JPanel;
  */
 public class DrawingPane extends JPanel {
 
-	private TreeMap<Integer, List<Rectangle>> rectangleLists;
+	private SortedMap<Integer, List<Rectangle>> rectangleLists;
 
 	private int xOffset, yOffset;
 
