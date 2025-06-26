@@ -1,10 +1,8 @@
 package game;
 
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -37,7 +35,7 @@ import com.formdev.flatlaf.FlatLightLaf;
  * 
  * @author Frank Kormann
  */
-public class GameController implements KeyListener, WindowListener {
+public class GameController extends WindowAdapter {
 
 	public static final String FIRST_LEVEL = "/level_1.json";
 
@@ -46,6 +44,7 @@ public class GameController implements KeyListener, WindowListener {
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
 	private GameInputHandler gameInputHandler;
+	private MetaInputHandler metaInputHandler;
 
 	private URL currentLevel;
 
@@ -64,11 +63,12 @@ public class GameController implements KeyListener, WindowListener {
 
 	public GameController() {
 		gameInputHandler = new GameInputHandler();
+		metaInputHandler = new MetaInputHandler(this);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler);
-		mainFrame.addKeyListener(this);
 
 		mainFrame.addWindowListener(this);
+		mainFrame.addKeyListener(metaInputHandler);
 
 		fileChooser = new JFileChooser();  // global file chooser so it remembers which
 											  // directory the user was in if they open
@@ -237,74 +237,10 @@ public class GameController implements KeyListener, WindowListener {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-
-		int shiftCtrlMask = KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK;
-
-		switch (e.getKeyCode()) {
-			case KeyEvent.VK_E:
-				gameInputHandler.endReading();
-				break;
-			case KeyEvent.VK_K:
-				running = !running;
-				break;
-			case KeyEvent.VK_L:
-				if (!running) {
-					nextFrame();
-				}
-				break;
-			case KeyEvent.VK_R:
-				loadLevel(currentLevel);
-				break;
-			case KeyEvent.VK_S:
-				if ((e.getModifiersEx() & shiftCtrlMask) == shiftCtrlMask) {
-					running = false;
-					saveRecording();
-					running = true;
-				}
-				break;
-			case KeyEvent.VK_P:
-				if ((e.getModifiersEx() & shiftCtrlMask) == shiftCtrlMask) {
-					running = false;
-					startPlayback();
-					running = true;
-				}
-				break;
-			case KeyEvent.VK_H:
-				hints.forEach(h -> h.toggleVisible());
-				break;
-		}
-	}
-
-	@Override
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
 		System.exit(0);
 	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
-
-	@Override
-	public void windowOpened(WindowEvent e) {}
-
-	@Override
-	public void windowClosed(WindowEvent e) {}
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-	@Override
-	public void windowActivated(WindowEvent e) {}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
 
 }
