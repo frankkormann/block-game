@@ -19,8 +19,7 @@ public class MetaInputHandler extends KeyAdapter {
 
 	public enum MetaInput {
 		PAUSE(KeyEvent.VK_K, 0), FRAME_ADVANCE(KeyEvent.VK_L, 0),
-		RELOAD_LEVEL(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK),
-		TOGGLE_HINTS(KeyEvent.VK_H, 0),
+		RELOAD_LEVEL(KeyEvent.VK_R, 0), TOGGLE_HINTS(KeyEvent.VK_H, 0),
 		SAVE_RECORDING(KeyEvent.VK_S,
 				KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
 		PLAY_RECORDING(KeyEvent.VK_P,
