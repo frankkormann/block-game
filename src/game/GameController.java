@@ -77,6 +77,7 @@ public class GameController extends WindowAdapter {
 
 	private void loadLevel(URL url) {
 		physicsSimulator = new PhysicsSimulator();
+		gameInputHandler.endReading();
 		paused = false;
 
 		try {
