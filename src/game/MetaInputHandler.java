@@ -63,7 +63,7 @@ public class MetaInputHandler extends KeyAdapter {
 				if ((e.getModifiersEx() & shiftCtrlMask) == shiftCtrlMask) {
 					boolean wasPaused = actionListener.isPaused();
 					actionListener.setPaused(true);
-					File openFile = promptOpenFileLocation();
+					File openFile = promptFileOpenLocation();
 					if (openFile != null) {
 						actionListener.startPlayback(openFile);
 					}
@@ -111,7 +111,7 @@ public class MetaInputHandler extends KeyAdapter {
 		return null;
 	}
 
-	private File promptOpenFileLocation() {
+	private File promptFileOpenLocation() {
 		int result = fileChooser.showOpenDialog(null);
 		File openFile = fileChooser.getSelectedFile();
 
