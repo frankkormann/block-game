@@ -115,6 +115,9 @@ public class GameController implements KeyListener, WindowListener {
 				physicsSimulator.addGoalArea(goal);
 				mainFrame.add(goal, 0);
 			}
+			for (HintRectangle hint : level.hints) {
+				mainFrame.add(hint, 3);
+			}
 
 			currentLevel = url;
 		}
