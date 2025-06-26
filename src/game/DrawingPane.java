@@ -3,7 +3,8 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JPanel;
 
@@ -20,8 +21,7 @@ import javax.swing.JPanel;
  */
 public class DrawingPane extends JPanel {
 
-	private List<Rectangle> rectangles;
-	private List<Area> areas;
+	private TreeMap<Integer, ArrayList<Rectangle>> rectangleLists;
 
 	private int xOffset, yOffset;
 
@@ -33,21 +33,18 @@ public class DrawingPane extends JPanel {
 
 		setBackground(Color.WHITE);
 
-		rectangles = new ArrayList<>();
-		areas = new ArrayList<>();
+		rectangleLists = new TreeMap<>();
 	}
 
-	public void addRectangle(Rectangle rect) {
-		rectangles.add(rect);
-	}
-
-	public void addArea(Area area) {
-		areas.add(area);
+	public void add(Rectangle rect, int index) {
+		if (rectangleLists.get(index) == null) {
+			rectangleLists.put(index, new ArrayList<>());
+		}
+		rectangleLists.get(index).add(rect);
 	}
 
 	public void clear() {
-		rectangles.clear();
-		areas.clear();
+		rectangleLists.clear();
 	}
 
 	@Override
@@ -56,11 +53,11 @@ public class DrawingPane extends JPanel {
 
 		g.translate(-xOffset, -yOffset);
 
-		for (Area a : areas) { // Make sure Areas are painted on the bottom layer
-			a.draw(g);
-		}
-		for (Rectangle r : rectangles) {
-			r.draw(g);
+		for (Map.Entry<Integer, ArrayList<Rectangle>> entry : rectangleLists
+				.entrySet()) {
+			for (Rectangle rect : entry.getValue()) {
+				rect.draw(g);
+			}
 		}
 	}
 

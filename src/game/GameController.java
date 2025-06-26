@@ -98,23 +98,23 @@ public class GameController implements KeyListener, WindowListener {
 
 			for (MovingRectangle rect : level.movingRectangles) {
 				physicsSimulator.addMovingRectangle(rect);
-				mainFrame.addRectangle(rect);
+				mainFrame.add(rect, 1);
 				for (Area attached : rect.getAttachments()) {
 					physicsSimulator.addArea(attached);
-					mainFrame.addArea(attached);
+					mainFrame.add(attached, 0);
 				}
 			}
 			for (WallRectangle wall : level.walls) {
 				physicsSimulator.addWall(wall);
-				mainFrame.addRectangle(wall);
+				mainFrame.add(wall, 2);
 			}
 			for (Area area : level.areas) {
 				physicsSimulator.addArea(area);
-				mainFrame.addArea(area);
+				mainFrame.add(area, 0);
 			}
 			for (GoalArea goal : level.goals) {
 				physicsSimulator.addGoalArea(goal);
-				mainFrame.addArea(goal);
+				mainFrame.add(goal, 0);
 			}
 
 			currentLevel = url;

@@ -108,12 +108,8 @@ public class MainFrame extends JFrame {
 		titleBar.setTitle(WINDOW_TITLE + " - " + level.name);
 	}
 
-	public void addRectangle(Rectangle rect) {
-		drawingPane.addRectangle(rect);
-	}
-
-	public void addArea(Area area) {
-		drawingPane.addArea(area);
+	public void add(Rectangle rect, int index) {
+		drawingPane.add(rect, index);
 	}
 
 	/**
