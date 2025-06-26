@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,5 +16,15 @@ public class Level {
 	public List<MovingRectangle> movingRectangles;
 	public List<WallRectangle> walls;
 	public List<Area> areas;
+	public List<GoalArea> goals;
+
+	public Level() {
+		name = "";
+		width = height = 0;
+		movingRectangles = new ArrayList<>();
+		walls = new ArrayList<>();
+		areas = new ArrayList<>();
+		goals = new ArrayList<>();
+	}
 
 }
