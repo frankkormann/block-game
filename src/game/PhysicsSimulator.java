@@ -80,6 +80,9 @@ public class PhysicsSimulator {
 		walls.add(wall);
 	}
 
+	/**
+	 * Note: use {@link#addGoalArea(GoalArea)} for {@code GoalArea}s
+	 */
 	public void addArea(Area area) {
 		areas.add(area);
 	}
