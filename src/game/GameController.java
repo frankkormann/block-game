@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,8 +41,6 @@ public class GameController extends WindowAdapter {
 
 	private boolean paused;
 
-	private List<HintRectangle> hints;
-
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
 		UIManager.put("TitlePane.buttonSize", new Dimension(0, 0));
@@ -61,8 +57,6 @@ public class GameController extends WindowAdapter {
 		mainFrame.addKeyListener(metaInputHandler);
 
 		paused = false;
-
-		hints = new ArrayList<>();
 	}
 
 	public void startGame() {
@@ -111,7 +105,7 @@ public class GameController extends WindowAdapter {
 			}
 			for (HintRectangle hint : level.hints) {
 				mainFrame.add(hint, 3);
-				hints.add(hint);
+				metaInputHandler.addHint(hint);
 			}
 
 			currentLevel = url;

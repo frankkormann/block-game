@@ -10,6 +10,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Handles inputs related to pausing, restarting the level, showing hints, etc.
+ * 
+ * @author Frank Kormann
+ */
 public class MetaInputHandler extends KeyAdapter {
 
 	private GameController actionListener;
@@ -26,6 +31,10 @@ public class MetaInputHandler extends KeyAdapter {
 											  // it multiple times
 		fileChooser.setFileFilter(
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
+	}
+
+	public void addHint(HintRectangle hint) {
+		hints.add(hint);
 	}
 
 	@Override
