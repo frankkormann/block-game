@@ -5,7 +5,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -14,10 +13,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -49,9 +45,8 @@ public class GameController extends WindowAdapter {
 	private URL currentLevel;
 
 	private File recording;
-	private JFileChooser fileChooser;
 
-	private boolean running;
+	private boolean paused;
 
 	private List<HintRectangle> hints;
 
@@ -70,13 +65,7 @@ public class GameController extends WindowAdapter {
 		mainFrame.addWindowListener(this);
 		mainFrame.addKeyListener(metaInputHandler);
 
-		fileChooser = new JFileChooser();  // global file chooser so it remembers which
-											  // directory the user was in if they open
-											  // it multiple times
-		fileChooser.setFileFilter(
-				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
-
-		running = true;
+		paused = false;
 
 		hints = new ArrayList<>();
 	}
@@ -86,11 +75,15 @@ public class GameController extends WindowAdapter {
 		mainFrame.setVisible(true);
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				if (running) {
+				if (!paused) {
 					nextFrame();
 				}
 			}
 		}, 0, MILLISECONDS_BETWEEN_FRAMES);
+	}
+
+	public void reloadLevel() {
+		loadLevel(currentLevel);
 	}
 
 	private void loadLevel(URL url) {
@@ -142,7 +135,7 @@ public class GameController extends WindowAdapter {
 		beginTempRecording();
 	}
 
-	private void nextFrame() {
+	public void nextFrame() {
 		mainFrame.resizeAll(gameInputHandler.getResizes());
 
 		physicsSimulator.updateAndMoveObjects(gameInputHandler.getInputs(),
@@ -173,67 +166,34 @@ public class GameController extends WindowAdapter {
 		}
 	}
 
-	/**
-	 * Opens a file chooser dialogue prompt to save a recording of the current
-	 * level.
-	 */
-	private void saveRecording() {
-
-		int fileChooserResult;
-		File saveFile;
-
-		boolean canSave;
-		do {
-			canSave = true;
-
-			fileChooser.setSelectedFile(new File("Untitled.rec"));
-
-			fileChooserResult = fileChooser.showSaveDialog(mainFrame);
-			saveFile = fileChooser.getSelectedFile();
-
-			if (!saveFile.getName().matches("^.*\\..*$")) {
-				saveFile = new File(saveFile.getPath() + ".rec");
-			}
-
-			if (fileChooserResult == JFileChooser.APPROVE_OPTION && saveFile.exists()) {
-				String message = saveFile.getName()
-						+ " already exists.\nDo you want to replace it?";
-				canSave = JOptionPane.showConfirmDialog(fileChooser, message,
-						"Confirm save",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION;
-			}
-		} while (!canSave);
-
-		if (fileChooserResult == JFileChooser.APPROVE_OPTION && saveFile != null
-				&& recording != null) {
-
-			try {
-				gameInputHandler.flushWriter();
-				Files.copy(recording.toPath(), saveFile.toPath(),
-						StandardCopyOption.REPLACE_EXISTING);
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
+	public void startPlayback(URL location) {
+		gameInputHandler.beginReading(location);
 	}
 
-	/**
-	 * Opens a file chooser dialogue prompt to start playback of a recording.
-	 */
-	private void startPlayback() {
-		int result = fileChooser.showOpenDialog(mainFrame);
-		File openFile = fileChooser.getSelectedFile();
+	public void endPlayback() {
+		gameInputHandler.endReading();
+	}
 
-		if (result == JFileChooser.APPROVE_OPTION && openFile != null) {
-			try {
-				gameInputHandler.beginReading(openFile.toURI().toURL());
-			}
-			catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
+	public void saveRecording(File location) {
+		if (recording == null) {
+			return;
 		}
+		try {
+			gameInputHandler.flushWriter();
+			Files.copy(recording.toPath(), location.toPath(),
+					StandardCopyOption.REPLACE_EXISTING);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
+	public boolean isPaused() {
+		return paused;
 	}
 
 	@Override
