@@ -2,7 +2,7 @@
 	"name": "Drag Down",
 	"width": 800,
 	"height": 500,
-	"rectangles": [
+	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
 			"controlledByPlayer": "true",
@@ -27,7 +27,9 @@
 			"width": 30,
 			"height": 60,
 			"color": "RED"
-		},
+		}
+	],
+	"walls": [
 		{
 			"type": ".WallRectangle",
 			"x": 0,
@@ -75,7 +77,9 @@
 			"width": 270,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
+		}
+	],
+	"goals": [
 		{
 			"type": ".GoalArea",
 			"x": 700,
