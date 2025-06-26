@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import javax.swing.JPanel;
 
 /**
- * Draws all {@code Rectangles} to the window using their {@code draw} methods.
+ * Draws all {@code Rectangle}s to the window using their {@code draw} methods.
  * 
  * The x- and y-offsets need to be set properly with {@code setOffsets}. Because
  * the top-left corner will not always be at (0, 0), this keeps track of its
