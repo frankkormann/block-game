@@ -70,22 +70,16 @@ public class PhysicsSimulator {
 				MainFrame.Direction.EAST));
 	}
 
-	/**
-	 * Adds a {@code Rectangle} to this simulation.
-	 * 
-	 * @param rectangle {@code Rectangle} to add
-	 */
-	public void add(Rectangle rectangle) {
-		// sort rectangle into the correct list
-		if (rectangle instanceof MovingRectangle) {
-			movingRectangles.add((MovingRectangle) rectangle);
-		}
-		else if (rectangle instanceof WallRectangle) {
-			walls.add((WallRectangle) rectangle);
-		}
-		else if (rectangle instanceof Area) {
-			areas.add((Area) rectangle);
-		}
+	public void addMovingRectangle(MovingRectangle rect) {
+		movingRectangles.add(rect);
+	}
+
+	public void addWall(WallRectangle wall) {
+		walls.add(wall);
+	}
+
+	public void addArea(Area area) {
+		areas.add(area);
 	}
 
 	/**

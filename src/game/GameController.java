@@ -96,11 +96,21 @@ public class GameController implements KeyListener, WindowListener {
 			Level level = mapper.readValue(url, Level.class);
 			mainFrame.setUpLevel(level);
 
-			for (Rectangle rect : level.rectangles) {
-				addRectangleToGame(rect);
+			for (MovingRectangle rect : level.movingRectangles) {
+				physicsSimulator.addMovingRectangle(rect);
+				mainFrame.addRectangle(rect);
 				for (Area attached : rect.getAttachments()) {
-					addRectangleToGame(attached);
+					physicsSimulator.addArea(attached);
+					mainFrame.addArea(attached);
 				}
+			}
+			for (WallRectangle wall : level.walls) {
+				physicsSimulator.addWall(wall);
+				mainFrame.addRectangle(wall);
+			}
+			for (Area area : level.areas) {
+				physicsSimulator.addArea(area);
+				mainFrame.addArea(area);
 			}
 
 			currentLevel = url;
@@ -117,11 +127,6 @@ public class GameController implements KeyListener, WindowListener {
 		mainFrame.moveToMiddleOfScreen();
 
 		beginTempRecording();
-	}
-
-	private void addRectangleToGame(Rectangle rectangle) {
-		physicsSimulator.add(rectangle);
-		mainFrame.add(rectangle);
 	}
 
 	private void advanceFrame() {

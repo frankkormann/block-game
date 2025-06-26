@@ -108,13 +108,12 @@ public class MainFrame extends JFrame {
 		titleBar.setTitle(WINDOW_TITLE + " - " + level.name);
 	}
 
-	/**
-	 * Adds a {@code Rectangle} to the frame.
-	 * 
-	 * @param rectangle
-	 */
-	public void add(Rectangle rectangle) {
-		drawingPane.add(rectangle);
+	public void addRectangle(Rectangle rect) {
+		drawingPane.addRectangle(rect);
+	}
+
+	public void addArea(Area area) {
+		drawingPane.addArea(area);
 	}
 
 	/**

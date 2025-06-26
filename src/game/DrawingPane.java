@@ -37,13 +37,12 @@ public class DrawingPane extends JPanel {
 		areas = new ArrayList<>();
 	}
 
-	public void add(Rectangle rect) {
-		if (rect instanceof Area) {
-			areas.add((Area) rect);
-		}
-		else {
-			rectangles.add(rect);
-		}
+	public void addRectangle(Rectangle rect) {
+		rectangles.add(rect);
+	}
+
+	public void addArea(Area area) {
+		areas.add(area);
 	}
 
 	public void clear() {
