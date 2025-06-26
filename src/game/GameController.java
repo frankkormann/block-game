@@ -153,7 +153,7 @@ public class GameController extends WindowAdapter {
 		gameInputHandler.endWriting();
 		try {
 			recording = File.createTempFile("blockgame", null);
-			gameInputHandler.beginWriting(recording.toURL());
+			gameInputHandler.beginWriting(recording);
 			recording.deleteOnExit();
 		}
 		catch (IOException e) {
@@ -161,7 +161,7 @@ public class GameController extends WindowAdapter {
 		}
 	}
 
-	public void startPlayback(URL location) {
+	public void startPlayback(File location) {
 		gameInputHandler.beginReading(location);
 	}
 

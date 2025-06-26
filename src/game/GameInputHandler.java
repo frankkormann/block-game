@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -21,11 +20,11 @@ import java.util.Set;
  * from the keyboard and window resizes will be taken from calls to
  * {@code resize}. These calls are provided by the {@code ResizingSide} class.
  * <p>
- * If a {@code URL} is given to {@code beginReading(URL)}, input will be taken
+ * If a {@code File} is given to {@code beginReading(File)}, input will be taken
  * from that file instead.
  * <p>
- * If a {@code URL} is given to {@code beginWriting(URL)} and a file at that
- * {@code URL} exists, input will be written to that file.
+ * If a {@code File} is given to {@code beginWriting(File)} and that file
+ * exists, input will be written to that file.
  * <p>
  * Input is accessible through {@link#getKeysPressed()} and
  * {@link#getResizes()}. These methods should both be called every frame to
@@ -70,17 +69,17 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Takes input from the file at {@code URL}. If this is already reading from a
-	 * file, this method has no effect.
+	 * Takes input from {@code location}. If this is already reading from a file,
+	 * this method has no effect.
 	 * 
-	 * @param location {@code URL} of file to read from
+	 * @param location {@code File} to read from
 	 */
-	public void beginReading(URL location) {
+	public void beginReading(File location) {
 		if (reader != null) {
 			return;
 		}
 		try {
-			reader = Files.newBufferedReader(new File(location.getFile()).toPath());
+			reader = Files.newBufferedReader(location.toPath());
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -105,20 +104,20 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Starts writing input to the file at {@code URL}. The file must exist; it is
-	 * not created if it does not exist. If this is already writing to a file, this
+	 * Starts writing input to {@code location}. The file must exist; it is not
+	 * created if it does not exist. If this is already writing to a file, this
 	 * method has no effect.
 	 * <p>
 	 * Any data previously in the file is overwritten.
 	 * 
-	 * @param location {@code URL} of file to write to
+	 * @param location {@code File} to write to
 	 */
-	public void beginWriting(URL location) {
+	public void beginWriting(File location) {
 		if (writer != null) {
 			return;
 		}
 		try {
-			writer = Files.newBufferedWriter(new File(location.getFile()).toPath());
+			writer = Files.newBufferedWriter(location.toPath());
 		}
 		catch (IOException e) {
 			e.printStackTrace();

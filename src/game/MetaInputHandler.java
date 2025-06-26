@@ -3,7 +3,6 @@ package game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,13 +65,7 @@ public class MetaInputHandler extends KeyAdapter {
 					actionListener.setPaused(true);
 					File openFile = promptOpenFileLocation();
 					if (openFile != null) {
-						try {
-							actionListener.startPlayback(openFile.toURI().toURL());
-						}
-						catch (MalformedURLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						actionListener.startPlayback(openFile);
 					}
 					actionListener.setPaused(wasPaused);
 				}
