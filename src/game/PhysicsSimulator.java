@@ -187,6 +187,8 @@ public class PhysicsSimulator {
 	/**
 	 * Tests if {@code rect} intersects any {@code Area}s and applies effects of any
 	 * it does intersect.
+	 * <p>
+	 * Note that this method does not check against {@code GoalArea}s.
 	 * 
 	 * @param rect {@code MovingRectangle} to consider
 	 */
@@ -196,6 +198,12 @@ public class PhysicsSimulator {
 		}
 	}
 
+	/**
+	 * Tests {@code rect} against {@code GoalArea}s and updates {@code nextLevel} if
+	 * necessary.
+	 * 
+	 * @param rect {@code MovingRectangle} to consider
+	 */
 	private void applyGoalAreas(MovingRectangle rect) {
 		for (GoalArea goal : goals) {
 			goal.handle(rect);
