@@ -72,12 +72,12 @@ public class GameController extends WindowAdapter {
 	}
 
 	public void reloadLevel() {
+		gameInputHandler.endReading();
 		loadLevel(currentLevel);
 	}
 
 	private void loadLevel(URL url) {
 		physicsSimulator = new PhysicsSimulator();
-		gameInputHandler.endReading();
 		paused = false;
 
 		try {
