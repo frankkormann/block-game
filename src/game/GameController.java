@@ -11,6 +11,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -52,6 +54,8 @@ public class GameController implements KeyListener, WindowListener {
 
 	private boolean running;
 
+	private List<HintRectangle> hints;
+
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
 		UIManager.put("TitlePane.buttonSize", new Dimension(0, 0));
@@ -73,6 +77,8 @@ public class GameController implements KeyListener, WindowListener {
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 
 		running = true;
+
+		hints = new ArrayList<>();
 	}
 
 	public void startGame() {
@@ -117,6 +123,7 @@ public class GameController implements KeyListener, WindowListener {
 			}
 			for (HintRectangle hint : level.hints) {
 				mainFrame.add(hint, 3);
+				hints.add(hint);
 			}
 
 			currentLevel = url;
@@ -262,6 +269,9 @@ public class GameController implements KeyListener, WindowListener {
 					startPlayback();
 					running = true;
 				}
+				break;
+			case KeyEvent.VK_H:
+				hints.forEach(h -> h.toggleVisible());
 				break;
 		}
 	}
