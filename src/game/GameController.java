@@ -87,12 +87,7 @@ public class GameController extends WindowAdapter {
 			Level level = mapper.readValue(url, Level.class);
 			mainFrame.setUpLevel(level);
 
-			File solutionFile = null;
-			if (level.solution != "") {
-				solutionFile = new File(
-						getClass().getResource(level.solution).getPath());
-			}
-			metaInputHandler.setSolution(solutionFile);
+			metaInputHandler.setSolution(level.solution);
 
 			for (MovingRectangle rect : level.movingRectangles) {
 				physicsSimulator.addMovingRectangle(rect);
@@ -167,7 +162,16 @@ public class GameController extends WindowAdapter {
 	}
 
 	public void startPlayback(File location) {
-		gameInputHandler.beginReading(location);
+		try {
+			gameInputHandler.beginReading(Files.newInputStream(location.toPath()));
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void startPlayback(String resource) {
+		gameInputHandler.beginReading(getClass().getResourceAsStream(resource));
 	}
 
 	public void endPlayback() {

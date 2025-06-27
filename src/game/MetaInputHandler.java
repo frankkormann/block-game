@@ -38,14 +38,14 @@ public class MetaInputHandler extends KeyAdapter {
 
 	private GameController actionListener;
 	private List<HintRectangle> hints;
-	private File solutionFile;
+	private String solutionResource;
 
 	private JFileChooser fileChooser;
 
 	public MetaInputHandler(GameController actionListener) {
 		this.actionListener = actionListener;
 		hints = new ArrayList<>();
-		solutionFile = null;
+		solutionResource = "";
 
 		fileChooser = new JFileChooser();  // global file chooser so it remembers which
 											  // directory the user was in if they open
@@ -58,8 +58,8 @@ public class MetaInputHandler extends KeyAdapter {
 		hints.add(hint);
 	}
 
-	public void setSolution(File solutionFile) {
-		this.solutionFile = solutionFile;
+	public void setSolution(String solutionResource) {
+		this.solutionResource = solutionResource;
 	}
 
 	@Override
@@ -112,9 +112,9 @@ public class MetaInputHandler extends KeyAdapter {
 				hints.forEach(h -> h.toggleVisible());
 				break;
 			case PLAY_SOLUTION:
-				if (solutionFile != null) {
+				if (solutionResource != "") {
 					actionListener.reloadLevel();
-					actionListener.startPlayback(solutionFile);
+					actionListener.startPlayback(solutionResource);
 				}
 				break;
 		}
