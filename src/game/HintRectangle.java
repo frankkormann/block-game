@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HintRectangle extends Rectangle {
 
 	private static final int OUTLINE_THICKNESS = 2;
+	private static final float OPACITY = 0.5f;
+	private static final float BORDER_DARKNESS = 1.2f;
 
 	private boolean visible;
 
@@ -31,13 +33,20 @@ public class HintRectangle extends Rectangle {
 			return;
 		}
 
-		g.setColor(getColor());
+		g.setColor(new Color((int) (getColor().getRed() / BORDER_DARKNESS),
+				(int) (getColor().getGreen() / BORDER_DARKNESS),
+				(int) (getColor().getBlue() / BORDER_DARKNESS)));
+
 		g.fillRect(getX(), getY(), getWidth(), OUTLINE_THICKNESS);
 		g.fillRect(getX(), getY(), OUTLINE_THICKNESS, getHeight());
 		g.fillRect(getX(), getY() + getHeight() - OUTLINE_THICKNESS, getWidth(),
 				OUTLINE_THICKNESS);
 		g.fillRect(getX() + getWidth() - OUTLINE_THICKNESS, getY(), OUTLINE_THICKNESS,
 				getHeight());
+
+		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
+				getColor().getBlue(), 256 * OPACITY));
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
 	public void toggleVisible() {
