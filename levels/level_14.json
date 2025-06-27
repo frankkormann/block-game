@@ -40,9 +40,9 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 400,
-			"y": 310,
+			"y": 360,
 			"width": 40,
-			"height": 80,
+			"height": 30,
 			"color": "BLUE"
 		},
 		{
@@ -188,6 +188,40 @@
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_15.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 320,
+			"y": 320,
+			"width": 40,
+			"height": 70,
+			"color": "GREEN"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 360,
+			"y": 320,
+			"width": 40,
+			"height": 70,
+			"color": "RED"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 400,
+			"y": 320,
+			"width": 40,
+			"height": 70,
+			"color": "BLUE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 440,
+			"y": 320,
+			"width": 40,
+			"height": 70,
+			"color": "ORANGE"
 		}
 	]
 }
