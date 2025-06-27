@@ -26,6 +26,11 @@ bigger to accommodate its title bar and other decorations.
 	</tr>
 </table>
 
+### Solution
+
+A level can have a `solution` field which is used to replay the puzzle's
+solution. This field should contain the path to a valid recording file.
+
 ### Rectangles
 
 A level's rectangles are declared in the `movingRectangles`, `walls`, `areas`,
