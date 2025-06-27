@@ -29,8 +29,8 @@ bigger to accommodate its title bar and other decorations.
 ### Rectangles
 
 A level's rectangles are declared in the `movingRectangles`, `walls`, `areas`,
-and `goals` fields. Each of these fields corresponds to a list of rectangle
-objects of its type.
+`goals`, and `hints` fields. Each of these fields corresponds to a list of
+rectangle objects of its type.
 
 
 Every rectangle must fill the `type`, `x`, `y`, `width`, and `height` fields
@@ -199,6 +199,28 @@ are touching them.
 	<tr>
 		<td>nextLevel</td>
 		<td>Path to the next level's JSON</td>
+	</tr>
+</table>
+
+#### hints
+
+These rectangles become visible when the player requests a hint. They are
+invisible otherwise and always intangible.
+
+<p align="center"><b>Hint Rectangle</b></p>
+<table>
+	<tr>
+		<td><i>Description</i></td>
+		<td>Become visible to the player when they press the hint button</td>
+	</tr>
+	<tr>
+		<td>type</td>
+		<td>.HintRectangle</td>
+	</tr>
+	<tr>
+		<td>color</td>
+		<td>One of BLACK, BLUE, GREEN, GRAY, ORANGE, RED, or PLAYER (dark blue
+			usually for the player)</td>
 	</tr>
 </table>
 
