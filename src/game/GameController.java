@@ -189,13 +189,13 @@ public class GameController extends WindowAdapter {
 		gameInputHandler.endReading();
 	}
 
-	public void saveRecording(File location) {
+	public void saveRecording(File destination) {
 		if (recording == null) {
 			return;
 		}
 		try {
 			gameInputHandler.flushWriter();
-			Files.copy(recording.toPath(), location.toPath(),
+			Files.copy(recording.toPath(), destination.toPath(),
 					StandardCopyOption.REPLACE_EXISTING);
 		}
 		catch (IOException e) {
