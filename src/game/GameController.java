@@ -20,7 +20,9 @@ import com.formdev.flatlaf.FlatLightLaf;
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
  * {@code InputHandler}.
  * <p>
- * Level data is read from JSON files. See the README for more details.
+ * Level data is read from JSON files. The JSON is used to fill the fields in
+ * {@link Level}, so it should have data for each of that class's public
+ * attributes.
  * 
  * @author Frank Kormann
  */
