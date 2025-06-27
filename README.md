@@ -113,10 +113,6 @@ The project is developed in Eclipse version 2025-03 (4.35.0) using:
 - [FlatLaf](https://github.com/JFormDesigner/FlatLaf) 3.5
 - [Jackson Databind](https://github.com/FasterXML/jackson-databind/) 2.18.2
 
-### Goal
-
-To create a 2D puzzle-platformer game engine with easy level creation.
-
 ### Creating / editing levels
 
 Each level is built from a `JSON` file. See [JSON_FORMAT.md](JSON_FORMAT.md) for
@@ -129,27 +125,8 @@ level filenames are read from the activated Goal Area.
 ## Contributing
 
 Outside contributions are not accepted because this is primarily a personal
-project; see [Project Purpose](#project-purpose) below for more information.
-However, feedback in all forms is welcomed. You are also free to extend the
+project. However, feedback in all forms is welcomed. You are also free to extend the
 project on your own.
-
-## Author
-
-The project is solely developed by Frank Kormann. While I have asked others to
-help playtest and report bugs, all code (except where otherwise noted) is my own.
-
-### Project purpose
-
-I started, and continue to work on, this project to practice my software design,
-development, and documentation skills. While I would love to create a fun game,
-the main purpose is to gain experience working with a complex project<sup>1</sup>
-To that end, I decided to, as much as possible, write the code and make the
-design decisions myself without referring to outside help. This requires me to
-think critically about each decision instead of simply following a tutorial.
-Unfortunately, this means I cannot accept contributions from others.
-
-<sup>1. Relatively complex; keep in mind the simplicity of "projects" you tend
-to create in your first round of programming courses.</sup>
 
 ## License
 
