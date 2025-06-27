@@ -161,15 +161,26 @@ public class GameController extends WindowAdapter {
 		}
 	}
 
-	public void startPlayback(File location) {
+	/**
+	 * Replay a recording {@code File} {@code file}.
+	 * 
+	 * @param file {@code File} to replay
+	 */
+	public void startPlayback(File file) {
 		try {
-			gameInputHandler.beginReading(Files.newInputStream(location.toPath()));
+			gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Replay a recording stored as a resource. The resource must be able to be
+	 * found by {@code java.lang.Class.getResourceAsStream(resource)}.
+	 * 
+	 * @param resource name of resource
+	 */
 	public void startPlayback(String resource) {
 		gameInputHandler.beginReading(getClass().getResourceAsStream(resource));
 	}
