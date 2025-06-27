@@ -57,16 +57,30 @@ Download the latest `jar` file from the releases tab and run it.
 	</tr>
 </table>
 
+**Hints**
+
+<table>
+	<tr>
+		<td>Show hint</td>
+		<td>H</td>
+	</tr>
+	<tr>
+		<td>Show solution</td>
+		<td>Control + Shift + H</td>
+	</tr>
+</table>
+
+
 **Advanced**
 
 <table>
 	<tr>
 		<td>Save replay of current level<t/d>
-		<td>Control + shift + S</td>
+		<td>Control + Shift + S</td>
 	</tr>
 	<tr>
 		<td>Playback replay</td>
-		<td>Control + shift + P</td>
+		<td>Control + Shift + P</td>
 	</tr>
 	<tr>
 		<td>Stop playback</td>
