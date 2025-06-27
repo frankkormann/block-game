@@ -45,7 +45,7 @@ public class HintRectangle extends Rectangle {
 				getHeight());
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), 256 * OPACITY));
+				getColor().getBlue(), (int) (255 * OPACITY)));
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
