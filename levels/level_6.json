@@ -93,5 +93,15 @@
 			"height": 50,
 			"nextLevel": "/level_7.json"
 		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 800,
+			"y": 180,
+			"width": 300,
+			"height": 20,
+			"color": "PLAYER"
+		}
 	]
 }
