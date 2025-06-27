@@ -75,9 +75,9 @@
 	"areas": [
 		{
 			"type": ".ShrinkArea",
-			"x": 10,
+			"x": 0,
 			"y": 340,
-			"width": 30,
+			"width": 40,
 			"height": 60,
 			"xShrink": 1,
 			"yShrink": 0
