@@ -71,32 +71,12 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * TODO
+	 * Takes input from an {@code InputStream}. If this is already reading from a
+	 * different {@code InputStream}, that stream is replaced.
 	 * 
-	 * Takes input from {@code location}. If this is already reading from a file,
-	 * this method has no effect.
-	 * 
-	 * @param location {@code File} to read from
+	 * @param input {@code InputStream} to read from
 	 */
-	public void beginReading(File location) {
-//		if (reader != null) {
-//			return;
-//		}
-//		try {
-//			reader = Files.newBufferedReader(location.toPath());
-//		}
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		try {
-			beginReading(Files.newInputStream(location.toPath()));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void beginReading(InputStream input) {
+	public void beginReading(InputStream input) {
 		reader = input;
 		readByte();  // prime nextByte
 	}
@@ -142,7 +122,13 @@ public class GameInputHandler extends KeyAdapter {
 		}
 	}
 
-	private void beginWriting(OutputStream output) {
+	/**
+	 * Starts writing input to an {@code OutputStream}. If a different
+	 * {@code OutputStream} is already being written to, that stream is replaced.
+	 * 
+	 * @param output {@code OutputStream} to write to
+	 */
+	public void beginWriting(OutputStream output) {
 		writer = output;
 	}
 
