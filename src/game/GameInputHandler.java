@@ -2,10 +2,10 @@ package game;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -48,10 +48,10 @@ public class GameInputHandler extends KeyAdapter {
 
 	private Set<Integer> keysPressed;
 	private Map<MainFrame.Direction, Integer> resizesSinceLastFrame;
-	// Used during reading mode, null otherwise
-	private BufferedReader reader;
-	// Used during writing mode, null otherwise
-	private BufferedWriter writer;
+	private InputStream reader;
+	private OutputStream writer;
+
+	private int nextByte;
 
 	public GameInputHandler() {
 		keysPressed = new HashSet<>();
@@ -60,6 +60,8 @@ public class GameInputHandler extends KeyAdapter {
 
 		reader = null;
 		writer = null;
+
+		nextByte = 0;
 	}
 
 	private void zeroAllDirectionsInResizes() {
@@ -69,21 +71,34 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
+	 * TODO
+	 * 
 	 * Takes input from {@code location}. If this is already reading from a file,
 	 * this method has no effect.
 	 * 
 	 * @param location {@code File} to read from
 	 */
 	public void beginReading(File location) {
-		if (reader != null) {
-			return;
-		}
+//		if (reader != null) {
+//			return;
+//		}
+//		try {
+//			reader = Files.newBufferedReader(location.toPath());
+//		}
+//		catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		try {
-			reader = Files.newBufferedReader(location.toPath());
+			beginReading(Files.newInputStream(location.toPath()));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void beginReading(InputStream input) {
+		reader = input;
+		readByte();  // prime nextByte
 	}
 
 	/**
@@ -104,6 +119,8 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
+	 * TODO
+	 * 
 	 * Starts writing input to {@code location}. The file must exist; it is not
 	 * created if it does not exist. If this is already writing to a file, this
 	 * method has no effect.
@@ -114,14 +131,19 @@ public class GameInputHandler extends KeyAdapter {
 	 */
 	public void beginWriting(File location) {
 		if (writer != null) {
+			endWriting();
 			return;
 		}
 		try {
-			writer = Files.newBufferedWriter(location.toPath());
+			beginWriting(Files.newOutputStream(location.toPath()));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void beginWriting(OutputStream output) {
+		writer = output;
 	}
 
 	public void flushWriter() {
@@ -151,23 +173,80 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Wraps {@code reader.read()} to deal with end-of-file and return a nicer
-	 * value.
+	 * Reads the next {@code byte} in the input stream and it as an {@code int}.
+	 * <p>
+	 * Closes the input stream if end-of-input is detected.
 	 * 
-	 * @return next value from global {@code reader} as signed {@code int}
-	 * 
-	 * @throws IOException
+	 * @return next {@code byte} as {@code int}
 	 */
-	private int read() throws IOException {
-		int value = reader.read();
-		reader.mark(1);
-		if (reader.read() == -1) {
+	private int readByte() {
+		int value = nextByte;
+
+		try {
+			nextByte = reader.read();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (nextByte == -1) {
 			endReading();
 		}
-		else {
-			reader.reset();
+
+		return value;
+	}
+
+	/**
+	 * Interprets the next 8 bytes in the input stream as an {@code int}.
+	 * <p>
+	 * Closes the input stream if end-of-input is detected.
+	 * 
+	 * @return next {@code int}
+	 */
+	private int readInt() {
+		int i = 0;
+
+		i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE);
+		for (int j = 1; j < Integer.BYTES; j++) {
+			i >>>= Byte.SIZE;
+			i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE);
 		}
-		return (int) (short) value;
+
+		return i;
+	}
+
+	/**
+	 * Writes a single {@code byte} to the output stream.
+	 * 
+	 * @param b {@code byte} to write
+	 */
+	private void writeByte(int b) {
+		try {
+			writer.write(b);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Writes an {@code int}, encoded as four {@code byte}s, to the output stream.
+	 * 
+	 * @param i {@code int} to write
+	 */
+	private void writeInt(int i) {
+		byte[] bytes = new byte[Integer.BYTES];
+		for (int j = 0; j < Integer.BYTES; j++) {
+			bytes[j] = (byte) i;
+			i >>= Byte.SIZE;
+		}
+
+		try {
+			writer.write(bytes);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -210,15 +289,10 @@ public class GameInputHandler extends KeyAdapter {
 	private Set<GameInput> readInputsFromFile() {
 		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
 
-		try {
-			int numberOfInputs = read();
-			for (int i = 0; i < numberOfInputs; i++) {
-				int inputOrdinal = read();
-				gameInputs.add(GameInput.values()[inputOrdinal]);
-			}
-		}
-		catch (IOException e) {
-			e.printStackTrace();
+		int numberOfInputs = readByte();
+		for (int i = 0; i < numberOfInputs; i++) {
+			int inputOrdinal = readByte();
+			gameInputs.add(GameInput.values()[inputOrdinal]);
 		}
 
 		return gameInputs;
@@ -231,14 +305,9 @@ public class GameInputHandler extends KeyAdapter {
 	 * @param gameInputs {@code Set} of {@code Input}s to write
 	 */
 	private void writeInputsToFile(Set<GameInput> gameInputs) {
-		try {
-			writer.write(gameInputs.size());
-			for (GameInput inp : gameInputs) {
-				writer.write(inp.ordinal());
-			}
-		}
-		catch (IOException e) {
-			e.printStackTrace();
+		writeByte(gameInputs.size());
+		for (GameInput inp : gameInputs) {
+			writeByte(inp.ordinal());
 		}
 	}
 
@@ -256,28 +325,18 @@ public class GameInputHandler extends KeyAdapter {
 			resizes.putAll(resizesSinceLastFrame);
 		}
 		else {
-			try {
-				// Make sure values are read in the correct order
-				resizes.put(MainFrame.Direction.NORTH, read());
-				resizes.put(MainFrame.Direction.SOUTH, read());
-				resizes.put(MainFrame.Direction.WEST, read());
-				resizes.put(MainFrame.Direction.EAST, read());
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
+			// Make sure values are read in the correct order
+			resizes.put(MainFrame.Direction.NORTH, readInt());
+			resizes.put(MainFrame.Direction.SOUTH, readInt());
+			resizes.put(MainFrame.Direction.WEST, readInt());
+			resizes.put(MainFrame.Direction.EAST, readInt());
 		}
 		if (writer != null) {
-			try {
-				// Make sure values are written in the correct order
-				writer.write(resizes.get(MainFrame.Direction.NORTH));
-				writer.write(resizes.get(MainFrame.Direction.SOUTH));
-				writer.write(resizes.get(MainFrame.Direction.WEST));
-				writer.write(resizes.get(MainFrame.Direction.EAST));
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
+			// Make sure values are written in the correct order
+			writeInt(resizes.get(MainFrame.Direction.NORTH));
+			writeInt(resizes.get(MainFrame.Direction.SOUTH));
+			writeInt(resizes.get(MainFrame.Direction.WEST));
+			writeInt(resizes.get(MainFrame.Direction.EAST));
 		}
 		zeroAllDirectionsInResizes();
 		return resizes;
