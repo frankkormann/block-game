@@ -59,7 +59,7 @@
 			"type": ".WallRectangle",
 			"x": 60,
 			"y": 300,
-			"width": 100,
+			"width": 90,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
@@ -91,6 +91,32 @@
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_11.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 0,
+			"y": 360,
+			"width": 15,
+			"height": 40,
+			"color": "GREEN"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 15,
+			"y": 360,
+			"width": 15,
+			"height": 40,
+			"color": "BLUE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 30,
+			"y": 380,
+			"width": 10,
+			"height": 20,
+			"color": "PLAYER"
 		}
 	]
 }
