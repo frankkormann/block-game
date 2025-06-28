@@ -2,11 +2,9 @@ package game;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,11 +18,11 @@ import java.util.Set;
  * from the keyboard and window resizes will be taken from calls to
  * {@code resize}. These calls are provided by the {@code ResizingSide} class.
  * <p>
- * If a {@code File} is given to {@code beginReading(File)}, input will be taken
- * from that file instead.
+ * If an {@code InputStream} is given to {@code beginReading(InputStream)},
+ * input will be taken from that stream instead.
  * <p>
- * If a {@code File} is given to {@code beginWriting(File)} and that file
- * exists, input will be written to that file.
+ * If an {@code OutputStream} is given to {@code beginWriting(OutputStream)},
+ * input will be written to that stream.
  * <p>
  * Input is accessible through {@link#getKeysPressed()} and
  * {@link#getResizes()}. These methods should both be called every frame to
@@ -92,30 +90,6 @@ public class GameInputHandler extends KeyAdapter {
 		try {
 			reader.close();
 			reader = null;
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * TODO
-	 * 
-	 * Starts writing input to {@code location}. The file must exist; it is not
-	 * created if it does not exist. If this is already writing to a file, this
-	 * method has no effect.
-	 * <p>
-	 * Any data previously in the file is overwritten.
-	 * 
-	 * @param location {@code File} to write to
-	 */
-	public void beginWriting(File location) {
-		if (writer != null) {
-			endWriting();
-			return;
-		}
-		try {
-			beginWriting(Files.newOutputStream(location.toPath()));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
