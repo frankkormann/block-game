@@ -101,8 +101,8 @@
 	"hints": [
 		{
 			"type": ".HintRectangle",
-			"x": -10,
-			"y": 260,
+			"x": -50,
+			"y": 280,
 			"width": 180,
 			"height": 10,
 			"color": "RED"
@@ -110,7 +110,7 @@
 		{
 			"type": ".HintRectangle",
 			"x": 70,
-			"y": 270,
+			"y": 290,
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER"
