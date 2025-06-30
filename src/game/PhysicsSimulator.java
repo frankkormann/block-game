@@ -412,6 +412,14 @@ public class PhysicsSimulator {
 		return new int[] { rect.getX() - startingX, rect.getY() - startingY };
 	}
 
+	/**
+	 * Computes how to move {@code rect} so that it no longer collides with
+	 * {@code wall}.
+	 * 
+	 * @param rect {@code MovingRectangle} which is colliding with {@code wall}
+	 * @param wall {@code Rectangle} to represent the wall. Usually a
+	 *             {@code WallRectangle} or {@code SideRectangle}
+	 */
 	private void collideWithWall(MovingRectangle rect, Rectangle wall) {
 		int[] collisionData = calculateCollision(wall, rect);
 		if (collisionData[0] == 0 && collisionData[1] == 0) {
@@ -430,23 +438,42 @@ public class PhysicsSimulator {
 		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
 
-		if (collisionData[0] != 0
-				&& rect.getY() + rect.getHeight() - wall.getY() <= 3 + 2) {
-			collisionData[0] = 0;
-			collisionData[1] = wall.getY() - rect.getY() - rect.getHeight();
+		if (collisionData[0] != 0) {
+			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
+					3 + 2, false);
 		}
-
-		if (collisionData[1] > 0 && rect.getX() + rect.getWidth() - wall.getX() <= 4) {
-			collisionData[0] = wall.getX() - rect.getX() - rect.getWidth();
-			collisionData[1] = 0;
-		}
-
-		if (collisionData[1] > 0 && wall.getX() + wall.getWidth() - rect.getX() <= 4) {
-			collisionData[0] = wall.getX() + wall.getWidth() - rect.getX();
-			collisionData[1] = 0;
+		if (collisionData[1] > 0) {
+			fudgeCollision(collisionData, wall.getX() - rect.getX() - rect.getWidth(),
+					4, true);
+			fudgeCollision(collisionData, wall.getX() + wall.getWidth() - rect.getX(),
+					4, true);
 		}
 
 		rect.moveCollision(collisionData[0], collisionData[1]);
+	}
+
+	/**
+	 * If {@code |sliverSize| <= threshold}, alters {@code movement} to be {@code 0}
+	 * in one direction and {@code sliverSize} in the other.
+	 * <p>
+	 * In the context of a collision, let Rectangle A be pushing out Rectangle B. If
+	 * Rectangle B is only colliding with a small sliver of Rectangle A, this
+	 * changes the movement of Rectangle B from one direction (pushed out by the
+	 * sliver) into another (bumped on top of the sliver).
+	 * 
+	 * @param movement   {@code int[]} containing movement information in x and y
+	 *                   directions
+	 * @param sliverSize amount of Rectangle A that Rectangle B is colliding with
+	 * @param threshold  maximum amount of leeway
+	 * @param isX        {@code true} if {@code sliverSize} and {@code threshold}
+	 *                   represent values in the x direction
+	 */
+	private void fudgeCollision(int[] movement, int sliverSize, int threshold,
+			boolean isX) {
+		if (Math.abs(sliverSize) <= threshold) {
+			movement[isX ? 0 : 1] = sliverSize;
+			movement[isX ? 1 : 0] = 0;
+		}
 	}
 
 	/**
@@ -523,8 +550,18 @@ public class PhysicsSimulator {
 		return new int[] { xChange, yChange };
 	}
 
-	// TODO Write comment
-	private int correctGrowthForCollision(MovingRectangle rect, int change,
+	/**
+	 * Reduces the growth of {@code rect} if necessary and returns the new amount to
+	 * move it by.
+	 * 
+	 * @param rect     {@code MovingRectangle} to consider
+	 * @param movement amount {@code rect} is supposed to move by
+	 * @param isX      {@code true} if {@code movement} represents a change in x
+	 *                 position
+	 * 
+	 * @return how much to move {@code rect} in the given direction
+	 */
+	private int correctGrowthForCollision(MovingRectangle rect, int movement,
 			boolean isX) {
 
 		int lowerSideChange, upperSideChange;
@@ -540,8 +577,8 @@ public class PhysicsSimulator {
 					- rect.getTopHeightChange();
 		}
 
-		if (change > 0 && lowerSideChange > 0) {
-			change -= lowerSideChange;
+		if (movement > 0 && lowerSideChange > 0) {
+			movement -= lowerSideChange;
 			if (isX) {
 				rect.changeWidth(-lowerSideChange, true);
 			}
@@ -550,8 +587,8 @@ public class PhysicsSimulator {
 			}
 		}
 
-		if (change < 0 && upperSideChange > 0) {
-			change += upperSideChange;
+		if (movement < 0 && upperSideChange > 0) {
+			movement += upperSideChange;
 			if (isX) {
 				rect.changeWidth(-upperSideChange, false);
 			}
@@ -560,7 +597,7 @@ public class PhysicsSimulator {
 			}
 		}
 
-		return change;
+		return movement;
 	}
 
 	/**
