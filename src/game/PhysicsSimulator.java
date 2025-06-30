@@ -445,12 +445,14 @@ public class PhysicsSimulator {
 			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
 					WALL_COLLISION_LEEWAY_Y + GRAVITY, false);  // Need to add gravity
 																  // here because
-																  // grounded
-																  // rectangles have not
-																  // been pushed up to
-																  // cancel it yet
+																  // grounded rectangles
+																  // have not been
+																  // pushed up to cancel
+																  // it yet
+			fudgeCollision(collisionData, wall.getY() + wall.getHeight() - rect.getY(),
+					WALL_COLLISION_LEEWAY_Y + GRAVITY, false);
 		}
-		if (collisionData[1] > 0) {
+		else if (collisionData[1] > 0) {
 			fudgeCollision(collisionData, wall.getX() - rect.getX() - rect.getWidth(),
 					WALL_COLLISION_LEEWAY_X, true);
 			fudgeCollision(collisionData, wall.getX() + wall.getWidth() - rect.getX(),
