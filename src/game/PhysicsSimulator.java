@@ -362,6 +362,10 @@ public class PhysicsSimulator {
 				continue;
 			}
 
+			if (collisionData[0] != 0 && collisionData[1] != 0) {
+				collisionData[0] = 0;  // ignore x movement in a corner collision
+			}
+
 			collisionData[0] = -correctGrowthForCollision(rect, -collisionData[0],
 					true);
 			collisionData[1] = -correctGrowthForCollision(rect, -collisionData[1],
@@ -442,7 +446,8 @@ public class PhysicsSimulator {
 	 * <p>
 	 * Returns a movement in both directions (x and y) if and only if {@code other}
 	 * was not intersecting {@code rect} at all on the previous frame and is now
-	 * intersecting {@code rect} on the x and y axes.
+	 * intersecting {@code rect} on the x and y axes. Usually, this will happen when
+	 * {@code other} clips the corner of {@code rect}.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
