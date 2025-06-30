@@ -417,11 +417,27 @@ public class PhysicsSimulator {
 		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
 
+		if (collisionData[0] != 0
+				&& rect.getY() + rect.getHeight() - wall.getY() <= 3 + 2) {
+			collisionData[0] = 0;
+			collisionData[1] = wall.getY() - rect.getY() - rect.getHeight();
+		}
+
+		if (collisionData[1] > 0 && rect.getX() + rect.getWidth() - wall.getX() <= 4) {
+			collisionData[0] = wall.getX() - rect.getX() - rect.getWidth();
+			collisionData[1] = 0;
+		}
+
+		if (collisionData[1] > 0 && wall.getX() + wall.getWidth() - rect.getX() <= 4) {
+			collisionData[0] = wall.getX() + wall.getWidth() - rect.getX();
+			collisionData[1] = 0;
+		}
+
 		rect.moveCollision(collisionData[0], collisionData[1]);
 	}
 
 	/**
-	 * Calculate how to move {@code other} so that it does not intersect
+	 * Calculate how to move {@code other} so that it does not intersedct
 	 * {@code rect}. Returns { 0, 0 } if {@code rect == other}. Never returns a
 	 * movement in both directions (x and y).
 	 * 
