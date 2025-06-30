@@ -418,6 +418,15 @@ public class PhysicsSimulator {
 			return;
 		}
 
+		if (collisionData[0] != 0 && collisionData[1] != 0) {
+			if (collisionData[1] > 0) {
+				collisionData[1] = 0;
+			}
+			else {
+				collisionData[0] = 0;
+			}
+		}
+
 		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
 
