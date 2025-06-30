@@ -31,6 +31,18 @@ public class SideRectangle extends MovingRectangle {
 		}
 	}
 
+	@Override
+	public boolean canPushX() {
+		return direction == MainFrame.Direction.WEST
+				|| direction == MainFrame.Direction.EAST;
+	}
+
+	@Override
+	public boolean canPushY() {
+		return direction == MainFrame.Direction.NORTH
+				|| direction == MainFrame.Direction.SOUTH;
+	}
+
 	public MainFrame.Direction getDirection() {
 		return direction;
 	}

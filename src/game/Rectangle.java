@@ -164,6 +164,24 @@ public abstract class Rectangle {
 	}
 
 	/**
+	 * Returns true if this can push other {@code Rectangle}s in the x direction.
+	 * 
+	 * @return {@code true} if this can push {@code Rectangle}s in the x direction
+	 */
+	public boolean canPushX() {
+		return true;
+	}
+
+	/**
+	 * Returns true if this can push other {@code Rectangle}s in the y direction.
+	 * 
+	 * @return {@code true} if this can push {@code Rectangle}s in the y direction
+	 */
+	public boolean canPushY() {
+		return true;
+	}
+
+	/**
 	 * Calculate whether this intersects with other in the x direction.
 	 * 
 	 * @param other Other Rectangle
