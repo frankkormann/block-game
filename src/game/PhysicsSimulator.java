@@ -29,6 +29,9 @@ public class PhysicsSimulator {
 	private static int PLAYER_X_ACCELERATION = 2;
 	private static int PLAYER_JUMP_VELOCITY = -20;
 
+	private static int WALL_COLLISION_LEEWAY_X = 4;
+	private static int WALL_COLLISION_LEEWAY_Y = 3;
+
 	private List<MovingRectangle> movingRectangles;
 	private List<WallRectangle> walls;
 	private List<Area> areas;
@@ -440,13 +443,18 @@ public class PhysicsSimulator {
 
 		if (collisionData[0] != 0) {
 			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
-					3 + 2, false);
+					WALL_COLLISION_LEEWAY_Y + GRAVITY, false);  // Need to add gravity
+																  // here because
+																  // grounded
+																  // rectangles have not
+																  // been pushed up to
+																  // cancel it yet
 		}
 		if (collisionData[1] > 0) {
 			fudgeCollision(collisionData, wall.getX() - rect.getX() - rect.getWidth(),
-					4, true);
+					WALL_COLLISION_LEEWAY_X, true);
 			fudgeCollision(collisionData, wall.getX() + wall.getWidth() - rect.getX(),
-					4, true);
+					WALL_COLLISION_LEEWAY_X, true);
 		}
 
 		rect.moveCollision(collisionData[0], collisionData[1]);
