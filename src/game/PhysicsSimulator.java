@@ -402,9 +402,8 @@ public class PhysicsSimulator {
 		int startingX = rect.getX();
 		int startingY = rect.getY();
 
-		Stream.concat(walls.stream(),
-				sideRectangles.stream().filter(s -> s.isActingLikeWall()))
-				.forEach(w -> collideWithWall(rect, w));
+		Stream.concat(sideRectangles.stream().filter(s -> s.isActingLikeWall()),
+				walls.stream()).forEach(w -> collideWithWall(rect, w));
 
 		return new int[] { rect.getX() - startingX, rect.getY() - startingY };
 	}
@@ -439,8 +438,11 @@ public class PhysicsSimulator {
 
 	/**
 	 * Calculate how to move {@code other} so that it does not intersedct
-	 * {@code rect}. Returns { 0, 0 } if {@code rect == other}. Never returns a
-	 * movement in both directions (x and y).
+	 * {@code rect}. Returns { 0, 0 } if {@code rect == other}.
+	 * <p>
+	 * Returns a movement in both directions (x and y) if and only if {@code other}
+	 * was not intersecting {@code rect} at all on the previous frame and is now
+	 * intersecting {@code rect} on the x and y axes.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
@@ -463,13 +465,14 @@ public class PhysicsSimulator {
 		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
 
 		if (inBoundsX && inBoundsY) {
-			// If other was fully outside rect and is now fully inside, it doesn't
-			// collide. This is very rare in normal gameplay except when moving over the
-			// seam between two adjacent walls, so no collision here is correct
 			if (usedToBeInBoundsY) {
 				xChange = pullToX(rect, other);
 			}
 			else if (usedToBeInBoundsX) {
+				yChange = pullToY(rect, other);
+			}
+			else {
+				xChange = pullToX(rect, other);
 				yChange = pullToY(rect, other);
 			}
 		}
@@ -572,7 +575,6 @@ public class PhysicsSimulator {
 		}
 		other.moveCollision(xChange, yChange);
 
-		// TODO: collisionMap needs to contain maxPull data
 		for (MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).pushedBy == other) {
 				pullback(other, c, collisionMap);
