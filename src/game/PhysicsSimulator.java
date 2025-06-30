@@ -336,7 +336,8 @@ public class PhysicsSimulator {
 	 * 
 	 * @return { Δx, Δy } amount {@code rect} was pushed back
 	 */
-	// collisionMap is used to track which Rectangles pushed each other and how much
+	// parameter collisionMap is used to track which Rectangles pushed each other
+	// and how much
 	private int[] propagateCollision(MovingRectangle rect,
 			List<MovingRectangle> colliders,
 			Map<MovingRectangle, RectangleMapObject> collisionMap) {
