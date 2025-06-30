@@ -444,10 +444,13 @@ public class PhysicsSimulator {
 	 * Calculate how to move {@code other} so that it does not intersedct
 	 * {@code rect}. Returns { 0, 0 } if {@code rect == other}.
 	 * <p>
-	 * Returns a movement in both directions (x and y) if and only if {@code other}
-	 * was not intersecting {@code rect} at all on the previous frame and is now
-	 * intersecting {@code rect} on the x and y axes. Usually, this will happen when
-	 * {@code other} clips the corner of {@code rect}.
+	 * Usually, this will return a movement in only one direction (x or y) and the
+	 * other direction will be {@code 0}. However, if {@code other} was not
+	 * intersecting {@code rect} at all on the previous frame and is now
+	 * intersecting {@code rect} on both the x and y axes, this will return a
+	 * movement in both directions. This will usually happen when {@code other}
+	 * clips the corner of {@code rect}.Moving {@code other} in either direction
+	 * will be sufficient to resolve the collision with {@code rect}.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
