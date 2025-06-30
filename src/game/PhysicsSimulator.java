@@ -483,15 +483,11 @@ public class PhysicsSimulator {
 		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
 
 		if (inBoundsX && inBoundsY) {
+			if (usedToBeInBoundsX) {
+				yChange = pullToY(rect, other);
+			}
 			if (usedToBeInBoundsY) {
 				xChange = pullToX(rect, other);
-			}
-			else if (usedToBeInBoundsX) {
-				yChange = pullToY(rect, other);
-			}
-			else {
-				xChange = pullToX(rect, other);
-				yChange = pullToY(rect, other);
 			}
 		}
 		// These account for when a rectangle would pass through another diagonally
@@ -516,6 +512,14 @@ public class PhysicsSimulator {
 			}
 
 		}
+
+		if (!rect.canPushX()) {
+			xChange = 0;
+		}
+		if (!rect.canPushY()) {
+			yChange = 0;
+		}
+
 		return new int[] { xChange, yChange };
 	}
 
