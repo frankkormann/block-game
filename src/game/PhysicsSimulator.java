@@ -99,14 +99,14 @@ public class PhysicsSimulator {
 	 * Also resolves collision between {@code Rectangles} and apply all
 	 * {@code Areas} that need to be applied.
 	 * 
-	 * @param gameInputs  {@code Set} of {@code Input}s from the player this frame
-	 * @param width   Width of the play area
-	 * @param height  Height of the play area
-	 * @param xOffset X coordinate of top left corner
-	 * @param yOffset Y coordinate of top left corner
+	 * @param gameInputs {@code Set} of {@code Input}s from the player this frame
+	 * @param width      Width of the play area
+	 * @param height     Height of the play area
+	 * @param xOffset    X coordinate of top left corner
+	 * @param yOffset    Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<GameInputHandler.GameInput> gameInputs, int width,
-			int height, int xOffset, int yOffset) {
+	public void updateAndMoveObjects(Set<GameInputHandler.GameInput> gameInputs,
+			int width, int height, int xOffset, int yOffset) {
 
 		int[] playerVelocityChanges = calculatePlayerVelocityChanges(gameInputs);
 		moveAllMovingRectangles(playerVelocityChanges);
@@ -126,7 +126,8 @@ public class PhysicsSimulator {
 	 * 
 	 * @return int array in format { change in x-velocity, change in y-velocity }
 	 */
-	private int[] calculatePlayerVelocityChanges(Set<GameInputHandler.GameInput> gameInputs) {
+	private int[] calculatePlayerVelocityChanges(
+			Set<GameInputHandler.GameInput> gameInputs) {
 		int xVelocityChange = 0;
 		int yVelocityChange = 0;
 
@@ -402,13 +403,21 @@ public class PhysicsSimulator {
 
 		Stream.concat(walls.stream(),
 				sideRectangles.stream().filter(s -> s.isActingLikeWall()))
-				.map(w -> calculateCollision(w, rect))
-				.filter(c -> c != new int[] { 0, 0 })
-				.map(c -> new int[] { correctGrowthForCollision(rect, c[0], true),
-						correctGrowthForCollision(rect, c[1], false) })
-				.forEach(c -> rect.moveCollision(c[0], c[1]));
+				.forEach(w -> collideWithWall(rect, w));
 
 		return new int[] { rect.getX() - startingX, rect.getY() - startingY };
+	}
+
+	private void collideWithWall(MovingRectangle rect, Rectangle wall) {
+		int[] collisionData = calculateCollision(wall, rect);
+		if (collisionData[0] == 0 && collisionData[1] == 0) {
+			return;
+		}
+
+		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
+		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
+
+		rect.moveCollision(collisionData[0], collisionData[1]);
 	}
 
 	/**
