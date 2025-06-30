@@ -301,7 +301,7 @@ public class PhysicsSimulator {
 	 * 
 	 * @return Amount side was pushed back during collision
 	 */
-	private int calculateCollisionForSide(MovingRectangle side, int newX, int newY,
+	private int calculateCollisionForSide(SideRectangle side, int newX, int newY,
 			int newWidth, int newHeight) {
 		side.setX(newX);
 		side.setY(newY);
