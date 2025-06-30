@@ -459,7 +459,8 @@ public class PhysicsSimulator {
 	 * intersecting {@code rect} on both the x and y axes, this will return a
 	 * movement in both directions. This will usually happen when {@code other}
 	 * clips the corner of {@code rect}. Moving {@code other} in either direction
-	 * will be sufficient to resolve the collision with {@code rect}.
+	 * will be sufficient to resolve the collision with {@code rect}. The caller
+	 * should decide which direction is appropriate for the situation.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
