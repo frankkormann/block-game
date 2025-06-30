@@ -450,7 +450,7 @@ public class PhysicsSimulator {
 																  // pushed up to cancel
 																  // it yet
 			fudgeCollision(collisionData, wall.getY() + wall.getHeight() - rect.getY(),
-					WALL_COLLISION_LEEWAY_Y + GRAVITY, false);
+					WALL_COLLISION_LEEWAY_Y, false);
 		}
 		else if (collisionData[1] > 0) {
 			fudgeCollision(collisionData, wall.getX() - rect.getX() - rect.getWidth(),
