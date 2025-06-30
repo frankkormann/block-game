@@ -96,16 +96,23 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Sets {@code x += xChange}, {@code y += yChange}. Sets y velocity to zero if
-	 * it moved in the y direction.
+	 * Sets {@code x += xChange}, {@code y += yChange}. If this was moved in the
+	 * opposite direction to its velocity, sets that component of its velocity to
+	 * zero.
 	 * <p>
 	 * If this was moved up, its ground status becomes {@code ON_GROUND} because it
 	 * must be standing on something.
 	 */
 	public void moveCollision(int xChange, int yChange) {
 
-		if (yChange != 0) {
+		if (xChange != 0 && Math.signum(xChange) != Math.signum(xVelocity)) {
+			xVelocity = 0;
+		}
+		if (yChange != 0 && Math.signum(yChange) != Math.signum(yVelocity)) {
 			yVelocity = 0;
+		}
+
+		if (yChange != 0) {
 			if (yChange < 0) {
 				setState(State.ON_GROUND);
 			}
