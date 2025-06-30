@@ -96,17 +96,14 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Sets {@code x += xChange}, {@code y += yChange}. Sets velocity to zero in
-	 * each direction that this moved.
+	 * Sets {@code x += xChange}, {@code y += yChange}. Sets y velocity to zero if
+	 * it moved in the y direction.
 	 * <p>
 	 * If this was moved up, its ground status becomes {@code ON_GROUND} because it
 	 * must be standing on something.
 	 */
 	public void moveCollision(int xChange, int yChange) {
 
-		if (xChange != 0) {
-			xVelocity = 0;
-		}
 		if (yChange != 0) {
 			yVelocity = 0;
 			if (yChange < 0) {
