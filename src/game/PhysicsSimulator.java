@@ -368,7 +368,7 @@ public class PhysicsSimulator {
 			}
 
 			if (collisionData[0] != 0 && collisionData[1] != 0) {
-				collisionData[0] = 0;  // ignore x movement in a corner collision
+				collisionData[0] = 0;  // Ignore x movement in a corner collision
 			}
 
 			collisionData[0] = -correctGrowthForCollision(rect, -collisionData[0],
@@ -379,7 +379,7 @@ public class PhysicsSimulator {
 			other.moveCollision(collisionData[0], collisionData[1]);
 			collisionMap.put(other, new RectangleMapObject(rect, collisionData));
 			numberCollided++;
-			// Now compute collision from other moving
+
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
 			rect.moveCollision(pushback[0], pushback[1]);
@@ -450,6 +450,8 @@ public class PhysicsSimulator {
 		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
 
+//		int[] originalMovement = new int[] { collisionData[0], collisionData[1] };
+
 		if (collisionData[0] != 0) {
 			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
 					WALL_COLLISION_LEEWAY_Y, false);
@@ -464,6 +466,12 @@ public class PhysicsSimulator {
 		}
 
 		rect.moveCollision(collisionData[0], collisionData[1]);
+
+//		if (originalMovement[0] != collisionData[0]
+//				&& originalMovement[1] != collisionData[1]) {
+//			return new int[] { 0, 0 };  // if collision was fudged, rect wasn't pushed
+//										  // back
+//		}
 
 		return collisionData;
 	}
