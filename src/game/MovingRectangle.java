@@ -103,9 +103,6 @@ public class MovingRectangle extends Rectangle {
 	 * Sets {@code x += xChange}, {@code y += yChange}. If this was moved in the
 	 * opposite direction to its velocity, sets that component of its velocity to
 	 * zero.
-	 * <p>
-	 * If this was moved up, its ground status becomes {@code ON_GROUND} because it
-	 * must be standing on something.
 	 */
 	public void moveCollision(int xChange, int yChange) {
 
