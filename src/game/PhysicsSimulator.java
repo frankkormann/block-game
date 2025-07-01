@@ -27,7 +27,7 @@ public class PhysicsSimulator {
 	private static int FRICTION = -1;
 	private static int GRAVITY = 2;
 	private static int PLAYER_X_ACCELERATION = 2;
-	private static int PLAYER_JUMP_VELOCITY = -18;
+	private static int PLAYER_JUMP_VELOCITY = -16;
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
 	private static int WALL_COLLISION_LEEWAY_Y = 3;
@@ -117,54 +117,60 @@ public class PhysicsSimulator {
 	public void updateAndMoveObjects(Set<GameInputHandler.GameInput> gameInputs,
 			int width, int height, int xOffset, int yOffset) {
 
-		int[] playerVelocityChanges = calculatePlayerVelocityChanges(gameInputs);
-		moveAllMovingRectangles(playerVelocityChanges);
+		applyAreasToMovingRectangles();
+		applyInputsToPlayerRectangles(gameInputs);
+		moveAllMovingRectangles();
 
 		moveAllSides(width, height, xOffset, yOffset);
 	}
 
 	/**
-	 * Determines how the velocity should change for each {@code MovingRectangle}
-	 * with {@code isControlledByPlayer() == true}.
+	 * For each {@code MovingRectangle} in {@code movingRectangles}, tests if it
+	 * intersects any {@code Area}s and applies effects of any it does intersect.
 	 * <p>
-	 * Only keyboard input is taken into account. Other factors that affect each
-	 * particular {@code MovingRectangle} may augment or override the velocity
-	 * changes returned here.
-	 * 
-	 * @param gameInputs {@code Set} of {@code Input}s from the player
-	 * 
-	 * @return int array in format { change in x-velocity, change in y-velocity }
+	 * Note that this method does not check against {@code GoalArea}s.
 	 */
-	private int[] calculatePlayerVelocityChanges(
+	private void applyAreasToMovingRectangles() {
+		for (MovingRectangle rect : movingRectangles) {
+			for (Area area : areas) {
+				area.handle(rect);
+			}
+		}
+	}
+
+	private void applyInputsToPlayerRectangles(
 			Set<GameInputHandler.GameInput> gameInputs) {
-		int xVelocityChange = 0;
-		int yVelocityChange = 0;
+		for (MovingRectangle rect : movingRectangles) {
+			if (!rect.isControlledByPlayer()) {
+				continue;
+			}
 
-		if (gameInputs.contains(GameInputHandler.GameInput.RIGHT)) {
-			xVelocityChange += PLAYER_X_ACCELERATION;
-		}
+			int newXVelocity = rect.getXVelocity();
+			int newYVelocity = rect.getYVelocity();
 
-		if (gameInputs.contains(GameInputHandler.GameInput.LEFT)) {
-			xVelocityChange -= PLAYER_X_ACCELERATION;
-		}
-		if (gameInputs.contains(GameInputHandler.GameInput.UP)) {
-			yVelocityChange = PLAYER_JUMP_VELOCITY;
-		}
+			if (gameInputs.contains(GameInputHandler.GameInput.RIGHT)) {
+				newXVelocity += PLAYER_X_ACCELERATION;
+			}
+			if (gameInputs.contains(GameInputHandler.GameInput.LEFT)) {
+				newXVelocity -= PLAYER_X_ACCELERATION;
+			}
 
-		return new int[] { xVelocityChange, yVelocityChange };
+			if (gameInputs.contains(GameInputHandler.GameInput.UP)) {
+				if (rect.getState() == MovingRectangle.State.ON_GROUND) {
+					newYVelocity = PLAYER_JUMP_VELOCITY;
+				}
+			}
+
+			rect.setXVelocity(newXVelocity);
+			rect.setYVelocity(newYVelocity);
+		}
 	}
 
 	/**
-	 * For each {@code MovingRectangle}, applies keyboard input if appropriate,
-	 * applies {@code Area} effects, applies friction and gravity, applies movement
-	 * from velocity, then computes collision.
-	 * 
-	 * @param playerVelocityChanges int array in format { change in x-velocity,
-	 *                              change in y-velocity } for changes to velocity
-	 *                              of {@code MovingRectangle}s with
-	 *                              {@code isControlledByPlayer() == true}
+	 * For each {@code MovingRectangle}, applies friction and gravity, applies
+	 * movement from velocity, and computes collision.
 	 */
-	private void moveAllMovingRectangles(int[] playerVelocityChanges) {
+	private void moveAllMovingRectangles() {
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
 		// sort by distance from bottom of screen for consistency
@@ -172,15 +178,6 @@ public class PhysicsSimulator {
 				(r1, r2) -> r2.getY() + r2.getHeight() - r1.getY() - r1.getHeight());
 
 		for (MovingRectangle rect : movingRectangles) {
-
-			applyAreasToMovingRectangle(rect);
-
-			if (rect.isControlledByPlayer()) {
-				rect.setXVelocity(rect.getXVelocity() + playerVelocityChanges[0]);
-				if (rect.getState() == MovingRectangle.State.ON_GROUND) {
-					rect.setYVelocity(rect.getYVelocity() + playerVelocityChanges[1]);
-				}
-			}
 
 			applyNaturalForcesToMovingRectangle(rect);
 			applyGoalAreas(rect);
@@ -196,20 +193,7 @@ public class PhysicsSimulator {
 
 			propagateCollision(rect, movingRectangles, null);
 		}
-	}
 
-	/**
-	 * Tests if {@code rect} intersects any {@code Area}s and applies effects of any
-	 * it does intersect.
-	 * <p>
-	 * Note that this method does not check against {@code GoalArea}s.
-	 * 
-	 * @param rect {@code MovingRectangle} to consider
-	 */
-	private void applyAreasToMovingRectangle(MovingRectangle rect) {
-		for (Area area : areas) {
-			area.handle(rect);
-		}
 	}
 
 	/**
