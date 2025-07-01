@@ -27,7 +27,7 @@ public class PhysicsSimulator {
 	private static int FRICTION = -1;
 	private static int GRAVITY = 2;
 	private static int PLAYER_X_ACCELERATION = 2;
-	private static int PLAYER_JUMP_VELOCITY = -18;
+	private static int PLAYER_JUMP_VELOCITY = -20;
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
 	private static int WALL_COLLISION_LEEWAY_Y = 3;
@@ -187,7 +187,7 @@ public class PhysicsSimulator {
 
 			// No need to do collision if it didn't move
 			if (rect.getXVelocity() == 0 && rect.getYVelocity() == 0
-					&& rect.getWidth() - rect.getLastHeight() == 0
+					&& rect.getWidth() - rect.getLastWidth() == 0
 					&& rect.getHeight() - rect.getLastHeight() == 0) {
 				continue;
 			}
@@ -351,6 +351,7 @@ public class PhysicsSimulator {
 	private int[] propagateCollision(MovingRectangle rect,
 			List<MovingRectangle> colliders,
 			Map<MovingRectangle, RectangleMapObject> collisionMap) {
+
 		if (collisionMap == null) {
 			collisionMap = new HashMap<>();
 		}
