@@ -406,13 +406,16 @@ public class PhysicsSimulator {
 	 * @return { dx, dy } of amount {@code rect} was pushed back
 	 */
 	private int[] handleCollisionWithWalls(MovingRectangle rect) {
-		int startingX = rect.getX();
-		int startingY = rect.getY();
+
+		int[] pushback = new int[] { 0, 0 };
 
 		Stream.concat(sideRectangles.stream().filter(s -> s.isActingLikeWall()),
-				walls.stream()).forEach(w -> collideWithWall(rect, w));
+				walls.stream()).map(w -> collideWithWall(rect, w)).forEach(a -> {
+					pushback[0] += a[0];
+					pushback[1] += a[1];
+				});
 
-		return new int[] { rect.getX() - startingX, rect.getY() - startingY };
+		return pushback;
 	}
 
 	/**
@@ -422,11 +425,15 @@ public class PhysicsSimulator {
 	 * @param rect {@code MovingRectangle} which is colliding with {@code wall}
 	 * @param wall {@code Rectangle} to represent the wall. Usually a
 	 *             {@code WallRectangle} or {@code SideRectangle}
+	 * 
+	 * @return { dx, dy } of amount {@code rect} was pushed back
 	 */
-	private void collideWithWall(MovingRectangle rect, Rectangle wall) {
+	private int[] collideWithWall(MovingRectangle rect, Rectangle wall) {
+
 		int[] collisionData = calculateCollision(wall, rect);
+
 		if (collisionData[0] == 0 && collisionData[1] == 0) {
-			return;
+			return new int[] { 0, 0 };
 		}
 
 		if (collisionData[0] != 0 && collisionData[1] != 0) {
@@ -440,6 +447,8 @@ public class PhysicsSimulator {
 
 		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
+
+		int[] originalMovement = new int[] { collisionData[0], collisionData[1] };
 
 		if (collisionData[0] != 0) {
 			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
@@ -460,6 +469,14 @@ public class PhysicsSimulator {
 		}
 
 		rect.moveCollision(collisionData[0], collisionData[1]);
+
+		if (originalMovement[0] != collisionData[0]
+				&& originalMovement[1] != collisionData[1]) {
+			return new int[] { 0, 0 };  // if collision was fudged, it wasn't pushed
+										  // back
+		}
+
+		return collisionData;
 	}
 
 	/**
