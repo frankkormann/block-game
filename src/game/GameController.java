@@ -100,6 +100,10 @@ public class GameController extends WindowAdapter {
 			for (WallRectangle wall : level.walls) {
 				physicsSimulator.addWall(wall);
 				mainFrame.add(wall, 2);
+				for (Area attached : wall.getAttachments()) {
+					physicsSimulator.addArea(attached);
+					mainFrame.add(attached, 0);
+				}
 			}
 			for (Area area : level.areas) {
 				physicsSimulator.addArea(area);
