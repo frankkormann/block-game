@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class GroundingArea extends Area {
 
-	public GroundingArea(int x, int y, int width, int height, Color color) {
+	public GroundingArea(int x, int y, int width, int height) {
 		super(x, y, width, height, new Color(0, 0, 0, 0));
 	}
 
