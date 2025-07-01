@@ -157,8 +157,8 @@ public abstract class Rectangle {
 		lastHeight = height;
 		leftWidthChange = 0;
 		topHeightChange = 0;
-		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
-			a.key.updateLastPosition();
+		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+			areaPair.key.updateLastPosition();
 		}
 	}
 
@@ -265,8 +265,8 @@ public abstract class Rectangle {
 	}
 
 	public void setX(int x) {
-		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
-			a.key.setX(a.key.getX() + x - this.x);
+		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+			areaPair.key.setX(areaPair.key.getX() + x - this.x);
 		}
 		this.x = x;
 	}
@@ -276,8 +276,8 @@ public abstract class Rectangle {
 	}
 
 	public void setY(int y) {
-		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
-			a.key.setY(a.key.getY() + y - this.y);
+		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+			areaPair.key.setY(areaPair.key.getY() + y - this.y);
 		}
 		this.y = y;
 	}
@@ -373,8 +373,8 @@ public abstract class Rectangle {
 
 	public List<Area> getAttachments() {
 		List<Area> result = new ArrayList<>();
-		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
-			result.add(a.key);
+		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+			result.add(areaPair.key);
 		}
 
 		return result;
