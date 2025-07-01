@@ -31,7 +31,7 @@ public class PhysicsSimulator {
 	private static int PLAYER_JUMP_CAP = -10;
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
-	private static int WALL_COLLISION_LEEWAY_Y = 3;
+	private static int WALL_COLLISION_LEEWAY_Y = 4;
 
 	private List<MovingRectangle> movingRectangles;
 	private List<WallRectangle> walls;
@@ -178,7 +178,6 @@ public class PhysicsSimulator {
 
 			applyAreasToMovingRectangle(rect);
 			applyNaturalForcesToMovingRectangle(rect);
-			applyGoalAreas(rect);
 
 			// No need to do collision if it didn't move
 			if (rect.getXVelocity() == 0 && rect.getYVelocity() == 0
@@ -197,14 +196,13 @@ public class PhysicsSimulator {
 	/**
 	 * Tests if {@code rect} intersects any {@code Area}s and applies effects of any
 	 * it does intersect.
-	 * <p>
-	 * Note that this method does not check against {@code GoalArea}s.
 	 * 
 	 * @param rect {@code MovingRectangle} to consider
 	 */
 	private void applyAreasToMovingRectangle(MovingRectangle rect) {
 		for (Area area : areas) {
 			area.handle(rect);
+			applyGoalAreas(rect);
 		}
 	}
 
@@ -456,12 +454,7 @@ public class PhysicsSimulator {
 
 		if (collisionData[0] != 0) {
 			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
-					WALL_COLLISION_LEEWAY_Y + GRAVITY, false);  // Need to add gravity
-																  // here because
-																  // grounded rectangles
-																  // have not been
-																  // pushed up to cancel
-																  // it yet
+					WALL_COLLISION_LEEWAY_Y, false);
 			fudgeCollision(collisionData, wall.getY() + wall.getHeight() - rect.getY(),
 					WALL_COLLISION_LEEWAY_Y, false);
 		}
