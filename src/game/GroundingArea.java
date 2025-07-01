@@ -16,7 +16,6 @@ public class GroundingArea extends Area {
 	@Override
 	public void onExit(MovingRectangle rect) {
 		rect.setState(MovingRectangle.State.IN_AIR);
-
 	}
 
 	@Override
