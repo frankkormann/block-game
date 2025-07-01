@@ -165,8 +165,45 @@ public abstract class Rectangle {
 		}
 	}
 
-	private void updateAttachmentBounds() {
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {}
+	/**
+	 * Moves and resizes all attached {@code Area}s to conform with their attachment
+	 * options.
+	 */
+	public void updateAttachmentBounds() {
+
+		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
+			Area attached = areaPair.key;
+			Set<AttachmentOption> options = areaPair.value;
+
+			if (options.contains(AttachmentOption.SAME_WIDTH)) {
+				attached.setWidth(width);
+			}
+
+			if (options.contains(AttachmentOption.SAME_HEIGHT)) {
+				attached.setHeight(height);
+			}
+
+			if (options.contains(AttachmentOption.GLUED_NORTH)) {
+				attached.setX(x);
+				attached.setY(y - attached.getHeight());
+			}
+
+			if (options.contains(AttachmentOption.GLUED_SOUTH)) {
+				attached.setX(x);
+				attached.setY(y + height);
+			}
+
+			if (options.contains(AttachmentOption.GLUED_WEST)) {
+				attached.setX(x - attached.getWidth());
+				attached.setY(y);
+			}
+
+			if (options.contains(AttachmentOption.GLUED_EAST)) {
+				attached.setX(x + width);
+				attached.setY(y);
+			}
+
+		}
 
 	}
 
@@ -273,10 +310,8 @@ public abstract class Rectangle {
 	}
 
 	public void setX(int x) {
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			areaPair.key.setX(areaPair.key.getX() + x - this.x);
-		}
 		this.x = x;
+		updateAttachmentBounds();
 	}
 
 	public int getY() {
@@ -284,10 +319,8 @@ public abstract class Rectangle {
 	}
 
 	public void setY(int y) {
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			areaPair.key.setY(areaPair.key.getY() + y - this.y);
-		}
 		this.y = y;
+		updateAttachmentBounds();
 	}
 
 	public int getWidth() {
@@ -300,6 +333,7 @@ public abstract class Rectangle {
 
 	public void setWidth(int width) {
 		this.width = width;
+		updateAttachmentBounds();
 	}
 
 	public void changeWidth(int change, boolean addToLeft) {
@@ -312,6 +346,7 @@ public abstract class Rectangle {
 			x -= change;
 			leftWidthChange += change;
 		}
+		updateAttachmentBounds();
 	}
 
 	public int getHeight() {
@@ -324,6 +359,7 @@ public abstract class Rectangle {
 
 	public void setHeight(int height) {
 		this.height = height;
+		updateAttachmentBounds();
 	}
 
 	public void changeHeight(int change, boolean addToTop) {
@@ -336,6 +372,7 @@ public abstract class Rectangle {
 			y -= change;
 			topHeightChange += change;
 		}
+		updateAttachmentBounds();
 	}
 
 	public void setResizeBehavior(ResizeBehavior resizeBehavior) {
