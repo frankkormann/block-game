@@ -110,9 +110,6 @@ public class MovingRectangle extends Rectangle {
 		}
 		if (yChange != 0 && Math.signum(yChange) != Math.signum(yVelocity)) {
 			yVelocity = 0;
-			if (yChange < 0) {
-				setState(State.ON_GROUND);
-			}
 		}
 
 		setX(getX() + xChange);
