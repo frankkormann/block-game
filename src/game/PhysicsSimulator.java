@@ -202,8 +202,8 @@ public class PhysicsSimulator {
 	private void applyAreas(MovingRectangle rect) {
 		for (Area area : areas) {
 			area.handle(rect);
-			applyGoalAreas(rect);
 		}
+		applyGoalAreas(rect);
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class PhysicsSimulator {
 	 * @param rect {@code MovingRectangle} to consider
 	 */
 	private void applyNaturalForces(MovingRectangle rect) {
-		if (rect.hasGravity() && rect.getState() == MovingRectangle.State.IN_AIR) {
+		if (rect.hasGravity()) {
 			rect.setYVelocity(rect.getYVelocity() + GRAVITY);
 		}
 		if (rect.getXVelocity() > 0) {
