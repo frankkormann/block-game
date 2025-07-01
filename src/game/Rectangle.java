@@ -38,6 +38,9 @@ public abstract class Rectangle {
 	private static final float BORDER_DARKNESS = 1.2f;
 	private static final int BORDER_THICKNESS = 1;
 
+	/**
+	 * How this interacts when it collides with the edge of the window
+	 */
 	public enum ResizeBehavior {
 		/**
 		 * Be pushed by window edges
@@ -57,8 +60,34 @@ public abstract class Rectangle {
 		PREVENT_Y
 	}
 
+	/**
+	 * Which properties of an attached {@code Area} to maintain relative to this
+	 */
 	public enum AttachmentOption {
-		GLUED_NORTH, GLUED_SOUTH, GLUED_WEST, GLUED_EAST, SAME_WIDTH, SAME_HEIGHT
+		/**
+		 * Keep the {@code Area} above this
+		 */
+		GLUED_NORTH,
+		/**
+		 * Keep the {@code Area} below this
+		 */
+		GLUED_SOUTH,
+		/**
+		 * Keep the {@code Area} to the left of this
+		 */
+		GLUED_WEST,
+		/**
+		 * Keep the {@code Area} to the right of this
+		 */
+		GLUED_EAST,
+		/**
+		 * Force the {@code Area}'s width to be the same as this
+		 */
+		SAME_WIDTH,
+		/**
+		 * Force the {@code Area}'s height to be the same as this
+		 */
+		SAME_HEIGHT
 	}
 
 	private Color color;
