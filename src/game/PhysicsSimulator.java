@@ -138,6 +138,14 @@ public class PhysicsSimulator {
 		}
 	}
 
+	/**
+	 * Sets the velocities of all {@code MovingRectangle}s with
+	 * {@code isControlledByPlayer() == true} according to the player's
+	 * {@code Input}s.
+	 * 
+	 * @param gameInputs {@code Set} of {@code Input}s which are pressed on this
+	 *                   frame
+	 */
 	private void applyInputsToPlayerRectangles(
 			Set<GameInputHandler.GameInput> gameInputs) {
 		for (MovingRectangle rect : movingRectangles) {
