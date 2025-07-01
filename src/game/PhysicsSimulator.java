@@ -28,6 +28,7 @@ public class PhysicsSimulator {
 	private static int GRAVITY = 2;
 	private static int PLAYER_X_ACCELERATION = 2;
 	private static int PLAYER_JUMP_VELOCITY = -16;
+	private static int PLAYER_JUMP_CAP = -10;
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
 	private static int WALL_COLLISION_LEEWAY_Y = 3;
@@ -167,6 +168,9 @@ public class PhysicsSimulator {
 				if (rect.getState() == MovingRectangle.State.ON_GROUND) {
 					newYVelocity = PLAYER_JUMP_VELOCITY;
 				}
+			}
+			else if (rect.getYVelocity() < PLAYER_JUMP_CAP) {
+				newYVelocity = PLAYER_JUMP_CAP;
 			}
 
 			rect.setXVelocity(newXVelocity);
