@@ -177,7 +177,7 @@ public class PhysicsSimulator {
 		for (MovingRectangle rect : movingRectangles) {
 
 			applyAreas(rect);
-			applyNaturalForcesToMovingRectangle(rect);
+			applyNaturalForces(rect);
 
 			// No need to do collision if it didn't move
 			if (rect.getXVelocity() == 0 && rect.getYVelocity() == 0
@@ -228,7 +228,7 @@ public class PhysicsSimulator {
 	 *
 	 * @param rect {@code MovingRectangle} to consider
 	 */
-	private void applyNaturalForcesToMovingRectangle(MovingRectangle rect) {
+	private void applyNaturalForces(MovingRectangle rect) {
 		if (rect.hasGravity() && rect.getState() == MovingRectangle.State.IN_AIR) {
 			rect.setYVelocity(rect.getYVelocity() + GRAVITY);
 		}
