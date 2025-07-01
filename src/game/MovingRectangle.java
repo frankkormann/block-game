@@ -33,7 +33,6 @@ public class MovingRectangle extends Rectangle {
 		}
 	}
 
-	// TODO Find a better system for telling whether a player rectangle can jump
 	public enum State {
 		ON_GROUND, IN_AIR
 	}
