@@ -5,7 +5,7 @@ import java.awt.Color;
 public class GroundingArea extends Area {
 
 	public GroundingArea(int x, int y, int width, int height) {
-		super(x, y, width, height, new Color(0, 0, 0, 0));
+		super(x, y, width, height, new Color(0, 0, 0, 255));
 	}
 
 	@Override
@@ -20,6 +20,8 @@ public class GroundingArea extends Area {
 	}
 
 	@Override
-	public void everyFrame(MovingRectangle rect) {}
+	public void everyFrame(MovingRectangle rect) {
+		rect.setState(MovingRectangle.State.ON_GROUND);
+	}
 
 }
