@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
@@ -53,6 +54,10 @@ public abstract class Rectangle {
 		PREVENT_Y
 	}
 
+	public enum AttachmentOption {
+		SAME_WIDTH, SAME_HEIGHT, GLUED_NORTH, GLUED_SOUTH, GLUED_WEST, GLUED_EAST
+	}
+
 	private Color color;
 
 	private int x, y;
@@ -64,7 +69,7 @@ public abstract class Rectangle {
 	private int leftWidthChange;
 	private int topHeightChange;
 
-	private List<Area> attachedAreas;
+	private List<Pair<Area, AttachmentOption[]>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
 
@@ -152,8 +157,8 @@ public abstract class Rectangle {
 		lastHeight = height;
 		leftWidthChange = 0;
 		topHeightChange = 0;
-		for (Area a : attachedAreas) {
-			a.updateLastPosition();
+		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
+			a.key.updateLastPosition();
 		}
 	}
 
@@ -260,8 +265,8 @@ public abstract class Rectangle {
 	}
 
 	public void setX(int x) {
-		for (Area a : attachedAreas) {
-			a.setX(a.getX() + x - this.x);
+		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
+			a.key.setX(a.key.getX() + x - this.x);
 		}
 		this.x = x;
 	}
@@ -271,8 +276,8 @@ public abstract class Rectangle {
 	}
 
 	public void setY(int y) {
-		for (Area a : attachedAreas) {
-			a.setY(a.getY() + y - this.y);
+		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
+			a.key.setY(a.key.getY() + y - this.y);
 		}
 		this.y = y;
 	}
@@ -357,14 +362,22 @@ public abstract class Rectangle {
 		return color;
 	}
 
-	public void addAttachments(List<Area> attachments) {
-		for (Area a : attachments) {
-			attachedAreas.add(a);
-		}
+	public void addAttachment(Area attachment, AttachmentOption... options) {
+		attachedAreas.add(new Pair<Area, AttachmentOption[]>(attachment, options));
+	}
+
+	@JsonProperty("attachments")
+	public void addAllAttachments(List<Pair<Area, AttachmentOption[]>> attachments) {
+		attachedAreas.addAll(attachments);
 	}
 
 	public List<Area> getAttachments() {
-		return attachedAreas;
+		List<Area> result = new ArrayList<>();
+		for (Pair<Area, AttachmentOption[]> a : attachedAreas) {
+			result.add(a.key);
+		}
+
+		return result;
 	}
 
 }
