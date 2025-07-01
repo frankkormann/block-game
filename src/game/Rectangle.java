@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -69,7 +72,7 @@ public abstract class Rectangle {
 	private int leftWidthChange;
 	private int topHeightChange;
 
-	private List<Pair<Area, AttachmentOption[]>> attachedAreas;
+	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
 
@@ -157,9 +160,14 @@ public abstract class Rectangle {
 		lastHeight = height;
 		leftWidthChange = 0;
 		topHeightChange = 0;
-		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
 			areaPair.key.updateLastPosition();
 		}
+	}
+
+	private void updateAttachmentBounds() {
+		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {}
+
 	}
 
 	/**
@@ -265,7 +273,7 @@ public abstract class Rectangle {
 	}
 
 	public void setX(int x) {
-		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
 			areaPair.key.setX(areaPair.key.getX() + x - this.x);
 		}
 		this.x = x;
@@ -276,7 +284,7 @@ public abstract class Rectangle {
 	}
 
 	public void setY(int y) {
-		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
 			areaPair.key.setY(areaPair.key.getY() + y - this.y);
 		}
 		this.y = y;
@@ -363,17 +371,20 @@ public abstract class Rectangle {
 	}
 
 	public void addAttachment(Area attachment, AttachmentOption... options) {
-		attachedAreas.add(new Pair<Area, AttachmentOption[]>(attachment, options));
+		Set<AttachmentOption> optionsSet = new HashSet<AttachmentOption>(
+				Arrays.asList(options));
+		attachedAreas
+				.add(new Pair<Area, Set<AttachmentOption>>(attachment, optionsSet));
 	}
 
 	@JsonProperty("attachments")
-	public void addAllAttachments(List<Pair<Area, AttachmentOption[]>> attachments) {
+	public void addAllAttachments(List<Pair<Area, Set<AttachmentOption>>> attachments) {
 		attachedAreas.addAll(attachments);
 	}
 
 	public List<Area> getAttachments() {
 		List<Area> result = new ArrayList<>();
-		for (Pair<Area, AttachmentOption[]> areaPair : attachedAreas) {
+		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
 			result.add(areaPair.key);
 		}
 
