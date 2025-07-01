@@ -47,10 +47,7 @@
 				{
 					"key": {
 						"type": ".GrowArea",
-						"x": 200,
-						"y": 400,
 						"width": 60,
-						"height": 40,
 						"xGrowth": 1,
 						"yGrowth": 0
 					},
@@ -59,10 +56,7 @@
 				{
 					"key": {
 						"type": ".ShrinkArea",
-						"x": 270,
-						"y": 400,
 						"width": 10,
-						"height": 40,
 						"xShrink": 1,
 						"yShrink": 0
 					},
