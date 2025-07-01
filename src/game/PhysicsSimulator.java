@@ -118,25 +118,10 @@ public class PhysicsSimulator {
 	public void updateAndMoveObjects(Set<GameInputHandler.GameInput> gameInputs,
 			int width, int height, int xOffset, int yOffset) {
 
-		applyAreasToMovingRectangles();
 		applyInputsToPlayerRectangles(gameInputs);
 		moveAllMovingRectangles();
 
 		moveAllSides(width, height, xOffset, yOffset);
-	}
-
-	/**
-	 * For each {@code MovingRectangle} in {@code movingRectangles}, tests if it
-	 * intersects any {@code Area}s and applies effects of any it does intersect.
-	 * <p>
-	 * Note that this method does not check against {@code GoalArea}s.
-	 */
-	private void applyAreasToMovingRectangles() {
-		for (MovingRectangle rect : movingRectangles) {
-			for (Area area : areas) {
-				area.handle(rect);
-			}
-		}
 	}
 
 	/**
@@ -179,8 +164,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * For each {@code MovingRectangle}, applies friction and gravity, applies
-	 * movement from velocity, and computes collision.
+	 * For each {@code MovingRectangle}, applies {@code Area}s, applies friction and
+	 * gravity, applies movement from velocity, and computes collision.
 	 */
 	private void moveAllMovingRectangles() {
 		movingRectangles.forEach(r -> r.updateLastPosition());
@@ -191,6 +176,7 @@ public class PhysicsSimulator {
 
 		for (MovingRectangle rect : movingRectangles) {
 
+			applyAreasToMovingRectangle(rect);
 			applyNaturalForcesToMovingRectangle(rect);
 			applyGoalAreas(rect);
 
@@ -206,6 +192,20 @@ public class PhysicsSimulator {
 			propagateCollision(rect, movingRectangles, null);
 		}
 
+	}
+
+	/**
+	 * Tests if {@code rect} intersects any {@code Area}s and applies effects of any
+	 * it does intersect.
+	 * <p>
+	 * Note that this method does not check against {@code GoalArea}s.
+	 * 
+	 * @param rect {@code MovingRectangle} to consider
+	 */
+	private void applyAreasToMovingRectangle(MovingRectangle rect) {
+		for (Area area : areas) {
+			area.handle(rect);
+		}
 	}
 
 	/**
