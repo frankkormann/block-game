@@ -23,7 +23,9 @@ public class WallRectangle extends Rectangle {
 			@JsonProperty("resizeBehavior") Rectangle.ResizeBehavior resizeBehavior) {
 		this(x, y, width, height, STAY_COLOR, resizeBehavior);
 
-		getAttachments().add(new GroundingArea(x, y - 1, width, 1));
+		addAttachment(new GroundingArea(x, y - 1, width, 1),
+				Rectangle.AttachmentOption.GLUED_NORTH,
+				Rectangle.AttachmentOption.SAME_WIDTH);
 	}
 
 	@Override

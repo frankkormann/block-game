@@ -72,7 +72,9 @@ public class MovingRectangle extends Rectangle {
 		controlledByPlayer = false;
 		state = State.IN_AIR;
 
-		getAttachments().add(new GroundingArea(x, y - 1, width, 1));
+		addAttachment(new GroundingArea(x, y - 1, width, 1),
+				Rectangle.AttachmentOption.GLUED_NORTH,
+				Rectangle.AttachmentOption.SAME_WIDTH);
 	}
 
 	/**
