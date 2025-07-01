@@ -55,7 +55,7 @@ public abstract class Rectangle {
 	}
 
 	public enum AttachmentOption {
-		SAME_WIDTH, SAME_HEIGHT, GLUED_NORTH, GLUED_SOUTH, GLUED_WEST, GLUED_EAST
+		GLUED_NORTH, GLUED_SOUTH, GLUED_WEST, GLUED_EAST, SAME_WIDTH, SAME_HEIGHT
 	}
 
 	private Color color;
