@@ -472,7 +472,7 @@ public class PhysicsSimulator {
 
 		if (originalMovement[0] != collisionData[0]
 				&& originalMovement[1] != collisionData[1]) {
-			return new int[] { 0, 0 };  // if collision was fudged, it wasn't pushed
+			return new int[] { 0, 0 };  // if collision was fudged, rect wasn't pushed
 										  // back
 		}
 
