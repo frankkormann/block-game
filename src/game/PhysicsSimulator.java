@@ -73,6 +73,12 @@ public class PhysicsSimulator {
 				MainFrame.Direction.WEST));
 		sideRectangles.add(new SideRectangle(xOffset + width, yOffset, 1, height,
 				MainFrame.Direction.EAST));
+
+		for (SideRectangle side : sideRectangles) {
+			for (Area attached : side.getAttachments()) {
+				areas.add(attached);
+			}
+		}
 	}
 
 	public void addMovingRectangle(MovingRectangle rect) {
