@@ -349,8 +349,10 @@ public abstract class Rectangle {
 		return color;
 	}
 
-	public void setAttachments(List<Area> attachments) {
-		this.attachedAreas = attachments;
+	public void addAttachments(List<Area> attachments) {
+		for (Area a : attachments) {
+			attachedAreas.add(a);
+		}
 	}
 
 	public List<Area> getAttachments() {
