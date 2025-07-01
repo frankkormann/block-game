@@ -176,7 +176,7 @@ public class PhysicsSimulator {
 
 		for (MovingRectangle rect : movingRectangles) {
 
-			applyAreasToMovingRectangle(rect);
+			applyAreas(rect);
 			applyNaturalForcesToMovingRectangle(rect);
 
 			// No need to do collision if it didn't move
@@ -199,7 +199,7 @@ public class PhysicsSimulator {
 	 * 
 	 * @param rect {@code MovingRectangle} to consider
 	 */
-	private void applyAreasToMovingRectangle(MovingRectangle rect) {
+	private void applyAreas(MovingRectangle rect) {
 		for (Area area : areas) {
 			area.handle(rect);
 			applyGoalAreas(rect);
