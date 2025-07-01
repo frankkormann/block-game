@@ -34,15 +34,23 @@ public abstract class Rectangle {
 	private static final float BORDER_DARKNESS = 1.2f;
 	private static final int BORDER_THICKNESS = 1;
 
-	/**
-	 * {@code MOVE} - Be pushed by window edges
-	 * <p>
-	 * {@code PREVENT} - Stop window edges from passing through this
-	 * <p>
-	 * {@code STAY} - Do not interact with window edges
-	 */
 	public enum ResizeBehavior {
-		MOVE, STAY, PREVENT_X, PREVENT_Y
+		/**
+		 * Be pushed by window edges
+		 */
+		MOVE,
+		/**
+		 * Do not interact with window edges
+		 */
+		STAY,
+		/**
+		 * Stop window edges from passing through this horizontally
+		 */
+		PREVENT_X,
+		/**
+		 * Stop window edges from passing through this vertically
+		 */
+		PREVENT_Y
 	}
 
 	private Color color;
