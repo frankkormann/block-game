@@ -71,6 +71,8 @@ public class MovingRectangle extends Rectangle {
 		yVelocity = 0;
 		controlledByPlayer = false;
 		state = State.IN_AIR;
+
+		getAttachments().add(new GroundingArea(x, y - 1, width, 1));
 	}
 
 	/**
