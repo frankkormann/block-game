@@ -70,6 +70,7 @@ public class MovingRectangle extends Rectangle {
 		xVelocity = 0;
 		yVelocity = 0;
 		controlledByPlayer = false;
+		state = State.IN_AIR;
 	}
 
 	/**
