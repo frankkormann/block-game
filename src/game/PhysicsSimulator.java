@@ -465,6 +465,8 @@ public class PhysicsSimulator {
 		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
 
+		int[] originalMovement = new int[] { collisionData[0], collisionData[1] };
+
 		if (collisionData[0] != 0) {
 			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
 					WALL_COLLISION_LEEWAY_Y, false);
@@ -476,6 +478,14 @@ public class PhysicsSimulator {
 					WALL_COLLISION_LEEWAY_X, true);
 			fudgeCollision(collisionData, wall.getX() + wall.getWidth() - rect.getX(),
 					WALL_COLLISION_LEEWAY_X, true);
+		}
+
+		// This does not check whether the fudged collision would push another
+		// MovingRectangle into a wall, but any examples I could think of where that
+		// would cause a problem are too contrived to worry about
+		// Also, implementing that check would be much more difficult
+		if (wouldIntersectAWall(rect, collisionData[0], collisionData[1])) {
+			collisionData = originalMovement;
 		}
 
 		rect.moveCollision(collisionData[0], collisionData[1]);
@@ -505,6 +515,25 @@ public class PhysicsSimulator {
 			movement[isX ? 0 : 1] = sliverSize;
 			movement[isX ? 1 : 0] = 0;
 		}
+	}
+
+	/**
+	 * Returns {@code true} if {@code rect} would intersect a {@code WallRectangle}
+	 * given the proposed movement.
+	 * 
+	 * @param rect    {@code MovingRectangle} to consider
+	 * @param xChange proposed change in the x direction
+	 * @param yChange proposed change in the y direction
+	 * 
+	 * @return {@code true} if {@code rect} would intersect a wall
+	 */
+	private boolean wouldIntersectAWall(MovingRectangle rect, int xChange,
+			int yChange) {
+		MovingRectangle potentialRect = new MovingRectangle(rect.getX() + xChange,
+				rect.getY() + yChange, rect.getWidth(), rect.getHeight());
+		return !walls.stream()
+				.map(w -> calculateCollision(w, potentialRect))
+				.allMatch(c -> c[0] == 0 && c[1] == 0);
 	}
 
 	/**
