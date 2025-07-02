@@ -3,6 +3,14 @@ package game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Holds two values.
+ * 
+ * @param <K>
+ * @param <V>
+ * 
+ * @author Frank Kormann
+ */
 public class Pair<K, V> {
 
 	public K key;
