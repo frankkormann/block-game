@@ -37,7 +37,7 @@ public class PhysicsSimulator {
 	private List<WallRectangle> walls;
 	private List<Area> areas;
 	private List<GoalArea> goals;
-	private List<SideRectangle> sideRectangles;
+	private Map<MainFrame.Direction, SideRectangle> sideRectangles;
 
 	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
 
@@ -50,7 +50,7 @@ public class PhysicsSimulator {
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
 		goals = new ArrayList<>();
-		sideRectangles = new ArrayList<>();
+		sideRectangles = new HashMap<>();
 
 		sideRectangleResizes = new HashMap<>();
 
@@ -66,16 +66,16 @@ public class PhysicsSimulator {
 	 * @param yOffset Y coordinate of top left corner
 	 */
 	public void createSides(int width, int height, int xOffset, int yOffset) {
-		sideRectangles.add(new SideRectangle(xOffset, yOffset, width, 1,
-				MainFrame.Direction.NORTH));
-		sideRectangles.add(new SideRectangle(xOffset, yOffset + height, width, 1,
-				MainFrame.Direction.SOUTH));
-		sideRectangles.add(new SideRectangle(xOffset, yOffset, 1, height,
-				MainFrame.Direction.WEST));
-		sideRectangles.add(new SideRectangle(xOffset + width, yOffset, 1, height,
-				MainFrame.Direction.EAST));
+		sideRectangles.put(MainFrame.Direction.NORTH, new SideRectangle(xOffset,
+				yOffset, width, 1, MainFrame.Direction.NORTH));
+		sideRectangles.put(MainFrame.Direction.SOUTH, new SideRectangle(xOffset,
+				yOffset + height, width, 1, MainFrame.Direction.SOUTH));
+		sideRectangles.put(MainFrame.Direction.WEST, new SideRectangle(xOffset, yOffset,
+				1, height, MainFrame.Direction.WEST));
+		sideRectangles.put(MainFrame.Direction.EAST, new SideRectangle(xOffset + width,
+				yOffset, 1, height, MainFrame.Direction.EAST));
 
-		for (SideRectangle side : sideRectangles) {
+		for (SideRectangle side : sideRectangles.values()) {
 			for (Area attached : side.getAttachments()) {
 				areas.add(attached);
 			}
@@ -254,11 +254,9 @@ public class PhysicsSimulator {
 
 		sideRectangleResizes.clear();
 
-		sideRectangles.forEach(s -> s.updateLastPosition());
-		sideRectangles.forEach(s -> s.setActLikeWall(true));
+		sideRectangles.values().forEach(s -> s.updateLastPosition());
 
-		for (SideRectangle side : sideRectangles) {
-			side.setActLikeWall(false);
+		for (SideRectangle side : sideRectangles.values()) {
 			MainFrame.Direction direction = side.getDirection();
 			int difference = 0;
 			switch (direction) {
@@ -266,33 +264,39 @@ public class PhysicsSimulator {
 				// could phase through the floor because the floor was not wide enough
 				case NORTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
+					sideRectangles.get(MainFrame.Direction.SOUTH).setActLikeWall(true);
 					difference = calculateCollisionForSide(side, xOffset - 50 * width,
 							yOffset - side.getHeight(), 101 * width, side.getHeight());
+					sideRectangles.get(MainFrame.Direction.SOUTH).setActLikeWall(false);
 					break;
 				case SOUTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight()
 							- r1.getY() - r1.getHeight());
+					sideRectangles.get(MainFrame.Direction.NORTH).setActLikeWall(true);
 					difference = calculateCollisionForSide(side, xOffset - 50 * width,
 							yOffset + height, 101 * width, side.getHeight());
+					sideRectangles.get(MainFrame.Direction.NORTH).setActLikeWall(false);
 					break;
 				case WEST:
 					movingRectangles.sort((r1, r2) -> r1.getX() - r2.getX());
+					sideRectangles.get(MainFrame.Direction.EAST).setActLikeWall(true);
 					difference = calculateCollisionForSide(side,
 							xOffset - side.getWidth(), yOffset - 50 * height,
 							side.getWidth(), 101 * height);
+					sideRectangles.get(MainFrame.Direction.EAST).setActLikeWall(false);
 					break;
 				case EAST:
 					movingRectangles.sort((r1, r2) -> r2.getX() + r2.getWidth()
 							- r1.getX() - r1.getWidth());
+					sideRectangles.get(MainFrame.Direction.WEST).setActLikeWall(true);
 					difference = calculateCollisionForSide(side, xOffset + width,
 							yOffset - 50 * height, side.getWidth(), 101 * height);
+					sideRectangles.get(MainFrame.Direction.WEST).setActLikeWall(false);
 					break;
 			}
-			side.setActLikeWall(true);
 			sideRectangleResizes.put(direction, difference);
 		}
 
-		sideRectangles.forEach(s -> s.setActLikeWall(false));
 	}
 
 	/**
@@ -425,7 +429,8 @@ public class PhysicsSimulator {
 
 		int[] pushback = new int[] { 0, 0 };
 
-		Stream.concat(sideRectangles.stream().filter(s -> s.isActingLikeWall()),
+		Stream.concat(
+				sideRectangles.values().stream().filter(s -> s.isActingLikeWall()),
 				walls.stream()).map(w -> collideWithWall(rect, w)).forEach(a -> {
 					pushback[0] += a[0];
 					pushback[1] += a[1];
