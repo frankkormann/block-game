@@ -264,34 +264,26 @@ public class PhysicsSimulator {
 				// could phase through the floor because the floor was not wide enough
 				case NORTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
-					sideRectangles.get(MainFrame.Direction.SOUTH).setActLikeWall(true);
 					difference = calculateCollisionForSide(side, xOffset - 50 * width,
 							yOffset - side.getHeight(), 101 * width, side.getHeight());
-					sideRectangles.get(MainFrame.Direction.SOUTH).setActLikeWall(false);
 					break;
 				case SOUTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight()
 							- r1.getY() - r1.getHeight());
-					sideRectangles.get(MainFrame.Direction.NORTH).setActLikeWall(true);
 					difference = calculateCollisionForSide(side, xOffset - 50 * width,
 							yOffset + height, 101 * width, side.getHeight());
-					sideRectangles.get(MainFrame.Direction.NORTH).setActLikeWall(false);
 					break;
 				case WEST:
 					movingRectangles.sort((r1, r2) -> r1.getX() - r2.getX());
-					sideRectangles.get(MainFrame.Direction.EAST).setActLikeWall(true);
 					difference = calculateCollisionForSide(side,
 							xOffset - side.getWidth(), yOffset - 50 * height,
 							side.getWidth(), 101 * height);
-					sideRectangles.get(MainFrame.Direction.EAST).setActLikeWall(false);
 					break;
 				case EAST:
 					movingRectangles.sort((r1, r2) -> r2.getX() + r2.getWidth()
 							- r1.getX() - r1.getWidth());
-					sideRectangles.get(MainFrame.Direction.WEST).setActLikeWall(true);
 					difference = calculateCollisionForSide(side, xOffset + width,
 							yOffset - 50 * height, side.getWidth(), 101 * height);
-					sideRectangles.get(MainFrame.Direction.WEST).setActLikeWall(false);
 					break;
 			}
 			sideRectangleResizes.put(direction, difference);
@@ -319,7 +311,11 @@ public class PhysicsSimulator {
 		side.setWidth(newWidth);
 		side.setHeight(newHeight);
 
+		sideRectangles.get(side.getDirection().getOpposite()).setActLikeWall(true);
+
 		int[] pushedBack = propagateCollision(side, movingRectangles, null);
+
+		sideRectangles.get(side.getDirection().getOpposite()).setActLikeWall(false);
 
 		if (pushedBack[0] != 0) {  // Infer side's direction based on how it collided
 			return pushedBack[0];
