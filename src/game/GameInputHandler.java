@@ -166,10 +166,8 @@ public class GameInputHandler extends KeyAdapter {
 	private int readInt() {
 		int i = 0;
 
-		i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE);
-		for (int j = 1; j < Integer.BYTES; j++) {
-			i >>>= Byte.SIZE;
-			i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE);
+		for (int j = 0; j < Integer.BYTES; j++) {
+			i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE) * j;
 		}
 
 		return i;
