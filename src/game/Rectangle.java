@@ -24,8 +24,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * {@code draw(Graphics,int,int)} and the {@code intersects} family of methods
  * can be overridden to easily change behavior.
  * <p>
- * {@code Areas} can be attached to this. Attached {@code Areas} will have their
- * positions updated to move in sync with this whenever this moves.
+ * {@code Areas} can be attached to this. Attached {@code Areas} have their
+ * position and size updated relative to this depending on the
+ * {@code AttachmentOption}s used.
  * <p>
  * {@code Rectangles} (and levels in general) should be created through JSON.
  * See the README for more details.
@@ -62,22 +63,28 @@ public abstract class Rectangle {
 
 	/**
 	 * Which properties of an attached {@code Area} to maintain relative to this
+	 * <p>
+	 * At most one {@code GLUED_} value should be used
 	 */
 	public enum AttachmentOption {
 		/**
-		 * Keep the {@code Area} above this
+		 * Keep the {@code Area} above this. Incompatible with {@code GLUED_SOUTH},
+		 * {@code GLUED_WEST}, {@code GLUED_EAST}.
 		 */
 		GLUED_NORTH,
 		/**
-		 * Keep the {@code Area} below this
+		 * Keep the {@code Area} below this. Incompatible with {@code GLUED_NORTH},
+		 * {@code GLUED_WEST}, {@code GLUED_EAST}.
 		 */
 		GLUED_SOUTH,
 		/**
-		 * Keep the {@code Area} to the left of this
+		 * Keep the {@code Area} to the left of this. Incompatible with
+		 * {@code GLUED_NORTH}, {@code GLUED_SOUTH}, {@code GLUED_EAST}.
 		 */
 		GLUED_WEST,
 		/**
-		 * Keep the {@code Area} to the right of this
+		 * Keep the {@code Area} to the right of this. Incompatible with
+		 * {@code GLUED_NORTH}, {@code GLUED_SOUTH}, {@code GLUED_WEST}.
 		 */
 		GLUED_EAST,
 		/**
