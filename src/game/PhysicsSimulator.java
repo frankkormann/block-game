@@ -519,6 +519,9 @@ public class PhysicsSimulator {
 	 * clips the corner of {@code rect}. Moving {@code other} in either direction
 	 * will be sufficient to resolve the collision with {@code rect}. The caller
 	 * should decide which direction is appropriate for the situation.
+	 * <p>
+	 * {@code calculateCollision(rect, other)} will always return the negative of
+	 * {@code calculateCollision(other, rect)}.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
