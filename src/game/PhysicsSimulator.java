@@ -636,12 +636,12 @@ public class PhysicsSimulator {
 	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull the
 	 * rectangles associated with {@code other} back to {@code other}.
 	 * 
-	 * @param rect      {@code Rectangle} to align with
-	 * @param other     {@code Rectangle} to pull back
-	 * @param maxPull   { maxX, maxY } of maximum amount to pull {@code other} back,
-	 *                  even if it doesn't get lined up with {@code rect}
-	 * @param direction boolean representing direction; {@code true} for x and
-	 *                  {@code false} for y
+	 * @param rect         {@code Rectangle} to align with
+	 * @param other        {@code Rectangle} to pull back
+	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how much
+	 *                     it was pushed by in each direction
+	 * @param direction    boolean representing direction; {@code true} for x and
+	 *                     {@code false} for y
 	 */
 	private void pullback(Rectangle rect, MovingRectangle other,
 			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
