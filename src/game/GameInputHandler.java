@@ -157,7 +157,7 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Interprets the next 4 bytes in the input stream as an {@code int}.
+	 * Interprets the next bytes as an {@code int} written by {@link#writeInt(int)}.
 	 * <p>
 	 * Closes the input stream if end-of-input is detected.
 	 * 
@@ -166,9 +166,15 @@ public class GameInputHandler extends KeyAdapter {
 	private int readInt() {
 		int i = 0;
 
-		for (int j = 0; j < Integer.BYTES; j++) {
+		int numBytes = (byte) readByte();  // Cast to byte for negative values
+		int sign = (int) Math.signum(numBytes);
+		numBytes = Math.abs(numBytes);
+
+		for (int j = 0; j < numBytes; j++) {
 			i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE) * j;
 		}
+
+		i *= sign;
 
 		return i;
 	}
@@ -188,23 +194,48 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Writes an {@code int}, encoded as four {@code byte}s, to the output stream.
+	 * Writes a compressed {@code int} to the output stream.
+	 * <p>
+	 * First, {@code i} is split into four bytes. Any bytes which are entirely
+	 * {@code 0} and do not have useful bytes above them are thrown out. Then, the
+	 * number of remaining bytes is written and each byte is written in turn. If
+	 * {@i == 0}, only one byte (being 0) is written.
+	 * <p>
+	 * If {@code i} is negative, the byte indicating the number of bytes in
+	 * {@code i} will be negative. Each byte of {@code i} represents {@code i}'s
+	 * absolute value.
 	 * 
 	 * @param i {@code int} to write
 	 */
 	private void writeInt(int i) {
+		if (i == 0) {
+			writeByte(0);
+			return;
+		}
+
 		byte[] bytes = new byte[Integer.BYTES];
+		int usefulBytes;
+		int originalSign = (int) Math.signum(i);
+
+		i = Math.abs(i);
+
 		for (int j = 0; j < Integer.BYTES; j++) {
 			bytes[j] = (byte) i;
 			i >>= Byte.SIZE;
 		}
 
+		for (usefulBytes = bytes.length; usefulBytes > 0
+				&& bytes[usefulBytes - 1] == 0; usefulBytes--)
+			;
+
 		try {
-			writer.write(bytes);
+			writer.write(usefulBytes * originalSign);
+			writer.write(bytes, 0, usefulBytes);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	/**
