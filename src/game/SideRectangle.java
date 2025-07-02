@@ -9,7 +9,7 @@ public class SideRectangle extends MovingRectangle {
 			MainFrame.Direction direction) {
 		super(x, y, width, height);
 		this.direction = direction;
-		actingLikeWall = true;
+		actingLikeWall = false;
 	}
 
 	@Override
