@@ -382,7 +382,13 @@ public class PhysicsSimulator {
 
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
-			rect.moveCollision(pushback[0], pushback[1]);
+			if (collisionData[0] != 0) {  // rect should only be pushed back in the
+										  // direction it pushed other
+				rect.moveCollision(pushback[0], 0);
+			}
+			else {
+				rect.moveCollision(0, pushback[1]);
+			}
 
 			pushedAmount[0] += pushback[0];
 			pushedAmount[1] += pushback[1];
