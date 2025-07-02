@@ -386,13 +386,13 @@ public class PhysicsSimulator {
 			if (collisionData[0] != 0) {  // rect should only be pushed back in the
 										  // direction it pushed other
 				rect.moveCollision(pushback[0], 0);
+				pushedAmount[0] += pushback[0];
 			}
 			else {
 				rect.moveCollision(0, pushback[1]);
+				pushedAmount[1] += pushback[1];
 			}
 
-			pushedAmount[0] += pushback[0];
-			pushedAmount[1] += pushback[1];
 		}
 
 		// Pull back Rectangles that collided to be aligned with the edge of this
