@@ -31,7 +31,7 @@ public class PhysicsSimulator {
 	private static int PLAYER_JUMP_CAP = -10;
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
-	private static int WALL_COLLISION_LEEWAY_Y = 4;
+	private static int WALL_COLLISION_LEEWAY_Y = 5;
 
 	private List<MovingRectangle> movingRectangles;
 	private List<WallRectangle> walls;
