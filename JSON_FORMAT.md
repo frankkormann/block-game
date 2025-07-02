@@ -363,19 +363,19 @@ width/height options.
 
 <table>
 	<tr>
-		<td>GLUED_NORTH<td>
+		<td>GLUED_NORTH</td>
 		<td>Area remains stuck on top of the rectangle</td>
 	</tr>
 	<tr>
-		<td>GLUED_SOUTH<td>
+		<td>GLUED_SOUTH</td>
 		<td>Area remains stuck on the bottom  of the rectangle</td>
 	</tr>
 	<tr>
-		<td>GLUED_WEST<td>
+		<td>GLUED_WEST</td>
 		<td>Area remains stuck to the left of of the rectangle</td>
 	</tr>
 	<tr>
-		<td>GLUED_EAST<td>
+		<td>GLUED_EAST</td>
 		<td>Area remains stuck to the right of the rectangle</td>
 	</tr>
 </table>
