@@ -31,12 +31,25 @@ bigger to accommodate its title bar and other decorations.
 A level can have a `solution` field which is used to replay the puzzle's
 solution. This field should contain the path to a valid recording file.
 
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	"name": "Hello World!",
+	"width": 800,
+	"height": 500,
+	"solution": "/solution.rec",
+	...
+}
+```
+</details>
+
 ### Rectangles
 
 A level's rectangles are declared in the `movingRectangles`, `walls`, `areas`,
 `goals`, and `hints` fields. Each of these fields corresponds to a list of
 rectangle objects of its type.
-
 
 Every rectangle must fill the `type`, `x`, `y`, `width`, and `height` fields
 Additionally, it must contain data for any unique attributes listed below. This
@@ -44,6 +57,31 @@ data corresponds to the values taken by a rectangle's `@JsonCreator` constructor
 
 Areas are special rectangles that apply an effect to all Moving Rectangles that
 are touching them.
+
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	...
+	"movingRectangles": [
+		...
+	],
+	"walls": [
+		...
+	],
+	"areas": [
+		...
+	],
+	"goals": [
+		...
+	],
+	"hints": [
+		...
+	]
+}
+```
+</details>
 
 <p align="center"><b>All rectangles</b></p>
 <table>
@@ -92,6 +130,22 @@ are touching them.
 	</tr>
 </table>
 
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	"type": ".MovingRectangle",
+	"controlledByPlayer": "true",
+	"x": 250,
+	"y": 470,
+	"width": 20,
+	"height": 20,
+	"color": "PLAYER"
+}
+```
+</details>
+
 #### wallRectangles
 
 <p align="center"><b>Wall Rectangle</b></p>
@@ -114,6 +168,21 @@ are touching them.
 		</td>
 	</tr>
 </table>
+
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	"type": ".WallRectangle",
+	"x": 0,
+	"y": 0,
+	"width": 800,
+	"height": 10,
+	"resizeBehavior": "STAY"
+}
+```
+</details>
 
 #### areas
 
@@ -188,6 +257,22 @@ are touching them.
 	</tr>
 </table>
 
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	"type": ".GrowArea",
+	"x": 0,
+	"y": 430,
+	"width": 20,
+	"height": 50,
+	"xGrowth": 0,
+	"yGrowth": 1
+}
+```
+</details>
+
 #### goals
 
 <p align="center"><b>Goal Area</b></p>
@@ -206,6 +291,21 @@ are touching them.
 		<td>Path to the next level's JSON</td>
 	</tr>
 </table>
+
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	"type": ".GoalArea",
+	"x": 280,
+	"y": 630,
+	"width": 50,
+	"height": 50,
+	"nextLevel": "/level_1.json"
+}
+```
+</details>
 
 #### hints
 
@@ -229,10 +329,96 @@ invisible otherwise and always intangible.
 	</tr>
 </table>
 
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	"type": ".HintRectangle",
+	"x": 440,
+	"y": 460,
+	"width": 30,
+	"height": 30,
+	"color": "GREEN"
+}
+```
+</details>
+
 ### Attaching areas to rectangles
 
-Rectangles can optionally have an `attachments` field that corresponds to an
-array of areas, similar to the level's `rectangles` field. These attached areas
-will have their position updated in sync with the rectangle they are attached
-to. Their `x` and `y` values should still be relative to the level, not to the
-rectangle.
+Rectangles can optionally have an `attachments` field that corresponds to areas
+which should remain stuck to the rectangle as it moves. Each attachment object
+requires an `area` field with an area object and an `options` field that
+describes how the area is attached.
+
+Attached areas do not need to include fields for their `x` and `y` position
+because these will be inherited from the rectangle. If a width/height option is
+used, the area similarly does not need to include a field for its `width` and/or
+`height`.
+
+The options should include exactly one directional option and any number of
+width/height options.
+
+#### Directional options
+
+<table>
+	<tr>
+		<td>GLUED_NORTH<td>
+		<td>Area remains stuck on top of the rectangle</td>
+	</tr>
+	<tr>
+		<td>GLUED_SOUTH<td>
+		<td>Area remains stuck on the bottom  of the rectangle</td>
+	</tr>
+	<tr>
+		<td>GLUED_WEST<td>
+		<td>Area remains stuck to the left of of the rectangle</td>
+	</tr>
+	<tr>
+		<td>GLUED_EAST<td>
+		<td>Area remains stuck to the right of the rectangle</td>
+	</tr>
+</table>
+
+#### Width/height options
+
+<table>
+	<tr>
+		<td>SAME_WIDTH</td>
+		<td>Area will keep its width equal to the rectangle's width</td>
+	</tr>
+	<tr>
+		<td>SAME_HEIGHT</td>
+		<td>Area will keep its height equal to the rectangle's height</td>
+	</tr>
+</table>
+
+<details>
+	<summary>Example</summary>
+	
+```
+{
+	"type": ".MovingRectangle",
+	...
+	"attachments": [
+		{
+			"area": {
+				"type": ".GrowArea",
+				"width": 60,
+				"xGrowth": 1,
+				"yGrowth": 0
+			},
+			"options": ["GLUED_WEST", "SAME_HEIGHT"]
+		},
+		{
+			"area": {
+				"type": ".ShrinkArea",
+				"height": 10,
+				"xShrink": 1,
+				"yShrink": 0
+			},
+			"options": ["GLUED_NORTH", "SAME_WIDTH"]
+		}
+	]
+```
+</details>
