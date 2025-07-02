@@ -361,6 +361,7 @@ public class PhysicsSimulator {
 		colliders.remove(rect);
 
 		int[] wallPushback = handleCollisionWithWalls(rect);
+
 		pushedAmount[0] += wallPushback[0];
 		pushedAmount[1] += wallPushback[1];
 
@@ -423,16 +424,16 @@ public class PhysicsSimulator {
 	 */
 	private int[] handleCollisionWithWalls(MovingRectangle rect) {
 
-		int[] pushback = new int[] { 0, 0 };
+		int[] pushedBack = new int[] { 0, 0 };
 
 		Stream.concat(
 				sideRectangles.values().stream().filter(s -> s.isActingLikeWall()),
 				walls.stream()).map(w -> collideWithWall(rect, w)).forEach(a -> {
-					pushback[0] += a[0];
-					pushback[1] += a[1];
+					pushedBack[0] += a[0];
+					pushedBack[1] += a[1];
 				});
 
-		return pushback;
+		return pushedBack;
 	}
 
 	/**
