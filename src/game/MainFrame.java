@@ -52,6 +52,12 @@ public class MainFrame extends JFrame {
 	public enum Direction {
 		NORTH, SOUTH, WEST, EAST;
 
+		/**
+		 * {@code NORTH} if this is {@code SOUTH}, {@code WEST} if this is {@code EAST},
+		 * etc.
+		 * 
+		 * @return The opposite of this {@code Direction}
+		 */
 		public Direction getOpposite() {
 			switch (this) {
 				case NORTH:
