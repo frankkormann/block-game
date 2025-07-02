@@ -344,7 +344,7 @@ public class PhysicsSimulator {
 	// and how much
 	private int[] propagateCollision(MovingRectangle rect,
 			List<MovingRectangle> colliders,
-			Map<MovingRectangle, RectangleMapObject> collisionMap) {
+			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
 
 		if (collisionMap == null) {
 			collisionMap = new HashMap<>();
@@ -377,7 +377,8 @@ public class PhysicsSimulator {
 					false);
 
 			other.moveCollision(collisionData[0], collisionData[1]);
-			collisionMap.put(other, new RectangleMapObject(rect, collisionData));
+			collisionMap.put(other,
+					new Pair<MovingRectangle, int[]>(rect, collisionData));
 			numberCollided++;
 
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
@@ -397,7 +398,7 @@ public class PhysicsSimulator {
 		// Pull back Rectangles that collided to be aligned with the edge of this
 		if (numberCollided >= 2) {
 			for (MovingRectangle c : collisionMap.keySet()) {
-				if (collisionMap.get(c).pushedBy == rect) {
+				if (collisionMap.get(c).key == rect) {
 					pullback(rect, c, collisionMap);
 				}
 			}
@@ -643,11 +644,11 @@ public class PhysicsSimulator {
 	 *                  {@code false} for y
 	 */
 	private void pullback(Rectangle rect, MovingRectangle other,
-			Map<MovingRectangle, RectangleMapObject> collisionMap) {
+			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
 		int xChange = 0;
 		int yChange = 0;
 
-		int[] pushedAmount = collisionMap.get(other).pushedAmount;
+		int[] pushedAmount = collisionMap.get(other).value;
 
 		if (pushedAmount[1] == 0) {  // not pushed in y direction -> x collision
 			xChange = pullToX(rect, other);
@@ -665,7 +666,7 @@ public class PhysicsSimulator {
 		other.moveCollision(xChange, yChange);
 
 		for (MovingRectangle c : collisionMap.keySet()) {
-			if (collisionMap.get(c).pushedBy == other) {
+			if (collisionMap.get(c).key == other) {
 				pullback(other, c, collisionMap);
 			}
 		}
@@ -709,20 +710,6 @@ public class PhysicsSimulator {
 
 	public Map<MainFrame.Direction, Integer> getResizes() {
 		return sideRectangleResizes;
-	}
-
-	/**
-	 * Struct-like object to hold which Rectangle a MovingRectangle was pushed by
-	 * and how much it was pushed, for use in a Map.
-	 */
-	private class RectangleMapObject {
-		public Rectangle pushedBy;
-		public int[] pushedAmount;
-
-		public RectangleMapObject(Rectangle pushedBy, int[] pushedAmount) {
-			this.pushedBy = pushedBy;
-			this.pushedAmount = pushedAmount;
-		}
 	}
 
 }
