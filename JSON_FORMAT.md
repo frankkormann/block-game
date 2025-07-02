@@ -420,5 +420,6 @@ width/height options.
 			"options": ["GLUED_NORTH", "SAME_WIDTH"]
 		}
 	]
+}
 ```
 </details>
