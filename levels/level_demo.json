@@ -45,22 +45,22 @@
 			"color": "ORANGE",
 			"attachments": [
 				{
-					"key": {
+					"area": {
 						"type": ".GrowArea",
 						"width": 60,
 						"xGrowth": 1,
 						"yGrowth": 0
 					},
-					"value": ["GLUED_WEST", "SAME_HEIGHT"]
+					"options": ["GLUED_WEST", "SAME_HEIGHT"]
 				},
 				{
-					"key": {
+					"area": {
 						"type": ".ShrinkArea",
 						"width": 10,
 						"xShrink": 1,
 						"yShrink": 0
 					},
-					"value": ["GLUED_EAST", "SAME_HEIGHT"]
+					"options": ["GLUED_EAST", "SAME_HEIGHT"]
 				}
 			]
 		}

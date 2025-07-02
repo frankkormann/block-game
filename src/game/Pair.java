@@ -1,5 +1,6 @@
 package game;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,7 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Pair<K, V> {
 
+	@JsonAlias({ "area" })
 	public K key;
+	@JsonAlias({ "options" })
 	public V value;
 
 	@JsonCreator
