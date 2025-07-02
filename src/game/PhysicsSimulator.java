@@ -361,7 +361,6 @@ public class PhysicsSimulator {
 		colliders.remove(rect);
 
 		int[] wallPushback = handleCollisionWithWalls(rect);
-
 		pushedAmount[0] += wallPushback[0];
 		pushedAmount[1] += wallPushback[1];
 
