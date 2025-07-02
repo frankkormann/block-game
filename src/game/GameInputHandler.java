@@ -157,7 +157,7 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Interprets the next 8 bytes in the input stream as an {@code int}.
+	 * Interprets the next 4 bytes in the input stream as an {@code int}.
 	 * <p>
 	 * Closes the input stream if end-of-input is detected.
 	 * 
