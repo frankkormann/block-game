@@ -255,6 +255,7 @@ public class PhysicsSimulator {
 		sideRectangleResizes.clear();
 
 		sideRectangles.forEach(s -> s.updateLastPosition());
+		sideRectangles.forEach(s -> s.setActLikeWall(true));
 
 		for (SideRectangle side : sideRectangles) {
 			side.setActLikeWall(false);
@@ -290,6 +291,8 @@ public class PhysicsSimulator {
 			side.setActLikeWall(true);
 			sideRectangleResizes.put(direction, difference);
 		}
+
+		sideRectangles.forEach(s -> s.setActLikeWall(false));
 	}
 
 	/**
