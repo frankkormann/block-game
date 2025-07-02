@@ -379,6 +379,10 @@ public class PhysicsSimulator {
 			collisionData[1] = -correctGrowthForCollision(rect, -collisionData[1],
 					false);
 
+			collisionData[0] = correctGrowthForCollision(other, collisionData[0], true);
+			collisionData[1] = correctGrowthForCollision(other, collisionData[1],
+					false);
+
 			other.moveCollision(collisionData[0], collisionData[1]);
 			collisionMap.put(other,
 					new Pair<MovingRectangle, int[]>(rect, collisionData));
