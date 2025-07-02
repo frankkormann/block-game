@@ -51,6 +51,21 @@ public class MainFrame extends JFrame {
 
 	public enum Direction {
 		NORTH, SOUTH, WEST, EAST;
+
+		public Direction getOpposite() {
+			switch (this) {
+				case NORTH:
+					return SOUTH;
+				case SOUTH:
+					return NORTH;
+				case WEST:
+					return EAST;
+				case EAST:
+					return WEST;
+				default:
+					return null;
+			}
+		}
 	}
 
 	public MainFrame(GameInputHandler gameInputHandler) {
