@@ -509,7 +509,7 @@ public class PhysicsSimulator {
 
 	/**
 	 * Calculate how to move {@code other} so that it does not intersect
-	 * {@code rect}. Returns { 0, 0 } if {@code rect == other}.
+	 * {@code rect}. Returns <code>{ 0, 0 }</code> if {@code rect == other}.
 	 * <p>
 	 * Usually, this will return a movement in only one direction (x or y) and the
 	 * other direction will be {@code 0}. However, if {@code other} was not
