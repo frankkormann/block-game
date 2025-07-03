@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Get inputs from the user or a file. Optionally write inputs to a file.
+ * Get inputs from the user or a stream. Optionally write inputs to a stream.
  * <p>
  * By default, inputs will be taken from the user. Key presses will be taken
  * from the keyboard and window resizes will be taken from calls to
@@ -166,8 +166,8 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Stops reading and closes the file. If this is not reading, this method has no
-	 * effect.
+	 * Stops reading and closes the stream. If this is not reading, this method has
+	 * no effect.
 	 */
 	public void endReading() {
 		if (reader == null) {
@@ -183,8 +183,8 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Stops writing and closes the file. If this is not writing, this method has no
-	 * effect.
+	 * Stops writing and closes the stream. If this is not writing, this method has
+	 * no effect.
 	 */
 	public void endWriting() {
 		if (writer == null) {
@@ -201,7 +201,7 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Returns the {@code Input}s pressed on this frame in the reading file.
+	 * Returns the {@code Input}s pressed on this frame in the input stream.
 	 */
 	private Set<GameInput> readInputs() {
 		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
