@@ -531,9 +531,13 @@ public class PhysicsSimulator {
 			int yChange) {
 		MovingRectangle potentialRect = new MovingRectangle(rect.getX() + xChange,
 				rect.getY() + yChange, rect.getWidth(), rect.getHeight());
-		return !walls.stream()
-				.map(w -> calculateCollision(w, potentialRect))
-				.allMatch(c -> c[0] == 0 && c[1] == 0);
+
+		for (WallRectangle wall : walls) {
+			if (wall.intersectsX(potentialRect) && wall.intersectsY(potentialRect)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
