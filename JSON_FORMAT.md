@@ -26,11 +26,6 @@ bigger to accommodate its title bar and other decorations.
 	</tr>
 </table>
 
-### Solution
-
-A level can have a `solution` field which is used to replay the puzzle's
-solution. This field should contain the path to a valid recording file.
-
 <details>
 	<summary>Example</summary>
 	
@@ -45,18 +40,16 @@ solution. This field should contain the path to a valid recording file.
 ```
 </details>
 
+### Solution
+
+A level can have a `solution` field which is used to replay the puzzle's
+solution. This field should contain the path to a valid recording file.
+
 ### Rectangles
 
 A level's rectangles are declared in the `movingRectangles`, `walls`, `areas`,
 `goals`, and `hints` fields. Each of these fields corresponds to a list of
 rectangle objects of its type.
-
-Every rectangle must fill the `type`, `x`, `y`, `width`, and `height` fields
-Additionally, it must contain data for any unique attributes listed below. This
-data corresponds to the values taken by a rectangle's `@JsonCreator` constructor.
-
-Areas are special rectangles that apply an effect to all Moving Rectangles that
-are touching them.
 
 <details>
 	<summary>Example</summary>
@@ -82,6 +75,13 @@ are touching them.
 }
 ```
 </details>
+
+Every rectangle must fill the `type`, `x`, `y`, `width`, and `height` fields
+Additionally, it must contain data for any unique attributes listed below. This
+data corresponds to the values taken by a rectangle's `@JsonCreator` constructor.
+
+Areas are special rectangles that apply an effect to all Moving Rectangles that
+are touching them.
 
 <p align="center"><b>All rectangles</b></p>
 <table>
@@ -363,19 +363,19 @@ width/height options.
 
 <table>
 	<tr>
-		<td>GLUED_NORTH<td>
+		<td>GLUED_NORTH</td>
 		<td>Area remains stuck on top of the rectangle</td>
 	</tr>
 	<tr>
-		<td>GLUED_SOUTH<td>
+		<td>GLUED_SOUTH</td>
 		<td>Area remains stuck on the bottom  of the rectangle</td>
 	</tr>
 	<tr>
-		<td>GLUED_WEST<td>
+		<td>GLUED_WEST</td>
 		<td>Area remains stuck to the left of of the rectangle</td>
 	</tr>
 	<tr>
-		<td>GLUED_EAST<td>
+		<td>GLUED_EAST</td>
 		<td>Area remains stuck to the right of the rectangle</td>
 	</tr>
 </table>
@@ -420,5 +420,6 @@ width/height options.
 			"options": ["GLUED_NORTH", "SAME_WIDTH"]
 		}
 	]
+}
 ```
 </details>
