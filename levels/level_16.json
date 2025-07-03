@@ -1,0 +1,88 @@
+{
+	"name": "Move",
+	"width": 800,
+	"height": 500,
+	"solution": "/level_16.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 350,
+			"y": 370,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 420,
+			"y": 190,
+			"width": 100,
+			"height": 200,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 200,
+			"y": 330,
+			"width": 10,
+			"height": 60,
+			"color": "ORANGE",
+			"attachments": [
+				{
+					"area": {
+						"type": ".ShrinkArea",
+						"width": 100,
+						"xShrink": 0,
+						"yShrink": 1
+					},
+					"options": ["GLUED_EAST", "SAME_HEIGHT"]
+				}
+			]
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 400,
+			"y": 170,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 400,
+			"y": 190,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 680,
+			"y": 190,
+			"width": 20,
+			"height": 200,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 100,
+			"y": 390,
+			"width": 600,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"goals": [
+		{
+			"type": ".GoalArea",
+			"x": 600,
+			"y": 340,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1.json"
+		}
+	]
+}
