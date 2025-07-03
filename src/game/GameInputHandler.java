@@ -47,6 +47,8 @@ public class GameInputHandler extends KeyAdapter {
 	private OutputStream writer;
 
 	private int nextByte;
+	private int writingZerosInARow;
+	private int readingZerosInARow;
 
 	public GameInputHandler() {
 		keysPressed = new HashSet<>();
@@ -55,8 +57,6 @@ public class GameInputHandler extends KeyAdapter {
 
 		reader = null;
 		writer = null;
-
-		nextByte = 0;
 	}
 
 	/**
@@ -127,11 +127,11 @@ public class GameInputHandler extends KeyAdapter {
 			}
 		}
 		else {
-			gameInputs = readInputsFromFile();
+			gameInputs = readInputs();
 		}
 
 		if (writer != null) {
-			writeInputsToFile(gameInputs);
+			writeInputs(gameInputs);
 		}
 
 		return gameInputs;
@@ -145,7 +145,13 @@ public class GameInputHandler extends KeyAdapter {
 	 */
 	public void beginReading(InputStream input) {
 		reader = input;
-		readByte();  // prime nextByte
+		readingZerosInARow = 0;
+		try {
+			nextByte = reader.read();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -156,6 +162,7 @@ public class GameInputHandler extends KeyAdapter {
 	 */
 	public void beginWriting(OutputStream output) {
 		writer = output;
+		writingZerosInARow = 0;
 	}
 
 	/**
@@ -184,6 +191,7 @@ public class GameInputHandler extends KeyAdapter {
 			return;
 		}
 		try {
+			flushWriter();
 			writer.close();
 			writer = null;
 		}
@@ -195,7 +203,7 @@ public class GameInputHandler extends KeyAdapter {
 	/**
 	 * Returns the {@code Input}s pressed on this frame in the reading file.
 	 */
-	private Set<GameInput> readInputsFromFile() {
+	private Set<GameInput> readInputs() {
 		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
 
 		int numberOfInputs = readByte();
@@ -208,23 +216,45 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
-	 * Reads the next {@code byte} in the input stream and it as an {@code int}.
+	 * Reads the next {@code byte} in the input stream and returns it as an
+	 * {@code int}.
 	 * <p>
 	 * Closes the input stream if end-of-input is detected.
 	 * 
 	 * @return next {@code byte} as {@code int}
 	 */
 	private int readByte() {
-		int value = nextByte;
 
-		try {
-			nextByte = reader.read();
+		int value;
+
+		if (readingZerosInARow > 0) {
+			readingZerosInARow--;
+			value = 0;
 		}
-		catch (IOException e) {
-			e.printStackTrace();
+		else {
+
+			if (nextByte == 0) {
+				try {
+					readingZerosInARow = reader.read();
+				}
+				catch (IOException e) {
+					System.err.println("Couldn't read number of zeros");
+					e.printStackTrace();
+				}
+			}
+
+			value = nextByte;
+
+			try {
+				nextByte = reader.read();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+
 		}
 
-		if (nextByte == -1) {
+		if (nextByte == -1 && readingZerosInARow == 0) {
 			endReading();
 		}
 
@@ -260,7 +290,7 @@ public class GameInputHandler extends KeyAdapter {
 	 * 
 	 * @param gameInputs {@code Set} of {@code Input}s to write
 	 */
-	private void writeInputsToFile(Set<GameInput> gameInputs) {
+	private void writeInputs(Set<GameInput> gameInputs) {
 		writeByte(gameInputs.size());
 		for (GameInput inp : gameInputs) {
 			writeByte(inp.ordinal());
@@ -274,7 +304,18 @@ public class GameInputHandler extends KeyAdapter {
 	 */
 	private void writeByte(int b) {
 		try {
-			writer.write(b);
+
+			if (b == 0) {
+				writingZerosInARow++;
+			}
+			if ((b != 0 && writingZerosInARow > 0) || writingZerosInARow > 0xFF) {
+				writer.write(writingZerosInARow - 1);
+				writingZerosInARow = 0;
+			}
+			if ((b == 0 && writingZerosInARow == 1) || b != 0) {
+				writer.write(b);
+			}
+
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -317,18 +358,19 @@ public class GameInputHandler extends KeyAdapter {
 				&& bytes[usefulBytes - 1] == 0; usefulBytes--)
 			;
 
-		try {
-			writer.write(usefulBytes * originalSign);
-			writer.write(bytes, 0, usefulBytes);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
+		writeByte(usefulBytes * originalSign);
+		for (int j = 0; j < usefulBytes; j++) {
+			writeByte(bytes[j]);
 		}
 
 	}
 
 	public void flushWriter() {
 		try {
+			if (writingZerosInARow > 0) {
+				writer.write(writingZerosInARow - 1);
+				writingZerosInARow = 0;
+			}
 			writer.flush();
 		}
 		catch (IOException e) {
