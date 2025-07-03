@@ -84,7 +84,7 @@ Download the latest `jar` file from the releases tab and run it.
 	</tr>
 	<tr>
 		<td>Stop playback</td>
-		<td>E</td>
+		<td>S</td>
 	</tr>
 	<tr>
 		<td>Advance frame while paused</td>
