@@ -205,7 +205,7 @@ public abstract class Rectangle {
 	 * Moves and resizes all attached {@code Area}s to conform with their attachment
 	 * options.
 	 */
-	public void updateAttachmentBounds() {
+	private void updateAttachmentBounds() {
 
 		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
 			Area attached = areaPair.first;
