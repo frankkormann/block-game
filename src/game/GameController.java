@@ -66,7 +66,7 @@ public class GameController extends WindowAdapter {
 	public void startGame() {
 		loadLevel(getClass().getResource(FIRST_LEVEL));
 		mainFrame.setVisible(true);
-		new Timer().schedule(new TimerTask() {
+		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				if (!paused) {
 					nextFrame();
