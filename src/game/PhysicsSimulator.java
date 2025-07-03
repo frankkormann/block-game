@@ -405,7 +405,7 @@ public class PhysicsSimulator {
 		// Pull back Rectangles that collided to be aligned with the edge of this
 		if (numberCollided >= 2) {
 			for (MovingRectangle c : collisionMap.keySet()) {
-				if (collisionMap.get(c).key == rect) {
+				if (collisionMap.get(c).first == rect) {
 					pullback(rect, c, collisionMap);
 				}
 			}
@@ -684,7 +684,7 @@ public class PhysicsSimulator {
 		int xChange = 0;
 		int yChange = 0;
 
-		int[] pushedAmount = collisionMap.get(other).value;
+		int[] pushedAmount = collisionMap.get(other).second;
 
 		if (pushedAmount[1] == 0) {  // not pushed in y direction -> x collision
 			xChange = pullToX(rect, other);
@@ -702,7 +702,7 @@ public class PhysicsSimulator {
 		other.moveCollision(xChange, yChange);
 
 		for (MovingRectangle c : collisionMap.keySet()) {
-			if (collisionMap.get(c).key == other) {
+			if (collisionMap.get(c).first == other) {
 				pullback(other, c, collisionMap);
 			}
 		}

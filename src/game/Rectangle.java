@@ -197,7 +197,7 @@ public abstract class Rectangle {
 		leftWidthChange = 0;
 		topHeightChange = 0;
 		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			areaPair.key.updateLastPosition();
+			areaPair.first.updateLastPosition();
 		}
 	}
 
@@ -208,8 +208,8 @@ public abstract class Rectangle {
 	public void updateAttachmentBounds() {
 
 		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			Area attached = areaPair.key;
-			Set<AttachmentOption> options = areaPair.value;
+			Area attached = areaPair.first;
+			Set<AttachmentOption> options = areaPair.second;
 
 			if (options.contains(AttachmentOption.SAME_WIDTH)) {
 				attached.setWidth(width);
@@ -458,7 +458,7 @@ public abstract class Rectangle {
 	public List<Area> getAttachments() {
 		List<Area> result = new ArrayList<>();
 		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			result.add(areaPair.key);
+			result.add(areaPair.first);
 		}
 
 		return result;

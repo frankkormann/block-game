@@ -7,22 +7,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Holds two values.
  * 
- * @param <K>
- * @param <V>
+ * @param <F> type of first value
+ * @param <S> type of second value
  * 
  * @author Frank Kormann
  */
-public class Pair<K, V> {
+public class Pair<F, S> {
 
 	@JsonAlias({ "area" })
-	public K key;
+	public F first;
 	@JsonAlias({ "options" })
-	public V value;
+	public S second;
 
 	@JsonCreator
-	public Pair(@JsonProperty("key") K key, @JsonProperty("value") V value) {
-		this.key = key;
-		this.value = value;
+	public Pair(@JsonProperty("first") F first, @JsonProperty("second") S second) {
+		this.first = first;
+		this.second = second;
 	}
 
 }
