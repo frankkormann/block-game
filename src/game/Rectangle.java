@@ -454,6 +454,7 @@ public abstract class Rectangle {
 	@JsonProperty("attachments")
 	public void addAllAttachments(List<Pair<Area, Set<AttachmentOption>>> attachments) {
 		attachedAreas.addAll(attachments);
+		updateAttachmentBounds();
 	}
 
 	public List<Area> getAttachments() {
