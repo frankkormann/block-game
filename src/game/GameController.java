@@ -30,7 +30,7 @@ import com.formdev.flatlaf.FlatLightLaf;
  */
 public class GameController extends WindowAdapter {
 
-	public static final String FIRST_LEVEL = "/level_12.json";
+	public static final String FIRST_LEVEL = "/level_1.json";
 
 	public static final int MILLISECONDS_BETWEEN_FRAMES = 20;
 
