@@ -62,10 +62,69 @@ public class GameInputHandler extends KeyAdapter {
 		nextByte = 0;
 	}
 
-	private void zeroAllDirectionsInResizes() {
-		for (MainFrame.Direction direction : MainFrame.Direction.values()) {
-			resizesSinceLastFrame.put(direction, 0);
+	/**
+	 * Gets the inputs pressed on this frame.
+	 * <p>
+	 * If in reading mode, these will be read from the reading file. Otherwise, they
+	 * will be taken from the keyboard.
+	 * <p>
+	 * If in writing mode, these will also be written to the writing file.
+	 * 
+	 * @return {@code Set} of {@code Input}s
+	 */
+	public Set<GameInput> getInputs() {
+		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
+
+		if (reader == null) {
+			for (GameInput inp : GameInput.values()) {
+				for (int key : inp.keyCodes) {
+					if (keysPressed.contains(key)) {
+						gameInputs.add(inp);
+						break;
+					}
+				}
+			}
 		}
+		else {
+			gameInputs = readInputsFromFile();
+		}
+
+		if (writer != null) {
+			writeInputsToFile(gameInputs);
+		}
+
+		return gameInputs;
+	}
+
+	/**
+	 * Get the resizes on this frame. If in reading mode, these will be read from
+	 * the reading file. Otherwise, they will be taken from the
+	 * {@code ResizingSides}. If in writing mode, these will also be written to the
+	 * writing file.
+	 * 
+	 * @return {@code Map} of {@code Direction} to {@code Integer} amount resized
+	 */
+	public Map<MainFrame.Direction, Integer> getResizes() {
+		Map<MainFrame.Direction, Integer> resizes = new HashMap<>();
+		if (reader == null) {
+			resizes.putAll(resizesSinceLastFrame);
+		}
+		else {
+			// Make sure values are read in the correct order
+			resizes.put(MainFrame.Direction.NORTH, readInt());
+			resizes.put(MainFrame.Direction.SOUTH, readInt());
+			resizes.put(MainFrame.Direction.WEST, readInt());
+			resizes.put(MainFrame.Direction.EAST, readInt());
+		}
+		if (writer != null) {
+			// Make sure values are written in the correct order
+			writeInt(resizes.get(MainFrame.Direction.NORTH));
+			writeInt(resizes.get(MainFrame.Direction.SOUTH));
+			writeInt(resizes.get(MainFrame.Direction.WEST));
+			writeInt(resizes.get(MainFrame.Direction.EAST));
+		}
+		zeroAllDirectionsInResizes();
+		return resizes;
 	}
 
 	/**
@@ -80,6 +139,16 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
+	 * Starts writing input to an {@code OutputStream}. If a different
+	 * {@code OutputStream} is already being written to, that stream is replaced.
+	 * 
+	 * @param output {@code OutputStream} to write to
+	 */
+	public void beginWriting(OutputStream output) {
+		writer = output;
+	}
+
+	/**
 	 * Stops reading and closes the file. If this is not reading, this method has no
 	 * effect.
 	 */
@@ -90,25 +159,6 @@ public class GameInputHandler extends KeyAdapter {
 		try {
 			reader.close();
 			reader = null;
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Starts writing input to an {@code OutputStream}. If a different
-	 * {@code OutputStream} is already being written to, that stream is replaced.
-	 * 
-	 * @param output {@code OutputStream} to write to
-	 */
-	public void beginWriting(OutputStream output) {
-		writer = output;
-	}
-
-	public void flushWriter() {
-		try {
-			writer.flush();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -130,6 +180,21 @@ public class GameInputHandler extends KeyAdapter {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Returns the {@code Input}s pressed on this frame in the reading file.
+	 */
+	private Set<GameInput> readInputsFromFile() {
+		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
+
+		int numberOfInputs = readByte();
+		for (int i = 0; i < numberOfInputs; i++) {
+			int inputOrdinal = readByte();
+			gameInputs.add(GameInput.values()[inputOrdinal]);
+		}
+
+		return gameInputs;
 	}
 
 	/**
@@ -177,6 +242,19 @@ public class GameInputHandler extends KeyAdapter {
 		i *= sign;
 
 		return i;
+	}
+
+	/**
+	 * First writes the number of {@code Input}s pressed this frame, then each
+	 * {@code Input}'s ordinal in turn.
+	 * 
+	 * @param gameInputs {@code Set} of {@code Input}s to write
+	 */
+	private void writeInputsToFile(Set<GameInput> gameInputs) {
+		writeByte(gameInputs.size());
+		for (GameInput inp : gameInputs) {
+			writeByte(inp.ordinal());
+		}
 	}
 
 	/**
@@ -239,97 +317,19 @@ public class GameInputHandler extends KeyAdapter {
 
 	}
 
-	/**
-	 * Gets the inputs pressed on this frame.
-	 * <p>
-	 * If in reading mode, these will be read from the reading file. Otherwise, they
-	 * will be taken from the keyboard.
-	 * <p>
-	 * If in writing mode, these will also be written to the writing file.
-	 * 
-	 * @return {@code Set} of {@code Input}s
-	 */
-	public Set<GameInput> getInputs() {
-		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
-
-		if (reader == null) {
-			for (GameInput inp : GameInput.values()) {
-				for (int key : inp.keyCodes) {
-					if (keysPressed.contains(key)) {
-						gameInputs.add(inp);
-						break;
-					}
-				}
-			}
+	public void flushWriter() {
+		try {
+			writer.flush();
 		}
-		else {
-			gameInputs = readInputsFromFile();
-		}
-
-		if (writer != null) {
-			writeInputsToFile(gameInputs);
-		}
-
-		return gameInputs;
-	}
-
-	/**
-	 * Returns the {@code Input}s pressed on this frame in the reading file.
-	 */
-	private Set<GameInput> readInputsFromFile() {
-		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
-
-		int numberOfInputs = readByte();
-		for (int i = 0; i < numberOfInputs; i++) {
-			int inputOrdinal = readByte();
-			gameInputs.add(GameInput.values()[inputOrdinal]);
-		}
-
-		return gameInputs;
-	}
-
-	/**
-	 * First writes the number of {@code Input}s pressed this frame, then each
-	 * {@code Input}'s ordinal in turn.
-	 * 
-	 * @param gameInputs {@code Set} of {@code Input}s to write
-	 */
-	private void writeInputsToFile(Set<GameInput> gameInputs) {
-		writeByte(gameInputs.size());
-		for (GameInput inp : gameInputs) {
-			writeByte(inp.ordinal());
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Get the resizes on this frame. If in reading mode, these will be read from
-	 * the reading file. Otherwise, they will be taken from the
-	 * {@code ResizingSides}. If in writing mode, these will also be written to the
-	 * writing file.
-	 * 
-	 * @return {@code Map} of {@code Direction} to {@code Integer} amount resized
-	 */
-	public Map<MainFrame.Direction, Integer> getResizes() {
-		Map<MainFrame.Direction, Integer> resizes = new HashMap<>();
-		if (reader == null) {
-			resizes.putAll(resizesSinceLastFrame);
+	private void zeroAllDirectionsInResizes() {
+		for (MainFrame.Direction direction : MainFrame.Direction.values()) {
+			resizesSinceLastFrame.put(direction, 0);
 		}
-		else {
-			// Make sure values are read in the correct order
-			resizes.put(MainFrame.Direction.NORTH, readInt());
-			resizes.put(MainFrame.Direction.SOUTH, readInt());
-			resizes.put(MainFrame.Direction.WEST, readInt());
-			resizes.put(MainFrame.Direction.EAST, readInt());
-		}
-		if (writer != null) {
-			// Make sure values are written in the correct order
-			writeInt(resizes.get(MainFrame.Direction.NORTH));
-			writeInt(resizes.get(MainFrame.Direction.SOUTH));
-			writeInt(resizes.get(MainFrame.Direction.WEST));
-			writeInt(resizes.get(MainFrame.Direction.EAST));
-		}
-		zeroAllDirectionsInResizes();
-		return resizes;
 	}
 
 	public void resize(MainFrame.Direction direction, int amount) {
