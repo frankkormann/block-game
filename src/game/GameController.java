@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -135,9 +137,12 @@ public class GameController extends WindowAdapter {
 	}
 
 	public void nextFrame() {
-		mainFrame.resizeAll(gameInputHandler.getResizes());
+		Pair<Map<MainFrame.Direction, Integer>, Set<GameInputHandler.GameInput>> allInputs;
+		allInputs = gameInputHandler.poll();
 
-		physicsSimulator.updateAndMoveObjects(gameInputHandler.getInputs(),
+		mainFrame.resizeAll(allInputs.first);
+
+		physicsSimulator.updateAndMoveObjects(allInputs.second,
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
 
