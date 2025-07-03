@@ -24,10 +24,7 @@ import java.util.Set;
  * If an {@code OutputStream} is given to {@code beginWriting(OutputStream)},
  * input will be written to that stream.
  * <p>
- * Input is accessible through {@link#getKeysPressed()} and
- * {@link#getResizes()}. These methods should both be called every frame to
- * ensure file reading/writing does not get desynchronized. These methods should
- * always be called in the same order.
+ * Input is accessible through {@link#poll()}.
  * 
  * @author Frank Kormann
  */
@@ -63,16 +60,60 @@ public class GameInputHandler extends KeyAdapter {
 	}
 
 	/**
+	 * Returns the inputs and resizes for this frame. If in reading mode, these will
+	 * be taken from the input stream; otherwise, they will be taken from the user.
+	 * If in writing mode, these will be written to the output stream.
+	 * 
+	 * @return {@code Pair} of {@code Set<GameInput>} for inputs and
+	 *         {@code Map<Direction, Integer>} for resizes in each direction
+	 */
+	public Pair<Map<MainFrame.Direction, Integer>, Set<GameInput>> poll() {
+		return new Pair<>(getResizes(), getInputs());
+	}
+
+	/**
+	 * Get the resizes on this frame. If in reading mode, these will be read from
+	 * the input stream . Otherwise, they will be taken from the
+	 * {@code ResizingSides}.
+	 * <p>
+	 * If in writing mode, these will also be written to the output stream.
+	 * 
+	 * @return {@code Map} of {@code Direction} to {@code Integer} amount resized
+	 */
+	private Map<MainFrame.Direction, Integer> getResizes() {
+		Map<MainFrame.Direction, Integer> resizes = new HashMap<>();
+		if (reader == null) {
+			resizes.putAll(resizesSinceLastFrame);
+		}
+		else {
+			// Make sure values are read in the correct order
+			resizes.put(MainFrame.Direction.NORTH, readInt());
+			resizes.put(MainFrame.Direction.SOUTH, readInt());
+			resizes.put(MainFrame.Direction.WEST, readInt());
+			resizes.put(MainFrame.Direction.EAST, readInt());
+		}
+		if (writer != null) {
+			// Make sure values are written in the correct order
+			writeInt(resizes.get(MainFrame.Direction.NORTH));
+			writeInt(resizes.get(MainFrame.Direction.SOUTH));
+			writeInt(resizes.get(MainFrame.Direction.WEST));
+			writeInt(resizes.get(MainFrame.Direction.EAST));
+		}
+		zeroAllDirectionsInResizes();
+		return resizes;
+	}
+
+	/**
 	 * Gets the inputs pressed on this frame.
 	 * <p>
-	 * If in reading mode, these will be read from the reading file. Otherwise, they
+	 * If in reading mode, these will be read from the input stream. Otherwise, they
 	 * will be taken from the keyboard.
 	 * <p>
-	 * If in writing mode, these will also be written to the writing file.
+	 * If in writing mode, these will also be written to the output stream.
 	 * 
 	 * @return {@code Set} of {@code Input}s
 	 */
-	public Set<GameInput> getInputs() {
+	private Set<GameInput> getInputs() {
 		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
 
 		if (reader == null) {
@@ -94,37 +135,6 @@ public class GameInputHandler extends KeyAdapter {
 		}
 
 		return gameInputs;
-	}
-
-	/**
-	 * Get the resizes on this frame. If in reading mode, these will be read from
-	 * the reading file. Otherwise, they will be taken from the
-	 * {@code ResizingSides}. If in writing mode, these will also be written to the
-	 * writing file.
-	 * 
-	 * @return {@code Map} of {@code Direction} to {@code Integer} amount resized
-	 */
-	public Map<MainFrame.Direction, Integer> getResizes() {
-		Map<MainFrame.Direction, Integer> resizes = new HashMap<>();
-		if (reader == null) {
-			resizes.putAll(resizesSinceLastFrame);
-		}
-		else {
-			// Make sure values are read in the correct order
-			resizes.put(MainFrame.Direction.NORTH, readInt());
-			resizes.put(MainFrame.Direction.SOUTH, readInt());
-			resizes.put(MainFrame.Direction.WEST, readInt());
-			resizes.put(MainFrame.Direction.EAST, readInt());
-		}
-		if (writer != null) {
-			// Make sure values are written in the correct order
-			writeInt(resizes.get(MainFrame.Direction.NORTH));
-			writeInt(resizes.get(MainFrame.Direction.SOUTH));
-			writeInt(resizes.get(MainFrame.Direction.WEST));
-			writeInt(resizes.get(MainFrame.Direction.EAST));
-		}
-		zeroAllDirectionsInResizes();
-		return resizes;
 	}
 
 	/**
