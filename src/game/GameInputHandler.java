@@ -208,6 +208,7 @@ public class GameInputHandler extends KeyAdapter {
 	 * @param i {@code int} to write
 	 */
 	private void writeInt(int i) {
+
 		if (i == 0) {
 			writeByte(0);
 			return;
