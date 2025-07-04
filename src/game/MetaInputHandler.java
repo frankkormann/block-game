@@ -118,6 +118,8 @@ public class MetaInputHandler extends KeyAdapter {
 				actionListener.startPlayback(openFile);
 			}
 			catch (IOException e) {
+				JOptionPane.showMessageDialog(fileChooser, "Could not load file\n" + e,
+						"Error", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
@@ -133,6 +135,8 @@ public class MetaInputHandler extends KeyAdapter {
 				actionListener.saveRecording(saveFile);
 			}
 			catch (IOException e) {
+				JOptionPane.showMessageDialog(fileChooser, "Could not save file\n" + e,
+						"Error", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
