@@ -160,6 +160,8 @@ public class GameController extends WindowAdapter {
 	 */
 	private void beginTempRecording() {
 		gameInputHandler.endWriting();
+		recording = null;  // In case a new file cannot be created, still stop writing
+							  // to this one
 		try {
 			recording = File.createTempFile("blockgame", null);
 			gameInputHandler.beginWriting(Files.newOutputStream(recording.toPath()));
