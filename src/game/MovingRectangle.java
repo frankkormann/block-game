@@ -13,9 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {@link#moveCollision}. {@code moveVelocity} should be called once every frame
  * after this's velocity is determined. {@code moveCollision} should be called
  * if this pushed by another {@code Rectangle}.
- * <p>
- * If the player is in control of this, the {@code controlledByPlayer} flag
- * should be set to indicate it.
  * 
  * @author Frank Kormann
  */
