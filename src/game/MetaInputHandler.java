@@ -3,6 +3,7 @@ package game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +88,12 @@ public class MetaInputHandler extends KeyAdapter {
 				actionListener.setPaused(true);
 				File openFile = promptFileOpenLocation();
 				if (openFile != null) {
-					actionListener.startPlayback(openFile);
+					try {
+						actionListener.startPlayback(openFile);
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				actionListener.setPaused(wasPaused);
 				break;
@@ -100,7 +106,12 @@ public class MetaInputHandler extends KeyAdapter {
 				actionListener.setPaused(true);
 				File saveFile = promptFileSaveLocation();
 				if (saveFile != null) {
-					actionListener.saveRecording(saveFile);
+					try {
+						actionListener.saveRecording(saveFile);
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				actionListener.setPaused(wasPaused);
 				break;
