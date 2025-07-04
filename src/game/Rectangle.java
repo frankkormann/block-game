@@ -30,6 +30,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * <p>
  * {@code Rectangles} (and levels in general) should be created through JSON.
  * See the README for more details.
+ * <p>
+ * Subclasses which can move should override
+ * {@link#getLastX()}, {@link#getLastY()}, {@link#getLastWidth()}, and
+ * {@link#getLastHeight()}.
  *
  * @author Frank Kormann
  */
@@ -287,8 +291,13 @@ public abstract class Rectangle {
 		return x;
 	}
 
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return x position on the previous frame
+	 */
 	public int getLastX() {
-		return x;
+		return getX();
 	}
 
 	public void setX(int x) {
@@ -300,8 +309,13 @@ public abstract class Rectangle {
 		return y;
 	}
 
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return y position on the previous frame
+	 */
 	public int getLastY() {
-		return y;
+		return getY();
 	}
 
 	public void setY(int y) {
@@ -313,8 +327,13 @@ public abstract class Rectangle {
 		return width;
 	}
 
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return width on the previous frame
+	 */
 	public int getLastWidth() {
-		return width;
+		return getWidth();
 	}
 
 	public void setWidth(int width) {
@@ -326,8 +345,13 @@ public abstract class Rectangle {
 		return height;
 	}
 
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return height on the previous frame
+	 */
 	public int getLastHeight() {
-		return height;
+		return getHeight();
 	}
 
 	public void setHeight(int height) {
