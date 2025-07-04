@@ -167,6 +167,7 @@ public class PhysicsSimulator {
 	 * gravity, applies movement from velocity, and computes collision.
 	 */
 	private void moveAllMovingRectangles() {
+
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
 		// sort by distance from bottom of screen for consistency
@@ -178,10 +179,8 @@ public class PhysicsSimulator {
 			applyAreas(rect);
 			applyNaturalForces(rect);
 
-			// No need to do collision if it didn't move
 			if (rect.getXVelocity() == 0 && rect.getYVelocity() == 0
-					&& rect.getWidth() - rect.getLastWidth() == 0
-					&& rect.getHeight() - rect.getLastHeight() == 0) {
+					&& !rect.hasMoved()) {
 				continue;
 			}
 
