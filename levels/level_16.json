@@ -78,7 +78,7 @@
 	"goals": [
 		{
 			"type": ".GoalArea",
-			"x": 600,
+			"x": 580,
 			"y": 340,
 			"width": 50,
 			"height": 50,
