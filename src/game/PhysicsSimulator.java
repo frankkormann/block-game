@@ -359,6 +359,7 @@ public class PhysicsSimulator {
 		colliders.remove(rect);
 
 		for (MovingRectangle other : colliders) {
+
 			collisionData = calculateCollision(rect, other);
 			if (collisionData[0] == 0 && collisionData[1] == 0) {
 				continue;
