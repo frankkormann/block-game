@@ -747,6 +747,10 @@ public class PhysicsSimulator {
 		return nextLevel;
 	}
 
+	public void resetNextlevel() {
+		nextLevel = "";
+	}
+
 	public Map<MainFrame.Direction, Integer> getResizes() {
 		return sideRectangleResizes;
 	}
