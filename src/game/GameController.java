@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -80,13 +81,25 @@ public class GameController extends WindowAdapter {
 	}
 
 	private void loadLevel(String levelResource) {
-		physicsSimulator = new PhysicsSimulator();
-		paused = false;
+
+		boolean successFul = false;
+		Level level = null;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Level level = mapper.readValue(
-					getClass().getResourceAsStream(levelResource), Level.class);
+			level = mapper.readValue(getClass().getResourceAsStream(levelResource),
+					Level.class);
+			successFul = true;
+		}
+		catch (Exception e) {
+			physicsSimulator.resetNextlevel();
+			JOptionPane.showMessageDialog(mainFrame, "Could not load level\n" + e,
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+
+		if (successFul) {
+			physicsSimulator = new PhysicsSimulator();
 			mainFrame.setUpLevel(level);
 
 			metaInputHandler.setSolution(level.solution);
@@ -121,19 +134,17 @@ public class GameController extends WindowAdapter {
 			}
 
 			currentLevel = levelResource;
+
+			mainFrame.arrangeComponents();
+			physicsSimulator.createSides(mainFrame.getNextWidth(),
+					mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
+					mainFrame.getNextYOffset());
+
+			mainFrame.moveToMiddleOfScreen();
+
+			paused = false;
+			beginTempRecording();
 		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		mainFrame.arrangeComponents();
-		physicsSimulator.createSides(mainFrame.getNextWidth(),
-				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
-				mainFrame.getNextYOffset());
-
-		mainFrame.moveToMiddleOfScreen();
-
-		beginTempRecording();
 	}
 
 	public void nextFrame() {
