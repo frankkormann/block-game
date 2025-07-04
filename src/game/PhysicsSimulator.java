@@ -568,8 +568,8 @@ public class PhysicsSimulator {
 
 		int xChange = 0;
 		int yChange = 0;
-		boolean inBoundsX = rect.intersectsX(other);
-		boolean inBoundsY = rect.intersectsY(other);
+		boolean inBoundsX = other.intersectsX(rect);
+		boolean inBoundsY = other.intersectsY(rect);
 		// "Used to be" values so Rectangles can tell whether they should be moved in x
 		// or y direction
 		boolean usedToBeInBoundsX = other.usedToIntersectX(rect);
