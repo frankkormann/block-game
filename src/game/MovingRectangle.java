@@ -44,6 +44,7 @@ public class MovingRectangle extends Rectangle {
 
 	private boolean hasGravity;
 	private boolean controlledByPlayer;
+	private boolean hasMoved;
 
 	private State state;
 
@@ -70,6 +71,7 @@ public class MovingRectangle extends Rectangle {
 		yVelocity = 0;
 		controlledByPlayer = false;
 		state = State.IN_AIR;
+		hasMoved = false;
 
 		addAttachment(new GroundingArea(x, y - 1, width, 1),
 				Rectangle.AttachmentOption.GLUED_NORTH,
@@ -116,6 +118,25 @@ public class MovingRectangle extends Rectangle {
 		setX(getX() + xChange);
 		setY(getY() + yChange);
 
+		hasMoved = true;
+	}
+
+	@Override
+	public void changeWidth(int change, boolean addToLeft) {
+		super.changeWidth(change, addToLeft);
+		hasMoved = true;
+	}
+
+	@Override
+	public void changeHeight(int change, boolean addToTop) {
+		super.changeHeight(change, addToTop);
+		hasMoved = true;
+	}
+
+	@Override
+	public void updateLastPosition() {
+		super.updateLastPosition();
+		hasMoved = false;
 	}
 
 	public int getXVelocity() {
@@ -148,6 +169,10 @@ public class MovingRectangle extends Rectangle {
 
 	public void setControlledByPlayer(boolean controlledByPlayer) {
 		this.controlledByPlayer = controlledByPlayer;
+	}
+
+	public boolean hasMoved() {
+		return hasMoved;
 	}
 
 	public State getState() {
