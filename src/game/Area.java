@@ -61,7 +61,7 @@ public abstract class Area extends Rectangle {
 	public void handle(MovingRectangle rect) {
 		boolean alreadyInside = rectsInside.contains(rect);
 		// Apply Areas based on positions at the start of the frame
-		boolean intersects = usedToIntersectX(rect) && usedToIntersectY(rect);
+		boolean intersects = rect.usedToIntersectX(this) && rect.usedToIntersectY(this);
 
 		if (alreadyInside && !intersects) {
 			rectsInside.remove(rect);

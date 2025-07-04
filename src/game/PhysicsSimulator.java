@@ -556,12 +556,12 @@ public class PhysicsSimulator {
 	 * {@code calculateCollision(other, rect)}.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
-	 * @param other {@code Rectangle} that will move
+	 * @param other {@code MovingRectangle} that will move
 	 * 
 	 * @return { Δx, Δy } amount to move {@code other} to resolve collision with
 	 *         {@code rect}
 	 */
-	private int[] calculateCollision(Rectangle rect, Rectangle other) {
+	private int[] calculateCollision(Rectangle rect, MovingRectangle other) {
 		if (rect == other) {
 			return new int[] { 0, 0 };
 		}
@@ -572,8 +572,8 @@ public class PhysicsSimulator {
 		boolean inBoundsY = rect.intersectsY(other);
 		// "Used to be" values so Rectangles can tell whether they should be moved in x
 		// or y direction
-		boolean usedToBeInBoundsX = rect.usedToIntersectX(other);
-		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
+		boolean usedToBeInBoundsX = other.usedToIntersectX(rect);
+		boolean usedToBeInBoundsY = other.usedToIntersectY(rect);
 
 		if (inBoundsX && inBoundsY) {
 			if (usedToBeInBoundsX) {

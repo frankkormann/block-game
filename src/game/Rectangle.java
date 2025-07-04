@@ -99,15 +99,7 @@ public abstract class Rectangle {
 
 	private Color color;
 
-	private int x, y;
-	private int lastX, lastY;
-	private int width, height;
-	private int lastWidth, lastHeight;
-	// These are used in collision to determine how much width/height to remove if
-	// this is colliding because it increased in width/height
-	private int leftWidthChange;
-	private int topHeightChange;
-
+	private int x, y, width, height;
 	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
@@ -121,8 +113,6 @@ public abstract class Rectangle {
 		this.color = color;
 		this.resizeBehavior = resizeBehavior;
 		attachedAreas = new ArrayList<>();
-
-		updateLastPosition();
 	}
 
 	public void draw(Graphics g) {
@@ -187,18 +177,6 @@ public abstract class Rectangle {
 		g2d.fillPolygon(headX, headY, 3);
 		g2d.fillRect(tailX, tailY, tailWidth, tailLength);
 
-	}
-
-	public void updateLastPosition() {
-		lastX = x;
-		lastY = y;
-		lastWidth = width;
-		lastHeight = height;
-		leftWidthChange = 0;
-		topHeightChange = 0;
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			areaPair.first.updateLastPosition();
-		}
 	}
 
 	/**
@@ -305,43 +283,11 @@ public abstract class Rectangle {
 		return canInteract(other) && other.canInteract(this) && inBoundsY;
 	}
 
-	/**
-	 * Calculate whether this intersected with other in the x direction on the
-	 * previous frame.
-	 * 
-	 * @param other Other Rectangle
-	 * 
-	 * @return true if they used to intersect in the x direction
-	 */
-	public boolean usedToIntersectX(Rectangle other) {
-		boolean usedToBeInBoundsX = (lastX <= other.getLastX()
-				&& other.getLastX() < lastX + lastWidth)
-				|| (lastX < other.getLastX() + other.getLastWidth()
-						&& other.getLastX() + other.getLastWidth() <= lastX + lastWidth)
-				|| (other.getLastX() < lastX
-						&& lastX < other.getLastX() + other.getLastWidth());
-		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsX;
-	}
-
-	/**
-	 * Calculate whether this intersected with other in the y direction on the
-	 * previous frame.
-	 * 
-	 * @param other Other Rectangle
-	 * 
-	 * @return true if they used to intersect in the y direction
-	 */
-	public boolean usedToIntersectY(Rectangle other) {
-		boolean usedToBeInBoundsY = (lastY <= other.getLastY()
-				&& other.getLastY() < lastY + lastHeight)
-				|| (lastY < other.getLastY() + other.getLastHeight() && other.getLastY()
-						+ other.getLastHeight() <= lastY + lastHeight)
-				|| (other.getLastY() < lastY
-						&& lastY < other.getLastY() + other.getLastHeight());
-		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsY;
-	}
-
 	public int getX() {
+		return x;
+	}
+
+	public int getLastX() {
 		return x;
 	}
 
@@ -354,6 +300,10 @@ public abstract class Rectangle {
 		return y;
 	}
 
+	public int getLastY() {
+		return y;
+	}
+
 	public void setY(int y) {
 		this.y = y;
 		updateAttachmentBounds();
@@ -363,8 +313,8 @@ public abstract class Rectangle {
 		return width;
 	}
 
-	public int getLeftWidthChange() {
-		return leftWidthChange;
+	public int getLastWidth() {
+		return width;
 	}
 
 	public void setWidth(int width) {
@@ -372,42 +322,16 @@ public abstract class Rectangle {
 		updateAttachmentBounds();
 	}
 
-	public void changeWidth(int change, boolean addToLeft) {
-		width += change;
-		if (width <= 0) {
-			change += 1 - width;
-			width = 1;
-		}
-		if (addToLeft) {
-			x -= change;
-			leftWidthChange += change;
-		}
-		updateAttachmentBounds();
-	}
-
 	public int getHeight() {
 		return height;
 	}
 
-	public int getTopHeightChange() {
-		return topHeightChange;
+	public int getLastHeight() {
+		return height;
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		updateAttachmentBounds();
-	}
-
-	public void changeHeight(int change, boolean addToTop) {
-		height += change;
-		if (height <= 0) {
-			change += 1 - height;
-			height = 1;
-		}
-		if (addToTop) {
-			y -= change;
-			topHeightChange += change;
-		}
 		updateAttachmentBounds();
 	}
 
@@ -417,22 +341,6 @@ public abstract class Rectangle {
 
 	public ResizeBehavior getResizeBehavior() {
 		return resizeBehavior;
-	}
-
-	public int getLastX() {
-		return lastX;
-	}
-
-	public int getLastY() {
-		return lastY;
-	}
-
-	public int getLastWidth() {
-		return lastWidth;
-	}
-
-	public int getLastHeight() {
-		return lastHeight;
 	}
 
 	public void setColor(Color color) {
