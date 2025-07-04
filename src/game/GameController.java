@@ -82,69 +82,67 @@ public class GameController extends WindowAdapter {
 
 	private void loadLevel(String levelResource) {
 
-		boolean successFul = false;
 		Level level = null;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			level = mapper.readValue(getClass().getResourceAsStream(levelResource),
 					Level.class);
-			successFul = true;
 		}
 		catch (Exception e) {
 			physicsSimulator.resetNextlevel();
 			JOptionPane.showMessageDialog(mainFrame, "Could not load level\n" + e,
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			return;
 		}
 
-		if (successFul) {
-			physicsSimulator = new PhysicsSimulator();
-			mainFrame.setUpLevel(level);
+		physicsSimulator = new PhysicsSimulator();
+		mainFrame.setUpLevel(level);
 
-			metaInputHandler.setSolution(level.solution);
+		metaInputHandler.setSolution(level.solution);
 
-			for (MovingRectangle rect : level.movingRectangles) {
-				physicsSimulator.addMovingRectangle(rect);
-				mainFrame.add(rect, 1);
-				for (Area attached : rect.getAttachments()) {
-					physicsSimulator.addArea(attached);
-					mainFrame.add(attached, 0);
-				}
+		for (MovingRectangle rect : level.movingRectangles) {
+			physicsSimulator.addMovingRectangle(rect);
+			mainFrame.add(rect, 1);
+			for (Area attached : rect.getAttachments()) {
+				physicsSimulator.addArea(attached);
+				mainFrame.add(attached, 0);
 			}
-			for (WallRectangle wall : level.walls) {
-				physicsSimulator.addWall(wall);
-				mainFrame.add(wall, 2);
-				for (Area attached : wall.getAttachments()) {
-					physicsSimulator.addArea(attached);
-					mainFrame.add(attached, 0);
-				}
-			}
-			for (Area area : level.areas) {
-				physicsSimulator.addArea(area);
-				mainFrame.add(area, 0);
-			}
-			for (GoalArea goal : level.goals) {
-				physicsSimulator.addGoalArea(goal);
-				mainFrame.add(goal, 0);
-			}
-			for (HintRectangle hint : level.hints) {
-				mainFrame.add(hint, 3);
-				metaInputHandler.addHint(hint);
-			}
-
-			currentLevel = levelResource;
-
-			mainFrame.arrangeComponents();
-			physicsSimulator.createSides(mainFrame.getNextWidth(),
-					mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
-					mainFrame.getNextYOffset());
-
-			mainFrame.moveToMiddleOfScreen();
-
-			paused = false;
-			beginTempRecording();
 		}
+		for (WallRectangle wall : level.walls) {
+			physicsSimulator.addWall(wall);
+			mainFrame.add(wall, 2);
+			for (Area attached : wall.getAttachments()) {
+				physicsSimulator.addArea(attached);
+				mainFrame.add(attached, 0);
+			}
+		}
+		for (Area area : level.areas) {
+			physicsSimulator.addArea(area);
+			mainFrame.add(area, 0);
+		}
+		for (GoalArea goal : level.goals) {
+			physicsSimulator.addGoalArea(goal);
+			mainFrame.add(goal, 0);
+		}
+		for (HintRectangle hint : level.hints) {
+			mainFrame.add(hint, 3);
+			metaInputHandler.addHint(hint);
+		}
+
+		currentLevel = levelResource;
+
+		mainFrame.arrangeComponents();
+		physicsSimulator.createSides(mainFrame.getNextWidth(),
+				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
+				mainFrame.getNextYOffset());
+
+		mainFrame.moveToMiddleOfScreen();
+
+		paused = false;
+		beginTempRecording();
+
 	}
 
 	public void nextFrame() {
