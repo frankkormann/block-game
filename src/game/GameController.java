@@ -94,6 +94,7 @@ public class GameController extends WindowAdapter {
 			JOptionPane.showMessageDialog(mainFrame, "Could not load level\n" + e,
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+
 			return;
 		}
 
