@@ -146,7 +146,7 @@ public class GameController extends WindowAdapter {
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
 
-		if (physicsSimulator.getNextLevel() != null) {
+		if (physicsSimulator.getNextLevel() != "") {
 			loadLevel(physicsSimulator.getNextLevel());
 			return;
 		}
