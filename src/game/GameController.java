@@ -174,14 +174,11 @@ public class GameController extends WindowAdapter {
 	 * Replay a recording {@code File} {@code file}.
 	 * 
 	 * @param file {@code File} to replay
+	 * 
+	 * @throws IOException if an I/O error occurs
 	 */
-	public void startPlayback(File file) {
-		try {
-			gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void startPlayback(File file) throws IOException {
+		gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
 	}
 
 	/**
@@ -198,18 +195,13 @@ public class GameController extends WindowAdapter {
 		gameInputHandler.endReading();
 	}
 
-	public void saveRecording(File destination) {
+	public void saveRecording(File destination) throws IOException {
 		if (recording == null) {
 			return;
 		}
-		try {
-			gameInputHandler.flushWriter();
-			Files.copy(recording.toPath(), destination.toPath(),
-					StandardCopyOption.REPLACE_EXISTING);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+		gameInputHandler.flushWriter();
+		Files.copy(recording.toPath(), destination.toPath(),
+				StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	public void setPaused(boolean paused) {
