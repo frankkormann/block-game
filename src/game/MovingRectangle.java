@@ -13,6 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {@link#moveCollision}. {@code moveVelocity} should be called once every frame
  * after this's velocity is determined. {@code moveCollision} should be called
  * if this pushed by another {@code Rectangle}.
+ * <p>
+ * Width/height should generally be adjusted using {@link#changeWidth} and
+ * {@link#changeHeight}. This allows some metadata to be updated which is used
+ * in resolving collisions.
  * 
  * @author Frank Kormann
  */
@@ -172,6 +176,16 @@ public class MovingRectangle extends Rectangle {
 		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsY;
 	}
 
+	/**
+	 * Change the width by {@code change}.
+	 * <p>
+	 * If {@code addToLeft} is {@code true}, the left edge of this will move and the
+	 * right edge will stay in place. Otherwise, the right edge will move and the
+	 * left edge will stay in place.
+	 * 
+	 * @param change    amount to adjust width by
+	 * @param addToLeft {@code true} if the left edge should move
+	 */
 	public void changeWidth(int change, boolean addToLeft) {
 		setWidth(getWidth() + change);
 		if (getWidth() <= 0) {
@@ -185,6 +199,16 @@ public class MovingRectangle extends Rectangle {
 		hasMoved = true;
 	}
 
+	/**
+	 * Change the height by {@code change}.
+	 * <p>
+	 * If {@code addToTop} is {@code true}, the top edge of this will move and the
+	 * bottom edge will stay in place. Otherwise, the bottom edge will move and the
+	 * top edge will stay in place.
+	 * 
+	 * @param change    amount to adjust height by
+	 * @param addToLeft {@code true} if the top edge should move
+	 */
 	public void changeHeight(int change, boolean addToTop) {
 		setHeight(getHeight() + change);
 		if (getHeight() <= 0) {
