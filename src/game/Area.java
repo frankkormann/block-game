@@ -53,15 +53,14 @@ public abstract class Area extends Rectangle {
 	/**
 	 * Adds or removes {@code rect} from the list of {@code Rectangles} in this
 	 * {@code Area}. Calls {@code onEnter} or {@code onExit} if necessary.
-	 * 
+	 * <p>
 	 * This method should be called on every frame for every {@code Rectangle}.
 	 * 
-	 * @param rect {@code Rectangle} to handle
+	 * @param rect {@code MovingRectangle} to handle
 	 */
 	public void handle(MovingRectangle rect) {
 		boolean alreadyInside = rectsInside.contains(rect);
-		// Apply Areas based on positions at the start of the frame
-		boolean intersects = rect.usedToIntersectX(this) && rect.usedToIntersectY(this);
+		boolean intersects = intersectsX(rect) && intersectsY(rect);
 
 		if (alreadyInside && !intersects) {
 			rectsInside.remove(rect);
