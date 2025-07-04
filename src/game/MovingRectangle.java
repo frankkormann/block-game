@@ -217,18 +217,22 @@ public class MovingRectangle extends Rectangle {
 		this.yVelocity = yVelocity;
 	}
 
+	@Override
 	public int getLastX() {
 		return lastX;
 	}
 
+	@Override
 	public int getLastY() {
 		return lastY;
 	}
 
+	@Override
 	public int getLastWidth() {
 		return lastWidth;
 	}
 
+	@Override
 	public int getLastHeight() {
 		return lastHeight;
 	}
