@@ -1,6 +1,5 @@
 package game;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +40,7 @@ public class PhysicsSimulator {
 
 	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
 
-	private URL nextLevel;
+	private String nextLevel;
 
 	public PhysicsSimulator() {
 		super();
@@ -54,7 +53,7 @@ public class PhysicsSimulator {
 
 		sideRectangleResizes = new HashMap<>();
 
-		nextLevel = null;
+		nextLevel = "";
 	}
 
 	/**
@@ -745,7 +744,11 @@ public class PhysicsSimulator {
 		return rect.getY() - other.getY() - other.getHeight();
 	}
 
-	public URL getNextLevel() {
+	/**
+	 * @return resource name of the next level, or the empty string if there is no
+	 *         next level yet
+	 */
+	public String getNextLevel() {
 		return nextLevel;
 	}
 
