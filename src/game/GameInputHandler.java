@@ -230,6 +230,8 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	 * Reads the next {@code byte} in the input stream and returns it as an
 	 * {@code int}.
 	 * <p>
+	 * Follows the format defined by {@link#writeByte(int)}.
+	 * <p>
 	 * Closes the input stream if end-of-input is detected.
 	 * 
 	 * @return next {@code byte} as {@code int}
@@ -299,6 +301,10 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 
 	/**
 	 * Writes a single {@code byte} to the output stream.
+	 * <p>
+	 * For {@code 0} specifically, instead of writing many {@code 0}s in a row, only
+	 * the first {@code 0} is written. Then the number of following {@code 0}s is
+	 * written.
 	 * 
 	 * @param b {@code byte} to write
 	 */
