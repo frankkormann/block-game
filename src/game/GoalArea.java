@@ -36,7 +36,7 @@ public class GoalArea extends Area {
 	}
 
 	public boolean hasWon() {
-		return timer >= TIMEOUT;
+		return timer == TIMEOUT;
 	}
 
 	@Override
