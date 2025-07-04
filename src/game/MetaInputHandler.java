@@ -84,36 +84,14 @@ public class MetaInputHandler extends KeyAdapter {
 				actionListener.setPaused(!actionListener.isPaused());
 				break;
 			case PLAY_RECORDING: {
-				boolean wasPaused = actionListener.isPaused();
-				actionListener.setPaused(true);
-				File openFile = promptFileOpenLocation();
-				if (openFile != null) {
-					try {
-						actionListener.startPlayback(openFile);
-					}
-					catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				actionListener.setPaused(wasPaused);
+				playRecording();
 				break;
 			}
 			case RELOAD_LEVEL:
 				actionListener.reloadLevel();
 				break;
 			case SAVE_RECORDING: {
-				boolean wasPaused = actionListener.isPaused();
-				actionListener.setPaused(true);
-				File saveFile = promptFileSaveLocation();
-				if (saveFile != null) {
-					try {
-						actionListener.saveRecording(saveFile);
-					}
-					catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				actionListener.setPaused(wasPaused);
+				saveRecording();
 				break;
 			}
 			case STOP_RECORDING:
@@ -129,6 +107,36 @@ public class MetaInputHandler extends KeyAdapter {
 				}
 				break;
 		}
+	}
+
+	private void playRecording() {
+		boolean wasPaused = actionListener.isPaused();
+		actionListener.setPaused(true);
+		File openFile = promptFileOpenLocation();
+		if (openFile != null) {
+			try {
+				actionListener.startPlayback(openFile);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		actionListener.setPaused(wasPaused);
+	}
+
+	private void saveRecording() {
+		boolean wasPaused = actionListener.isPaused();
+		actionListener.setPaused(true);
+		File saveFile = promptFileSaveLocation();
+		if (saveFile != null) {
+			try {
+				actionListener.saveRecording(saveFile);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		actionListener.setPaused(wasPaused);
 	}
 
 	private File promptFileSaveLocation() {
