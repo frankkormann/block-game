@@ -42,6 +42,11 @@ public class MovingRectangle extends Rectangle {
 
 	private int xVelocity, yVelocity;
 
+	private int lastX, lastY, lastWidth, lastHeight;
+	// These are used in collision to determine how much width/height to remove if
+	// this is colliding because it increased in width/height
+	private int leftWidthChange, topHeightChange;
+
 	private boolean hasGravity;
 	private boolean controlledByPlayer;
 	private boolean hasMoved;
@@ -73,9 +78,22 @@ public class MovingRectangle extends Rectangle {
 		state = State.IN_AIR;
 		hasMoved = false;
 
+		updateLastPosition();
+
 		addAttachment(new GroundingArea(x, y - 1, width, 1),
 				Rectangle.AttachmentOption.GLUED_NORTH,
 				Rectangle.AttachmentOption.SAME_WIDTH);
+	}
+
+	public void updateLastPosition() {
+		lastX = getX();
+		lastY = getY();
+		lastWidth = getWidth();
+		lastHeight = getHeight();
+		leftWidthChange = 0;
+		topHeightChange = 0;
+
+		hasMoved = false;
 	}
 
 	/**
@@ -121,22 +139,66 @@ public class MovingRectangle extends Rectangle {
 		hasMoved = true;
 	}
 
-	@Override
+	/**
+	 * Calculate whether this intersected with other in the x direction on the
+	 * previous frame.
+	 * 
+	 * @param other Other Rectangle
+	 * 
+	 * @return true if they used to intersect in the x direction
+	 */
+	public boolean usedToIntersectX(Rectangle other) {
+		boolean usedToBeInBoundsX = (lastX <= other.getLastX()
+				&& other.getLastX() < lastX + lastWidth)
+				|| (lastX < other.getLastX() + other.getLastWidth()
+						&& other.getLastX() + other.getLastWidth() <= lastX + lastWidth)
+				|| (other.getLastX() < lastX
+						&& lastX < other.getLastX() + other.getLastWidth());
+		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsX;
+	}
+
+	/**
+	 * Calculate whether this intersected with other in the y direction on the
+	 * previous frame.
+	 * 
+	 * @param other Other Rectangle
+	 * 
+	 * @return true if they used to intersect in the y direction
+	 */
+	public boolean usedToIntersectY(Rectangle other) {
+		boolean usedToBeInBoundsY = (lastY <= other.getLastY()
+				&& other.getLastY() < lastY + lastHeight)
+				|| (lastY < other.getLastY() + other.getLastHeight() && other.getLastY()
+						+ other.getLastHeight() <= lastY + lastHeight)
+				|| (other.getLastY() < lastY
+						&& lastY < other.getLastY() + other.getLastHeight());
+		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsY;
+	}
+
 	public void changeWidth(int change, boolean addToLeft) {
-		super.changeWidth(change, addToLeft);
+		setWidth(getWidth() + change);
+		if (getWidth() <= 0) {
+			change += 1 - getWidth();
+			setWidth(1);
+		}
+		if (addToLeft) {
+			setX(getX() - change);
+			leftWidthChange += change;
+		}
 		hasMoved = true;
 	}
 
-	@Override
 	public void changeHeight(int change, boolean addToTop) {
-		super.changeHeight(change, addToTop);
+		setHeight(getHeight() + change);
+		if (getHeight() <= 0) {
+			change += 1 - getHeight();
+			setHeight(1);
+		}
+		if (addToTop) {
+			setY(getY() - change);
+			topHeightChange += change;
+		}
 		hasMoved = true;
-	}
-
-	@Override
-	public void updateLastPosition() {
-		super.updateLastPosition();
-		hasMoved = false;
 	}
 
 	public int getXVelocity() {
@@ -153,6 +215,30 @@ public class MovingRectangle extends Rectangle {
 
 	public void setYVelocity(int yVelocity) {
 		this.yVelocity = yVelocity;
+	}
+
+	public int getLastX() {
+		return lastX;
+	}
+
+	public int getLastY() {
+		return lastY;
+	}
+
+	public int getLastWidth() {
+		return lastWidth;
+	}
+
+	public int getLastHeight() {
+		return lastHeight;
+	}
+
+	public int getLeftWidthChange() {
+		return leftWidthChange;
+	}
+
+	public int getTopHeightChange() {
+		return topHeightChange;
 	}
 
 	public boolean hasGravity() {
