@@ -5,7 +5,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class GameController extends WindowAdapter {
 	private GameInputHandler gameInputHandler;
 	private MetaInputHandler metaInputHandler;
 
-	private URL currentLevel;
+	private String currentLevel;
 
 	private File recording;
 
@@ -64,7 +63,7 @@ public class GameController extends WindowAdapter {
 	}
 
 	public void startGame() {
-		loadLevel(getClass().getResource(FIRST_LEVEL));
+		loadLevel(FIRST_LEVEL);
 		mainFrame.setVisible(true);
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
@@ -80,13 +79,14 @@ public class GameController extends WindowAdapter {
 		loadLevel(currentLevel);
 	}
 
-	private void loadLevel(URL url) {
+	private void loadLevel(String levelResource) {
 		physicsSimulator = new PhysicsSimulator();
 		paused = false;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Level level = mapper.readValue(url, Level.class);
+			Level level = mapper.readValue(
+					getClass().getResourceAsStream(levelResource), Level.class);
 			mainFrame.setUpLevel(level);
 
 			metaInputHandler.setSolution(level.solution);
@@ -120,7 +120,7 @@ public class GameController extends WindowAdapter {
 				metaInputHandler.addHint(hint);
 			}
 
-			currentLevel = url;
+			currentLevel = levelResource;
 		}
 		catch (IOException e) {
 			e.printStackTrace();
