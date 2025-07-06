@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Advances to the next level when a {@code MovingRectangle }controlled by the
+ * Advances to the next level when a {@code MovingRectangle} controlled by the
  * player has stayed within it for a long enough time.
  * 
  * @author Frank Kormann
