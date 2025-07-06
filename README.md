@@ -34,7 +34,8 @@ by interacting with the environment in varied, creative ways.
 
 ### Installation
 
-Download the latest `jar` file from the releases tab and run it.
+Download the latest `jar` file from the
+[releases tab](https://github.com/frankkormann/block-game/releases) and run it.
 
 ### Controls
 
