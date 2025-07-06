@@ -355,14 +355,9 @@ public class PhysicsSimulator {
 
 		int[] collisionData;
 		int[] pushedAmount = { 0, 0 };
-		int numberCollided = 0;
 		// Copy before removing rect
 		colliders = new ArrayList<>(colliders);
 		colliders.remove(rect);
-
-		int[] wallPushback = handleCollisionWithWalls(rect);
-		pushedAmount[0] += wallPushback[0];
-		pushedAmount[1] += wallPushback[1];
 
 		for (MovingRectangle other : colliders) {
 			collisionData = calculateCollision(rect, other);
@@ -386,7 +381,6 @@ public class PhysicsSimulator {
 			other.moveCollision(collisionData[0], collisionData[1]);
 			collisionMap.put(other,
 					new Pair<MovingRectangle, int[]>(rect, collisionData));
-			numberCollided++;
 
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
@@ -402,12 +396,14 @@ public class PhysicsSimulator {
 
 		}
 
+		int[] wallPushback = handleCollisionWithWalls(rect);
+		pushedAmount[0] += wallPushback[0];
+		pushedAmount[1] += wallPushback[1];
+
 		// Pull back Rectangles that collided to be aligned with the edge of this
-		if (numberCollided >= 2) {
-			for (MovingRectangle c : collisionMap.keySet()) {
-				if (collisionMap.get(c).first == rect) {
-					pullback(rect, c, collisionMap);
-				}
+		for (MovingRectangle c : collisionMap.keySet()) {
+			if (collisionMap.get(c).first == rect) {
+				pullback(rect, c, collisionMap);
 			}
 		}
 
