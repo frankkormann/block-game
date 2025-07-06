@@ -121,7 +121,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 180,
+			"x": 200,
 			"y": 480,
 			"width": 10,
 			"height": 10,
