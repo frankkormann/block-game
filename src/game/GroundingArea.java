@@ -2,6 +2,16 @@ package game;
 
 import java.awt.Color;
 
+/**
+ * Sets the {@code State} of {@code MovingRectangle}s -- {@code ON_GROUND} while
+ * within this, {@code IN_AIR} when it leaves.
+ * <p>
+ * Each {@code MovingRectangle} and {@code WallRectangle} automatically creates
+ * an instance of this attached to their north sides, so that other
+ * {@code MovingRectangles} can tell when they are standing on something.
+ * 
+ * @author Frank Kormann
+ */
 public class GroundingArea extends Area {
 
 	public GroundingArea(int x, int y, int width, int height) {
