@@ -448,6 +448,7 @@ public abstract class Rectangle {
 				Arrays.asList(options));
 		attachedAreas
 				.add(new Pair<Area, Set<AttachmentOption>>(attachment, optionsSet));
+		updateAttachmentBounds();
 	}
 
 	@JsonProperty("attachments")
