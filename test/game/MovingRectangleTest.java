@@ -25,12 +25,12 @@ class MovingRectangleTest {
 	}
 
 	@Test
-	void state_is_in_air_by_default() {
+	void state_is_IN_AIR_by_default() {
 		assertTrue(rect.getState() == State.IN_AIR);
 	}
 
 	@Test
-	void comes_with_a_grounding_area_by_default() {
+	void comes_with_a_GroundingArea_by_default() {
 		List<Area> attachments = rect.getAttachments();
 
 		assertTrue(attachments.stream().anyMatch(a -> a instanceof GroundingArea));
