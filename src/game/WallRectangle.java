@@ -17,6 +17,10 @@ public class WallRectangle extends Rectangle {
 	public static final Color STAY_COLOR = new Color(229, 229, 229, 255);
 	public static final Color PREVENT_COLOR = new Color(85, 85, 85, 255);
 
+	public WallRectangle(int x, int y, int width, int height) {
+		this(x, y, width, height, STAY_COLOR, Rectangle.ResizeBehavior.PREVENT_X);
+	}
+
 	@JsonCreator
 	public WallRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width, @JsonProperty("height") int height,
