@@ -579,6 +579,10 @@ public class PhysicsSimulator {
 			if (usedToBeInBoundsY) {
 				xChange = pullToX(rect, other);
 			}
+			if (!usedToBeInBoundsX && !usedToBeInBoundsY) {
+				xChange = pullToX(rect, other);
+				yChange = pullToY(rect, other);
+			}
 		}
 		// These account for when a rectangle would pass through another diagonally
 		else if (inBoundsX && usedToBeInBoundsY) {
