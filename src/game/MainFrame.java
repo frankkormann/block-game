@@ -120,7 +120,7 @@ public class MainFrame extends JFrame {
 	 * @param level Level to set up
 	 */
 	public void setUpLevel(Level level) {
-		drawingPane.clear();
+		drawingPane.clearRectangles();
 		drawingPane.setOffsets(0, 0);
 
 		pack();  // set insets
