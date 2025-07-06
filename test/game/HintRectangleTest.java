@@ -19,7 +19,7 @@ class HintRectangleTest {
 
 	@BeforeEach
 	void setUp() {
-		hint = new HintRectangle(0, 0, 20, 20, Colors.BLUE);
+		hint = new HintRectangle(0, 0, 10, 10, Colors.BLUE);
 		bufferedImage = new BufferedImage(hint.getWidth(), hint.getHeight(),
 				BufferedImage.TYPE_INT_ARGB);
 	}

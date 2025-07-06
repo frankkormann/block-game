@@ -17,7 +17,7 @@ class WallRectangleTest {
 
 	@BeforeEach
 	void setUp() {
-		wall = new WallRectangle(0, 0, 20, 20);
+		wall = new WallRectangle(0, 0, 10, 10);
 		bufferedImage = new BufferedImage(wall.getWidth(), wall.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 	}
