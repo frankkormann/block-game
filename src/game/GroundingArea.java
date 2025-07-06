@@ -7,7 +7,7 @@ import java.awt.Color;
  * within this, {@code IN_AIR} when it leaves.
  * <p>
  * Each {@code MovingRectangle} and {@code WallRectangle} automatically creates
- * an instance of this attached to their north sides, so that other
+ * an instance of this attached to their north side, so that other
  * {@code MovingRectangles} can tell when they are standing on something.
  * 
  * @author Frank Kormann
