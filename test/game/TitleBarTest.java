@@ -1,7 +1,9 @@
 package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -23,6 +25,8 @@ class TitleBarTest {
 
 	@BeforeEach
 	void setUp() {
+		assumeFalse(GraphicsEnvironment.isHeadless());
+
 		movable = new MovableMock();
 		dummyFrame = new WindowEventReporterFrame();
 		titleBar = new TitleBar(movable, dummyFrame);
