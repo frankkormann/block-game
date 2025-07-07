@@ -14,9 +14,9 @@ import javax.swing.SwingUtilities;
  * frame.
  * <p>
  * The usual methods for resizing and moving a JFrame should not be used for
- * this. The methods {@code resize2}, {@code resizeAll}, and {@code move2}
- * should be used instead. {@code incorporateChanges} should be called at the
- * end of each frame.
+ * this. The methods {@code resize}, {@code resizeAll}, and {@code move2} should
+ * be used instead. {@code incorporateChanges} should be called at the end of
+ * each frame.
  * <p>
  * Actual resizing of the window is delayed until {@code incorporateChanges} is
  * called at the end of each frame, after the new window size has been verified
