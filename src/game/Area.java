@@ -10,17 +10,12 @@ import java.util.Set;
  * bounds. {@code Areas} have no collision. Default {@code ResizeBehavior} is
  * {@code STAY}.
  * <p>
- * Each {@code Area} interacts with the {@code MovingRectangles} within it using
- * the {@link#onEnter}, {@link#onExit}, and {@link#everyFrame} methods.
- * <ul>
- * <li>{@code onEnter} is called when a {@code MovingRectangle} enters this.
- * <li>{@code onExit} is called when a {@code MovingRectangle} leaves this.
- * <li>{@code everyFrame} is called for each {@code MovingRectangle} within this
- * on every frame, including the frame the {@code MovingRectangle} enters.
- * </ul>
- * <p>
  * {@link#handle(MovingRectangle)} should be called every frame for every
  * {@code MovingRectangle}.
+ * <p>
+ * Subclasses of {@code Area} should override
+ * {@link#onEnter(MovingRectangle)}, {@link#onExit(MovingRectangle)}, and
+ * {@link#everyFrame(MovingRectangle)}.
  *
  * @author Frank Kormann
  */
@@ -44,10 +39,25 @@ public abstract class Area extends Rectangle {
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
+	/**
+	 * Called when {@code rect} enters this.
+	 * 
+	 * @param rect {@code MovingRectangle} which entered
+	 */
 	protected abstract void onEnter(MovingRectangle rect);
 
+	/**
+	 * Called when {@code rect} exits this.
+	 * 
+	 * @param rect {@code MovingRectangle} which exited
+	 */
 	protected abstract void onExit(MovingRectangle rect);
 
+	/**
+	 * Called on every frame that {@code rect} is inside this.
+	 * 
+	 * @param rect {@code MovingRectangle} which is inside
+	 */
 	protected abstract void everyFrame(MovingRectangle rect);
 
 	/**
