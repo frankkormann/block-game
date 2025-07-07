@@ -1,5 +1,17 @@
 package game;
 
+/**
+ * {@code Rectangle} suitable for giving collision to the sides of a window.
+ * <p>
+ * While this stores whether it is supposed to be acting like a wall and is
+ * responsible for knowing how it can interact with other {@code Rectangle}s,
+ * the user of this class is responsible for interpreting that knowledge. On its
+ * own, this has no safeguards to prevent unwanted behavior — for example, this
+ * will happily execute {@code moveCollision} even when it is supposed to acting
+ * like a wall.
+ * 
+ * @author Frank Kormann
+ */
 public class SideRectangle extends MovingRectangle {
 
 	private MainFrame.Direction direction;

@@ -6,6 +6,11 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Translucent {@code Rectangle} which can be toggled visible or not visible.
+ * 
+ * @author Frank Kormann
+ */
 public class HintRectangle extends Rectangle {
 
 	private static final int OUTLINE_THICKNESS = 2;
