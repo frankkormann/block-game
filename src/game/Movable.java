@@ -13,8 +13,8 @@ public interface Movable {
 	 * The name is "move2" to avoid conflict with
 	 * {@code java.awt.Component.move(int, int)}.
 	 * 
-	 * @param xDifference
-	 * @param yDifference
+	 * @param xDifference change in x direction
+	 * @param yDifference change in y direction
 	 */
 	public void move2(int xDifference, int yDifference);
 
