@@ -237,41 +237,41 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		width = getWidth();
 		height = getHeight();
 
-		for (Component c : getLayeredPane().getComponents()) {
+		for (Component comp : getLayeredPane().getComponents()) {
 
-			if (c instanceof ResizingSide) {
+			if (comp instanceof ResizingSide) {
 				int insetsX = getInsets().left + getInsets().right;
 				int insetsY = getInsets().top + getInsets().bottom;
-				switch (((ResizingSide) c).getDirection()) {
+				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
-						c.setBounds(0, 0, titleBar.getButtonsX(),
+						comp.setBounds(0, 0, titleBar.getButtonsX(),
 								ResizingSide.THICKNESS / 2);
 						break;
 					case SOUTH:
-						c.setBounds(0, height - ResizingSide.THICKNESS - insetsY, width,
+						comp.setBounds(0, height - ResizingSide.THICKNESS - insetsY, width,
 								ResizingSide.THICKNESS);
 						break;
 					case WEST:
-						c.setBounds(0, ResizingSide.THICKNESS / 2,
+						comp.setBounds(0, ResizingSide.THICKNESS / 2,
 								ResizingSide.THICKNESS,
 								height - (int) (1.5 * ResizingSide.THICKNESS));
 						break;
 					case EAST:
-						c.setBounds(width - ResizingSide.THICKNESS - insetsX,
+						comp.setBounds(width - ResizingSide.THICKNESS - insetsX,
 								TitleBar.HEIGHT, ResizingSide.THICKNESS,
 								height - ResizingSide.THICKNESS - TitleBar.HEIGHT);
 				}
 			}
 
-			if (c instanceof DrawingPane) {
+			if (comp instanceof DrawingPane) {
 				int insetsX = getInsets().left + getInsets().right;
 				int insetsY = getInsets().top + getInsets().bottom;
-				c.setBounds(0, TitleBar.HEIGHT, getWidth() - insetsX,
+				comp.setBounds(0, TitleBar.HEIGHT, getWidth() - insetsX,
 						getHeight() - insetsY - TitleBar.HEIGHT);
 			}
 
-			if (c instanceof TitleBar) {
-				c.setBounds(0, 0, getWidth(), TitleBar.HEIGHT);
+			if (comp instanceof TitleBar) {
+				comp.setBounds(0, 0, getWidth(), TitleBar.HEIGHT);
 			}
 
 		}
