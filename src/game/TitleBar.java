@@ -41,13 +41,16 @@ public class TitleBar extends JPanel
 	public static final String CLOSE_HOVER_ICON = "/close_icon_hover.png";
 
 	private int mouseX, mouseY;
-	private MainFrame actionListener;
+
+	private Movable movementListener;
+	private JFrame eventListener;
 
 	private JLabel titleLabel;
 	private JPanel buttonHolder;
 
-	public TitleBar(MainFrame actionListener) {
-		this.actionListener = actionListener;
+	public TitleBar(Movable movementListener, JFrame eventListener) {
+		this.movementListener = movementListener;
+		this.eventListener = eventListener;
 
 		setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 		setLayout(new BorderLayout());
@@ -117,11 +120,11 @@ public class TitleBar extends JPanel
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 			case "exit":
-				actionListener.dispatchEvent(
-						new WindowEvent(actionListener, WindowEvent.WINDOW_CLOSING));
+				eventListener.dispatchEvent(
+						new WindowEvent(eventListener, WindowEvent.WINDOW_CLOSING));
 				break;
 			case "minimize":
-				actionListener.setState(JFrame.ICONIFIED);
+				eventListener.setState(JFrame.ICONIFIED);
 				break;
 		}
 	}
@@ -135,7 +138,7 @@ public class TitleBar extends JPanel
 		int xDifference = e.getXOnScreen() - mouseX;
 		int yDifference = e.getYOnScreen() - mouseY;
 
-		actionListener.move2(xDifference, yDifference);
+		movementListener.move2(xDifference, yDifference);
 
 		mouseX = e.getXOnScreen();
 		mouseY = e.getYOnScreen();

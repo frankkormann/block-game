@@ -14,9 +14,9 @@ import javax.swing.SwingUtilities;
  * frame.
  * <p>
  * The usual methods for resizing and moving a JFrame should not be used for
- * this. The methods {@code resize2}, {@code resizeAll}, and {@code move2}
- * should be used instead. {@code incorporateChanges} should be called at the
- * end of each frame.
+ * this. The methods {@code resize}, {@code resizeAll}, and {@code move2} should
+ * be used instead. {@code incorporateChanges} should be called at the end of
+ * each frame.
  * <p>
  * Actual resizing of the window is delayed until {@code incorporateChanges} is
  * called at the end of each frame, after the new window size has been verified
@@ -32,7 +32,7 @@ import javax.swing.SwingUtilities;
  * 
  * @author Frank Kormann
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Resizable, Movable {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";
 
@@ -77,13 +77,14 @@ public class MainFrame extends JFrame {
 	public MainFrame(GameInputHandler gameInputHandler) {
 		super(WINDOW_TITLE);
 
-		// x, y, width, and height are instantiated in createAndShowWindow()
+		// x and y are instantiated in moveToMiddleOfScreen()
+		// width and height are instantiated in setUpLevel()
 		xChange = 0;
 		yChange = 0;
 		widthChange = 0;
 		heightChange = 0;
 
-		titleBar = new TitleBar(this);
+		titleBar = new TitleBar(this, this);
 		drawingPane = new DrawingPane();
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -120,7 +121,7 @@ public class MainFrame extends JFrame {
 	 * @param level Level to set up
 	 */
 	public void setUpLevel(Level level) {
-		drawingPane.clear();
+		drawingPane.clearRectangles();
 		drawingPane.setOffsets(0, 0);
 
 		pack();  // set insets
@@ -140,7 +141,7 @@ public class MainFrame extends JFrame {
 	 * @param change    new dimension size minus old dimension size
 	 * @param direction side of the window to move
 	 */
-	public void resize2(int change, Direction direction) {
+	public void resize(int change, Direction direction) {
 		if (direction == Direction.NORTH || direction == Direction.WEST) {
 			change *= -1;
 		}
@@ -171,11 +172,11 @@ public class MainFrame extends JFrame {
 	/**
 	 * @param resizes Map from Direction of each resize to change amount
 	 * 
-	 * @see MainFrame#resize2(int, Direction)
+	 * @see MainFrame#resize(int, Direction)
 	 */
 	public void resizeAll(Map<Direction, Integer> resizes) {
 		for (Direction direction : resizes.keySet()) {
-			resize2(resizes.get(direction), direction);
+			resize(resizes.get(direction), direction);
 		}
 	}
 
@@ -236,41 +237,41 @@ public class MainFrame extends JFrame {
 		width = getWidth();
 		height = getHeight();
 
-		for (Component c : getLayeredPane().getComponents()) {
+		for (Component comp : getLayeredPane().getComponents()) {
 
-			if (c instanceof ResizingSide) {
+			if (comp instanceof ResizingSide) {
 				int insetsX = getInsets().left + getInsets().right;
 				int insetsY = getInsets().top + getInsets().bottom;
-				switch (((ResizingSide) c).getDirection()) {
+				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
-						c.setBounds(0, 0, titleBar.getButtonsX(),
+						comp.setBounds(0, 0, titleBar.getButtonsX(),
 								ResizingSide.THICKNESS / 2);
 						break;
 					case SOUTH:
-						c.setBounds(0, height - ResizingSide.THICKNESS - insetsY, width,
+						comp.setBounds(0, height - ResizingSide.THICKNESS - insetsY, width,
 								ResizingSide.THICKNESS);
 						break;
 					case WEST:
-						c.setBounds(0, ResizingSide.THICKNESS / 2,
+						comp.setBounds(0, ResizingSide.THICKNESS / 2,
 								ResizingSide.THICKNESS,
 								height - (int) (1.5 * ResizingSide.THICKNESS));
 						break;
 					case EAST:
-						c.setBounds(width - ResizingSide.THICKNESS - insetsX,
+						comp.setBounds(width - ResizingSide.THICKNESS - insetsX,
 								TitleBar.HEIGHT, ResizingSide.THICKNESS,
 								height - ResizingSide.THICKNESS - TitleBar.HEIGHT);
 				}
 			}
 
-			if (c instanceof DrawingPane) {
+			if (comp instanceof DrawingPane) {
 				int insetsX = getInsets().left + getInsets().right;
 				int insetsY = getInsets().top + getInsets().bottom;
-				c.setBounds(0, TitleBar.HEIGHT, getWidth() - insetsX,
+				comp.setBounds(0, TitleBar.HEIGHT, getWidth() - insetsX,
 						getHeight() - insetsY - TitleBar.HEIGHT);
 			}
 
-			if (c instanceof TitleBar) {
-				c.setBounds(0, 0, getWidth(), TitleBar.HEIGHT);
+			if (comp instanceof TitleBar) {
+				comp.setBounds(0, 0, getWidth(), TitleBar.HEIGHT);
 			}
 
 		}

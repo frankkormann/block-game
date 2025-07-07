@@ -43,7 +43,7 @@ public class DrawingPane extends JPanel {
 		rectangleLists.get(index).add(rect);
 	}
 
-	public void clear() {
+	public void clearRectangles() {
 		rectangleLists.clear();
 	}
 

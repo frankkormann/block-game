@@ -28,7 +28,7 @@ import java.util.Set;
  * 
  * @author Frank Kormann
  */
-public class GameInputHandler extends KeyAdapter {
+public class GameInputHandler extends KeyAdapter implements Resizable {
 
 	public enum GameInput {
 		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
@@ -384,7 +384,7 @@ public class GameInputHandler extends KeyAdapter {
 		}
 	}
 
-	public void resize(MainFrame.Direction direction, int amount) {
+	public void resize(int amount, MainFrame.Direction direction) {
 		int newAmount = resizesSinceLastFrame.get(direction) + amount;
 		resizesSinceLastFrame.put(direction, newAmount);
 	}
