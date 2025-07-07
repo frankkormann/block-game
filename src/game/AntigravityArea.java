@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Simple {@code Area} that disables a {@code MovingRectangle}'s gravity on
- * enter and re-enables it on exit.
+ * Disables a {@code MovingRectangle}'s gravity on enter and re-enables it on
+ * exit.
  * 
  * @author Frank Kormann
  */

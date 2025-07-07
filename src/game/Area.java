@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A {@code Rectangle} that manipulates {@code MovingRectangles} within its
+ * {@code Rectangle} that manipulates {@code MovingRectangle}s within its
  * bounds. {@code Areas} have no collision. Default {@code ResizeBehavior} is
  * {@code STAY}.
  * <p>

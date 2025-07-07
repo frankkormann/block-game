@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Simple {@code Rectangle} to represent immovable walls. Default
+ * {@code Rectangle} to represent immovable walls. Default
  * {@code ResizeBehavior} is {@code PREVENT}.
  * 
  * @author Frank Kormann

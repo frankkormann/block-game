@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Simple {@code Area} that applies a constant force.
- * 
+ * Applies a constant force every frame.
+ * <p>
  * Specifically, each {@code MovingRectangle} within this will have a change in
  * velocity corresponding to {@code xForce} and {@code yForce} each frame.
  * 
