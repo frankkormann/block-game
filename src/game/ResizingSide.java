@@ -27,9 +27,9 @@ public class ResizingSide extends JPanel implements MouseListener, MouseMotionLi
 	private int mouseX, mouseY;
 
 	private MainFrame.Direction direction;
-	private GameInputHandler resizeListener;
+	private Resizable resizeListener;
 
-	public ResizingSide(MainFrame.Direction direction, GameInputHandler resizeListener) {
+	public ResizingSide(MainFrame.Direction direction, Resizable resizeListener) {
 		this.direction = direction;
 		this.resizeListener = resizeListener;
 
@@ -78,7 +78,7 @@ public class ResizingSide extends JPanel implements MouseListener, MouseMotionLi
 				break;
 		}
 
-		resizeListener.resize(direction, change);
+		resizeListener.resize(change, direction);
 
 		mouseX = e.getXOnScreen();
 		mouseY = e.getYOnScreen();
