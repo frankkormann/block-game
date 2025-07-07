@@ -32,7 +32,7 @@ import javax.swing.SwingUtilities;
  * 
  * @author Frank Kormann
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Resizable {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";
 
@@ -140,7 +140,7 @@ public class MainFrame extends JFrame {
 	 * @param change    new dimension size minus old dimension size
 	 * @param direction side of the window to move
 	 */
-	public void resize2(int change, Direction direction) {
+	public void resize(int change, Direction direction) {
 		if (direction == Direction.NORTH || direction == Direction.WEST) {
 			change *= -1;
 		}
@@ -171,11 +171,11 @@ public class MainFrame extends JFrame {
 	/**
 	 * @param resizes Map from Direction of each resize to change amount
 	 * 
-	 * @see MainFrame#resize2(int, Direction)
+	 * @see MainFrame#resize(int, Direction)
 	 */
 	public void resizeAll(Map<Direction, Integer> resizes) {
 		for (Direction direction : resizes.keySet()) {
-			resize2(resizes.get(direction), direction);
+			resize(resizes.get(direction), direction);
 		}
 	}
 
