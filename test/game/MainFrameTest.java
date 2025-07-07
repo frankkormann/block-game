@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import game.MainFrame.Direction;
 
+// These tests will skip if in a headless environment (an environment that doesn't
+// support keyboard, display, etc.)
 class MainFrameTest {
 
 	MainFrame mainFrame;

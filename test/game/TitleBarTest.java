@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import mocks.MovableMock;
 import mocks.WindowEventReporterFrame;
 
+//These tests will skip if in a headless environment (an environment that doesn't
+//support keyboard, display, etc.)
 class TitleBarTest {
 
 	TitleBar titleBar;
