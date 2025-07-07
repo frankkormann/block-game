@@ -77,7 +77,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 	public MainFrame(GameInputHandler gameInputHandler) {
 		super(WINDOW_TITLE);
 
-		// x, y, width, and height are instantiated in createAndShowWindow()
+		// x and y are instantiated in moveToMiddleOfScreen()
+		// width and height are instantiated in setUpLevel()
 		xChange = 0;
 		yChange = 0;
 		widthChange = 0;
