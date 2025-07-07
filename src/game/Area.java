@@ -44,11 +44,11 @@ public abstract class Area extends Rectangle {
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
-	public abstract void onEnter(MovingRectangle rect);
+	protected abstract void onEnter(MovingRectangle rect);
 
-	public abstract void onExit(MovingRectangle rect);
+	protected abstract void onExit(MovingRectangle rect);
 
-	public abstract void everyFrame(MovingRectangle rect);
+	protected abstract void everyFrame(MovingRectangle rect);
 
 	/**
 	 * Adds or removes {@code rect} from the list of {@code Rectangles} in this

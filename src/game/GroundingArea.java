@@ -19,17 +19,17 @@ public class GroundingArea extends Area {
 	}
 
 	@Override
-	public void onEnter(MovingRectangle rect) {
+	protected void onEnter(MovingRectangle rect) {
 		rect.setState(MovingRectangle.State.ON_GROUND);
 	}
 
 	@Override
-	public void onExit(MovingRectangle rect) {
+	protected void onExit(MovingRectangle rect) {
 		rect.setState(MovingRectangle.State.IN_AIR);
 	}
 
 	@Override
-	public void everyFrame(MovingRectangle rect) {
+	protected void everyFrame(MovingRectangle rect) {
 		rect.setState(MovingRectangle.State.ON_GROUND);
 	}
 

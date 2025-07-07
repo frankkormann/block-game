@@ -26,16 +26,16 @@ public class AntigravityArea extends Area {
 	}
 
 	@Override
-	public void onEnter(MovingRectangle rect) {
+	protected void onEnter(MovingRectangle rect) {
 		rect.setHasGravity(false);
 	}
 
 	@Override
-	public void onExit(MovingRectangle rect) {
+	protected void onExit(MovingRectangle rect) {
 		rect.setHasGravity(true);
 	}
 
 	@Override
-	public void everyFrame(MovingRectangle rect) {}
+	protected void everyFrame(MovingRectangle rect) {}
 
 }

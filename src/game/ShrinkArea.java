@@ -70,16 +70,16 @@ public class ShrinkArea extends Area {
 	}
 
 	@Override
-	public void onEnter(MovingRectangle rect) {}
+	protected void onEnter(MovingRectangle rect) {}
 
 	@Override
-	public void onExit(MovingRectangle rect) {}
+	protected void onExit(MovingRectangle rect) {}
 
 	/**
 	 * Grow rect until it is as tall/wide as this
 	 */
 	@Override
-	public void everyFrame(MovingRectangle rect) {
+	protected void everyFrame(MovingRectangle rect) {
 
 		shrinkRect(rect, getY() - rect.getY(), MainFrame.Direction.NORTH);
 		shrinkRect(rect, rect.getY() + rect.getHeight() - getY() - getHeight(),

@@ -33,13 +33,13 @@ public class ForceArea extends Area {
 	}
 
 	@Override
-	public void onEnter(MovingRectangle rect) {}
+	protected void onEnter(MovingRectangle rect) {}
 
 	@Override
-	public void onExit(MovingRectangle rect) {}
+	protected void onExit(MovingRectangle rect) {}
 
 	@Override
-	public void everyFrame(MovingRectangle rect) {
+	protected void everyFrame(MovingRectangle rect) {
 		rect.setXVelocity(rect.getXVelocity() + xForce);
 		rect.setYVelocity(rect.getYVelocity() + yForce);
 	}

@@ -69,16 +69,16 @@ public class GrowArea extends Area {
 	}
 
 	@Override
-	public void onEnter(MovingRectangle rect) {}
+	protected void onEnter(MovingRectangle rect) {}
 
 	@Override
-	public void onExit(MovingRectangle rect) {}
+	protected void onExit(MovingRectangle rect) {}
 
 	/**
 	 * Grow {@code rect} until it is as tall/wide as this
 	 */
 	@Override
-	public void everyFrame(MovingRectangle rect) {
+	protected void everyFrame(MovingRectangle rect) {
 		int possibleChange;
 
 		possibleChange = rect.getX() - getX();
