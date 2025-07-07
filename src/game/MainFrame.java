@@ -32,7 +32,7 @@ import javax.swing.SwingUtilities;
  * 
  * @author Frank Kormann
  */
-public class MainFrame extends JFrame implements Resizable {
+public class MainFrame extends JFrame implements Resizable, Movable {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";
 
@@ -83,7 +83,7 @@ public class MainFrame extends JFrame implements Resizable {
 		widthChange = 0;
 		heightChange = 0;
 
-		titleBar = new TitleBar(this);
+		titleBar = new TitleBar(this, this);
 		drawingPane = new DrawingPane();
 
 		SwingUtilities.invokeLater(new Runnable() {
