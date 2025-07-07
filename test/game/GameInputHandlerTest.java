@@ -48,8 +48,8 @@ class GameInputHandlerTest {
 
 	@Test
 	void resizes_are_returned_and_nothing_else() {
-		inputHandler.resize(Direction.WEST, 100);
-		inputHandler.resize(Direction.SOUTH, -50);
+		inputHandler.resize(100, Direction.WEST);
+		inputHandler.resize(-50, Direction.SOUTH);
 
 		inputs = inputHandler.poll();
 
@@ -83,13 +83,13 @@ class GameInputHandlerTest {
 		pressKey(KeyEvent.VK_D);
 		inputList.add(inputHandler.poll());
 
-		inputHandler.resize(Direction.EAST, 100);
+		inputHandler.resize(100, Direction.EAST);
 		pressKey(KeyEvent.VK_S);
 		inputList.add(inputHandler.poll());
 
 		inputList.add(inputHandler.poll());
 
-		inputHandler.resize(Direction.SOUTH, 10);
+		inputHandler.resize(10, Direction.SOUTH);
 		inputList.add(inputHandler.poll());
 
 		inputHandler.endWriting();
