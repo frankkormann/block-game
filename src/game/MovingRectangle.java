@@ -98,7 +98,7 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Applies one frame's worth of velocity and clamps to max speeds
+	 * Applies one frame's worth of velocity and clamps to max speeds.
 	 */
 	public void moveVelocity() {
 		// Speed limits
