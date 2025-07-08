@@ -114,6 +114,11 @@ The project is developed in Eclipse version 2025-03 (4.35.0) using:
 - [FlatLaf](https://github.com/JFormDesigner/FlatLaf) 3.5
 - [Jackson Databind](https://github.com/FasterXML/jackson-databind/) 2.18.2
 
+### Documentation
+
+This project's Javadocs are hosted on GitHub Pages:
+[https://frankkormann.github.io/block-game/](https://frankkormann.github.io/block-game/).
+
 ### Creating / editing levels
 
 Each level is built from a `JSON` file. See [JSON_FORMAT.md](JSON_FORMAT.md) for
