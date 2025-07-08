@@ -384,6 +384,16 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 	}
 
+	/**
+	 * Records a resize for the next frame's inputs.
+	 * <p>
+	 * If multiple resizes are given for the same direction, only their sum is
+	 * remembered.
+	 * 
+	 * @param amount    difference between the new length and the old length
+	 * @param direction which way to resize
+	 */
+	@Override
 	public void resize(int amount, MainFrame.Direction direction) {
 		int newAmount = resizesSinceLastFrame.get(direction) + amount;
 		resizesSinceLastFrame.put(direction, newAmount);
