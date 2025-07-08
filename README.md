@@ -107,7 +107,7 @@ current level. Then open an issue on this GitHub page and include:
 
 ### Version information
 
-The project is developed in Eclipse version 2025-03 (4.35.0) using:
+The project is developed in using:
 
 - JDK 24, compiled for Java 8
 - Maven 3.8.1
