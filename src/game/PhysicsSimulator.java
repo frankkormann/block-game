@@ -216,6 +216,7 @@ public class PhysicsSimulator {
 
 			if (goal.hasWon()) {
 				nextLevel = goal.getNextLevel();
+				goal.markUsed();
 			}
 		}
 	}

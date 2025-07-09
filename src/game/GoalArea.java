@@ -19,6 +19,7 @@ public class GoalArea extends Area {
 	private static final int TIMEOUT = 100;
 
 	private int timer;
+	private boolean used;
 	private String nextLevel;
 
 	@JsonCreator
@@ -27,6 +28,7 @@ public class GoalArea extends Area {
 			@JsonProperty("nextLevel") String nextLevel) {
 		super(x, y, width, height, DEFAULT_COLOR);
 		timer = 0;
+		used = false;
 		this.nextLevel = nextLevel;
 
 		if (nextLevel == "") {
@@ -36,7 +38,7 @@ public class GoalArea extends Area {
 	}
 
 	public boolean hasWon() {
-		return timer == TIMEOUT;
+		return timer >= TIMEOUT && !used;
 	}
 
 	@Override
@@ -56,6 +58,7 @@ public class GoalArea extends Area {
 		if (rect.isControlledByPlayer()) {
 			timer = 0;
 		}
+		used = false;
 	}
 
 	@Override
@@ -63,6 +66,16 @@ public class GoalArea extends Area {
 		if (rect.isControlledByPlayer()) {
 			timer++;
 		}
+	}
+
+	/**
+	 * Marks that this has been used and should not be considered won anymore.
+	 * <p>
+	 * Until the player leaves and re-enters, calls to {@code hasWon()} will return
+	 * false.
+	 */
+	public void markUsed() {
+		used = true;
 	}
 
 	public String getNextLevel() {
