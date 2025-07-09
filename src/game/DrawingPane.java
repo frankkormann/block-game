@@ -21,7 +21,7 @@ import javax.swing.JPanel;
  */
 public class DrawingPane extends JPanel {
 
-	private SortedMap<Integer, List<Rectangle>> rectangleLists;
+	private SortedMap<Integer, List<Drawable>> drawableLists;
 
 	private int xOffset, yOffset;
 
@@ -33,18 +33,18 @@ public class DrawingPane extends JPanel {
 
 		setBackground(Color.WHITE);
 
-		rectangleLists = new TreeMap<>();
+		drawableLists = new TreeMap<>();
 	}
 
 	public void add(Rectangle rect, int index) {
-		if (rectangleLists.get(index) == null) {
-			rectangleLists.put(index, new ArrayList<>());
+		if (drawableLists.get(index) == null) {
+			drawableLists.put(index, new ArrayList<>());
 		}
-		rectangleLists.get(index).add(rect);
+		drawableLists.get(index).add(rect);
 	}
 
 	public void clearRectangles() {
-		rectangleLists.clear();
+		drawableLists.clear();
 	}
 
 	@Override
@@ -53,9 +53,9 @@ public class DrawingPane extends JPanel {
 
 		g.translate(-xOffset, -yOffset);
 
-		for (Map.Entry<Integer, List<Rectangle>> entry : rectangleLists.entrySet()) {
-			for (Rectangle rect : entry.getValue()) {
-				rect.draw(g);
+		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists.entrySet()) {
+			for (Drawable drawable : entry.getValue()) {
+				drawable.draw(g);
 			}
 		}
 	}
