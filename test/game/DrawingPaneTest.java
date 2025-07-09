@@ -22,7 +22,7 @@ class DrawingPaneTest {
 	void setUp() {
 		drawingPane = new DrawingPane();
 		bufferedImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
-		drawable = new DrawableMock(10, 10, 10, 10);
+		drawable = new DrawableMock(10, 10, 10, 10, Color.GREEN);
 
 		drawingPane.add(drawable, 0);
 	}
@@ -44,8 +44,8 @@ class DrawingPaneTest {
 		g.dispose();
 	}
 
-	private void assertCornersNotColored(int x, int y, int width, int height) {
-		int blankRGB = Color.BLACK.getRGB();
+	private void assertCornersAreColored(int x, int y, int width, int height) {
+		int blankRGB = Color.WHITE.getRGB();
 		assertNotEquals(blankRGB, bufferedImage.getRGB(x, y));
 		assertNotEquals(blankRGB, bufferedImage.getRGB(x + width - 1, y));
 		assertNotEquals(blankRGB, bufferedImage.getRGB(x, y + height - 1));
@@ -56,18 +56,19 @@ class DrawingPaneTest {
 	void rectangle_is_drawn_at_x_y_when_offsets_are_zero() {
 		draw();
 
-		assertCornersNotColored(drawable.x, drawable.y, drawable.width,
+		assertCornersAreColored(drawable.x, drawable.y, drawable.width,
 				drawable.height);
 	}
 
 	@Test
 	void drawable_is_drawn_offset_when_offsets_are_not_zero() {
-		drawingPane.setXOffset(3);
-		drawingPane.setYOffset(2);
+		int xOffset = 3, yOffset = 2;
+		drawingPane.setXOffset(xOffset);
+		drawingPane.setYOffset(yOffset);
 		draw();
 
-		assertCornersNotColored(drawable.x - 3, drawable.y - 2, drawable.width,
-				drawable.height);
+		assertCornersAreColored(drawable.x - xOffset, drawable.y - yOffset,
+				drawable.width, drawable.height);
 	}
 
 	@Test
