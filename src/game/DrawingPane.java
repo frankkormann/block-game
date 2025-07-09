@@ -11,11 +11,11 @@ import java.util.TreeMap;
 import javax.swing.JPanel;
 
 /**
- * Draws all {@code Rectangle}s to the window using their {@code draw} methods.
+ * Draws all {@code Drawable}s to the window using their {@code draw} methods.
  * 
  * The x- and y-offsets need to be set properly with {@code setOffsets}. Because
  * the top-left corner will not always be at (0, 0), this keeps track of its
- * offset relative to (0, 0) to determine where to draw each {@code Rectangle}.
+ * offset relative to (0, 0) to determine where to draw each {@code Drawable}.
  *
  * @author Frank Kormann
  */
@@ -36,14 +36,17 @@ public class DrawingPane extends JPanel {
 		drawableLists = new TreeMap<>();
 	}
 
-	public void add(Rectangle rect, int index) {
+	public void add(Drawable drawable, int index) {
 		if (drawableLists.get(index) == null) {
 			drawableLists.put(index, new ArrayList<>());
 		}
-		drawableLists.get(index).add(rect);
+		drawableLists.get(index).add(drawable);
 	}
 
-	public void clearRectangles() {
+	/**
+	 * Remove all drawables from this.
+	 */
+	public void clearDrawables() {
 		drawableLists.clear();
 	}
 
