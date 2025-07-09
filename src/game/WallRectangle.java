@@ -35,6 +35,8 @@ public class WallRectangle extends Rectangle {
 	@Override
 	public void draw(Graphics g) {
 		super.draw(g);
+		g = g.create();
+
 		g.setColor(PREVENT_COLOR);
 		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_X) {
 			g.drawLine(getX(), getY(), getX(), getY() + getHeight() - 1);
@@ -54,6 +56,8 @@ public class WallRectangle extends Rectangle {
 				g.drawLine(x, getY() + getHeight(), x + 5, getY() + getHeight() - 5);
 			}
 		}
+
+		g.dispose();
 	}
 
 	public WallRectangle(int x, int y, int width, int height, Color color,

@@ -38,6 +38,8 @@ public class HintRectangle extends Rectangle {
 			return;
 		}
 
+		g = g.create();
+
 		g.setColor(new Color((int) (getColor().getRed() / BORDER_DARKNESS),
 				(int) (getColor().getGreen() / BORDER_DARKNESS),
 				(int) (getColor().getBlue() / BORDER_DARKNESS)));
@@ -52,6 +54,8 @@ public class HintRectangle extends Rectangle {
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
 				getColor().getBlue(), (int) (255 * OPACITY)));
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
+
+		g.dispose();
 	}
 
 	public void toggleVisible() {

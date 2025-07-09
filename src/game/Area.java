@@ -37,6 +37,8 @@ public abstract class Area extends Rectangle {
 		g = g.create();
 		g.setColor(getColor());
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
+
+		g.dispose();
 	}
 
 	/**

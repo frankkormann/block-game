@@ -125,6 +125,7 @@ public abstract class Rectangle implements Drawable {
 		updateLastPosition();
 	}
 
+	@Override
 	public void draw(Graphics g) {
 		g = g.create();
 		// Create a darker border
@@ -137,6 +138,8 @@ public abstract class Rectangle implements Drawable {
 		g.setColor(color);
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
+
+		g.dispose();
 	}
 
 	/**

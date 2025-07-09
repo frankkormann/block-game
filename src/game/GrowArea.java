@@ -44,6 +44,7 @@ public class GrowArea extends Area {
 	@Override
 	public void draw(Graphics g) {
 		super.draw(g);
+		g = g.create();
 
 		g.setColor(getColor().darker());
 		if (xGrowth != 0) {
@@ -66,6 +67,8 @@ public class GrowArea extends Area {
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
 					MainFrame.Direction.SOUTH);
 		}
+
+		g.dispose();
 	}
 
 	@Override

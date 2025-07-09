@@ -45,6 +45,7 @@ public class ShrinkArea extends Area {
 	@Override
 	public void draw(Graphics g) {
 		super.draw(g);
+		g = g.create();
 
 		g.setColor(getColor().darker());
 		if (xShrink != 0) {
@@ -67,6 +68,8 @@ public class ShrinkArea extends Area {
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
 					MainFrame.Direction.NORTH);
 		}
+
+		g.dispose();
 	}
 
 	@Override
