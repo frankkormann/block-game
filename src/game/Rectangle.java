@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * @author Frank Kormann
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
-public abstract class Rectangle {
+public abstract class Rectangle implements Drawable {
 
 	private static final float BORDER_DARKNESS = 1.2f;
 	private static final int BORDER_THICKNESS = 1;
