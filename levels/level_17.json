@@ -73,9 +73,9 @@
 		{
 			"type": ".HintRectangle",
 			"x": 120,
-			"y": 295,
+			"y": 265,
 			"width": 500,
-			"height": 20,
+			"height": 50,
 			"color": "GREEN"
 		}
 	]
