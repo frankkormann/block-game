@@ -211,23 +211,15 @@
 	"hints": [
 		{
 			"type": ".HintRectangle",
-			"x": 225,
+			"x": 410,
 			"y": 190,
-			"width": 100,
-			"height": 40,
-			"color": "BLUE"
-		},
-		{
-			"type": ".HintRectangle",
-			"x": 550,
-			"y": 190,
-			"width": 200,
+			"width": 330,
 			"height": 40,
 			"color": "RED"
 		},
 		{
 			"type": ".HintRectangle",
-			"x": 250,
+			"x": 690,
 			"y": 90,
 			"width": 100,
 			"height": 20,
@@ -235,7 +227,7 @@
 		},
 		{
 			"type": ".HintRectangle",
-			"x": 250,
+			"x": 690,
 			"y": 130,
 			"width": 100,
 			"height": 100,
