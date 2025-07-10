@@ -1,0 +1,245 @@
+{
+	"name": "Controlled from Above",
+	"width": 900,
+	"height": 500,
+	"solution": "/level_18.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 700,
+			"y": 90,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": "true"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 40,
+			"y": 190,
+			"width": 40,
+			"height": 40,
+			"color": "GREEN"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 225,
+			"y": 190,
+			"width": 40,
+			"height": 40,
+			"color": "BLUE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 410,
+			"y": 190,
+			"width": 40,
+			"height": 40,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 480,
+			"y": 90,
+			"width": 100,
+			"height": 20,
+			"color": "ORANGE",
+			"attachments": [
+				{
+					"area": {
+						"type": ".GrowArea",
+						"height": 120,
+						"xGrowth": 1,
+						"yGrowth": 0
+					},
+					"options": ["GLUED_SOUTH", "SAME_WIDTH"]
+				}
+			]
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 0,
+			"width": 900,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 490,
+			"width": 900,
+			"height": 10,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 10,
+			"width": 10,
+			"height": 480,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 890,
+			"y": 10,
+			"width": 10,
+			"height": 480,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 10,
+			"y": 110,
+			"width": 820,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 10,
+			"y": 230,
+			"width": 600,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 10,
+			"y": 100,
+			"width": 40,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 790,
+			"y": 100,
+			"width": 40,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 810,
+			"y": 130,
+			"width": 20,
+			"height": 300,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 590,
+			"y": 300,
+			"width": 20,
+			"height": 190,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 830,
+			"y": 420,
+			"width": 15,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 875,
+			"y": 360,
+			"width": 15,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 830,
+			"y": 300,
+			"width": 15,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 875,
+			"y": 240,
+			"width": 15,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 830,
+			"y": 180,
+			"width": 15,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 875,
+			"y": 120,
+			"width": 15,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".ShrinkArea",
+			"x": 610,
+			"y": 130,
+			"width": 200,
+			"height": 100,
+			"xShrink": 1,
+			"yShrink": 0
+		}
+	],
+	"goals": [
+		{
+			"type": ".GoalArea",
+			"x": 265,
+			"y": 440,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 225,
+			"y": 190,
+			"width": 100,
+			"height": 40,
+			"color": "BLUE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 550,
+			"y": 190,
+			"width": 200,
+			"height": 40,
+			"color": "RED"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 250,
+			"y": 90,
+			"width": 100,
+			"height": 20,
+			"color": "ORANGE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 250,
+			"y": 130,
+			"width": 100,
+			"height": 100,
+			"color": "GREEN"
+		}
+	]
+}
