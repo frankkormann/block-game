@@ -80,6 +80,10 @@ Every rectangle must fill the `type`, `x`, `y`, `width`, and `height` fields
 Additionally, it must contain data for any unique attributes listed below. This
 data corresponds to the values taken by a rectangle's `@JsonCreator` constructor.
 
+**Note:** (0, 0) is at the top left corner of the window. Each rectangle's
+(x, y) position is the top left corner of that rectangle. Accordingly, the
+direction of increasing *y* is downwards.
+
 Areas are special rectangles that apply an effect to all Moving Rectangles that
 are touching them.
 
@@ -91,19 +95,19 @@ are touching them.
 	</tr>
 	<tr>
 		<td>x</td>
-		<td>X position</td>
+		<td><i>x</i> position</td>
 	</tr>
 	<tr>
 		<td>y</td>
-		<td>Y position</td>
+		<td><i>y</i> position</td>
 	</tr>
 	<tr>
 		<td>width</td>
-		<td>Width in the X dimension</td>
+		<td>Width in the <i>x</i> dimension</td>
 	</tr>
 	<tr>
 		<td>height</td>
-		<td>Height in the Y dimension</td>
+		<td>Height in the <i>y</i> dimension</td>
 	</tr>
 </table>
 
@@ -209,11 +213,11 @@ are touching them.
 	</tr>
 	<tr>
 		<td>xForce</td>
-		<td>Value of force to apply in the X direction</td>
+		<td>Value of force to apply in the <i>x</i> dimension</td>
 	</tr>
 	<tr>
 		<td>yForce</td>
-		<td>Value of force to apply in the Y direction</td>
+		<td>Value of force to apply in the <i>y</i> dimension</td>
 	</tr>
 </table>
 <p align="center"><b>Grow Area</b></p>
@@ -249,11 +253,11 @@ are touching them.
 	</tr>
 	<tr>
 		<td>xShrink</td>
-		<td>Rate to decrease width in pixels/frame</td>
+		<td>Rate to decrease width in pixels per frame</td>
 	</tr>
 	<tr>
 		<td>yShrink</td>
-		<td>Rate to decrease height in pixels/frame</td>
+		<td>Rate to decrease height in pixels per frame</td>
 	</tr>
 </table>
 
