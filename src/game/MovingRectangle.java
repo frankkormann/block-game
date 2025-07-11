@@ -205,8 +205,8 @@ public class MovingRectangle extends Rectangle {
 	 * bottom edge will stay in place. Otherwise, the bottom edge will move and the
 	 * top edge will stay in place.
 	 * 
-	 * @param change    amount to adjust height by
-	 * @param addToLeft {@code true} if the top edge should move
+	 * @param change   amount to adjust height by
+	 * @param addToTop {@code true} if the top edge should move
 	 */
 	public void changeHeight(int change, boolean addToTop) {
 		setHeight(getHeight() + change);
