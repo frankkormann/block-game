@@ -201,7 +201,7 @@ public class GameController extends WindowAdapter {
 
 	/**
 	 * Replay a recording stored as a resource. The resource must be able to be
-	 * found by {@code java.lang.Class.getResourceAsStream(resource)}.
+	 * found by {@link java.lang.Class#getResourceAsStream(String)}.
 	 * 
 	 * @param resource name of resource
 	 */
