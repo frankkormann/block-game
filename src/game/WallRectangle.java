@@ -17,6 +17,8 @@ public class WallRectangle extends Rectangle {
 	public static final Color STAY_COLOR = new Color(229, 229, 229, 255);
 	public static final Color PREVENT_COLOR = new Color(85, 85, 85, 255);
 
+	private static final int TICK_MARK_SIZE = 5;
+
 	public WallRectangle(int x, int y, int width, int height) {
 		this(x, y, width, height, STAY_COLOR, Rectangle.ResizeBehavior.PREVENT_X);
 	}
@@ -42,18 +44,23 @@ public class WallRectangle extends Rectangle {
 			g.drawLine(getX(), getY(), getX(), getY() + getHeight() - 1);
 			g.drawLine(getX() + getWidth() - 1, getY(), getX() + getWidth() - 1,
 					getY() + getHeight() - 1);
-			for (int y = getY(); y < getY() + getHeight(); y += 5) {
-				g.drawLine(getX() + 5, y, getX(), y + 5);
-				g.drawLine(getX() + getWidth(), y, getX() + getWidth() - 5, y + 5);
+
+			for (int y = getY(); y < getY() + getHeight(); y += TICK_MARK_SIZE) {
+				g.drawLine(getX() + TICK_MARK_SIZE, y, getX(), y + TICK_MARK_SIZE);
+				g.drawLine(getX() + getWidth() - 1, y,
+						getX() + getWidth() - TICK_MARK_SIZE - 1, y + TICK_MARK_SIZE);
 			}
 		}
+
 		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_Y) {
 			g.drawLine(getX(), getY(), getX() + getWidth() - 1, getY());
 			g.drawLine(getX(), getY() + getHeight() - 1, getX() + getWidth() - 1,
 					getY() + getHeight() - 1);
-			for (int x = getX(); x < getX() + getWidth(); x += 5) {
-				g.drawLine(x, getY() + 5, x + 5, getY());
-				g.drawLine(x, getY() + getHeight(), x + 5, getY() + getHeight() - 5);
+
+			for (int x = getX(); x < getX() + getWidth(); x += TICK_MARK_SIZE) {
+				g.drawLine(x, getY() + TICK_MARK_SIZE, x + TICK_MARK_SIZE, getY());
+				g.drawLine(x, getY() + getHeight() - 1, x + TICK_MARK_SIZE,
+						getY() + getHeight() - TICK_MARK_SIZE - 1);
 			}
 		}
 
