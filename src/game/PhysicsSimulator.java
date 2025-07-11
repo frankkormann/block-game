@@ -1,6 +1,5 @@
 package game;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +40,7 @@ public class PhysicsSimulator {
 
 	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
 
-	private URL nextLevel;
+	private String nextLevel;
 
 	public PhysicsSimulator() {
 		super();
@@ -54,7 +53,7 @@ public class PhysicsSimulator {
 
 		sideRectangleResizes = new HashMap<>();
 
-		nextLevel = null;
+		nextLevel = "";
 	}
 
 	/**
@@ -168,6 +167,7 @@ public class PhysicsSimulator {
 	 * gravity, applies movement from velocity, and computes collision.
 	 */
 	private void moveAllMovingRectangles() {
+
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
 		// sort by distance from bottom of screen for consistency
@@ -179,10 +179,8 @@ public class PhysicsSimulator {
 			applyAreas(rect);
 			applyNaturalForces(rect);
 
-			// No need to do collision if it didn't move
 			if (rect.getXVelocity() == 0 && rect.getYVelocity() == 0
-					&& rect.getWidth() - rect.getLastWidth() == 0
-					&& rect.getHeight() - rect.getLastHeight() == 0) {
+					&& !rect.hasMoved()) {
 				continue;
 			}
 
@@ -218,6 +216,7 @@ public class PhysicsSimulator {
 
 			if (goal.hasWon()) {
 				nextLevel = goal.getNextLevel();
+				goal.markUsed();
 			}
 		}
 	}
@@ -360,6 +359,7 @@ public class PhysicsSimulator {
 		colliders.remove(rect);
 
 		for (MovingRectangle other : colliders) {
+
 			collisionData = calculateCollision(rect, other);
 			if (collisionData[0] == 0 && collisionData[1] == 0) {
 				continue;
@@ -558,24 +558,24 @@ public class PhysicsSimulator {
 	 * {@code calculateCollision(other, rect)}.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
-	 * @param other {@code Rectangle} that will move
+	 * @param other {@code MovingRectangle} that will move
 	 * 
 	 * @return { Δx, Δy } amount to move {@code other} to resolve collision with
 	 *         {@code rect}
 	 */
-	private int[] calculateCollision(Rectangle rect, Rectangle other) {
+	private int[] calculateCollision(Rectangle rect, MovingRectangle other) {
 		if (rect == other) {
 			return new int[] { 0, 0 };
 		}
 
 		int xChange = 0;
 		int yChange = 0;
-		boolean inBoundsX = rect.intersectsX(other);
-		boolean inBoundsY = rect.intersectsY(other);
+		boolean inBoundsX = other.intersectsX(rect);
+		boolean inBoundsY = other.intersectsY(rect);
 		// "Used to be" values so Rectangles can tell whether they should be moved in x
 		// or y direction
-		boolean usedToBeInBoundsX = rect.usedToIntersectX(other);
-		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
+		boolean usedToBeInBoundsX = other.usedToIntersectX(rect);
+		boolean usedToBeInBoundsY = other.usedToIntersectY(rect);
 
 		if (inBoundsX && inBoundsY) {
 			if (usedToBeInBoundsX) {
@@ -745,8 +745,16 @@ public class PhysicsSimulator {
 		return rect.getY() - other.getY() - other.getHeight();
 	}
 
-	public URL getNextLevel() {
+	/**
+	 * @return resource name of the next level, or the empty string if there is no
+	 *         next level yet
+	 */
+	public String getNextLevel() {
 		return nextLevel;
+	}
+
+	public void resetNextlevel() {
+		nextLevel = "";
 	}
 
 	public Map<MainFrame.Direction, Integer> getResizes() {

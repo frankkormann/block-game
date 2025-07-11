@@ -98,6 +98,14 @@
 			"width": 30,
 			"height": 60,
 			"color": "RED"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 290,
+			"y": 370,
+			"width": 60,
+			"height": 30,
+			"color": "GREEN"
 		}
 	]
 }

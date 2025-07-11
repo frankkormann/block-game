@@ -30,6 +30,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * <p>
  * {@code Rectangles} (and levels in general) should be created through JSON.
  * See the README for more details.
+ * <p>
+ * Subclasses which can move should override
+ * {@link#getLastX()}, {@link#getLastY()}, {@link#getLastWidth()}, and
+ * {@link#getLastHeight()}.
  *
  * @author Frank Kormann
  */
@@ -99,15 +103,7 @@ public abstract class Rectangle implements Drawable {
 
 	private Color color;
 
-	private int x, y;
-	private int lastX, lastY;
-	private int width, height;
-	private int lastWidth, lastHeight;
-	// These are used in collision to determine how much width/height to remove if
-	// this is colliding because it increased in width/height
-	private int leftWidthChange;
-	private int topHeightChange;
-
+	private int x, y, width, height;
 	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
@@ -121,8 +117,6 @@ public abstract class Rectangle implements Drawable {
 		this.color = color;
 		this.resizeBehavior = resizeBehavior;
 		attachedAreas = new ArrayList<>();
-
-		updateLastPosition();
 	}
 
 	@Override
@@ -192,23 +186,11 @@ public abstract class Rectangle implements Drawable {
 
 	}
 
-	public void updateLastPosition() {
-		lastX = x;
-		lastY = y;
-		lastWidth = width;
-		lastHeight = height;
-		leftWidthChange = 0;
-		topHeightChange = 0;
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			areaPair.first.updateLastPosition();
-		}
-	}
-
 	/**
 	 * Moves and resizes all attached {@code Area}s to conform with their attachment
 	 * options.
 	 */
-	public void updateAttachmentBounds() {
+	private void updateAttachmentBounds() {
 
 		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
 			Area attached = areaPair.first;
@@ -308,44 +290,17 @@ public abstract class Rectangle implements Drawable {
 		return canInteract(other) && other.canInteract(this) && inBoundsY;
 	}
 
-	/**
-	 * Calculate whether this intersected with other in the x direction on the
-	 * previous frame.
-	 * 
-	 * @param other Other Rectangle
-	 * 
-	 * @return true if they used to intersect in the x direction
-	 */
-	public boolean usedToIntersectX(Rectangle other) {
-		boolean usedToBeInBoundsX = (lastX <= other.getLastX()
-				&& other.getLastX() < lastX + lastWidth)
-				|| (lastX < other.getLastX() + other.getLastWidth()
-						&& other.getLastX() + other.getLastWidth() <= lastX + lastWidth)
-				|| (other.getLastX() < lastX
-						&& lastX < other.getLastX() + other.getLastWidth());
-		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsX;
-	}
-
-	/**
-	 * Calculate whether this intersected with other in the y direction on the
-	 * previous frame.
-	 * 
-	 * @param other Other Rectangle
-	 * 
-	 * @return true if they used to intersect in the y direction
-	 */
-	public boolean usedToIntersectY(Rectangle other) {
-		boolean usedToBeInBoundsY = (lastY <= other.getLastY()
-				&& other.getLastY() < lastY + lastHeight)
-				|| (lastY < other.getLastY() + other.getLastHeight() && other.getLastY()
-						+ other.getLastHeight() <= lastY + lastHeight)
-				|| (other.getLastY() < lastY
-						&& lastY < other.getLastY() + other.getLastHeight());
-		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsY;
-	}
-
 	public int getX() {
 		return x;
+	}
+
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return x position on the previous frame
+	 */
+	public int getLastX() {
+		return getX();
 	}
 
 	public void setX(int x) {
@@ -357,6 +312,15 @@ public abstract class Rectangle implements Drawable {
 		return y;
 	}
 
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return y position on the previous frame
+	 */
+	public int getLastY() {
+		return getY();
+	}
+
 	public void setY(int y) {
 		this.y = y;
 		updateAttachmentBounds();
@@ -366,8 +330,13 @@ public abstract class Rectangle implements Drawable {
 		return width;
 	}
 
-	public int getLeftWidthChange() {
-		return leftWidthChange;
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return width on the previous frame
+	 */
+	public int getLastWidth() {
+		return getWidth();
 	}
 
 	public void setWidth(int width) {
@@ -375,42 +344,21 @@ public abstract class Rectangle implements Drawable {
 		updateAttachmentBounds();
 	}
 
-	public void changeWidth(int change, boolean addToLeft) {
-		width += change;
-		if (width <= 0) {
-			change += 1 - width;
-			width = 1;
-		}
-		if (addToLeft) {
-			x -= change;
-			leftWidthChange += change;
-		}
-		updateAttachmentBounds();
-	}
-
 	public int getHeight() {
 		return height;
 	}
 
-	public int getTopHeightChange() {
-		return topHeightChange;
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @return height on the previous frame
+	 */
+	public int getLastHeight() {
+		return getHeight();
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		updateAttachmentBounds();
-	}
-
-	public void changeHeight(int change, boolean addToTop) {
-		height += change;
-		if (height <= 0) {
-			change += 1 - height;
-			height = 1;
-		}
-		if (addToTop) {
-			y -= change;
-			topHeightChange += change;
-		}
 		updateAttachmentBounds();
 	}
 
@@ -420,22 +368,6 @@ public abstract class Rectangle implements Drawable {
 
 	public ResizeBehavior getResizeBehavior() {
 		return resizeBehavior;
-	}
-
-	public int getLastX() {
-		return lastX;
-	}
-
-	public int getLastY() {
-		return lastY;
-	}
-
-	public int getLastWidth() {
-		return lastWidth;
-	}
-
-	public int getLastHeight() {
-		return lastHeight;
 	}
 
 	public void setColor(Color color) {
@@ -457,6 +389,7 @@ public abstract class Rectangle implements Drawable {
 	@JsonProperty("attachments")
 	public void addAllAttachments(List<Pair<Area, Set<AttachmentOption>>> attachments) {
 		attachedAreas.addAll(attachments);
+		updateAttachmentBounds();
 	}
 
 	public List<Area> getAttachments() {

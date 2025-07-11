@@ -14,8 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * after this's velocity is determined. {@code moveCollision} should be called
  * if this pushed by another {@code Rectangle}.
  * <p>
- * If the player is in control of this, the {@code controlledByPlayer} flag
- * should be set to indicate it.
+ * Width/height should generally be adjusted using {@link#changeWidth} and
+ * {@link#changeHeight}. This allows some metadata to be updated which is used
+ * in resolving collisions.
  * 
  * @author Frank Kormann
  */
@@ -42,8 +43,14 @@ public class MovingRectangle extends Rectangle {
 
 	private int xVelocity, yVelocity;
 
+	private int lastX, lastY, lastWidth, lastHeight;
+	// These are used in collision to determine how much width/height to remove if
+	// this is colliding because it increased in width/height
+	private int leftWidthChange, topHeightChange;
+
 	private boolean hasGravity;
 	private boolean controlledByPlayer;
+	private boolean hasMoved;
 
 	private State state;
 
@@ -70,14 +77,28 @@ public class MovingRectangle extends Rectangle {
 		yVelocity = 0;
 		controlledByPlayer = false;
 		state = State.IN_AIR;
+		hasMoved = false;
+
+		updateLastPosition();
 
 		addAttachment(new GroundingArea(x, y - 1, width, 1),
 				Rectangle.AttachmentOption.GLUED_NORTH,
 				Rectangle.AttachmentOption.SAME_WIDTH);
 	}
 
+	public void updateLastPosition() {
+		lastX = getX();
+		lastY = getY();
+		lastWidth = getWidth();
+		lastHeight = getHeight();
+		leftWidthChange = 0;
+		topHeightChange = 0;
+
+		hasMoved = false;
+	}
+
 	/**
-	 * Applies one frame's worth of velocity and clamps to max speeds
+	 * Applies one frame's worth of velocity and clamps to max speeds.
 	 */
 	public void moveVelocity() {
 		// Speed limits
@@ -116,6 +137,89 @@ public class MovingRectangle extends Rectangle {
 		setX(getX() + xChange);
 		setY(getY() + yChange);
 
+		hasMoved = true;
+	}
+
+	/**
+	 * Calculate whether this intersected with other in the x direction on the
+	 * previous frame.
+	 * 
+	 * @param other Other Rectangle
+	 * 
+	 * @return true if they used to intersect in the x direction
+	 */
+	public boolean usedToIntersectX(Rectangle other) {
+		boolean usedToBeInBoundsX = (lastX <= other.getLastX()
+				&& other.getLastX() < lastX + lastWidth)
+				|| (lastX < other.getLastX() + other.getLastWidth()
+						&& other.getLastX() + other.getLastWidth() <= lastX + lastWidth)
+				|| (other.getLastX() < lastX
+						&& lastX < other.getLastX() + other.getLastWidth());
+		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsX;
+	}
+
+	/**
+	 * Calculate whether this intersected with other in the y direction on the
+	 * previous frame.
+	 * 
+	 * @param other Other Rectangle
+	 * 
+	 * @return true if they used to intersect in the y direction
+	 */
+	public boolean usedToIntersectY(Rectangle other) {
+		boolean usedToBeInBoundsY = (lastY <= other.getLastY()
+				&& other.getLastY() < lastY + lastHeight)
+				|| (lastY < other.getLastY() + other.getLastHeight() && other.getLastY()
+						+ other.getLastHeight() <= lastY + lastHeight)
+				|| (other.getLastY() < lastY
+						&& lastY < other.getLastY() + other.getLastHeight());
+		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsY;
+	}
+
+	/**
+	 * Change the width by {@code change}.
+	 * <p>
+	 * If {@code addToLeft} is {@code true}, the left edge of this will move and the
+	 * right edge will stay in place. Otherwise, the right edge will move and the
+	 * left edge will stay in place.
+	 * 
+	 * @param change    amount to adjust width by
+	 * @param addToLeft {@code true} if the left edge should move
+	 */
+	public void changeWidth(int change, boolean addToLeft) {
+		setWidth(getWidth() + change);
+		if (getWidth() <= 0) {
+			change += 1 - getWidth();
+			setWidth(1);
+		}
+		if (addToLeft) {
+			setX(getX() - change);
+			leftWidthChange += change;
+		}
+		hasMoved = true;
+	}
+
+	/**
+	 * Change the height by {@code change}.
+	 * <p>
+	 * If {@code addToTop} is {@code true}, the top edge of this will move and the
+	 * bottom edge will stay in place. Otherwise, the bottom edge will move and the
+	 * top edge will stay in place.
+	 * 
+	 * @param change    amount to adjust height by
+	 * @param addToLeft {@code true} if the top edge should move
+	 */
+	public void changeHeight(int change, boolean addToTop) {
+		setHeight(getHeight() + change);
+		if (getHeight() <= 0) {
+			change += 1 - getHeight();
+			setHeight(1);
+		}
+		if (addToTop) {
+			setY(getY() - change);
+			topHeightChange += change;
+		}
+		hasMoved = true;
 	}
 
 	public int getXVelocity() {
@@ -134,6 +238,34 @@ public class MovingRectangle extends Rectangle {
 		this.yVelocity = yVelocity;
 	}
 
+	@Override
+	public int getLastX() {
+		return lastX;
+	}
+
+	@Override
+	public int getLastY() {
+		return lastY;
+	}
+
+	@Override
+	public int getLastWidth() {
+		return lastWidth;
+	}
+
+	@Override
+	public int getLastHeight() {
+		return lastHeight;
+	}
+
+	public int getLeftWidthChange() {
+		return leftWidthChange;
+	}
+
+	public int getTopHeightChange() {
+		return topHeightChange;
+	}
+
 	public boolean hasGravity() {
 		return hasGravity;
 	}
@@ -148,6 +280,10 @@ public class MovingRectangle extends Rectangle {
 
 	public void setControlledByPlayer(boolean controlledByPlayer) {
 		this.controlledByPlayer = controlledByPlayer;
+	}
+
+	public boolean hasMoved() {
+		return hasMoved;
 	}
 
 	public State getState() {

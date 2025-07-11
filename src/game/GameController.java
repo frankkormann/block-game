@@ -5,7 +5,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
@@ -13,6 +12,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +39,7 @@ public class GameController extends WindowAdapter {
 	private GameInputHandler gameInputHandler;
 	private MetaInputHandler metaInputHandler;
 
-	private URL currentLevel;
+	private String currentLevel;
 
 	private File recording;
 
@@ -64,7 +64,7 @@ public class GameController extends WindowAdapter {
 	}
 
 	public void startGame() {
-		loadLevel(getClass().getResource(FIRST_LEVEL));
+		loadLevel(FIRST_LEVEL);
 		mainFrame.setVisible(true);
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
@@ -80,51 +80,59 @@ public class GameController extends WindowAdapter {
 		loadLevel(currentLevel);
 	}
 
-	private void loadLevel(URL url) {
-		physicsSimulator = new PhysicsSimulator();
-		paused = false;
+	private void loadLevel(String levelResource) {
+
+		Level level = null;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Level level = mapper.readValue(url, Level.class);
-			mainFrame.setUpLevel(level);
-
-			metaInputHandler.setSolution(level.solution);
-
-			for (MovingRectangle rect : level.movingRectangles) {
-				physicsSimulator.addMovingRectangle(rect);
-				mainFrame.add(rect, 1);
-				for (Area attached : rect.getAttachments()) {
-					physicsSimulator.addArea(attached);
-					mainFrame.add(attached, 0);
-				}
-			}
-			for (WallRectangle wall : level.walls) {
-				physicsSimulator.addWall(wall);
-				mainFrame.add(wall, 2);
-				for (Area attached : wall.getAttachments()) {
-					physicsSimulator.addArea(attached);
-					mainFrame.add(attached, 0);
-				}
-			}
-			for (Area area : level.areas) {
-				physicsSimulator.addArea(area);
-				mainFrame.add(area, 0);
-			}
-			for (GoalArea goal : level.goals) {
-				physicsSimulator.addGoalArea(goal);
-				mainFrame.add(goal, 0);
-			}
-			for (HintRectangle hint : level.hints) {
-				mainFrame.add(hint, 3);
-				metaInputHandler.addHint(hint);
-			}
-
-			currentLevel = url;
+			level = mapper.readValue(getClass().getResourceAsStream(levelResource),
+					Level.class);
 		}
-		catch (IOException e) {
+		catch (Exception e) {
+			physicsSimulator.resetNextlevel();
+			JOptionPane.showMessageDialog(mainFrame, "Could not load level\n" + e,
+					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+
+			return;
 		}
+
+		physicsSimulator = new PhysicsSimulator();
+		mainFrame.setUpLevel(level);
+
+		metaInputHandler.setSolution(level.solution);
+
+		for (MovingRectangle rect : level.movingRectangles) {
+			physicsSimulator.addMovingRectangle(rect);
+			mainFrame.add(rect, 1);
+			for (Area attached : rect.getAttachments()) {
+				physicsSimulator.addArea(attached);
+				mainFrame.add(attached, 0);
+			}
+		}
+		for (WallRectangle wall : level.walls) {
+			physicsSimulator.addWall(wall);
+			mainFrame.add(wall, 2);
+			for (Area attached : wall.getAttachments()) {
+				physicsSimulator.addArea(attached);
+				mainFrame.add(attached, 0);
+			}
+		}
+		for (Area area : level.areas) {
+			physicsSimulator.addArea(area);
+			mainFrame.add(area, 0);
+		}
+		for (GoalArea goal : level.goals) {
+			physicsSimulator.addGoalArea(goal);
+			mainFrame.add(goal, 0);
+		}
+		for (HintRectangle hint : level.hints) {
+			mainFrame.add(hint, 3);
+			metaInputHandler.addHint(hint);
+		}
+
+		currentLevel = levelResource;
 
 		mainFrame.arrangeComponents();
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
@@ -133,7 +141,9 @@ public class GameController extends WindowAdapter {
 
 		mainFrame.moveToMiddleOfScreen();
 
+		paused = false;
 		beginTempRecording();
+
 	}
 
 	public void nextFrame() {
@@ -146,7 +156,7 @@ public class GameController extends WindowAdapter {
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
 
-		if (physicsSimulator.getNextLevel() != null) {
+		if (physicsSimulator.getNextLevel() != "") {
 			loadLevel(physicsSimulator.getNextLevel());
 			return;
 		}
@@ -160,6 +170,8 @@ public class GameController extends WindowAdapter {
 	 */
 	private void beginTempRecording() {
 		gameInputHandler.endWriting();
+		recording = null;  // In case a new file cannot be created, still stop writing
+							  // to this one
 		try {
 			recording = File.createTempFile("blockgame", null);
 			gameInputHandler.beginWriting(Files.newOutputStream(recording.toPath()));
@@ -174,14 +186,11 @@ public class GameController extends WindowAdapter {
 	 * Replay a recording {@code File} {@code file}.
 	 * 
 	 * @param file {@code File} to replay
+	 * 
+	 * @throws IOException if an I/O error occurs
 	 */
-	public void startPlayback(File file) {
-		try {
-			gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void startPlayback(File file) throws IOException {
+		gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
 	}
 
 	/**
@@ -198,18 +207,13 @@ public class GameController extends WindowAdapter {
 		gameInputHandler.endReading();
 	}
 
-	public void saveRecording(File destination) {
+	public void saveRecording(File destination) throws IOException {
 		if (recording == null) {
 			return;
 		}
-		try {
-			gameInputHandler.flushWriter();
-			Files.copy(recording.toPath(), destination.toPath(),
-					StandardCopyOption.REPLACE_EXISTING);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+		gameInputHandler.flushWriter();
+		Files.copy(recording.toPath(), destination.toPath(),
+				StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	public void setPaused(boolean paused) {
