@@ -68,8 +68,8 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	 * be taken from the input stream; otherwise, they will be taken from the user.
 	 * If in writing mode, these will be written to the output stream.
 	 * 
-	 * @return {@code Pair} of {@code Set<GameInput>} for inputs and
-	 *         {@code Map<Direction, Integer>} for resizes in each direction
+	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in each
+	 *         direction and {@code Set<GameInput>} for inputs
 	 */
 	public Pair<Map<Direction, Integer>, Set<GameInput>> poll() {
 		try {
