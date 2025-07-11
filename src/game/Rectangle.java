@@ -122,13 +122,13 @@ public abstract class Rectangle implements Drawable {
 	@Override
 	public void draw(Graphics g) {
 		g = g.create();
-		// Create a darker border
+
 		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
 				(int) (color.getGreen() / BORDER_DARKNESS),
 				(int) (color.getBlue() / BORDER_DARKNESS));
 		g.setColor(border);
 		g.fillRect(x, y, width, height);
-		// Draw main rectangle inside border rectangle
+
 		g.setColor(color);
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
