@@ -90,10 +90,16 @@ public class GameController extends WindowAdapter {
 					Level.class);
 		}
 		catch (Exception e) {
-			physicsSimulator.resetNextlevel();
 			JOptionPane.showMessageDialog(mainFrame, "Could not load level\n" + e,
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+
+			if (mainFrame.isVisible()) {
+				physicsSimulator.resetNextlevel();
+			}
+			else {
+				System.exit(1);
+			}
 
 			return;
 		}
