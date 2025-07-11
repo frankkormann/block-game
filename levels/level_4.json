@@ -6,12 +6,12 @@
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
-			"controlledByPlayer": "true",
 			"x": 165,
 			"y": 480,
 			"width": 20,
 			"height": 20,
-			"color": "PLAYER"
+			"color": "PLAYER",
+			"controlledByPlayer": true
 		},
 		{
 			"type": ".MovingRectangle",

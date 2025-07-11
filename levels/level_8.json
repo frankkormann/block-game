@@ -10,8 +10,8 @@
 			"y": 480,
 			"width": 20,
 			"height": 20,
-			"controlledByPlayer": "true",
-			"color": "PLAYER"
+			"color": "PLAYER",
+			"controlledByPlayer": true
 		},
 		{
 			"type": ".MovingRectangle",
