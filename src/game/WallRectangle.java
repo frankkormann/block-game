@@ -20,18 +20,17 @@ public class WallRectangle extends Rectangle {
 	private static final int TICK_MARK_SIZE = 5;
 
 	public WallRectangle(int x, int y, int width, int height) {
-		this(x, y, width, height, STAY_COLOR, Rectangle.ResizeBehavior.PREVENT_X);
+		this(x, y, width, height, STAY_COLOR, ResizeBehavior.PREVENT_X);
 	}
 
 	@JsonCreator
 	public WallRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width, @JsonProperty("height") int height,
-			@JsonProperty("resizeBehavior") Rectangle.ResizeBehavior resizeBehavior) {
+			@JsonProperty("resizeBehavior") ResizeBehavior resizeBehavior) {
 		this(x, y, width, height, STAY_COLOR, resizeBehavior);
 
 		addAttachment(new GroundingArea(x, y - 1, width, 1),
-				Rectangle.AttachmentOption.GLUED_NORTH,
-				Rectangle.AttachmentOption.SAME_WIDTH);
+				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 
 	// TODO Fix overlap with other rectangles in the PREVENT_X/PREVENT_Y border
@@ -42,7 +41,7 @@ public class WallRectangle extends Rectangle {
 		g = g.create();
 
 		g.setColor(PREVENT_COLOR);
-		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_X) {
+		if (getResizeBehavior() == ResizeBehavior.PREVENT_X) {
 			g.drawLine(getX(), getY(), getX(), getY() + getHeight() - 1);
 			g.drawLine(getX() + getWidth() - 1, getY(), getX() + getWidth() - 1,
 					getY() + getHeight() - 1);
@@ -54,7 +53,7 @@ public class WallRectangle extends Rectangle {
 			}
 		}
 
-		if (getResizeBehavior() == Rectangle.ResizeBehavior.PREVENT_Y) {
+		if (getResizeBehavior() == ResizeBehavior.PREVENT_Y) {
 			g.drawLine(getX(), getY(), getX() + getWidth() - 1, getY());
 			g.drawLine(getX(), getY() + getHeight() - 1, getX() + getWidth() - 1,
 					getY() + getHeight() - 1);
@@ -70,7 +69,7 @@ public class WallRectangle extends Rectangle {
 	}
 
 	public WallRectangle(int x, int y, int width, int height, Color color,
-			Rectangle.ResizeBehavior resizeBehavior) {
+			ResizeBehavior resizeBehavior) {
 		super(x, y, width, height, color, resizeBehavior);
 	}
 

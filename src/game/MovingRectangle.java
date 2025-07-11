@@ -59,7 +59,7 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	public MovingRectangle(int x, int y, int width, int height, Color color) {
-		this(x, y, width, height, color, true, Rectangle.ResizeBehavior.MOVE);
+		this(x, y, width, height, color, true, ResizeBehavior.MOVE);
 	}
 
 	@JsonCreator
@@ -70,7 +70,7 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	public MovingRectangle(int x, int y, int width, int height, Color color,
-			boolean hasGravity, Rectangle.ResizeBehavior resizeBehavior) {
+			boolean hasGravity, ResizeBehavior resizeBehavior) {
 		super(x, y, width, height, color, resizeBehavior);
 		this.hasGravity = hasGravity;
 		xVelocity = 0;
@@ -82,8 +82,7 @@ public class MovingRectangle extends Rectangle {
 		updateLastPosition();
 
 		addAttachment(new GroundingArea(x, y - 1, width, 1),
-				Rectangle.AttachmentOption.GLUED_NORTH,
-				Rectangle.AttachmentOption.SAME_WIDTH);
+				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 
 	public void updateLastPosition() {

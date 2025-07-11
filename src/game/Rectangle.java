@@ -12,6 +12,8 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import game.MainFrame.Direction;
+
 /**
  * Holds data for drawing and collisions. Knows how to draw itself and calculate
  * if it is intersecting another {@code Rectangle}. No default
@@ -156,8 +158,7 @@ public abstract class Rectangle implements Drawable {
 	 * @param direction  orientation arrow tip is pointing towards
 	 */
 	protected void drawArrow(Graphics g, int tipX, int tipY, int headLength,
-			int headWidth, int tailLength, int tailWidth,
-			MainFrame.Direction direction) {
+			int headWidth, int tailLength, int tailWidth, Direction direction) {
 
 		Graphics2D g2d = (Graphics2D) g.create();
 

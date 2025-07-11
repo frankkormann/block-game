@@ -28,7 +28,7 @@ public abstract class Area extends Rectangle {
 	}
 
 	public Area(int x, int y, int width, int height, Color color) {
-		super(x, y, width, height, color, Rectangle.ResizeBehavior.STAY);
+		super(x, y, width, height, color, ResizeBehavior.STAY);
 		rectsInside = new HashSet<>();
 	}
 

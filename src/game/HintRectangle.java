@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import game.MovingRectangle.Colors;
+
 /**
  * Translucent {@code Rectangle} which can be toggled visible or not visible.
  * 
@@ -20,13 +22,13 @@ public class HintRectangle extends Rectangle {
 	private boolean visible;
 
 	public HintRectangle(int x, int y, int width, int height, Color color) {
-		super(x, y, width, height, color, Rectangle.ResizeBehavior.STAY);
+		super(x, y, width, height, color, ResizeBehavior.STAY);
 	}
 
 	@JsonCreator
 	public HintRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width, @JsonProperty("height") int height,
-			@JsonProperty("color") MovingRectangle.Colors color) {
+			@JsonProperty("color") Colors color) {
 		this(x, y, width, height, color.color);
 
 		visible = false;

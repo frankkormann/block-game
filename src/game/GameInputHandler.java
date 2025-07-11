@@ -13,6 +13,8 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import game.MainFrame.Direction;
+
 /**
  * Get inputs from the user or a stream. Optionally write inputs to a stream.
  * <p>
@@ -44,7 +46,7 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	}
 
 	private Set<Integer> keysPressed;
-	private Map<MainFrame.Direction, Integer> resizesSinceLastFrame;
+	private Map<Direction, Integer> resizesSinceLastFrame;
 	private InputStream reader;
 	private OutputStream writer;
 
@@ -69,7 +71,7 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	 * @return {@code Pair} of {@code Set<GameInput>} for inputs and
 	 *         {@code Map<Direction, Integer>} for resizes in each direction
 	 */
-	public Pair<Map<MainFrame.Direction, Integer>, Set<GameInput>> poll() {
+	public Pair<Map<Direction, Integer>, Set<GameInput>> poll() {
 		try {
 			return new Pair<>(getResizes(), getInputs());
 		}
@@ -91,24 +93,24 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	 * 
 	 * @return {@code Map} of {@code Direction} to {@code Integer} amount resized
 	 */
-	private Map<MainFrame.Direction, Integer> getResizes() throws IOException {
-		Map<MainFrame.Direction, Integer> resizes = new HashMap<>();
+	private Map<Direction, Integer> getResizes() throws IOException {
+		Map<Direction, Integer> resizes = new HashMap<>();
 		if (reader == null) {
 			resizes.putAll(resizesSinceLastFrame);
 		}
 		else {
 			// Make sure values are read in the correct order
-			resizes.put(MainFrame.Direction.NORTH, readInt());
-			resizes.put(MainFrame.Direction.SOUTH, readInt());
-			resizes.put(MainFrame.Direction.WEST, readInt());
-			resizes.put(MainFrame.Direction.EAST, readInt());
+			resizes.put(Direction.NORTH, readInt());
+			resizes.put(Direction.SOUTH, readInt());
+			resizes.put(Direction.WEST, readInt());
+			resizes.put(Direction.EAST, readInt());
 		}
 		if (writer != null) {
 			// Make sure values are written in the correct order
-			writeInt(resizes.get(MainFrame.Direction.NORTH));
-			writeInt(resizes.get(MainFrame.Direction.SOUTH));
-			writeInt(resizes.get(MainFrame.Direction.WEST));
-			writeInt(resizes.get(MainFrame.Direction.EAST));
+			writeInt(resizes.get(Direction.NORTH));
+			writeInt(resizes.get(Direction.SOUTH));
+			writeInt(resizes.get(Direction.WEST));
+			writeInt(resizes.get(Direction.EAST));
 		}
 		zeroAllDirectionsInResizes();
 		return resizes;
@@ -386,7 +388,7 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	}
 
 	private void zeroAllDirectionsInResizes() {
-		for (MainFrame.Direction direction : MainFrame.Direction.values()) {
+		for (Direction direction : Direction.values()) {
 			resizesSinceLastFrame.put(direction, 0);
 		}
 	}
@@ -401,7 +403,7 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	 * @param direction which way to resize
 	 */
 	@Override
-	public void resize(int amount, MainFrame.Direction direction) {
+	public void resize(int amount, Direction direction) {
 		int newAmount = resizesSinceLastFrame.get(direction) + amount;
 		resizesSinceLastFrame.put(direction, newAmount);
 	}

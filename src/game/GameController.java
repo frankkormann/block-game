@@ -18,6 +18,9 @@ import javax.swing.UIManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import game.GameInputHandler.GameInput;
+import game.MainFrame.Direction;
+
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
  * {@code InputHandler}.
@@ -153,7 +156,7 @@ public class GameController extends WindowAdapter {
 	}
 
 	public void nextFrame() {
-		Pair<Map<MainFrame.Direction, Integer>, Set<GameInputHandler.GameInput>> allInputs;
+		Pair<Map<Direction, Integer>, Set<GameInput>> allInputs;
 		allInputs = gameInputHandler.poll();
 
 		mainFrame.resizeAll(allInputs.first);

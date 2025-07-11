@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import game.MainFrame.Direction;
+
 /**
  * Decreases a {@code MovingRectangle}'s width and/or height to match the
  * width/height of this.
@@ -52,21 +54,21 @@ public class ShrinkArea extends Area {
 			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.WEST);
+					Direction.WEST);
 			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.EAST);
+					Direction.EAST);
 		}
 		if (yShrink != 0) {
 			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.SOUTH);
+					Direction.SOUTH);
 			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.NORTH);
+					Direction.NORTH);
 		}
 
 		g.dispose();
@@ -84,12 +86,12 @@ public class ShrinkArea extends Area {
 	@Override
 	protected void everyFrame(MovingRectangle rect) {
 
-		shrinkRect(rect, getY() - rect.getY(), MainFrame.Direction.NORTH);
+		shrinkRect(rect, getY() - rect.getY(), Direction.NORTH);
 		shrinkRect(rect, rect.getY() + rect.getHeight() - getY() - getHeight(),
-				MainFrame.Direction.SOUTH);
-		shrinkRect(rect, getX() - rect.getX(), MainFrame.Direction.WEST);
+				Direction.SOUTH);
+		shrinkRect(rect, getX() - rect.getX(), Direction.WEST);
 		shrinkRect(rect, rect.getX() + rect.getWidth() - getX() - getWidth(),
-				MainFrame.Direction.EAST);
+				Direction.EAST);
 
 	}
 
@@ -99,15 +101,13 @@ public class ShrinkArea extends Area {
 	 * 
 	 * @param rect           {@code MovingRectangle} to shrink
 	 * @param possibleChange maximum amount {@code rect} is allowed to shrink
-	 * @param direction      {@code MainFrame.Direction} to remove width from
-	 *                       {@code rect} in
+	 * @param direction      {@code Direction} to remove width from {@code rect} in
 	 */
 	private void shrinkRect(MovingRectangle rect, int possibleChange,
-			MainFrame.Direction direction) {
+			Direction direction) {
 		int actualChange;
 
-		if (direction == MainFrame.Direction.WEST
-				|| direction == MainFrame.Direction.EAST) {
+		if (direction == Direction.WEST || direction == Direction.EAST) {
 			actualChange = Math.min(xShrink,
 					Math.min(possibleChange, rect.getWidth() - MINIMUM_SIZE));
 		}

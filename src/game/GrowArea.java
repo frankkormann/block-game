@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import game.MainFrame.Direction;
+
 /**
  * Increases a {@code MovingRectangle}'s width and/or height to match the
  * width/height of this.
@@ -51,21 +53,21 @@ public class GrowArea extends Area {
 			drawArrow(g, getX() + ARROW_INSET, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.WEST);
+					Direction.WEST);
 			drawArrow(g, getX() + getWidth() - ARROW_INSET, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.EAST);
+					Direction.EAST);
 		}
 		if (yGrowth != 0) {
 			drawArrow(g, getX() + getWidth() / 2, getY() + ARROW_INSET,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.NORTH);
+					Direction.NORTH);
 			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() - ARROW_INSET,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					MainFrame.Direction.SOUTH);
+					Direction.SOUTH);
 		}
 
 		g.dispose();

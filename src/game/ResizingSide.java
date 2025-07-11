@@ -7,6 +7,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
+import game.MainFrame.Direction;
+
 /**
  * Allows the user to resize the window by dragging at an edge. This is a
  * replacement for Windows's normal behavior to allow control over the window
@@ -26,10 +28,10 @@ public class ResizingSide extends JPanel implements MouseListener, MouseMotionLi
 
 	private int mouseX, mouseY;
 
-	private MainFrame.Direction direction;
+	private Direction direction;
 	private Resizable resizeListener;
 
-	public ResizingSide(MainFrame.Direction direction, Resizable resizeListener) {
+	public ResizingSide(Direction direction, Resizable resizeListener) {
 		this.direction = direction;
 		this.resizeListener = resizeListener;
 
@@ -84,7 +86,7 @@ public class ResizingSide extends JPanel implements MouseListener, MouseMotionLi
 		mouseY = e.getYOnScreen();
 	}
 
-	public MainFrame.Direction getDirection() {
+	public Direction getDirection() {
 		return direction;
 	}
 
