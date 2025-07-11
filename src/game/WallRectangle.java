@@ -34,6 +34,8 @@ public class WallRectangle extends Rectangle {
 				Rectangle.AttachmentOption.SAME_WIDTH);
 	}
 
+	// TODO Fix overlap with other rectangles in the PREVENT_X/PREVENT_Y border
+	// drawing, and improve how inner lines are drawn
 	@Override
 	public void draw(Graphics g) {
 		super.draw(g);
