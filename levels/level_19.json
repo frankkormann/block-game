@@ -2,7 +2,7 @@
 	"name": "Controlled from Above",
 	"width": 900,
 	"height": 500,
-	"solution": "/level_18.rec",
+	"solution": "/level_19.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
