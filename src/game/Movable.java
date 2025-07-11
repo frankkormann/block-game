@@ -1,7 +1,7 @@
 package game;
 
 /**
- * Minimum of methods for something to be movable.
+ * Something which can move.
  * 
  * @author Frank Kormann
  */

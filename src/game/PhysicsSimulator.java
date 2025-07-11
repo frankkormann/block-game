@@ -1,12 +1,15 @@
 package game;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import game.GameInputHandler.GameInput;
+import game.MainFrame.Direction;
+import game.MovingRectangle.State;
 
 /**
  * Calculate the next position for all {@code Rectangles} every frame.
@@ -37,11 +40,11 @@ public class PhysicsSimulator {
 	private List<WallRectangle> walls;
 	private List<Area> areas;
 	private List<GoalArea> goals;
-	private Map<MainFrame.Direction, SideRectangle> sideRectangles;
+	private Map<Direction, SideRectangle> sideRectangles;
 
-	private Map<MainFrame.Direction, Integer> sideRectangleResizes;
+	private Map<Direction, Integer> sideRectangleResizes;
 
-	private URL nextLevel;
+	private String nextLevel;
 
 	public PhysicsSimulator() {
 		super();
@@ -54,7 +57,7 @@ public class PhysicsSimulator {
 
 		sideRectangleResizes = new HashMap<>();
 
-		nextLevel = null;
+		nextLevel = "";
 	}
 
 	/**
@@ -66,14 +69,14 @@ public class PhysicsSimulator {
 	 * @param yOffset Y coordinate of top left corner
 	 */
 	public void createSides(int width, int height, int xOffset, int yOffset) {
-		sideRectangles.put(MainFrame.Direction.NORTH, new SideRectangle(xOffset,
-				yOffset, width, 1, MainFrame.Direction.NORTH));
-		sideRectangles.put(MainFrame.Direction.SOUTH, new SideRectangle(xOffset,
-				yOffset + height, width, 1, MainFrame.Direction.SOUTH));
-		sideRectangles.put(MainFrame.Direction.WEST, new SideRectangle(xOffset, yOffset,
-				1, height, MainFrame.Direction.WEST));
-		sideRectangles.put(MainFrame.Direction.EAST, new SideRectangle(xOffset + width,
-				yOffset, 1, height, MainFrame.Direction.EAST));
+		sideRectangles.put(Direction.NORTH,
+				new SideRectangle(xOffset, yOffset, width, 1, Direction.NORTH));
+		sideRectangles.put(Direction.SOUTH, new SideRectangle(xOffset, yOffset + height,
+				width, 1, Direction.SOUTH));
+		sideRectangles.put(Direction.WEST,
+				new SideRectangle(xOffset, yOffset, 1, height, Direction.WEST));
+		sideRectangles.put(Direction.EAST,
+				new SideRectangle(xOffset + width, yOffset, 1, height, Direction.EAST));
 
 		for (SideRectangle side : sideRectangles.values()) {
 			for (Area attached : side.getAttachments()) {
@@ -115,8 +118,8 @@ public class PhysicsSimulator {
 	 * @param xOffset    X coordinate of top left corner
 	 * @param yOffset    Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<GameInputHandler.GameInput> gameInputs,
-			int width, int height, int xOffset, int yOffset) {
+	public void updateAndMoveObjects(Set<GameInput> gameInputs, int width, int height,
+			int xOffset, int yOffset) {
 
 		applyInputsToPlayerRectangles(gameInputs);
 		moveAllMovingRectangles();
@@ -132,8 +135,7 @@ public class PhysicsSimulator {
 	 * @param gameInputs {@code Set} of {@code Input}s which are pressed on this
 	 *                   frame
 	 */
-	private void applyInputsToPlayerRectangles(
-			Set<GameInputHandler.GameInput> gameInputs) {
+	private void applyInputsToPlayerRectangles(Set<GameInput> gameInputs) {
 		for (MovingRectangle rect : movingRectangles) {
 			if (!rect.isControlledByPlayer()) {
 				continue;
@@ -142,15 +144,15 @@ public class PhysicsSimulator {
 			int newXVelocity = rect.getXVelocity();
 			int newYVelocity = rect.getYVelocity();
 
-			if (gameInputs.contains(GameInputHandler.GameInput.RIGHT)) {
+			if (gameInputs.contains(GameInput.RIGHT)) {
 				newXVelocity += PLAYER_X_ACCELERATION;
 			}
-			if (gameInputs.contains(GameInputHandler.GameInput.LEFT)) {
+			if (gameInputs.contains(GameInput.LEFT)) {
 				newXVelocity -= PLAYER_X_ACCELERATION;
 			}
 
-			if (gameInputs.contains(GameInputHandler.GameInput.UP)) {
-				if (rect.getState() == MovingRectangle.State.ON_GROUND) {
+			if (gameInputs.contains(GameInput.UP)) {
+				if (rect.getState() == State.ON_GROUND) {
 					newYVelocity = PLAYER_JUMP_VELOCITY;
 				}
 			}
@@ -168,6 +170,7 @@ public class PhysicsSimulator {
 	 * gravity, applies movement from velocity, and computes collision.
 	 */
 	private void moveAllMovingRectangles() {
+
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
 		// sort by distance from bottom of screen for consistency
@@ -179,10 +182,8 @@ public class PhysicsSimulator {
 			applyAreas(rect);
 			applyNaturalForces(rect);
 
-			// No need to do collision if it didn't move
 			if (rect.getXVelocity() == 0 && rect.getYVelocity() == 0
-					&& rect.getWidth() - rect.getLastWidth() == 0
-					&& rect.getHeight() - rect.getLastHeight() == 0) {
+					&& !rect.hasMoved()) {
 				continue;
 			}
 
@@ -218,6 +219,7 @@ public class PhysicsSimulator {
 
 			if (goal.hasWon()) {
 				nextLevel = goal.getNextLevel();
+				goal.markUsed();
 			}
 		}
 	}
@@ -229,7 +231,7 @@ public class PhysicsSimulator {
 	 * @param rect {@code MovingRectangle} to consider
 	 */
 	private void applyNaturalForces(MovingRectangle rect) {
-		if (rect.hasGravity() && rect.getState() == MovingRectangle.State.IN_AIR) {
+		if (rect.hasGravity() && rect.getState() == State.IN_AIR) {
 			rect.setYVelocity(rect.getYVelocity() + GRAVITY);
 		}
 		if (rect.getXVelocity() > 0) {
@@ -257,7 +259,7 @@ public class PhysicsSimulator {
 		sideRectangles.values().forEach(s -> s.updateLastPosition());
 
 		for (SideRectangle side : sideRectangles.values()) {
-			MainFrame.Direction direction = side.getDirection();
+			Direction direction = side.getDirection();
 			int difference = 0;
 			switch (direction) {
 				// Width/height are super high to prevent bug where MovingRectangles
@@ -355,23 +357,24 @@ public class PhysicsSimulator {
 
 		int[] collisionData;
 		int[] pushedAmount = { 0, 0 };
-		int numberCollided = 0;
 		// Copy before removing rect
 		colliders = new ArrayList<>(colliders);
 		colliders.remove(rect);
 
-		int[] wallPushback = handleCollisionWithWalls(rect);
-		pushedAmount[0] += wallPushback[0];
-		pushedAmount[1] += wallPushback[1];
-
 		for (MovingRectangle other : colliders) {
+
 			collisionData = calculateCollision(rect, other);
 			if (collisionData[0] == 0 && collisionData[1] == 0) {
 				continue;
 			}
 
 			if (collisionData[0] != 0 && collisionData[1] != 0) {
-				collisionData[0] = 0;  // Ignore x movement in a corner collision
+				if (collisionData[1] < 0) {
+					collisionData[1] = 0;
+				}
+				else {
+					collisionData[0] = 0;
+				}
 			}
 
 			collisionData[0] = -correctGrowthForCollision(rect, -collisionData[0],
@@ -386,7 +389,6 @@ public class PhysicsSimulator {
 			other.moveCollision(collisionData[0], collisionData[1]);
 			collisionMap.put(other,
 					new Pair<MovingRectangle, int[]>(rect, collisionData));
-			numberCollided++;
 
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
@@ -402,12 +404,14 @@ public class PhysicsSimulator {
 
 		}
 
+		int[] wallPushback = handleCollisionWithWalls(rect);
+		pushedAmount[0] += wallPushback[0];
+		pushedAmount[1] += wallPushback[1];
+
 		// Pull back Rectangles that collided to be aligned with the edge of this
-		if (numberCollided >= 2) {
-			for (MovingRectangle c : collisionMap.keySet()) {
-				if (collisionMap.get(c).first == rect) {
-					pullback(rect, c, collisionMap);
-				}
+		for (MovingRectangle c : collisionMap.keySet()) {
+			if (collisionMap.get(c).first == rect) {
+				pullback(rect, c, collisionMap);
 			}
 		}
 
@@ -557,24 +561,24 @@ public class PhysicsSimulator {
 	 * {@code calculateCollision(other, rect)}.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
-	 * @param other {@code Rectangle} that will move
+	 * @param other {@code MovingRectangle} that will move
 	 * 
 	 * @return { Δx, Δy } amount to move {@code other} to resolve collision with
 	 *         {@code rect}
 	 */
-	private int[] calculateCollision(Rectangle rect, Rectangle other) {
+	private int[] calculateCollision(Rectangle rect, MovingRectangle other) {
 		if (rect == other) {
 			return new int[] { 0, 0 };
 		}
 
 		int xChange = 0;
 		int yChange = 0;
-		boolean inBoundsX = rect.intersectsX(other);
-		boolean inBoundsY = rect.intersectsY(other);
+		boolean inBoundsX = other.intersectsX(rect);
+		boolean inBoundsY = other.intersectsY(rect);
 		// "Used to be" values so Rectangles can tell whether they should be moved in x
 		// or y direction
-		boolean usedToBeInBoundsX = rect.usedToIntersectX(other);
-		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
+		boolean usedToBeInBoundsX = other.usedToIntersectX(rect);
+		boolean usedToBeInBoundsY = other.usedToIntersectY(rect);
 
 		if (inBoundsX && inBoundsY) {
 			if (usedToBeInBoundsX) {
@@ -582,6 +586,10 @@ public class PhysicsSimulator {
 			}
 			if (usedToBeInBoundsY) {
 				xChange = pullToX(rect, other);
+			}
+			if (!usedToBeInBoundsX && !usedToBeInBoundsY) {
+				xChange = pullToX(rect, other);
+				yChange = pullToY(rect, other);
 			}
 		}
 		// These account for when a rectangle would pass through another diagonally
@@ -740,11 +748,19 @@ public class PhysicsSimulator {
 		return rect.getY() - other.getY() - other.getHeight();
 	}
 
-	public URL getNextLevel() {
+	/**
+	 * @return resource name of the next level, or the empty string if there is no
+	 *         next level yet
+	 */
+	public String getNextLevel() {
 		return nextLevel;
 	}
 
-	public Map<MainFrame.Direction, Integer> getResizes() {
+	public void resetNextlevel() {
+		nextLevel = "";
+	}
+
+	public Map<Direction, Integer> getResizes() {
 		return sideRectangleResizes;
 	}
 

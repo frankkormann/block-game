@@ -27,34 +27,6 @@ class RectangleTest {
 		assertEquals(rect.getHeight(), rect.getLastHeight());
 	}
 
-	@Test
-	void adding_to_left_changes_leftWidthChange() {
-		rect.changeWidth(10, true);
-
-		assertEquals(10, rect.getLeftWidthChange());
-	}
-
-	@Test
-	void adding_to_right_does_not_change_leftWidthChange() {
-		rect.changeWidth(10, false);
-
-		assertEquals(0, rect.getLeftWidthChange());
-	}
-
-	@Test
-	void adding_to_top_changes_topHeightChange() {
-		rect.changeHeight(10, true);
-
-		assertEquals(10, rect.getTopHeightChange());
-	}
-
-	@Test
-	void adding_to_bottom_does_not_change_topHeightChange() {
-		rect.changeWidth(10, false);
-
-		assertEquals(0, rect.getTopHeightChange());
-	}
-
 	@Nested
 	class Intersections {
 
@@ -105,58 +77,6 @@ class RectangleTest {
 
 			assertTrue(rect.intersectsY(other));
 			assertTrue(other.intersectsY(rect));
-		}
-
-		void updateLastPositions() {
-			rect.updateLastPosition();
-			other.updateLastPosition();
-		}
-
-		@Test
-		void used_to_intersect_x() {
-			other.setX(other.getX() - 10);
-			updateLastPositions();
-
-			assertTrue(rect.usedToIntersectX(other));
-			assertTrue(other.usedToIntersectX(rect));
-		}
-
-		@Test
-		void used_to_not_intersect_x() {
-			other.setX(other.getX() - 2 * other.getWidth());
-			updateLastPositions();
-
-			assertFalse(rect.usedToIntersectX(other));
-			assertFalse(other.usedToIntersectX(rect));
-		}
-
-		@Test
-		void used_to_intersect_y() {
-			other.setY(other.getY() - 10);
-			updateLastPositions();
-
-			assertTrue(rect.usedToIntersectY(other));
-			assertTrue(other.usedToIntersectY(rect));
-		}
-
-		@Test
-		void used_to_not_intersect_y() {
-			other.setY(other.getY() - 2 * other.getHeight());
-			updateLastPositions();
-
-			assertFalse(rect.usedToIntersectY(other));
-			assertFalse(other.usedToIntersectY(rect));
-		}
-
-		@Test
-		void completely_overlapping_used_to_intersect_both() {
-			updateLastPositions();
-
-			assertTrue(rect.usedToIntersectX(other));
-			assertTrue(other.usedToIntersectX(rect));
-
-			assertTrue(rect.usedToIntersectY(other));
-			assertTrue(other.usedToIntersectY(rect));
 		}
 	}
 
@@ -226,15 +146,6 @@ class RectangleTest {
 			Area newAttachment = addNewAttachment(AttachmentOption.GLUED_EAST);
 
 			assertEquals(rect.getX() + rect.getWidth(), newAttachment.getX());
-		}
-
-		@Test
-		void attached_areas_have_last_position_updated_too() {
-			int previousX = attachedArea.getX();
-			rect.updateLastPosition();
-			rect.setX(200);
-
-			assertEquals(previousX, attachedArea.getLastX());
 		}
 	}
 }

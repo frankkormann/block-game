@@ -28,7 +28,7 @@ public abstract class Area extends Rectangle {
 	}
 
 	public Area(int x, int y, int width, int height, Color color) {
-		super(x, y, width, height, color, Rectangle.ResizeBehavior.STAY);
+		super(x, y, width, height, color, ResizeBehavior.STAY);
 		rectsInside = new HashSet<>();
 	}
 
@@ -37,6 +37,8 @@ public abstract class Area extends Rectangle {
 		g = g.create();
 		g.setColor(getColor());
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
+
+		g.dispose();
 	}
 
 	/**
@@ -63,10 +65,10 @@ public abstract class Area extends Rectangle {
 	/**
 	 * Adds or removes {@code rect} from the list of {@code Rectangles} in this
 	 * {@code Area}. Calls {@code onEnter} or {@code onExit} if necessary.
-	 * 
+	 * <p>
 	 * This method should be called on every frame for every {@code Rectangle}.
 	 * 
-	 * @param rect {@code Rectangle} to handle
+	 * @param rect {@code MovingRectangle} to handle
 	 */
 	public void handle(MovingRectangle rect) {
 		boolean alreadyInside = rectsInside.contains(rect);

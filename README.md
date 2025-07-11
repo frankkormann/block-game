@@ -1,6 +1,6 @@
 # Block Game
 
-This is a puzzle game about moving blocks around. Solve 15 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 20 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ## Playing the game

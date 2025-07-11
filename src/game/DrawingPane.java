@@ -11,17 +11,17 @@ import java.util.TreeMap;
 import javax.swing.JPanel;
 
 /**
- * Draws all {@code Rectangle}s to the window using their {@code draw} methods.
+ * Draws all {@code Drawable}s to the window using their {@code draw} methods.
  * 
  * The x- and y-offsets need to be set properly with {@code setOffsets}. Because
  * the top-left corner will not always be at (0, 0), this keeps track of its
- * offset relative to (0, 0) to determine where to draw each {@code Rectangle}.
+ * offset relative to (0, 0) to determine where to draw each {@code Drawable}.
  *
  * @author Frank Kormann
  */
 public class DrawingPane extends JPanel {
 
-	private SortedMap<Integer, List<Rectangle>> rectangleLists;
+	private SortedMap<Integer, List<Drawable>> drawableLists;
 
 	private int xOffset, yOffset;
 
@@ -33,18 +33,21 @@ public class DrawingPane extends JPanel {
 
 		setBackground(Color.WHITE);
 
-		rectangleLists = new TreeMap<>();
+		drawableLists = new TreeMap<>();
 	}
 
-	public void add(Rectangle rect, int index) {
-		if (rectangleLists.get(index) == null) {
-			rectangleLists.put(index, new ArrayList<>());
+	public void add(Drawable drawable, int index) {
+		if (drawableLists.get(index) == null) {
+			drawableLists.put(index, new ArrayList<>());
 		}
-		rectangleLists.get(index).add(rect);
+		drawableLists.get(index).add(drawable);
 	}
 
-	public void clearRectangles() {
-		rectangleLists.clear();
+	/**
+	 * Remove all drawables from this.
+	 */
+	public void clearDrawables() {
+		drawableLists.clear();
 	}
 
 	@Override
@@ -53,9 +56,9 @@ public class DrawingPane extends JPanel {
 
 		g.translate(-xOffset, -yOffset);
 
-		for (Map.Entry<Integer, List<Rectangle>> entry : rectangleLists.entrySet()) {
-			for (Rectangle rect : entry.getValue()) {
-				rect.draw(g);
+		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists.entrySet()) {
+			for (Drawable drawable : entry.getValue()) {
+				drawable.draw(g);
 			}
 		}
 	}

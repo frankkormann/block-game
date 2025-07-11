@@ -1,5 +1,7 @@
 package game;
 
+import game.MainFrame.Direction;
+
 /**
  * {@code Rectangle} suitable for giving collision to the sides of a window.
  * <p>
@@ -14,11 +16,10 @@ package game;
  */
 public class SideRectangle extends MovingRectangle {
 
-	private MainFrame.Direction direction;
+	private Direction direction;
 	private boolean actingLikeWall;
 
-	public SideRectangle(int x, int y, int width, int height,
-			MainFrame.Direction direction) {
+	public SideRectangle(int x, int y, int width, int height, Direction direction) {
 		super(x, y, width, height);
 		this.direction = direction;
 		actingLikeWall = false;
@@ -33,11 +34,9 @@ public class SideRectangle extends MovingRectangle {
 			case STAY:
 				return false;
 			case PREVENT_X:
-				return direction == MainFrame.Direction.WEST
-						|| direction == MainFrame.Direction.EAST;
+				return direction == Direction.WEST || direction == Direction.EAST;
 			case PREVENT_Y:
-				return direction == MainFrame.Direction.NORTH
-						|| direction == MainFrame.Direction.SOUTH;
+				return direction == Direction.NORTH || direction == Direction.SOUTH;
 			default:
 				return true;
 		}
@@ -45,17 +44,15 @@ public class SideRectangle extends MovingRectangle {
 
 	@Override
 	public boolean canPushX() {
-		return direction == MainFrame.Direction.WEST
-				|| direction == MainFrame.Direction.EAST;
+		return direction == Direction.WEST || direction == Direction.EAST;
 	}
 
 	@Override
 	public boolean canPushY() {
-		return direction == MainFrame.Direction.NORTH
-				|| direction == MainFrame.Direction.SOUTH;
+		return direction == Direction.NORTH || direction == Direction.SOUTH;
 	}
 
-	public MainFrame.Direction getDirection() {
+	public Direction getDirection() {
 		return direction;
 	}
 

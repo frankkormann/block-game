@@ -3,6 +3,7 @@ package game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,26 +84,14 @@ public class MetaInputHandler extends KeyAdapter {
 				actionListener.setPaused(!actionListener.isPaused());
 				break;
 			case PLAY_RECORDING: {
-				boolean wasPaused = actionListener.isPaused();
-				actionListener.setPaused(true);
-				File openFile = promptFileOpenLocation();
-				if (openFile != null) {
-					actionListener.startPlayback(openFile);
-				}
-				actionListener.setPaused(wasPaused);
+				playRecording();
 				break;
 			}
 			case RELOAD_LEVEL:
 				actionListener.reloadLevel();
 				break;
 			case SAVE_RECORDING: {
-				boolean wasPaused = actionListener.isPaused();
-				actionListener.setPaused(true);
-				File saveFile = promptFileSaveLocation();
-				if (saveFile != null) {
-					actionListener.saveRecording(saveFile);
-				}
-				actionListener.setPaused(wasPaused);
+				saveRecording();
 				break;
 			}
 			case STOP_RECORDING:
@@ -118,6 +107,40 @@ public class MetaInputHandler extends KeyAdapter {
 				}
 				break;
 		}
+	}
+
+	private void playRecording() {
+		boolean wasPaused = actionListener.isPaused();
+		actionListener.setPaused(true);
+		File openFile = promptFileOpenLocation();
+		if (openFile != null) {
+			try {
+				actionListener.startPlayback(openFile);
+			}
+			catch (IOException e) {
+				JOptionPane.showMessageDialog(fileChooser, "Could not load file\n" + e,
+						"Error", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}
+		actionListener.setPaused(wasPaused);
+	}
+
+	private void saveRecording() {
+		boolean wasPaused = actionListener.isPaused();
+		actionListener.setPaused(true);
+		File saveFile = promptFileSaveLocation();
+		if (saveFile != null) {
+			try {
+				actionListener.saveRecording(saveFile);
+			}
+			catch (IOException e) {
+				JOptionPane.showMessageDialog(fileChooser, "Could not save file\n" + e,
+						"Error", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}
+		actionListener.setPaused(wasPaused);
 	}
 
 	private File promptFileSaveLocation() {

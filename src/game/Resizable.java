@@ -3,7 +3,7 @@ package game;
 import game.MainFrame.Direction;
 
 /**
- * Minimum of methods for something to be resizable.
+ * Something which can be resized.
  * 
  * @author Frank Kormann
  */

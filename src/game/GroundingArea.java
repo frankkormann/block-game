@@ -2,6 +2,8 @@ package game;
 
 import java.awt.Color;
 
+import game.MovingRectangle.State;
+
 /**
  * Sets the {@code State} of {@code MovingRectangle}s -- {@code ON_GROUND} while
  * within this, {@code IN_AIR} when it leaves.
@@ -20,17 +22,17 @@ public class GroundingArea extends Area {
 
 	@Override
 	protected void onEnter(MovingRectangle rect) {
-		rect.setState(MovingRectangle.State.ON_GROUND);
+		rect.setState(State.ON_GROUND);
 	}
 
 	@Override
 	protected void onExit(MovingRectangle rect) {
-		rect.setState(MovingRectangle.State.IN_AIR);
+		rect.setState(State.IN_AIR);
 	}
 
 	@Override
 	protected void everyFrame(MovingRectangle rect) {
-		rect.setState(MovingRectangle.State.ON_GROUND);
+		rect.setState(State.ON_GROUND);
 	}
 
 }

@@ -43,4 +43,14 @@ class GoalAreaTest {
 		assertFalse(goal.hasWon());
 	}
 
+	@Test
+	void is_not_won_after_being_marked_as_used() {
+		assumeFalse(goal.hasWon());
+
+		rect.setControlledByPlayer(true);
+		handleALot(500);
+		goal.markUsed();
+
+		assertFalse(goal.hasWon());
+	}
 }

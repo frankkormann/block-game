@@ -121,7 +121,7 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 	 * @param level Level to set up
 	 */
 	public void setUpLevel(Level level) {
-		drawingPane.clearRectangles();
+		drawingPane.clearDrawables();
 		drawingPane.setOffsets(0, 0);
 
 		pack();  // set insets

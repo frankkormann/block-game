@@ -11,7 +11,7 @@
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER",
-			"controlledByPlayer": "true"
+			"controlledByPlayer": true
 		},
 		{
 			"type": ".MovingRectangle",
@@ -115,14 +115,14 @@
 			"y": 120,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_1.json"
+			"nextLevel": "/level_16.json"
 		}
 	],
 	"hints": [
 		{
 			"type": ".HintRectangle",
 			"x": 250,
-			"y": 220,
+			"y": 280,
 			"width": 100,
 			"height": 50,
 			"color": "GREEN"
@@ -130,7 +130,7 @@
 		{
 			"type": ".HintRectangle",
 			"x": 300,
-			"y": 170,
+			"y": 230,
 			"width": 50,
 			"height": 50,
 			"color": "RED"
