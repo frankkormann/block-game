@@ -122,9 +122,10 @@ can be found through the wiki:
 
 ### Creating / editing levels
 
-Each level is built from a `JSON` file. See [JSON_FORMAT.md](JSON_FORMAT.md) for
-formatting requirements. See `level_demo.json` for an example level that creates
-every type of rectangle.
+Each level is built from a `JSON` file. See
+[the wiki](https://github.com/frankkormann/block-game/wiki) for formatting
+requirements. See `level_demo.json` for an example level that creates every type
+of rectangle.
 
 The game will automatically load `level_1.json` as its first level. Subsequent
 level filenames are read from the activated Goal Area.
