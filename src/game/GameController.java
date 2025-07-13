@@ -79,7 +79,7 @@ public class GameController extends WindowAdapter {
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				try {
-					if (!paused) {
+					if (!paused && mainFrame.isFocused()) {
 						nextFrame();
 					}
 				}
