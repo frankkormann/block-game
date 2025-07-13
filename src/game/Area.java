@@ -23,10 +23,6 @@ public abstract class Area extends Rectangle {
 
 	private Set<MovingRectangle> rectsInside;
 
-	public Area() {
-		this(0, 0, 0, 0, Color.BLACK);
-	}
-
 	public Area(int x, int y, int width, int height, Color color) {
 		super(x, y, width, height, color, ResizeBehavior.STAY);
 		rectsInside = new HashSet<>();
