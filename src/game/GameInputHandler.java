@@ -11,8 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import game.MainFrame.Direction;
 
 /**
@@ -82,9 +80,9 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 			return new Pair<>(getResizes(), getInputs());
 		}
 		catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Malformed recording data",
-					"Error reading file", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			new ErrorDialog("Error reading file", "Malformed recording data", e)
+					.setVisible(true);
 			endReading();
 			return new Pair<>(new HashMap<>(), new HashSet<>());
 		}

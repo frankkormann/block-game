@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -105,9 +104,9 @@ public class GameController extends WindowAdapter {
 					Level.class);
 		}
 		catch (Exception e) {
-			JOptionPane.showMessageDialog(mainFrame, "Could not load level\n" + e,
-					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			new ErrorDialog("Error", "Could not load level '" + levelResource + "'", e)
+					.setVisible(true);
 
 			if (mainFrame.isVisible()) {
 				physicsSimulator.resetNextlevel();
