@@ -105,6 +105,8 @@ public class TitleBar extends JPanel
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error", "Failed to load resource for titlebar icon", e)
+					.setVisible(true);
 		}
 
 		panel.add(icon);
@@ -206,8 +208,10 @@ public class TitleBar extends JPanel
 			try {
 				setIcon(new ImageIcon(ImageIO.read(getClass().getResource(path))));
 			}
-			catch (IOException ex) {
-				ex.printStackTrace();
+			catch (IOException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Failed to load resource for button icon", e)
+						.setVisible(true);
 			}
 		}
 

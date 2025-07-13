@@ -78,8 +78,15 @@ public class GameController extends WindowAdapter {
 		mainFrame.setVisible(true);
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				if (!paused) {
-					nextFrame();
+				try {
+					if (!paused) {
+						nextFrame();
+					}
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+					new ErrorDialog("Error", "Something went wrong", e)
+							.setVisible(true);
 				}
 			}
 		}, 0, MILLISECONDS_BETWEEN_FRAMES);
@@ -212,6 +219,8 @@ public class GameController extends WindowAdapter {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			// Don't pop up an ErrorDialog because the user probably doesn't care, and
+			// it would pop up on every level
 		}
 	}
 

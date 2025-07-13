@@ -167,6 +167,8 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error", "Couldn't open stream for reading", e)
+					.setVisible(true);
 		}
 	}
 
@@ -195,6 +197,8 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error", "Couldn't close reading stream", e)
+					.setVisible(true);
 		}
 	}
 
@@ -213,6 +217,7 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			// Don't pop up an ErrorDialog because the user probably doesn't care
 		}
 	}
 
@@ -393,6 +398,8 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Potential error",
+					"Couldn't flush output stream\nOutput file may be corrupted", e);
 		}
 	}
 

@@ -107,6 +107,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error", "Failed to load resource for taskbar icon", e)
+					.setVisible(true);
 		}
 		addKeyListener(gameInputHandler);
 		setLayout(null);
@@ -214,6 +216,7 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 			}
 			catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
+				new ErrorDialog("Error", "Something went wrong", e);
 			}
 		}
 
