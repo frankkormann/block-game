@@ -81,8 +81,7 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error reading file", "Malformed recording data", e)
-					.setVisible(true);
+			new ErrorDialog("Error", "Malformed recording data", e).setVisible(true);
 			endReading();
 			return new Pair<>(new HashMap<>(), new HashSet<>());
 		}
