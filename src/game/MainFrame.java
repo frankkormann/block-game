@@ -111,6 +111,7 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 					.setVisible(true);
 		}
 		addKeyListener(gameInputHandler);
+		addFocusListener(gameInputHandler);
 		setLayout(null);
 		setResizable(false);
 
