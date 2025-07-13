@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -16,6 +18,11 @@ import game.MainFrame.Direction;
 /**
  * Get inputs from the user or a stream. Optionally write inputs to a stream.
  * <p>
+ * This should be registered as a {@code KeyListener} and {@code FocusListener}
+ * to the main window. If the window loses focus, all keys will be considered
+ * un-pressed to prevent a key from becoming "stuck" down since the
+ * {@code KeyEvent.KEY_RELEASED} event cannot be dispatched.
+ * <p>
  * By default, inputs will be taken from the user. Key presses will be taken
  * from the keyboard and window resizes will be taken from calls to
  * {@code resize}. These calls are provided by the {@code ResizingSide} class.
@@ -30,7 +37,7 @@ import game.MainFrame.Direction;
  * 
  * @author Frank Kormann
  */
-public class GameInputHandler extends KeyAdapter implements Resizable {
+public class GameInputHandler extends KeyAdapter implements FocusListener, Resizable {
 
 	public enum GameInput {
 		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
@@ -432,6 +439,14 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		keysPressed.remove(e.getKeyCode());
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		keysPressed.clear();
 	}
 
 }
