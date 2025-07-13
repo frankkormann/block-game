@@ -98,8 +98,10 @@ Download the latest `jar` file from the
 If you encounter a bug, press `Control + Shift + S` to save a recording of the
 current level. Then open an issue on this GitHub page and include:
 
-- The level you encountered the bug
+- The full copied text of any error message you received, if there was an error
+  message. Make sure to click "Details" for the full text
 - The recording file
+- The level you encountered the bug
 - A description of the bug
 - Any other information you think is relevant
 
