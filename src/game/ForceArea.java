@@ -32,12 +32,27 @@ public class ForceArea extends Area {
 		this.yForce = yForce;
 	}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void onEnter(MovingRectangle rect) {}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void onExit(MovingRectangle rect) {}
 
+	/**
+	 * Applies a constant force to {@code rect}.
+	 * 
+	 * @param rect {@code MovingRectangle} to move
+	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {
 		rect.setXVelocity(rect.getXVelocity() + xForce);

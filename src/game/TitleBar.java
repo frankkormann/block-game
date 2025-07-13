@@ -48,6 +48,16 @@ public class TitleBar extends JPanel
 	private JLabel titleLabel;
 	private JPanel buttonHolder;
 
+	/**
+	 * Creates a {@code TitleBar} and lays out its buttons and icons.
+	 * <p>
+	 * When the user drags this, it will call {@code movementListener}'s
+	 * {@link Movable#move2(int, int)} method. When they activate the close or
+	 * minimize buttons, this will close or minimize {@code eventListener}.
+	 * 
+	 * @param movementListener {@code Movable} to send dragging movement to
+	 * @param eventListener    {@code JFrame} to send close/minimize events to
+	 */
 	public TitleBar(Movable movementListener, JFrame eventListener) {
 		this.movementListener = movementListener;
 		this.eventListener = eventListener;

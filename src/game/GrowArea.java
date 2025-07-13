@@ -31,8 +31,19 @@ public class GrowArea extends Area {
 		this(0, 0, 0, 0, 0, 0);
 	}
 
-	// xGrowth and yGrowth actually represent half the growth rate (it is applied
-	// to each side independently)
+	/**
+	 * Note: {@code xGrowth} and {@code yGrowth} effect each side of the
+	 * {@code MovingRectangle} independently. Therefore, if both sides are growing,
+	 * the {@code MovingRectangle}'s {@code width} will increase at twice the
+	 * nominal rate.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param xGrowth amount to grow the left/right sides by each frame
+	 * @param yGrowth amount to grow the top/bottom sides by each frame
+	 */
 	@JsonCreator
 	public GrowArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width, @JsonProperty("height") int height,
@@ -73,14 +84,26 @@ public class GrowArea extends Area {
 		g.dispose();
 	}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void onEnter(MovingRectangle rect) {}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void onExit(MovingRectangle rect) {}
 
 	/**
-	 * Grow {@code rect} until it is as tall/wide as this
+	 * Grows {@code rect} until it is as tall/wide as this.
+	 * 
+	 * @param rect {@code MovingRectangle} to grow
 	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {

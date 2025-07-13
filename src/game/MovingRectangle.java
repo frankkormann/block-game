@@ -85,6 +85,10 @@ public class MovingRectangle extends Rectangle {
 				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 
+	/**
+	 * Updates the stored location of this on the previous frame to be equal to its
+	 * current position. This should be called at the start of each frame.
+	 */
 	public void updateLastPosition() {
 		lastX = getX();
 		lastY = getY();
@@ -237,30 +241,62 @@ public class MovingRectangle extends Rectangle {
 		this.yVelocity = yVelocity;
 	}
 
+	/**
+	 * Returns where this was on the previous frame.
+	 * 
+	 * @return {@code x} position on the previous frame
+	 */
 	@Override
 	public int getLastX() {
 		return lastX;
 	}
 
+	/**
+	 * Returns where this was on the previous frame.
+	 * 
+	 * @return {@code y} position on the previous frame
+	 */
 	@Override
 	public int getLastY() {
 		return lastY;
 	}
 
+	/**
+	 * Returns how wide this was on the previous frame.
+	 * 
+	 * @return {@code width} on the previous frame
+	 */
 	@Override
 	public int getLastWidth() {
 		return lastWidth;
 	}
 
+	/**
+	 * Returns how tall this was on the previous frame.
+	 * 
+	 * @return {@code height} on the previous frame
+	 */
 	@Override
 	public int getLastHeight() {
 		return lastHeight;
 	}
 
+	/**
+	 * Returns how much width was added to the left side of this since the last
+	 * frame.
+	 * 
+	 * @return amount of width added to the left
+	 */
 	public int getLeftWidthChange() {
 		return leftWidthChange;
 	}
 
+	/**
+	 * Returns how much height was added to the top side of this since the last
+	 * frame.
+	 * 
+	 * @return amount of height added to the top
+	 */
 	public int getTopHeightChange() {
 		return topHeightChange;
 	}

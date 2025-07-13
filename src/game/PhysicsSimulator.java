@@ -46,6 +46,9 @@ public class PhysicsSimulator {
 
 	private String nextLevel;
 
+	/**
+	 * Creates an empty {@code PhysicsSimulator}.
+	 */
 	public PhysicsSimulator() {
 		super();
 
@@ -749,6 +752,9 @@ public class PhysicsSimulator {
 	}
 
 	/**
+	 * Returns the resource for the next level if a {@code GoalArea} has been
+	 * activated. Otherwise, returns the empty string.
+	 * 
 	 * @return resource name of the next level, or the empty string if there is no
 	 *         next level yet
 	 */
@@ -756,6 +762,10 @@ public class PhysicsSimulator {
 		return nextLevel;
 	}
 
+	/**
+	 * Sets the next level as returned by {@code getNextLevel()} to the empty
+	 * string, even if a {@code GoalArea} has been activated.
+	 */
 	public void resetNextlevel() {
 		nextLevel = "";
 	}

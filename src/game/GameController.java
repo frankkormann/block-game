@@ -54,6 +54,10 @@ public class GameController extends WindowAdapter {
 		new GameController().startGame();
 	}
 
+	/**
+	 * Creates a {@code GameController} and populates it with all classes it depends
+	 * on.
+	 */
 	public GameController() {
 		gameInputHandler = new GameInputHandler();
 		metaInputHandler = new MetaInputHandler(this);
@@ -66,6 +70,10 @@ public class GameController extends WindowAdapter {
 		paused = false;
 	}
 
+	/**
+	 * Loads the first level and begins a repeating {@code TimerTask} to process
+	 * each frame.
+	 */
 	public void startGame() {
 		loadLevel(FIRST_LEVEL);
 		mainFrame.setVisible(true);
@@ -78,6 +86,10 @@ public class GameController extends WindowAdapter {
 		}, 0, MILLISECONDS_BETWEEN_FRAMES);
 	}
 
+	/**
+	 * Restarts and reloads the current level, and stops reading from the recording
+	 * file if there is one.
+	 */
 	public void reloadLevel() {
 		gameInputHandler.endReading();
 		loadLevel(currentLevel);
@@ -155,6 +167,19 @@ public class GameController extends WindowAdapter {
 
 	}
 
+	/**
+	 * Processes the next frame.
+	 * <p>
+	 * Performs these steps in order:
+	 * <ul>
+	 * <li>Polls {@code GameInputHandler} for inputs
+	 * <li>Resizes {@code MainFrame} according to inputs
+	 * <li>Updates the game state through {@code PhysicsSimulator}
+	 * <li>Loads the next level if necessary
+	 * <li>Resizes {@code MainFrame} according to {@code PhysicsSimulator}
+	 * <li>Redraws {@code MainFrame}
+	 * </ul>
+	 */
 	public void nextFrame() {
 		Pair<Map<Direction, Integer>, Set<GameInput>> allInputs;
 		allInputs = gameInputHandler.poll();
@@ -212,10 +237,21 @@ public class GameController extends WindowAdapter {
 		gameInputHandler.beginReading(getClass().getResourceAsStream(resource));
 	}
 
+	/**
+	 * Stops reading from a recording file.
+	 */
 	public void endPlayback() {
 		gameInputHandler.endReading();
 	}
 
+	/**
+	 * Saves a recording of the current level to {@code destination}. If a file
+	 * already exists at that location, overwrites it; otherwise, creates it.
+	 * 
+	 * @param destination {@code File} to write to
+	 * 
+	 * @throws IOException if an I/O error occurs
+	 */
 	public void saveRecording(File destination) throws IOException {
 		if (recording == null) {
 			return;

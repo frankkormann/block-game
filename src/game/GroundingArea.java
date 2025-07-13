@@ -20,16 +20,31 @@ public class GroundingArea extends Area {
 		super(x, y, width, height, new Color(0, 0, 0, 0));
 	}
 
+	/**
+	 * Sets {@code rect}'s {@code State} to {@code ON_GROUND}.
+	 * 
+	 * @param rect {@code MovingRectangle} to change the state of
+	 */
 	@Override
 	protected void onEnter(MovingRectangle rect) {
 		rect.setState(State.ON_GROUND);
 	}
 
+	/**
+	 * Sets {@code rect}'s {@code State} to {@code IN_AIR}.
+	 * 
+	 * @param rect {@code MovingRectangle} to change the state of
+	 */
 	@Override
 	protected void onExit(MovingRectangle rect) {
 		rect.setState(State.IN_AIR);
 	}
 
+	/**
+	 * Sets {@code rect}'s {@code State} to {@code ON_GROUND}.
+	 * 
+	 * @param rect {@code MovingRectangle} to change the state of
+	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {
 		rect.setState(State.ON_GROUND);

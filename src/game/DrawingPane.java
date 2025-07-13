@@ -25,6 +25,10 @@ public class DrawingPane extends JPanel {
 
 	private int xOffset, yOffset;
 
+	/**
+	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0} and a
+	 * white background.
+	 */
 	public DrawingPane() {
 		super();
 
@@ -36,6 +40,15 @@ public class DrawingPane extends JPanel {
 		drawableLists = new TreeMap<>();
 	}
 
+	/**
+	 * Add {@code drawable} to this at {@code index}. {@code Drawable}s with a
+	 * higher index will be drawn on top of those with a lower index.
+	 * <p>
+	 * The drawing order for {@code Drawable}s with the same index is undefined.
+	 * 
+	 * @param drawable {@code Drawable} to draw
+	 * @param index    layer to put {@code drawable}
+	 */
 	public void add(Drawable drawable, int index) {
 		if (drawableLists.get(index) == null) {
 			drawableLists.put(index, new ArrayList<>());

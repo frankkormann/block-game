@@ -29,7 +29,14 @@ public class MetaInputHandler extends KeyAdapter {
 		private static final int SHIFT_CONTROL_MASK = KeyEvent.CTRL_DOWN_MASK
 				| KeyEvent.SHIFT_DOWN_MASK;
 
-		public final int keyCode, mask;
+		/**
+		 * Key code which will trigger this
+		 */
+		public final int keyCode;
+		/**
+		 * {@code KeyEvent} modifier key mask which is required to trigger this
+		 */
+		public final int mask;
 
 		private MetaInput(int keyCode, int mask) {
 			this.keyCode = keyCode;
@@ -43,6 +50,11 @@ public class MetaInputHandler extends KeyAdapter {
 
 	private JFileChooser fileChooser;
 
+	/**
+	 * Creates a new {@code MetaInputHandler} which affects {@code actionListener}.
+	 * 
+	 * @param actionListener {@code GameController} to receive events
+	 */
 	public MetaInputHandler(GameController actionListener) {
 		this.actionListener = actionListener;
 		hints = new ArrayList<>();
@@ -55,10 +67,22 @@ public class MetaInputHandler extends KeyAdapter {
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 	}
 
+	/**
+	 * Registers {@code hint} with this. {@code HintRectangle}s which are registered
+	 * will be toggled visible or not visible.
+	 * 
+	 * @param hint {@code HintRectangle} to add
+	 */
 	public void addHint(HintRectangle hint) {
 		hints.add(hint);
 	}
 
+	/**
+	 * Sets the solution recording to play. {@code solutionResource} must be able to
+	 * be found by {@link java.lang.Class#getResourceAsStream(String)}.
+	 * 
+	 * @param solutionResource name of resource
+	 */
 	public void setSolution(String solutionResource) {
 		this.solutionResource = solutionResource;
 	}

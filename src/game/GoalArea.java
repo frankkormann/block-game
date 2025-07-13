@@ -53,9 +53,20 @@ public class GoalArea extends Area {
 		g.dispose();
 	}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void onEnter(MovingRectangle rect) {}
 
+	/**
+	 * Resets the internal timer to {@code 0} if
+	 * {@code rect.isControlledByPlayer() == true}.
+	 * 
+	 * @param rect {@code MovingRectangle} to consider
+	 */
 	@Override
 	protected void onExit(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {
@@ -64,6 +75,12 @@ public class GoalArea extends Area {
 		used = false;
 	}
 
+	/**
+	 * If {@code rect.isControlledByPlayer() == true}, increase the internal timer
+	 * that determines if this is activated or not.
+	 * 
+	 * @param rect {@code MovingRectangle} to consider
+	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {

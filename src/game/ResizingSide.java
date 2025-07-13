@@ -31,6 +31,14 @@ public class ResizingSide extends JPanel implements MouseListener, MouseMotionLi
 	private Direction direction;
 	private Resizable resizeListener;
 
+	/**
+	 * Creates a {@code ResizingSide} with the specified {@code direction}. When
+	 * this is resized, it will call {@code resizeListener}'s
+	 * {@link Resizable#resize(int, Direction)} method.
+	 * 
+	 * @param direction      {@code Direction} that this resizes in
+	 * @param resizeListener {@code Resizable} to send resizes to
+	 */
 	public ResizingSide(Direction direction, Resizable resizeListener) {
 		this.direction = direction;
 		this.resizeListener = resizeListener;

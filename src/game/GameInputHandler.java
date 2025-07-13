@@ -38,6 +38,9 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
 		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT), RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
 
+		/**
+		 * Key codes which will trigger this
+		 */
 		public final int[] keyCodes;
 
 		private GameInput(int... keyCodes) {
@@ -54,6 +57,9 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	private int writingZerosInARow;
 	private int readingZerosInARow;
 
+	/**
+	 * Creates a new {@code GameInputHandler} with no input stream or output stream.
+	 */
 	public GameInputHandler() {
 		keysPressed = new HashSet<>();
 		resizesSinceLastFrame = new HashMap<>();
@@ -374,6 +380,9 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 
 	}
 
+	/**
+	 * Ensures that all inputs are written to the output stream.
+	 */
 	public void flushWriter() {
 		try {
 			if (writingZerosInARow > 0) {

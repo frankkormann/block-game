@@ -32,8 +32,19 @@ public class ShrinkArea extends Area {
 		this(0, 0, 0, 0, 0, 0);
 	}
 
-	// xShrink and yShrink actually represent half the shrink rate (it is applied
-	// to each side independently)
+	/**
+	 * Note: {@code xShrink} and {@code yShrink} effect each side of the
+	 * {@code MovingRectangle} independently. Therefore, if both sides are
+	 * shrinking, the {@code MovingRectangle}'s {@code width} will decrease at twice
+	 * the nominal rate.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param xShrink
+	 * @param yShrink
+	 */
 	@JsonCreator
 	public ShrinkArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width, @JsonProperty("height") int height,
@@ -74,14 +85,26 @@ public class ShrinkArea extends Area {
 		g.dispose();
 	}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void onEnter(MovingRectangle rect) {}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void onExit(MovingRectangle rect) {}
 
 	/**
-	 * Grow rect until it is as tall/wide as this
+	 * Shrink rect until it is as tall/wide as this.
+	 * 
+	 * @param rect {@code MovingRectangle} to shrink
 	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {

@@ -25,16 +25,31 @@ public class AntigravityArea extends Area {
 		super(x, y, width, height, DEFAULT_COLOR);
 	}
 
+	/**
+	 * Removes {@code rect}'s gravity.
+	 * 
+	 * @param rect {@code MovingRectangle} to affect
+	 */
 	@Override
 	protected void onEnter(MovingRectangle rect) {
 		rect.setHasGravity(false);
 	}
 
+	/**
+	 * Gives {@code rect} gravity.
+	 * 
+	 * @param rect {@code MovingRectangle} to affect
+	 */
 	@Override
 	protected void onExit(MovingRectangle rect) {
 		rect.setHasGravity(true);
 	}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {}
 

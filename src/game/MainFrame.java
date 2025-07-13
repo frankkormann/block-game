@@ -74,6 +74,13 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		}
 	}
 
+	/**
+	 * Creates a new {@code MainFrame} and populates it with all classes it depends
+	 * on. {@code gameInputHandler} is registered to this as a {@code KeyListener}
+	 * and {@code FocusListener}.
+	 * 
+	 * @param gameInputHandler {@code GameInputHandler} to register
+	 */
 	public MainFrame(GameInputHandler gameInputHandler) {
 		super(WINDOW_TITLE);
 
@@ -130,8 +137,17 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		titleBar.setTitle(WINDOW_TITLE + " - " + level.name);
 	}
 
-	public void add(Rectangle rect, int index) {
-		drawingPane.add(rect, index);
+	/**
+	 * Add {@code drawable} to this at {@code index}. {@code Drawable}s with a
+	 * higher index will be drawn on top of those with a lower index.
+	 * <p>
+	 * The drawing order for {@code Drawable}s with the same index is undefined.
+	 * 
+	 * @param drawable {@code Drawable} to draw
+	 * @param index    layer to put {@code drawable}
+	 */
+	public void add(Drawable drawable, int index) {
+		drawingPane.add(drawable, index);
 	}
 
 	/**
@@ -232,6 +248,9 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		y = getY();
 	}
 
+	/**
+	 * Lays out all components within this and sets its bounds.
+	 */
 	public void arrangeComponents() {
 		setBounds(x, y, width, height);
 		width = getWidth();
@@ -248,8 +267,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 								ResizingSide.THICKNESS / 2);
 						break;
 					case SOUTH:
-						comp.setBounds(0, height - ResizingSide.THICKNESS - insetsY, width,
-								ResizingSide.THICKNESS);
+						comp.setBounds(0, height - ResizingSide.THICKNESS - insetsY,
+								width, ResizingSide.THICKNESS);
 						break;
 					case WEST:
 						comp.setBounds(0, ResizingSide.THICKNESS / 2,
