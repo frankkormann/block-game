@@ -34,7 +34,7 @@ import javax.swing.SwingUtilities;
  */
 public class MainFrame extends JFrame implements Resizable, Movable {
 
-	private static final String TASKBAR_ICON = "/taskbar_icon.png";
+	public static final String TASKBAR_ICON = "/taskbar_icon.png";
 
 	private static final String WINDOW_TITLE = "Block Game";
 
