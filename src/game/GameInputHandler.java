@@ -330,6 +330,9 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			// No ErrorDialog because writing is automatically started every level, so
+			// don't clog the screen with errors that the user probably doesn't care
+			// about
 			endWriting();
 		}
 	}
