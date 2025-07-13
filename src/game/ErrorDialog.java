@@ -36,7 +36,7 @@ public class ErrorDialog extends JDialog {
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		getRootPane().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		JTextArea messageArea = new JTextArea(message + "\n\n" + err, 4, 50);
+		JTextArea messageArea = new JTextArea(message + "\n\n" + err);
 		messageArea.setLineWrap(true);
 		messageArea.setEditable(false);
 
