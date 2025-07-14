@@ -3,8 +3,10 @@ package game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import java.awt.Component;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -20,6 +22,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+// These tests will skip if in a headless environment (an environment that doesn't
+// support keyboard, display, etc.)
 class ErrorDialogTest {
 
 	private static final String TITLE = "This is the title";
@@ -30,6 +34,8 @@ class ErrorDialogTest {
 
 	@BeforeEach
 	void setUp() {
+		assumeFalse(GraphicsEnvironment.isHeadless());
+
 		try {
 			int x = 5 / 0;
 		}
