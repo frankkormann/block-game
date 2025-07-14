@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,6 +24,16 @@ import javax.swing.JTextArea;
  */
 public class ErrorDialog extends JDialog {
 
+	/**
+	 * Creates an {@code ErrorDialog} for {@code err} and displays it.
+	 * <p>
+	 * {@code message} and {@code err}'s short form are shown in the dialog's body,
+	 * and {@code err}'s full stack trace is hidden behind a "Details" button.
+	 * 
+	 * @param title   {@code String} to display in the title bar
+	 * @param message short error message to display in the dialog body
+	 * @param err     {@code Exception} to extract stack trace information from
+	 */
 	public ErrorDialog(String title, String message, Exception err) {
 		super((Frame) null, title, true);
 
@@ -36,20 +47,19 @@ public class ErrorDialog extends JDialog {
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		getRootPane().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		JTextArea messageArea = new JTextArea(message + "\n\n" + err);
+		JTextArea messageArea = createTextArea(message + "\n\n" + err, 1, 50);
 		messageArea.setLineWrap(true);
-		messageArea.setEditable(false);
 
-		JScrollPane scrollPane = createTextScrollPane(buildStackTrace(err), 20, 50);
+		JTextArea stackTraceArea = createTextArea(buildStackTrace(err), 20, 50);
+		JScrollPane scrollPane = new JScrollPane(stackTraceArea);
 		scrollPane.setVisible(false);
 
-		JPanel buttonPanel = createButtonsPanel("Details", scrollPane, "OK");
+		JPanel buttonPanel = createButtonsPanel("Details", "OK", "Copy", scrollPane,
+				stackTraceArea);
 		buttonPanel.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width,
 				buttonPanel.getPreferredSize().height));
 
-		messageArea.setAlignmentX(LEFT_ALIGNMENT);
-		buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
-		scrollPane.setAlignmentX(LEFT_ALIGNMENT);
+		setAlignmentForAll(LEFT_ALIGNMENT, messageArea, buttonPanel, scrollPane);
 
 		add(messageArea);
 		add(buttonPanel);
@@ -69,8 +79,9 @@ public class ErrorDialog extends JDialog {
 	 * 
 	 * @return the built {@code JPanel}
 	 */
-	private JPanel createButtonsPanel(String toggleButtonLabel, Component toToggle,
-			String disposeButtonLabel) {
+	private JPanel createButtonsPanel(String toggleButtonLabel,
+			String disposeButtonLabel, String copyButtonLabel, Component toToggle,
+			JTextArea toCopy) {
 		JPanel panel = new JPanel();
 
 		JButton toggleButton = createButton(toggleButtonLabel, e -> {
@@ -79,8 +90,14 @@ public class ErrorDialog extends JDialog {
 		});
 		JButton disposeButton = createButton(disposeButtonLabel, e -> dispose());
 
+		JButton copyButton = createButton(copyButtonLabel, e -> {
+			toCopy.selectAll();
+			toCopy.copy();
+		});
+
 		panel.add(toggleButton);
 		panel.add(disposeButton);
+		panel.add(copyButton);
 
 		return panel;
 	}
@@ -97,16 +114,14 @@ public class ErrorDialog extends JDialog {
 	 * 
 	 * @return
 	 */
-	private JScrollPane createTextScrollPane(String content, int rows, int columns) {
+	private JTextArea createTextArea(String content, int rows, int columns) {
 		JTextArea area = new JTextArea(rows, columns);
 
 		area.setText(content);
 		area.setEditable(false);
 		area.setBackground(Color.WHITE);
 
-		JScrollPane scrollPane = new JScrollPane(area);
-
-		return scrollPane;
+		return area;
 	}
 
 	/**
@@ -137,6 +152,19 @@ public class ErrorDialog extends JDialog {
 			trace += elem + "\n";
 		}
 		return trace;
+	}
+
+	/**
+	 * Sets {@link JComponent#setAlignmentX(float)} to {@code alignment} for
+	 * {@code components}.
+	 * 
+	 * @param alignment  value to set
+	 * @param components {@code JComponent}s to affect
+	 */
+	private void setAlignmentForAll(float alignment, JComponent... components) {
+		for (JComponent comp : components) {
+			comp.setAlignmentX(alignment);
+		}
 	}
 
 }
