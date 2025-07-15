@@ -227,8 +227,6 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		// Paint before packing to avoid stuttering issues
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
-		titleBar.paintImmediately(0, 0, titleBar.getWidth(),
-				titleBar.getHeight());
 		x += xChange;
 		y += yChange;
 		width += widthChange;

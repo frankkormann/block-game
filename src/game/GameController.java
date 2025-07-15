@@ -91,6 +91,7 @@ public class GameController extends WindowAdapter {
 					if (!paused && mainFrame.isFocused()) {
 						nextFrame();
 					}
+					mainFrame.repaint();
 				}
 				catch (Exception e) {
 					e.printStackTrace();
