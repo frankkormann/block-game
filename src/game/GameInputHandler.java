@@ -56,9 +56,7 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
 	private GameInputReader reader;
-	private OutputStream writer;
-
-	private int writingZerosInARow;
+	private GameInputWriter writer;
 
 	/**
 	 * Creates a new {@code GameInputHandler} with no input stream or output stream.
@@ -115,10 +113,10 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 		}
 		if (writer != null) {
 			// Make sure values are written in the correct order
-			writeInt(resizes.get(Direction.NORTH));
-			writeInt(resizes.get(Direction.SOUTH));
-			writeInt(resizes.get(Direction.WEST));
-			writeInt(resizes.get(Direction.EAST));
+			writer.writeInt(resizes.get(Direction.NORTH));
+			writer.writeInt(resizes.get(Direction.SOUTH));
+			writer.writeInt(resizes.get(Direction.WEST));
+			writer.writeInt(resizes.get(Direction.EAST));
 		}
 		zeroAllDirectionsInResizes();
 		return resizes;
@@ -182,8 +180,7 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	 * @param output {@code OutputStream} to write to
 	 */
 	public void beginWriting(OutputStream output) {
-		writer = output;
-		writingZerosInARow = 0;
+		writer = new GameInputWriter(output);
 	}
 
 	/**
@@ -249,87 +246,11 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	 * 
 	 * @param gameInputs {@code Set} of {@code Input}s to write
 	 */
-	private void writeInputs(Set<GameInput> gameInputs) {
-		writeByte(gameInputs.size());
+	private void writeInputs(Set<GameInput> gameInputs) throws IOException {
+		writer.writeByte(gameInputs.size());
 		for (GameInput inp : gameInputs) {
-			writeByte(inp.ordinal());
+			writer.writeByte(inp.ordinal());
 		}
-	}
-
-	/**
-	 * Writes a single {@code byte} to the output stream.
-	 * <p>
-	 * For {@code 0} specifically, instead of writing many {@code 0}s in a row, only
-	 * the first {@code 0} is written. Then the number of following {@code 0}s is
-	 * written.
-	 * 
-	 * @param b {@code byte} to write
-	 */
-	private void writeByte(int b) {
-		try {
-
-			if (b == 0) {
-				writingZerosInARow++;
-			}
-			if ((b != 0 && writingZerosInARow > 0) || writingZerosInARow > 0xFF) {
-				writer.write(writingZerosInARow - 1);
-				writingZerosInARow = 0;
-			}
-			if ((b == 0 && writingZerosInARow == 1) || b != 0) {
-				writer.write(b);
-			}
-
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			// No ErrorDialog because writing is automatically started every level, so
-			// don't clog the screen with errors that the user probably doesn't care
-			// about
-			endWriting();
-		}
-	}
-
-	/**
-	 * Writes a compressed {@code int} to the output stream.
-	 * <p>
-	 * First, {@code i} is split into four bytes. Any bytes which are entirely
-	 * {@code 0} and do not have useful bytes above them are thrown out. Then, the
-	 * number of remaining bytes is written and each byte is written in turn. If
-	 * {@i == 0}, only one byte (being 0) is written.
-	 * <p>
-	 * If {@code i} is negative, the byte indicating the number of bytes in
-	 * {@code i} will be negative. Each byte of {@code i} represents {@code i}'s
-	 * absolute value.
-	 * 
-	 * @param i {@code int} to write
-	 */
-	private void writeInt(int i) {
-
-		if (i == 0) {
-			writeByte(0);
-			return;
-		}
-
-		byte[] bytes = new byte[Integer.BYTES];
-		int usefulBytes;
-		int originalSign = (int) Math.signum(i);
-
-		i = Math.abs(i);
-
-		for (int j = 0; j < Integer.BYTES; j++) {
-			bytes[j] = (byte) i;
-			i >>= Byte.SIZE;
-		}
-
-		for (usefulBytes = bytes.length; usefulBytes > 0
-				&& bytes[usefulBytes - 1] == 0; usefulBytes--)
-			;
-
-		writeByte(usefulBytes * originalSign);
-		for (int j = 0; j < usefulBytes; j++) {
-			writeByte(bytes[j]);
-		}
-
 	}
 
 	/**
@@ -337,10 +258,6 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	 */
 	public void flushWriter() {
 		try {
-			if (writingZerosInARow > 0) {
-				writer.write(writingZerosInARow - 1);
-				writingZerosInARow = 0;
-			}
 			writer.flush();
 		}
 		catch (IOException e) {
