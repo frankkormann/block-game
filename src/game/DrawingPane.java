@@ -26,8 +26,8 @@ public class DrawingPane extends JPanel {
 	private int xOffset, yOffset;
 
 	/**
-	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0} and a
-	 * white background.
+	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0}
+	 * and a white background.
 	 */
 	public DrawingPane() {
 		super();
@@ -69,7 +69,8 @@ public class DrawingPane extends JPanel {
 
 		g.translate(-xOffset, -yOffset);
 
-		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists.entrySet()) {
+		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists
+				.entrySet()) {
 			for (Drawable drawable : entry.getValue()) {
 				drawable.draw(g);
 			}

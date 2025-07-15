@@ -74,13 +74,13 @@ public abstract class Rectangle implements Drawable {
 	 */
 	public enum AttachmentOption {
 		/**
-		 * Keep the {@code Area} above this. Incompatible with {@code GLUED_SOUTH},
-		 * {@code GLUED_WEST}, {@code GLUED_EAST}.
+		 * Keep the {@code Area} above this. Incompatible with
+		 * {@code GLUED_SOUTH}, {@code GLUED_WEST}, {@code GLUED_EAST}.
 		 */
 		GLUED_NORTH,
 		/**
-		 * Keep the {@code Area} below this. Incompatible with {@code GLUED_NORTH},
-		 * {@code GLUED_WEST}, {@code GLUED_EAST}.
+		 * Keep the {@code Area} below this. Incompatible with
+		 * {@code GLUED_NORTH}, {@code GLUED_WEST}, {@code GLUED_EAST}.
 		 */
 		GLUED_SOUTH,
 		/**
@@ -139,13 +139,14 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
-	 * Draws an arrow pointing at ({@code tipX}, {@code tipY}) in {@code direction}.
+	 * Draws an arrow pointing at ({@code tipX}, {@code tipY}) in
+	 * {@code direction}.
 	 * <p>
 	 * Note that {@code headLength}, {@code headWidth}, {@code tailLength}, and
-	 * {@code tailWidth} always correspond to the same parts of the arrow, no matter
-	 * which direction it is pointing in. For example, {@code headWidth} is a
-	 * vertical distance on an easterly arrow but a horizontal distance on a
-	 * northerly arrow.
+	 * {@code tailWidth} always correspond to the same parts of the arrow, no
+	 * matter which direction it is pointing in. For example, {@code headWidth}
+	 * is a vertical distance on an easterly arrow but a horizontal distance on
+	 * a northerly arrow.
 	 * 
 	 * @param g          {@code Graphics} instance; must be able to be cast to
 	 *                   Graphics2D
@@ -188,8 +189,8 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
-	 * Moves and resizes all attached {@code Area}s to conform with their attachment
-	 * options.
+	 * Moves and resizes all attached {@code Area}s to conform with their
+	 * attachment options.
 	 */
 	private void updateAttachmentBounds() {
 
@@ -244,18 +245,22 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
-	 * Returns true if this can push other {@code Rectangle}s in the x direction.
+	 * Returns true if this can push other {@code Rectangle}s in the x
+	 * direction.
 	 * 
-	 * @return {@code true} if this can push {@code Rectangle}s in the x direction
+	 * @return {@code true} if this can push {@code Rectangle}s in the x
+	 *         direction
 	 */
 	public boolean canPushX() {
 		return true;
 	}
 
 	/**
-	 * Returns true if this can push other {@code Rectangle}s in the y direction.
+	 * Returns true if this can push other {@code Rectangle}s in the y
+	 * direction.
 	 * 
-	 * @return {@code true} if this can push {@code Rectangle}s in the y direction
+	 * @return {@code true} if this can push {@code Rectangle}s in the y
+	 *         direction
 	 */
 	public boolean canPushY() {
 		return true;
@@ -382,13 +387,14 @@ public abstract class Rectangle implements Drawable {
 	public void addAttachment(Area attachment, AttachmentOption... options) {
 		Set<AttachmentOption> optionsSet = new HashSet<AttachmentOption>(
 				Arrays.asList(options));
-		attachedAreas
-				.add(new Pair<Area, Set<AttachmentOption>>(attachment, optionsSet));
+		attachedAreas.add(
+				new Pair<Area, Set<AttachmentOption>>(attachment, optionsSet));
 		updateAttachmentBounds();
 	}
 
 	@JsonProperty("attachments")
-	public void addAllAttachments(List<Pair<Area, Set<AttachmentOption>>> attachments) {
+	public void addAllAttachments(
+			List<Pair<Area, Set<AttachmentOption>>> attachments) {
 		attachedAreas.addAll(attachments);
 		updateAttachmentBounds();
 	}

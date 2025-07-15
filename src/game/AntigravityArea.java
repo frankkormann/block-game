@@ -21,7 +21,8 @@ public class AntigravityArea extends Area {
 
 	@JsonCreator
 	public AntigravityArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
-			@JsonProperty("width") int width, @JsonProperty("height") int height) {
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height) {
 		super(x, y, width, height, DEFAULT_COLOR);
 	}
 

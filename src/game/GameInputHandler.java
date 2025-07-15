@@ -37,11 +37,13 @@ import game.MainFrame.Direction;
  * 
  * @author Frank Kormann
  */
-public class GameInputHandler extends KeyAdapter implements FocusListener, Resizable {
+public class GameInputHandler extends KeyAdapter
+		implements FocusListener, Resizable {
 
 	public enum GameInput {
 		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
-		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT), RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
+		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT),
+		RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
 
 		/**
 		 * Key codes which will trigger this
@@ -59,7 +61,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	private NumberWriter writer;
 
 	/**
-	 * Creates a new {@code GameInputHandler} with no input stream or output stream.
+	 * Creates a new {@code GameInputHandler} with no input stream or output
+	 * stream.
 	 */
 	public GameInputHandler() {
 		keysPressed = new HashSet<>();
@@ -71,12 +74,12 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	}
 
 	/**
-	 * Returns the inputs and resizes for this frame. If in reading mode, these will
-	 * be taken from the input stream; otherwise, they will be taken from the user.
-	 * If in writing mode, these will be written to the output stream.
+	 * Returns the inputs and resizes for this frame. If in reading mode, these
+	 * will be taken from the input stream; otherwise, they will be taken from
+	 * the user. If in writing mode, these will be written to the output stream.
 	 * 
-	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in each
-	 *         direction and {@code Set<GameInput>} for inputs
+	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in
+	 *         each direction and {@code Set<GameInput>} for inputs
 	 */
 	public Pair<Map<Direction, Integer>, Set<GameInput>> poll() {
 		try {
@@ -84,20 +87,22 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Malformed recording data", e).setVisible(true);
+			new ErrorDialog("Error", "Malformed recording data", e)
+					.setVisible(true);
 			endReading();
 			return new Pair<>(new HashMap<>(), new HashSet<>());
 		}
 	}
 
 	/**
-	 * Get the resizes on this frame. If in reading mode, these will be read from
-	 * the input stream . Otherwise, they will be taken from the
+	 * Get the resizes on this frame. If in reading mode, these will be read
+	 * from the input stream . Otherwise, they will be taken from the
 	 * {@code ResizingSides}.
 	 * <p>
 	 * If in writing mode, these will also be written to the output stream.
 	 * 
-	 * @return {@code Map} of {@code Direction} to {@code Integer} amount resized
+	 * @return {@code Map} of {@code Direction} to {@code Integer} amount
+	 *         resized
 	 */
 	private Map<Direction, Integer> getResizes() throws IOException {
 		Map<Direction, Integer> resizes = new HashMap<>();
@@ -125,8 +130,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	/**
 	 * Gets the inputs pressed on this frame.
 	 * <p>
-	 * If in reading mode, these will be read from the input stream. Otherwise, they
-	 * will be taken from the keyboard.
+	 * If in reading mode, these will be read from the input stream. Otherwise,
+	 * they will be taken from the keyboard.
 	 * <p>
 	 * If in writing mode, these will also be written to the output stream.
 	 * 
@@ -157,8 +162,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	}
 
 	/**
-	 * Takes input from an {@code InputStream}. If this is already reading from a
-	 * different {@code InputStream}, that stream is replaced.
+	 * Takes input from an {@code InputStream}. If this is already reading from
+	 * a different {@code InputStream}, that stream is replaced.
 	 * 
 	 * @param input {@code InputStream} to read from
 	 */
@@ -175,7 +180,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 
 	/**
 	 * Starts writing input to an {@code OutputStream}. If a different
-	 * {@code OutputStream} is already being written to, that stream is replaced.
+	 * {@code OutputStream} is already being written to, that stream is
+	 * replaced.
 	 * 
 	 * @param output {@code OutputStream} to write to
 	 */
@@ -184,8 +190,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	}
 
 	/**
-	 * Stops reading and closes the stream. If this is not reading, this method has
-	 * no effect.
+	 * Stops reading and closes the stream. If this is not reading, this method
+	 * has no effect.
 	 */
 	public void endReading() {
 		if (reader == null) {
@@ -203,8 +209,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	}
 
 	/**
-	 * Stops writing and closes the stream. If this is not writing, this method has
-	 * no effect.
+	 * Stops writing and closes the stream. If this is not writing, this method
+	 * has no effect.
 	 */
 	public void endWriting() {
 		if (writer == null) {
@@ -217,7 +223,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			// Don't pop up an ErrorDialog because the user probably doesn't care
+			// Don't pop up an ErrorDialog because the user probably doesn't
+			// care
 		}
 	}
 
@@ -268,8 +275,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 		catch (IOException e) {
 			e.printStackTrace();
 			new ErrorDialog("Potential error",
-					"Couldn't flush output stream, output file may be corrupted", e)
-					.setVisible(true);
+					"Couldn't flush output stream, output file may be corrupted",
+					e).setVisible(true);
 		}
 	}
 

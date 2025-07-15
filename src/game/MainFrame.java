@@ -53,8 +53,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		NORTH, SOUTH, WEST, EAST;
 
 		/**
-		 * {@code NORTH} if this is {@code SOUTH}, {@code WEST} if this is {@code EAST},
-		 * etc.
+		 * {@code NORTH} if this is {@code SOUTH}, {@code WEST} if this is
+		 * {@code EAST}, etc.
 		 * 
 		 * @return The opposite of this {@code Direction}
 		 */
@@ -75,9 +75,9 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 	}
 
 	/**
-	 * Creates a new {@code MainFrame} and populates it with all classes it depends
-	 * on. {@code gameInputHandler} is registered to this as a {@code KeyListener}
-	 * and {@code FocusListener}.
+	 * Creates a new {@code MainFrame} and populates it with all classes it
+	 * depends on. {@code gameInputHandler} is registered to this as a
+	 * {@code KeyListener} and {@code FocusListener}.
 	 * 
 	 * @param gameInputHandler {@code GameInputHandler} to register
 	 */
@@ -107,8 +107,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to load resource for taskbar icon", e)
-					.setVisible(true);
+			new ErrorDialog("Error", "Failed to load resource for taskbar icon",
+					e).setVisible(true);
 		}
 		addKeyListener(gameInputHandler);
 		addFocusListener(gameInputHandler);
@@ -125,8 +125,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 	}
 
 	/**
-	 * Sets width, height, and title for a {@code Level}. Also clears the previous
-	 * level.
+	 * Sets width, height, and title for a {@code Level}. Also clears the
+	 * previous level.
 	 * 
 	 * @param level Level to set up
 	 */
@@ -136,7 +136,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 
 		pack();  // set insets
 		width = level.width + getInsets().left + getInsets().right;
-		height = level.height + getInsets().top + getInsets().bottom + TitleBar.HEIGHT;
+		height = level.height + getInsets().top + getInsets().bottom
+				+ TitleBar.HEIGHT;
 		titleBar.setTitle(WINDOW_TITLE + " - " + level.name);
 	}
 
@@ -154,8 +155,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 	}
 
 	/**
-	 * Resizes this frame's preferred bounds. Respects minimum bounds as defined by
-	 * {@code WIDTH_MINIMUM} and {@code HEIGHT_MINIMUM}.
+	 * Resizes this frame's preferred bounds. Respects minimum bounds as defined
+	 * by {@code WIDTH_MINIMUM} and {@code HEIGHT_MINIMUM}.
 	 * 
 	 * @param change    new dimension size minus old dimension size
 	 * @param direction side of the window to move
@@ -200,11 +201,11 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 	}
 
 	/**
-	 * Incorporates all pending changes to x, y, width, and height, then lays out
-	 * components and repaints this.
+	 * Incorporates all pending changes to x, y, width, and height, then lays
+	 * out components and repaints this.
 	 * <p>
-	 * If this is called from anywhere other than the AWT event dispatching thread,
-	 * it will call itself from the AWT event dispatching thread.
+	 * If this is called from anywhere other than the AWT event dispatching
+	 * thread, it will call itself from the AWT event dispatching thread.
 	 */
 	public void incorporateChanges() {
 		if (!SwingUtilities.isEventDispatchThread()) {
@@ -226,7 +227,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		// Paint before packing to avoid stuttering issues
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
-		titleBar.paintImmediately(0, 0, titleBar.getWidth(), titleBar.getHeight());
+		titleBar.paintImmediately(0, 0, titleBar.getWidth(),
+				titleBar.getHeight());
 		x += xChange;
 		y += yChange;
 		width += widthChange;
@@ -271,7 +273,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 								ResizingSide.THICKNESS / 2);
 						break;
 					case SOUTH:
-						comp.setBounds(0, height - ResizingSide.THICKNESS - insetsY,
+						comp.setBounds(0,
+								height - ResizingSide.THICKNESS - insetsY,
 								width, ResizingSide.THICKNESS);
 						break;
 					case WEST:
@@ -282,7 +285,8 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 					case EAST:
 						comp.setBounds(width - ResizingSide.THICKNESS - insetsX,
 								TitleBar.HEIGHT, ResizingSide.THICKNESS,
-								height - ResizingSide.THICKNESS - TitleBar.HEIGHT);
+								height - ResizingSide.THICKNESS
+										- TitleBar.HEIGHT);
 				}
 			}
 

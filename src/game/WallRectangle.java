@@ -25,7 +25,8 @@ public class WallRectangle extends Rectangle {
 
 	@JsonCreator
 	public WallRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
-			@JsonProperty("width") int width, @JsonProperty("height") int height,
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height,
 			@JsonProperty("resizeBehavior") ResizeBehavior resizeBehavior) {
 		this(x, y, width, height, STAY_COLOR, resizeBehavior);
 
@@ -46,20 +47,24 @@ public class WallRectangle extends Rectangle {
 			g.drawLine(getX() + getWidth() - 1, getY(), getX() + getWidth() - 1,
 					getY() + getHeight() - 1);
 
-			for (int y = getY(); y < getY() + getHeight(); y += TICK_MARK_SIZE) {
-				g.drawLine(getX() + TICK_MARK_SIZE, y, getX(), y + TICK_MARK_SIZE);
+			for (int y = getY(); y < getY()
+					+ getHeight(); y += TICK_MARK_SIZE) {
+				g.drawLine(getX() + TICK_MARK_SIZE, y, getX(),
+						y + TICK_MARK_SIZE);
 				g.drawLine(getX() + getWidth() - 1, y,
-						getX() + getWidth() - TICK_MARK_SIZE - 1, y + TICK_MARK_SIZE);
+						getX() + getWidth() - TICK_MARK_SIZE - 1,
+						y + TICK_MARK_SIZE);
 			}
 		}
 
 		if (getResizeBehavior() == ResizeBehavior.PREVENT_Y) {
 			g.drawLine(getX(), getY(), getX() + getWidth() - 1, getY());
-			g.drawLine(getX(), getY() + getHeight() - 1, getX() + getWidth() - 1,
-					getY() + getHeight() - 1);
+			g.drawLine(getX(), getY() + getHeight() - 1,
+					getX() + getWidth() - 1, getY() + getHeight() - 1);
 
 			for (int x = getX(); x < getX() + getWidth(); x += TICK_MARK_SIZE) {
-				g.drawLine(x, getY() + TICK_MARK_SIZE, x + TICK_MARK_SIZE, getY());
+				g.drawLine(x, getY() + TICK_MARK_SIZE, x + TICK_MARK_SIZE,
+						getY());
 				g.drawLine(x, getY() + getHeight() - 1, x + TICK_MARK_SIZE,
 						getY() + getHeight() - TICK_MARK_SIZE - 1);
 			}

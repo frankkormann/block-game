@@ -27,8 +27,9 @@ public class ErrorDialog extends JDialog {
 	/**
 	 * Creates an {@code ErrorDialog} for {@code err} and displays it.
 	 * <p>
-	 * {@code message} and {@code err}'s short form are shown in the dialog's body,
-	 * and {@code err}'s full stack trace is hidden behind a "Details" button.
+	 * {@code message} and {@code err}'s short form are shown in the dialog's
+	 * body, and {@code err}'s full stack trace is hidden behind a "Details"
+	 * button.
 	 * 
 	 * @param title   {@code String} to display in the title bar
 	 * @param message short error message to display in the dialog body
@@ -38,7 +39,8 @@ public class ErrorDialog extends JDialog {
 		super((Frame) null, title, true);
 
 		try {
-			setIconImage(ImageIO.read(getClass().getResource(MainFrame.TASKBAR_ICON)));
+			setIconImage(ImageIO
+					.read(getClass().getResource(MainFrame.TASKBAR_ICON)));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -55,12 +57,14 @@ public class ErrorDialog extends JDialog {
 		JScrollPane scrollPane = new JScrollPane(stackTraceArea);
 		scrollPane.setVisible(false);
 
-		JPanel buttonPanel = createButtonsPanel("Details", "OK", "Copy", scrollPane,
-				stackTraceArea);
-		buttonPanel.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width,
-				buttonPanel.getPreferredSize().height));
+		JPanel buttonPanel = createButtonsPanel("Details", "OK", "Copy",
+				scrollPane, stackTraceArea);
+		buttonPanel.setPreferredSize(
+				new Dimension(scrollPane.getPreferredSize().width,
+						buttonPanel.getPreferredSize().height));
 
-		setAlignmentForAll(LEFT_ALIGNMENT, messageArea, buttonPanel, scrollPane);
+		setAlignmentForAll(LEFT_ALIGNMENT, messageArea, buttonPanel,
+				scrollPane);
 
 		add(messageArea);
 		add(buttonPanel);
@@ -81,15 +85,16 @@ public class ErrorDialog extends JDialog {
 	 * @return the built {@code JPanel}
 	 */
 	private JPanel createButtonsPanel(String toggleButtonLabel,
-			String disposeButtonLabel, String copyButtonLabel, Component toToggle,
-			JTextArea toCopy) {
+			String disposeButtonLabel, String copyButtonLabel,
+			Component toToggle, JTextArea toCopy) {
 		JPanel panel = new JPanel();
 
 		JButton toggleButton = createButton(toggleButtonLabel, e -> {
 			toToggle.setVisible(!toToggle.isVisible());
 			pack();
 		});
-		JButton disposeButton = createButton(disposeButtonLabel, e -> dispose());
+		JButton disposeButton = createButton(disposeButtonLabel,
+				e -> dispose());
 
 		JButton copyButton = createButton(copyButtonLabel, e -> {
 			toCopy.selectAll();
@@ -141,11 +146,12 @@ public class ErrorDialog extends JDialog {
 	}
 
 	/**
-	 * Assembles a {@code String} containing {@code err}'s stack trace. Each element
-	 * of the trace is on a new line.
+	 * Assembles a {@code String} containing {@code err}'s stack trace. Each
+	 * element of the trace is on a new line.
 	 * 
 	 * @param err {@code Exception} to take stack trace from
-	 * @return multi-line {@code String} representation of {@code err}'s stack trace
+	 * @return multi-line {@code String} representation of {@code err}'s stack
+	 *         trace
 	 */
 	private String buildStackTrace(Exception err) {
 		String trace = "";

@@ -100,12 +100,13 @@ public class TitleBar extends JPanel
 
 		JLabel icon = new JLabel();
 		try {
-			icon.setIcon(
-					new ImageIcon(ImageIO.read(getClass().getResource(TITLE_ICON))));
+			icon.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource(TITLE_ICON))));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to load resource for titlebar icon", e)
+			new ErrorDialog("Error",
+					"Failed to load resource for titlebar icon", e)
 					.setVisible(true);
 		}
 
@@ -132,8 +133,8 @@ public class TitleBar extends JPanel
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 			case "exit":
-				eventListener.dispatchEvent(
-						new WindowEvent(eventListener, WindowEvent.WINDOW_CLOSING));
+				eventListener.dispatchEvent(new WindowEvent(eventListener,
+						WindowEvent.WINDOW_CLOSING));
 				break;
 			case "minimize":
 				eventListener.setState(JFrame.ICONIFIED);
@@ -172,8 +173,8 @@ public class TitleBar extends JPanel
 	public void mouseExited(MouseEvent e) {}
 
 	/**
-	 * Simple button which sets its color depending on whether it is being hovered
-	 * over or not.
+	 * Simple button which sets its color depending on whether it is being
+	 * hovered over or not.
 	 */
 	private class TitleButton extends JButton {
 
@@ -206,11 +207,13 @@ public class TitleBar extends JPanel
 
 		private void setIcon(String path) {
 			try {
-				setIcon(new ImageIcon(ImageIO.read(getClass().getResource(path))));
+				setIcon(new ImageIcon(
+						ImageIO.read(getClass().getResource(path))));
 			}
 			catch (IOException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Failed to load resource for button icon", e)
+				new ErrorDialog("Error",
+						"Failed to load resource for button icon", e)
 						.setVisible(true);
 			}
 		}

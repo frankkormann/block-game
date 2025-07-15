@@ -59,9 +59,10 @@ public class MetaInputHandler extends KeyAdapter {
 	public MetaInputHandler(GameController listener) {
 		this.listener = listener;
 
-		fileChooser = new JFileChooser();  // global file chooser so it remembers which
-											  // directory the user was in if they open
-											  // it multiple times
+		fileChooser = new JFileChooser();  // global file chooser so it
+											  // remembers which directory the
+											  // user was in if they open it
+											  // multiple times
 		fileChooser.setFileFilter(
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 	}
@@ -69,7 +70,8 @@ public class MetaInputHandler extends KeyAdapter {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		for (MetaInput inp : MetaInput.values()) {
-			if (e.getKeyCode() == inp.keyCode && (e.getModifiersEx() ^ inp.mask) == 0) {
+			if (e.getKeyCode() == inp.keyCode
+					&& (e.getModifiersEx() ^ inp.mask) == 0) {
 				handleInput(inp);
 				break;
 			}
@@ -123,7 +125,8 @@ public class MetaInputHandler extends KeyAdapter {
 				saveFile = new File(saveFile.getPath() + ".rec");
 			}
 
-			if (fileChooserResult == JFileChooser.APPROVE_OPTION && saveFile.exists()) {
+			if (fileChooserResult == JFileChooser.APPROVE_OPTION
+					&& saveFile.exists()) {
 				String message = saveFile.getName()
 						+ " already exists.\nDo you want to replace it?";
 				canSave = JOptionPane.showConfirmDialog(fileChooser, message,

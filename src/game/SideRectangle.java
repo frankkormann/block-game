@@ -19,7 +19,8 @@ public class SideRectangle extends MovingRectangle {
 	private Direction direction;
 	private boolean actingLikeWall;
 
-	public SideRectangle(int x, int y, int width, int height, Direction direction) {
+	public SideRectangle(int x, int y, int width, int height,
+			Direction direction) {
 		super(x, y, width, height);
 		this.direction = direction;
 		actingLikeWall = false;
@@ -34,9 +35,11 @@ public class SideRectangle extends MovingRectangle {
 			case STAY:
 				return false;
 			case PREVENT_X:
-				return direction == Direction.WEST || direction == Direction.EAST;
+				return direction == Direction.WEST
+						|| direction == Direction.EAST;
 			case PREVENT_Y:
-				return direction == Direction.NORTH || direction == Direction.SOUTH;
+				return direction == Direction.NORTH
+						|| direction == Direction.SOUTH;
 			default:
 				return true;
 		}

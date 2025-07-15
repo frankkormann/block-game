@@ -24,7 +24,8 @@ public class GoalArea extends Area {
 
 	@JsonCreator
 	public GoalArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
-			@JsonProperty("width") int width, @JsonProperty("height") int height,
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height,
 			@JsonProperty("nextLevel") String nextLevel) {
 		super(x, y, width, height, DEFAULT_COLOR);
 		timer = 0;
@@ -32,8 +33,8 @@ public class GoalArea extends Area {
 		this.nextLevel = nextLevel;
 
 		if (nextLevel == "") {
-			System.err
-					.println("GoalArea at " + x + ", " + y + ": nextLevel is nothing");
+			System.err.println(
+					"GoalArea at " + x + ", " + y + ": nextLevel is nothing");
 		}
 	}
 
@@ -48,7 +49,8 @@ public class GoalArea extends Area {
 		// Create a loading bar effect as timer approaches TIMEOUT
 		g.setColor(getColor().darker());
 		int fillHeight = getHeight() * timer / TIMEOUT;
-		g.fillRect(getX(), getY() + getHeight() - fillHeight, getWidth(), fillHeight);
+		g.fillRect(getX(), getY() + getHeight() - fillHeight, getWidth(),
+				fillHeight);
 
 		g.dispose();
 	}
@@ -76,8 +78,8 @@ public class GoalArea extends Area {
 	}
 
 	/**
-	 * If {@code rect.isControlledByPlayer() == true}, increase the internal timer
-	 * that determines if this is activated or not.
+	 * If {@code rect.isControlledByPlayer() == true}, increase the internal
+	 * timer that determines if this is activated or not.
 	 * 
 	 * @param rect {@code MovingRectangle} to consider
 	 */
@@ -91,8 +93,8 @@ public class GoalArea extends Area {
 	/**
 	 * Marks that this has been used and should not be considered won anymore.
 	 * <p>
-	 * Until the player leaves and re-enters, calls to {@code hasWon()} will return
-	 * false.
+	 * Until the player leaves and re-enters, calls to {@code hasWon()} will
+	 * return false.
 	 */
 	public void markUsed() {
 		used = true;

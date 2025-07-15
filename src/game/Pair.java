@@ -20,7 +20,8 @@ public class Pair<F, S> {
 	public S second;
 
 	@JsonCreator
-	public Pair(@JsonProperty("first") F first, @JsonProperty("second") S second) {
+	public Pair(@JsonProperty("first") F first,
+			@JsonProperty("second") S second) {
 		this.first = first;
 		this.second = second;
 	}

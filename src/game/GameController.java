@@ -59,8 +59,8 @@ public class GameController extends WindowAdapter {
 	}
 
 	/**
-	 * Creates a {@code GameController} and populates it with all classes it depends
-	 * on.
+	 * Creates a {@code GameController} and populates it with all classes it
+	 * depends on.
 	 */
 	public GameController() {
 		gameInputHandler = new GameInputHandler();
@@ -102,8 +102,8 @@ public class GameController extends WindowAdapter {
 	}
 
 	/**
-	 * Restarts and reloads the current level, and stops reading from the recording
-	 * file if there is one.
+	 * Restarts and reloads the current level, and stops reading from the
+	 * recording file if there is one.
 	 */
 	public void reloadLevel() {
 		gameInputHandler.endReading();
@@ -116,12 +116,13 @@ public class GameController extends WindowAdapter {
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			level = mapper.readValue(getClass().getResourceAsStream(levelResource),
-					Level.class);
+			level = mapper.readValue(
+					getClass().getResourceAsStream(levelResource), Level.class);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Could not load level '" + levelResource + "'", e)
+			new ErrorDialog("Error",
+					"Could not load level '" + levelResource + "'", e)
 					.setVisible(true);
 
 			if (mainFrame.isVisible()) {
@@ -220,16 +221,19 @@ public class GameController extends WindowAdapter {
 	 */
 	private void beginTempRecording() {
 		gameInputHandler.endWriting();
-		recording = null;  // In case a new file cannot be created, still stop writing
+		recording = null;  // In case a new file cannot be created, still stop
+							  // writing
 							  // to this one
 		try {
 			recording = File.createTempFile("blockgame", null);
-			gameInputHandler.beginWriting(Files.newOutputStream(recording.toPath()));
+			gameInputHandler
+					.beginWriting(Files.newOutputStream(recording.toPath()));
 			recording.deleteOnExit();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			// Don't pop up an ErrorDialog because the user probably doesn't care, and
+			// Don't pop up an ErrorDialog because the user probably doesn't
+			// care, and
 			// it would pop up on every level
 		}
 	}
@@ -237,18 +241,19 @@ public class GameController extends WindowAdapter {
 	/**
 	 * Processes a {@code MetaInput} by taking the action expected of it.
 	 * <p>
-	 * The {@code MetaInput} is expected to not require any extra data to process.
-	 * {@code MetaInput}s which require a {@code File} should be passed to
-	 * {@link #processMetaInput(MetaInput, File)} instead.
+	 * The {@code MetaInput} is expected to not require any extra data to
+	 * process. {@code MetaInput}s which require a {@code File} should be passed
+	 * to {@link #processMetaInput(MetaInput, File)} instead.
 	 * 
 	 * @param input {@code MetaInput} to process
 	 * 
-	 * @throws IllegalArgumentException if {@code input} requires extra data or is
-	 *                                  invalid
+	 * @throws IllegalArgumentException if {@code input} requires extra data or
+	 *                                  is invalid
 	 * 
 	 * @see #processMetaInput(MetaInput, File)
 	 */
-	public void processMetaInput(MetaInput input) throws IllegalArgumentException {
+	public void processMetaInput(MetaInput input)
+			throws IllegalArgumentException {
 		switch (input) {
 			case PAUSE:
 				paused = !paused;
@@ -283,8 +288,9 @@ public class GameController extends WindowAdapter {
 	 * Processes a {@code MetaInput} which requires a {@code File} by taking the
 	 * action expected of it.
 	 * <p>
-	 * The {@code MetaInput} must require a {@code File} to be processed. If it does
-	 * not, it should be passed to {@link #processMetaInput(MetaInput)} instead.
+	 * The {@code MetaInput} must require a {@code File} to be processed. If it
+	 * does not, it should be passed to {@link #processMetaInput(MetaInput)}
+	 * instead.
 	 * 
 	 * @param input {@code MetaInput} to process
 	 * @param file  {@code File} which is involved
@@ -309,7 +315,8 @@ public class GameController extends WindowAdapter {
 					break;
 				case PLAY_RECORDING:
 					errorWord = "open";
-					gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
+					gameInputHandler
+							.beginReading(Files.newInputStream(file.toPath()));
 					break;
 				default:
 					throw new IllegalArgumentException("Invalid MetaInput");
@@ -317,8 +324,9 @@ public class GameController extends WindowAdapter {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Could not " + errorWord + " file '" + file + "'",
-					e).setVisible(true);
+			new ErrorDialog("Error",
+					"Could not " + errorWord + " file '" + file + "'", e)
+					.setVisible(true);
 		}
 	}
 

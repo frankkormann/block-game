@@ -74,12 +74,12 @@ public class PhysicsSimulator {
 	public void createSides(int width, int height, int xOffset, int yOffset) {
 		sideRectangles.put(Direction.NORTH,
 				new SideRectangle(xOffset, yOffset, width, 1, Direction.NORTH));
-		sideRectangles.put(Direction.SOUTH, new SideRectangle(xOffset, yOffset + height,
-				width, 1, Direction.SOUTH));
+		sideRectangles.put(Direction.SOUTH, new SideRectangle(xOffset,
+				yOffset + height, width, 1, Direction.SOUTH));
 		sideRectangles.put(Direction.WEST,
 				new SideRectangle(xOffset, yOffset, 1, height, Direction.WEST));
-		sideRectangles.put(Direction.EAST,
-				new SideRectangle(xOffset + width, yOffset, 1, height, Direction.EAST));
+		sideRectangles.put(Direction.EAST, new SideRectangle(xOffset + width,
+				yOffset, 1, height, Direction.EAST));
 
 		for (SideRectangle side : sideRectangles.values()) {
 			for (Area attached : side.getAttachments()) {
@@ -111,18 +111,19 @@ public class PhysicsSimulator {
 	 * This should be called every frame to calculate the next frame.
 	 * <p>
 	 * Moves all {@code MovingRectangles} according to player input, their
-	 * velocities from the previous frame, and natural forces (gravity, friction).
-	 * Also resolves collision between {@code Rectangles} and apply all
-	 * {@code Areas} that need to be applied.
+	 * velocities from the previous frame, and natural forces (gravity,
+	 * friction). Also resolves collision between {@code Rectangles} and apply
+	 * all {@code Areas} that need to be applied.
 	 * 
-	 * @param gameInputs {@code Set} of {@code Input}s from the player this frame
+	 * @param gameInputs {@code Set} of {@code Input}s from the player this
+	 *                   frame
 	 * @param width      Width of the play area
 	 * @param height     Height of the play area
 	 * @param xOffset    X coordinate of top left corner
 	 * @param yOffset    Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<GameInput> gameInputs, int width, int height,
-			int xOffset, int yOffset) {
+	public void updateAndMoveObjects(Set<GameInput> gameInputs, int width,
+			int height, int xOffset, int yOffset) {
 
 		applyInputsToPlayerRectangles(gameInputs);
 		moveAllMovingRectangles();
@@ -169,16 +170,16 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * For each {@code MovingRectangle}, applies {@code Area}s, applies friction and
-	 * gravity, applies movement from velocity, and computes collision.
+	 * For each {@code MovingRectangle}, applies {@code Area}s, applies friction
+	 * and gravity, applies movement from velocity, and computes collision.
 	 */
 	private void moveAllMovingRectangles() {
 
 		movingRectangles.forEach(r -> r.updateLastPosition());
 
 		// sort by distance from bottom of screen for consistency
-		movingRectangles.sort(
-				(r1, r2) -> r2.getY() + r2.getHeight() - r1.getY() - r1.getHeight());
+		movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight() - r1.getY()
+				- r1.getHeight());
 
 		for (MovingRectangle rect : movingRectangles) {
 
@@ -198,8 +199,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Tests if {@code rect} intersects any {@code Area}s and applies effects of any
-	 * it does intersect.
+	 * Tests if {@code rect} intersects any {@code Area}s and applies effects of
+	 * any it does intersect.
 	 * 
 	 * @param rect {@code MovingRectangle} to consider
 	 */
@@ -211,8 +212,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Tests {@code rect} against {@code GoalArea}s and updates {@code nextLevel} if
-	 * necessary.
+	 * Tests {@code rect} against {@code GoalArea}s and updates
+	 * {@code nextLevel} if necessary.
 	 * 
 	 * @param rect {@code MovingRectangle} to consider
 	 */
@@ -228,8 +229,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Accelerates {@code rect} downward due to gravity and reduces x-velocity due
-	 * to friction if appropriate.
+	 * Accelerates {@code rect} downward due to gravity and reduces x-velocity
+	 * due to friction if appropriate.
 	 *
 	 * @param rect {@code MovingRectangle} to consider
 	 */
@@ -247,8 +248,8 @@ public class PhysicsSimulator {
 
 	/**
 	 * Calculate new positions for the window sides and calculate collision from
-	 * them. Add appropriate resize values to {@code sideRectangleResizes} if the
-	 * current window size is too small.
+	 * them. Add appropriate resize values to {@code sideRectangleResizes} if
+	 * the current window size is too small.
 	 * 
 	 * @param width   Width of play area
 	 * @param height  Height of play area
@@ -265,18 +266,22 @@ public class PhysicsSimulator {
 			Direction direction = side.getDirection();
 			int difference = 0;
 			switch (direction) {
-				// Width/height are super high to prevent bug where MovingRectangles
-				// could phase through the floor because the floor was not wide enough
+				// Width/height are super high to prevent bug where
+				// MovingRectangles
+				// could phase through the floor because the floor was not wide
+				// enough
 				case NORTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
-					difference = calculateCollisionForSide(side, xOffset - 50 * width,
-							yOffset - side.getHeight(), 101 * width, side.getHeight());
+					difference = calculateCollisionForSide(side,
+							xOffset - 50 * width, yOffset - side.getHeight(),
+							101 * width, side.getHeight());
 					break;
 				case SOUTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight()
 							- r1.getY() - r1.getHeight());
-					difference = calculateCollisionForSide(side, xOffset - 50 * width,
-							yOffset + height, 101 * width, side.getHeight());
+					difference = calculateCollisionForSide(side,
+							xOffset - 50 * width, yOffset + height, 101 * width,
+							side.getHeight());
 					break;
 				case WEST:
 					movingRectangles.sort((r1, r2) -> r1.getX() - r2.getX());
@@ -287,8 +292,9 @@ public class PhysicsSimulator {
 				case EAST:
 					movingRectangles.sort((r1, r2) -> r2.getX() + r2.getWidth()
 							- r1.getX() - r1.getWidth());
-					difference = calculateCollisionForSide(side, xOffset + width,
-							yOffset - 50 * height, side.getWidth(), 101 * height);
+					difference = calculateCollisionForSide(side,
+							xOffset + width, yOffset - 50 * height,
+							side.getWidth(), 101 * height);
 					break;
 			}
 			sideRectangleResizes.put(direction, difference);
@@ -299,7 +305,8 @@ public class PhysicsSimulator {
 	/**
 	 * Resizes a side and handles its collision.
 	 * <p>
-	 * {@code movingRectangles} must be sorted by ascending distance from the side.
+	 * {@code movingRectangles} must be sorted by ascending distance from the
+	 * side.
 	 * 
 	 * @param side      Side to move
 	 * @param newX      New x position
@@ -309,37 +316,41 @@ public class PhysicsSimulator {
 	 * 
 	 * @return Amount side was pushed back during collision
 	 */
-	private int calculateCollisionForSide(SideRectangle side, int newX, int newY,
-			int newWidth, int newHeight) {
+	private int calculateCollisionForSide(SideRectangle side, int newX,
+			int newY, int newWidth, int newHeight) {
 		side.setX(newX);
 		side.setY(newY);
 		side.setWidth(newWidth);
 		side.setHeight(newHeight);
 
-		sideRectangles.get(side.getDirection().getOpposite()).setActLikeWall(true);
+		sideRectangles.get(side.getDirection().getOpposite())
+				.setActLikeWall(true);
 
 		int[] pushedBack = propagateCollision(side, movingRectangles, null);
 
-		sideRectangles.get(side.getDirection().getOpposite()).setActLikeWall(false);
+		sideRectangles.get(side.getDirection().getOpposite())
+				.setActLikeWall(false);
 
-		if (pushedBack[0] != 0) {  // Infer side's direction based on how it collided
+		if (pushedBack[0] != 0) {  // Infer side's direction based on how it
+									  // collided
 			return pushedBack[0];
 		}
 		return pushedBack[1];
 	}
 
 	/**
-	 * Moves {@code rect} so that it does not intersect any {@code WallRectangles}.
-	 * Moves other {@code MovingRectangles} so that they do not intersect
-	 * {@code rect}. Acts recursively on each {@code MovingRectangle} moved by
-	 * {@code rect}.
+	 * Moves {@code rect} so that it does not intersect any
+	 * {@code WallRectangles}. Moves other {@code MovingRectangles} so that they
+	 * do not intersect {@code rect}. Acts recursively on each
+	 * {@code MovingRectangle} moved by {@code rect}.
 	 * <p>
 	 * {@code WallRectangle} collisions are calculated before
-	 * {@code MovingRectangle} collisions. If {@code rect} collides with two or more
-	 * {@code MovingRectangles}, an extra alignment step is performed to make sure
-	 * nothing was moved that should not have been.
+	 * {@code MovingRectangle} collisions. If {@code rect} collides with two or
+	 * more {@code MovingRectangles}, an extra alignment step is performed to
+	 * make sure nothing was moved that should not have been.
 	 * <p>
-	 * Note: WallRectangles are read from global {@code List<WallRectangle> walls}
+	 * Note: WallRectangles are read from global
+	 * {@code List<WallRectangle> walls}
 	 * 
 	 * @param rect         {@code MovingRectangle} to propagate collision from
 	 * @param colliders    {@code List} of {@code MovingRectangles} to calculate
@@ -348,7 +359,8 @@ public class PhysicsSimulator {
 	 * 
 	 * @return { Δx, Δy } amount {@code rect} was pushed back
 	 */
-	// parameter collisionMap is used to track which Rectangles pushed each other
+	// parameter collisionMap is used to track which Rectangles pushed each
+	// other
 	// and how much
 	private int[] propagateCollision(MovingRectangle rect,
 			List<MovingRectangle> colliders,
@@ -380,14 +392,15 @@ public class PhysicsSimulator {
 				}
 			}
 
-			collisionData[0] = -correctGrowthForCollision(rect, -collisionData[0],
-					true);
-			collisionData[1] = -correctGrowthForCollision(rect, -collisionData[1],
-					false);
+			collisionData[0] = -correctGrowthForCollision(rect,
+					-collisionData[0], true);
+			collisionData[1] = -correctGrowthForCollision(rect,
+					-collisionData[1], false);
 
-			collisionData[0] = correctGrowthForCollision(other, collisionData[0], true);
-			collisionData[1] = correctGrowthForCollision(other, collisionData[1],
-					false);
+			collisionData[0] = correctGrowthForCollision(other,
+					collisionData[0], true);
+			collisionData[1] = correctGrowthForCollision(other,
+					collisionData[1], false);
 
 			other.moveCollision(collisionData[0], collisionData[1]);
 			collisionMap.put(other,
@@ -395,7 +408,8 @@ public class PhysicsSimulator {
 
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
-			if (collisionData[0] != 0) {  // rect should only be pushed back in the
+			if (collisionData[0] != 0) {  // rect should only be pushed back in
+										  // the
 										  // direction it pushed other
 				rect.moveCollision(pushback[0], 0);
 				pushedAmount[0] += pushback[0];
@@ -411,7 +425,8 @@ public class PhysicsSimulator {
 		pushedAmount[0] += wallPushback[0];
 		pushedAmount[1] += wallPushback[1];
 
-		// Pull back Rectangles that collided to be aligned with the edge of this
+		// Pull back Rectangles that collided to be aligned with the edge of
+		// this
 		for (MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).first == rect) {
 				pullback(rect, c, collisionMap);
@@ -432,9 +447,11 @@ public class PhysicsSimulator {
 
 		int[] pushedBack = new int[] { 0, 0 };
 
-		Stream.concat(
-				sideRectangles.values().stream().filter(s -> s.isActingLikeWall()),
-				walls.stream()).map(w -> collideWithWall(rect, w)).forEach(a -> {
+		Stream.concat(sideRectangles.values()
+				.stream()
+				.filter(s -> s.isActingLikeWall()), walls.stream())
+				.map(w -> collideWithWall(rect, w))
+				.forEach(a -> {
 					pushedBack[0] += a[0];
 					pushedBack[1] += a[1];
 				});
@@ -469,26 +486,34 @@ public class PhysicsSimulator {
 			}
 		}
 
-		collisionData[0] = correctGrowthForCollision(rect, collisionData[0], true);
-		collisionData[1] = correctGrowthForCollision(rect, collisionData[1], false);
+		collisionData[0] = correctGrowthForCollision(rect, collisionData[0],
+				true);
+		collisionData[1] = correctGrowthForCollision(rect, collisionData[1],
+				false);
 
-		int[] originalMovement = new int[] { collisionData[0], collisionData[1] };
+		int[] originalMovement = new int[] { collisionData[0],
+				collisionData[1] };
 
 		if (collisionData[0] != 0) {
-			fudgeCollision(collisionData, wall.getY() - rect.getY() - rect.getHeight(),
+			fudgeCollision(collisionData,
+					wall.getY() - rect.getY() - rect.getHeight(),
 					WALL_COLLISION_LEEWAY_Y, false);
-			fudgeCollision(collisionData, wall.getY() + wall.getHeight() - rect.getY(),
+			fudgeCollision(collisionData,
+					wall.getY() + wall.getHeight() - rect.getY(),
 					WALL_COLLISION_LEEWAY_Y, false);
 		}
 		else if (collisionData[1] > 0) {
-			fudgeCollision(collisionData, wall.getX() - rect.getX() - rect.getWidth(),
+			fudgeCollision(collisionData,
+					wall.getX() - rect.getX() - rect.getWidth(),
 					WALL_COLLISION_LEEWAY_X, true);
-			fudgeCollision(collisionData, wall.getX() + wall.getWidth() - rect.getX(),
+			fudgeCollision(collisionData,
+					wall.getX() + wall.getWidth() - rect.getX(),
 					WALL_COLLISION_LEEWAY_X, true);
 		}
 
 		// This does not check whether the fudged collision would push another
-		// MovingRectangle into a wall, but any examples I could think of where that
+		// MovingRectangle into a wall, but any examples I could think of where
+		// that
 		// would cause a problem are too contrived to worry about
 		// Also, implementing that check would be much more difficult
 		if (wouldIntersectAWall(rect, collisionData[0], collisionData[1])) {
@@ -501,20 +526,21 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * If {@code |sliverSize| <= threshold}, alters {@code movement} to be {@code 0}
-	 * in one direction and {@code sliverSize} in the other.
+	 * If {@code |sliverSize| <= threshold}, alters {@code movement} to be
+	 * {@code 0} in one direction and {@code sliverSize} in the other.
 	 * <p>
-	 * In the context of a collision, let Rectangle A be pushing out Rectangle B. If
-	 * Rectangle B is only colliding with a small sliver of Rectangle A, this
-	 * changes the movement of Rectangle B from one direction (pushed out by the
-	 * sliver) into another (bumped on top of the sliver).
+	 * In the context of a collision, let Rectangle A be pushing out Rectangle
+	 * B. If Rectangle B is only colliding with a small sliver of Rectangle A,
+	 * this changes the movement of Rectangle B from one direction (pushed out
+	 * by the sliver) into another (bumped on top of the sliver).
 	 * 
-	 * @param movement   {@code int[]} containing movement information in x and y
-	 *                   directions
-	 * @param sliverSize amount of Rectangle A that Rectangle B is colliding with
+	 * @param movement   {@code int[]} containing movement information in x and
+	 *                   y directions
+	 * @param sliverSize amount of Rectangle A that Rectangle B is colliding
+	 *                   with
 	 * @param threshold  maximum amount of leeway
-	 * @param isX        {@code true} if {@code sliverSize} and {@code threshold}
-	 *                   represent values in the x direction
+	 * @param isX        {@code true} if {@code sliverSize} and
+	 *                   {@code threshold} represent values in the x direction
 	 */
 	private void fudgeCollision(int[] movement, int sliverSize, int threshold,
 			boolean isX) {
@@ -525,8 +551,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Returns {@code true} if {@code rect} would intersect a {@code WallRectangle}
-	 * given the proposed movement.
+	 * Returns {@code true} if {@code rect} would intersect a
+	 * {@code WallRectangle} given the proposed movement.
 	 * 
 	 * @param rect    {@code MovingRectangle} to consider
 	 * @param xChange proposed change in the x direction
@@ -536,11 +562,13 @@ public class PhysicsSimulator {
 	 */
 	private boolean wouldIntersectAWall(MovingRectangle rect, int xChange,
 			int yChange) {
-		MovingRectangle potentialRect = new MovingRectangle(rect.getX() + xChange,
-				rect.getY() + yChange, rect.getWidth(), rect.getHeight());
+		MovingRectangle potentialRect = new MovingRectangle(
+				rect.getX() + xChange, rect.getY() + yChange, rect.getWidth(),
+				rect.getHeight());
 
 		for (WallRectangle wall : walls) {
-			if (wall.intersectsX(potentialRect) && wall.intersectsY(potentialRect)) {
+			if (wall.intersectsX(potentialRect)
+					&& wall.intersectsY(potentialRect)) {
 				return true;
 			}
 		}
@@ -551,17 +579,18 @@ public class PhysicsSimulator {
 	 * Calculate how to move {@code other} so that it does not intersect
 	 * {@code rect}. Returns <code>{ 0, 0 }</code> if {@code rect == other}.
 	 * <p>
-	 * Usually, this will return a movement in only one direction (x or y) and the
-	 * other direction will be {@code 0}. However, if {@code other} was not
+	 * Usually, this will return a movement in only one direction (x or y) and
+	 * the other direction will be {@code 0}. However, if {@code other} was not
 	 * intersecting {@code rect} at all on the previous frame and is now
 	 * intersecting {@code rect} on both the x and y axes, this will return a
 	 * movement in both directions. This will usually happen when {@code other}
-	 * clips the corner of {@code rect}. Moving {@code other} in either direction
-	 * will be sufficient to resolve the collision with {@code rect}. The caller
-	 * should decide which direction is appropriate for the situation.
+	 * clips the corner of {@code rect}. Moving {@code other} in either
+	 * direction will be sufficient to resolve the collision with {@code rect}.
+	 * The caller should decide which direction is appropriate for the
+	 * situation.
 	 * <p>
-	 * {@code calculateCollision(rect, other)} will always return the negative of
-	 * {@code calculateCollision(other, rect)}.
+	 * {@code calculateCollision(rect, other)} will always return the negative
+	 * of {@code calculateCollision(other, rect)}.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code MovingRectangle} that will move
@@ -578,7 +607,8 @@ public class PhysicsSimulator {
 		int yChange = 0;
 		boolean inBoundsX = other.intersectsX(rect);
 		boolean inBoundsY = other.intersectsY(rect);
-		// "Used to be" values so Rectangles can tell whether they should be moved in x
+		// "Used to be" values so Rectangles can tell whether they should be
+		// moved in x
 		// or y direction
 		boolean usedToBeInBoundsX = other.usedToIntersectX(rect);
 		boolean usedToBeInBoundsY = other.usedToIntersectY(rect);
@@ -595,7 +625,8 @@ public class PhysicsSimulator {
 				yChange = pullToY(rect, other);
 			}
 		}
-		// These account for when a rectangle would pass through another diagonally
+		// These account for when a rectangle would pass through another
+		// diagonally
 		else if (inBoundsX && usedToBeInBoundsY) {
 			xChange = pullToX(rect, other);
 		}
@@ -603,12 +634,15 @@ public class PhysicsSimulator {
 			yChange = pullToY(rect, other);
 		}
 		else {
-			// If other started on one side of this and ended up on the opposite side,
+			// If other started on one side of this and ended up on the opposite
+			// side,
 			// it must have collided between frames
 			int xSign = (int) Math.signum(rect.getX() - other.getX());
 			int ySign = (int) Math.signum(rect.getY() - other.getY());
-			int xOldSign = (int) Math.signum(rect.getLastX() - other.getLastX());
-			int yOldSign = (int) Math.signum(rect.getLastY() - other.getLastY());
+			int xOldSign = (int) Math
+					.signum(rect.getLastX() - other.getLastX());
+			int yOldSign = (int) Math
+					.signum(rect.getLastY() - other.getLastY());
 			if ((xSign != xOldSign) && (inBoundsY || usedToBeInBoundsY)) {
 				xChange = pullToX(rect, other);
 			}
@@ -629,8 +663,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Reduces the growth of {@code rect} if necessary and returns the new amount to
-	 * move it by.
+	 * Reduces the growth of {@code rect} if necessary and returns the new
+	 * amount to move it by.
 	 * 
 	 * @param rect     {@code MovingRectangle} to consider
 	 * @param movement amount {@code rect} is supposed to move by
@@ -680,15 +714,15 @@ public class PhysicsSimulator {
 
 	/**
 	 * Called by {@link#propagateCollision} to traverse through
-	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull the
-	 * rectangles associated with {@code other} back to {@code other}.
+	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull
+	 * the rectangles associated with {@code other} back to {@code other}.
 	 * 
 	 * @param rect         {@code Rectangle} to align with
 	 * @param other        {@code Rectangle} to pull back
-	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how much
-	 *                     it was pushed by in each direction
-	 * @param direction    boolean representing direction; {@code true} for x and
-	 *                     {@code false} for y
+	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how
+	 *                     much it was pushed by in each direction
+	 * @param direction    boolean representing direction; {@code true} for x
+	 *                     and {@code false} for y
 	 */
 	private void pullback(Rectangle rect, MovingRectangle other,
 			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
@@ -720,8 +754,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Calculate how far to move {@code other} to be adjacent to {@code rect} in the
-	 * x direction.
+	 * Calculate how far to move {@code other} to be adjacent to {@code rect} in
+	 * the x direction.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
@@ -736,8 +770,8 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Calculate how far to move {@code other} to be adjacent to {@code rect} in the
-	 * y direction.
+	 * Calculate how far to move {@code other} to be adjacent to {@code rect} in
+	 * the y direction.
 	 * 
 	 * @param rect  {@code Rectangle} that is considered stationary
 	 * @param other {@code Rectangle} that will move
@@ -755,8 +789,8 @@ public class PhysicsSimulator {
 	 * Returns the resource for the next level if a {@code GoalArea} has been
 	 * activated. Otherwise, returns the empty string.
 	 * 
-	 * @return resource name of the next level, or the empty string if there is no
-	 *         next level yet
+	 * @return resource name of the next level, or the empty string if there is
+	 *         no next level yet
 	 */
 	public String getNextLevel() {
 		return nextLevel;
