@@ -9,7 +9,12 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * Handles inputs that are not directly related to playing the game.
+ * Reports player input which is not directly related to playing the game, for
+ * example pausing or reloading the level.
+ * <p>
+ * If an input requires multiple pieces to be acted on, this will interrupt the
+ * game to get the extra information. For instance, loading a file requires
+ * asking the player which file to load.
  * 
  * @author Frank Kormann
  */
@@ -46,7 +51,8 @@ public class MetaInputHandler extends KeyAdapter {
 	private JFileChooser fileChooser;
 
 	/**
-	 * Creates a new {@code MetaInputHandler} which affects {@code actionListener}.
+	 * Creates a new {@code MetaInputHandler} which passes events to
+	 * {@code actionListener}.
 	 * 
 	 * @param actionListener {@code GameController} to receive events
 	 */
