@@ -54,7 +54,8 @@ class NumberWriterTest {
 	}
 
 	@Test
-	void a_single_zero_then_the_number_of_zeros_is_written() throws IOException {
+	void a_single_zero_then_the_number_of_zeros_is_written()
+			throws IOException {
 		int numZeros = 50;
 		for (int i = 0; i < numZeros; i++) {
 			writer.writeByte(0);

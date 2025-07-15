@@ -69,7 +69,8 @@ class GrowAreaTest {
 			rect.setX(50);
 			area.handle(rect);
 
-			assertEquals(area.getX() + area.getWidth(), rect.getX() + rect.getWidth());
+			assertEquals(area.getX() + area.getWidth(),
+					rect.getX() + rect.getWidth());
 			assertEquals(area.getX(), rect.getX());
 		}
 	}

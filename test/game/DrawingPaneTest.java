@@ -49,7 +49,8 @@ class DrawingPaneTest {
 		assertNotEquals(blankRGB, bufferedImage.getRGB(x, y));
 		assertNotEquals(blankRGB, bufferedImage.getRGB(x + width - 1, y));
 		assertNotEquals(blankRGB, bufferedImage.getRGB(x, y + height - 1));
-		assertNotEquals(blankRGB, bufferedImage.getRGB(x + width - 1, y + height - 1));
+		assertNotEquals(blankRGB,
+				bufferedImage.getRGB(x + width - 1, y + height - 1));
 	}
 
 	@Test
@@ -81,8 +82,10 @@ class DrawingPaneTest {
 		int otherRGB = bufferedImage.getRGB(other.getX() + other.getWidth() - 1,
 				other.getY() + other.getHeight() - 1);
 
-		assertNotEquals(rectRGB, bufferedImage.getRGB(drawable.x + drawable.width - 1,
-				drawable.y + drawable.height - 1));
-		assertEquals(otherRGB, bufferedImage.getRGB(other.getX(), other.getY()));
+		assertNotEquals(rectRGB,
+				bufferedImage.getRGB(drawable.x + drawable.width - 1,
+						drawable.y + drawable.height - 1));
+		assertEquals(otherRGB,
+				bufferedImage.getRGB(other.getX(), other.getY()));
 	}
 }

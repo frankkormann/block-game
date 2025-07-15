@@ -27,7 +27,8 @@ class WallRectangleTest {
 			assertEquals(rgb, bufferedImage.getRGB(x, y));
 		}
 		catch (AssertionError e) {
-			System.out.println("Pixel color at " + x + ", " + y + " assertion failed");
+			System.out.println(
+					"Pixel color at " + x + ", " + y + " assertion failed");
 			throw e;
 		}
 	}
@@ -40,7 +41,8 @@ class WallRectangleTest {
 		g.dispose();
 
 		for (int y = wall.getY(); y < wall.getY() + wall.getHeight(); y++) {
-			assertPixelColor(wall.getX(), y, WallRectangle.PREVENT_COLOR.getRGB());
+			assertPixelColor(wall.getX(), y,
+					WallRectangle.PREVENT_COLOR.getRGB());
 			assertPixelColor(wall.getX() + wall.getWidth() - 1, y,
 					WallRectangle.PREVENT_COLOR.getRGB());
 		}
@@ -54,7 +56,8 @@ class WallRectangleTest {
 		g.dispose();
 
 		for (int x = wall.getX(); x < wall.getX() + wall.getWidth(); x++) {
-			assertPixelColor(x, wall.getY(), WallRectangle.PREVENT_COLOR.getRGB());
+			assertPixelColor(x, wall.getY(),
+					WallRectangle.PREVENT_COLOR.getRGB());
 			assertPixelColor(x, wall.getY() + wall.getHeight() - 1,
 					WallRectangle.PREVENT_COLOR.getRGB());
 		}

@@ -21,13 +21,14 @@ class ResizingSideTest {
 		resizable = new ResizableMock();
 	}
 
-	private void clickAndDrag(ResizingSide side, int x1, int y1, int x2, int y2) {
-		// Use constructors with xAbs and yAbs because the dummy JLabel isn't actually
-		// on screen
-		side.mousePressed(new MouseEvent(new JLabel(), MouseEvent.MOUSE_CLICKED, 1l, 0,
-				x1, y1, x1, y1, 1, false, MouseEvent.NOBUTTON));
-		side.mouseDragged(new MouseEvent(new JLabel(), MouseEvent.MOUSE_DRAGGED, 1l, 0,
-				x2, y2, x2, y2, 1, false, MouseEvent.NOBUTTON));
+	private void clickAndDrag(ResizingSide side, int x1, int y1, int x2,
+			int y2) {
+		// Use constructors with xAbs and yAbs because the dummy JLabel isn't
+		// actually on screen
+		side.mousePressed(new MouseEvent(new JLabel(), MouseEvent.MOUSE_CLICKED,
+				1l, 0, x1, y1, x1, y1, 1, false, MouseEvent.NOBUTTON));
+		side.mouseDragged(new MouseEvent(new JLabel(), MouseEvent.MOUSE_DRAGGED,
+				1l, 0, x2, y2, x2, y2, 1, false, MouseEvent.NOBUTTON));
 	}
 
 	@Test

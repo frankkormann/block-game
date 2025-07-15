@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Test;
 import mocks.MovableMock;
 import mocks.WindowEventReporterFrame;
 
-//These tests will skip if in a headless environment (an environment that doesn't
-//support keyboard, display, etc.)
+// These tests will skip if in a headless environment (an environment that doesn't
+// support keyboard, display, etc.)
 class TitleBarTest {
 
 	TitleBar titleBar;
@@ -35,12 +35,15 @@ class TitleBarTest {
 	}
 
 	private void clickAndDrag(int x1, int y1, int x2, int y2) {
-		// Use constructors with xAbs and yAbs because the dummy JLabel isn't actually
+		// Use constructors with xAbs and yAbs because the dummy JLabel isn't
+		// actually
 		// on screen
-		titleBar.mousePressed(new MouseEvent(new JLabel(), MouseEvent.MOUSE_CLICKED, 1l,
-				0, x1, y1, x1, y1, 1, false, MouseEvent.NOBUTTON));
-		titleBar.mouseDragged(new MouseEvent(new JLabel(), MouseEvent.MOUSE_DRAGGED, 1l,
-				0, x2, y2, x2, y2, 1, false, MouseEvent.NOBUTTON));
+		titleBar.mousePressed(
+				new MouseEvent(new JLabel(), MouseEvent.MOUSE_CLICKED, 1l, 0,
+						x1, y1, x1, y1, 1, false, MouseEvent.NOBUTTON));
+		titleBar.mouseDragged(
+				new MouseEvent(new JLabel(), MouseEvent.MOUSE_DRAGGED, 1l, 0,
+						x2, y2, x2, y2, 1, false, MouseEvent.NOBUTTON));
 	}
 
 	@Test
@@ -65,16 +68,16 @@ class TitleBarTest {
 
 	@Test
 	void can_close_frame() {
-		titleBar.actionPerformed(
-				new ActionEvent(titleBar, ActionEvent.ACTION_PERFORMED, "exit"));
+		titleBar.actionPerformed(new ActionEvent(titleBar,
+				ActionEvent.ACTION_PERFORMED, "exit"));
 
 		assertEquals(WindowEvent.WINDOW_CLOSING, dummyFrame.lastEventReceived);
 	}
 
 	@Test
 	void can_minimize_frame() {
-		titleBar.actionPerformed(
-				new ActionEvent(titleBar, ActionEvent.ACTION_PERFORMED, "minimize"));
+		titleBar.actionPerformed(new ActionEvent(titleBar,
+				ActionEvent.ACTION_PERFORMED, "minimize"));
 
 		assertEquals(JFrame.ICONIFIED, dummyFrame.getState());
 	}

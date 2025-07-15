@@ -38,8 +38,8 @@ class GameInputHandlerTest {
 		assertTrue(inputs.second.isEmpty());
 	}
 
-	private void assertResizes(Map<Direction, Integer> resizes, int north, int south,
-			int west, int east) {
+	private void assertResizes(Map<Direction, Integer> resizes, int north,
+			int south, int west, int east) {
 		assertEquals(north, resizes.get(Direction.NORTH));
 		assertEquals(south, resizes.get(Direction.SOUTH));
 		assertEquals(west, resizes.get(Direction.WEST));
@@ -58,8 +58,8 @@ class GameInputHandlerTest {
 	}
 
 	private void pressKey(int keyCode) {
-		inputHandler.keyPressed(
-				new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED, 1l, 0, keyCode, '\0'));
+		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED,
+				1l, 0, keyCode, '\0'));
 	}
 
 	@Test
@@ -94,7 +94,8 @@ class GameInputHandlerTest {
 
 		inputHandler.endWriting();
 
-		ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				output.toByteArray());
 		inputHandler.beginReading(input);
 
 		for (Pair<Map<Direction, Integer>, Set<GameInput>> expectedInputs : inputList) {

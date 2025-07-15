@@ -24,11 +24,12 @@ class MetaInputHandlerTest {
 	}
 
 	private void pressKey(MetaInput input) {
-		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED, 1l,
-				input.mask, input.keyCode, '\0'));
+		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED,
+				1l, input.mask, input.keyCode, '\0'));
 	}
 
-	private void pressInputAndAssertIt(MetaInput input, boolean shouldHaveFile) {
+	private void pressInputAndAssertIt(MetaInput input,
+			boolean shouldHaveFile) {
 		pressKey(input);
 		assertEquals(input, inputProcessor.lastInputProcessed);
 		assertEquals(shouldHaveFile, inputProcessor.hadFile);

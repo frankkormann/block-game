@@ -20,7 +20,8 @@ class NumberReaderTest {
 		}
 		writer.flush();
 
-		InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+		InputStream inputStream = new ByteArrayInputStream(
+				outputStream.toByteArray());
 
 		return inputStream;
 	}
@@ -46,7 +47,8 @@ class NumberReaderTest {
 		}
 		writer.flush();
 
-		InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+		InputStream inputStream = new ByteArrayInputStream(
+				outputStream.toByteArray());
 
 		return inputStream;
 	}

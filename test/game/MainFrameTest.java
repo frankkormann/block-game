@@ -39,9 +39,12 @@ class MainFrameTest {
 	void has_correct_width_and_height_from_level() {
 		assumeFalse(GraphicsEnvironment.isHeadless());
 
-		assertEquals(level.width, mainFrame.getWidth(), 100);   // +/- 100 to allow for
-		assertEquals(level.height, mainFrame.getHeight(), 100); // insets, non-level
-																 // components, etc.
+		assertEquals(level.width, mainFrame.getWidth(), 100);   // +/- 100 to
+																   // allow for
+		assertEquals(level.height, mainFrame.getHeight(), 100); // insets,
+																 // non-level
+																 // components,
+																 // etc.
 	}
 
 	private void setInitialValues() {

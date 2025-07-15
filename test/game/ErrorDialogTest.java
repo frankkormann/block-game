@@ -71,7 +71,8 @@ class ErrorDialogTest {
 
 		@BeforeEach
 		void findTopComponents() {
-			for (Component comp : errorDialog.getContentPane().getComponents()) {
+			for (Component comp : errorDialog.getContentPane()
+					.getComponents()) {
 				if (comp instanceof JTextArea) {
 					messageArea = (JTextArea) comp;
 				}
@@ -86,7 +87,8 @@ class ErrorDialogTest {
 
 		@Test
 		void message_area_contains_correct_message() {
-			assertEquals(MESSAGE + "\n\n" + error.toString(), messageArea.getText());
+			assertEquals(MESSAGE + "\n\n" + error.toString(),
+					messageArea.getText());
 		}
 
 		@Test
