@@ -198,8 +198,8 @@ public class GameController extends WindowAdapter {
 	 * </ul>
 	 */
 	public void nextFrame() {
-		Pair<Map<Direction, Integer>, Set<GameInput>> allInputs;
-		allInputs = gameInputHandler.poll();
+		Pair<Map<Direction, Integer>, Set<GameInput>> allInputs = gameInputHandler
+				.poll();
 
 		mainFrame.resizeAll(allInputs.first);
 
