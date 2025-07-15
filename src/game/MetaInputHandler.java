@@ -88,11 +88,17 @@ public class MetaInputHandler extends KeyAdapter {
 				break;
 			case SAVE_RECORDING: {
 				File saveFile = promptFileSaveLocation();
+				if (saveFile == null) {
+					return;
+				}
 				actionListener.processMetaInput(input, saveFile);
 				break;
 			}
 			case PLAY_RECORDING: {
 				File openFile = promptFileOpenLocation();
+				if (openFile == null) {
+					return;
+				}
 				actionListener.processMetaInput(input, openFile);
 				break;
 			}
