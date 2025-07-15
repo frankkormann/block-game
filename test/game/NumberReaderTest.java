@@ -28,7 +28,7 @@ class NumberReaderTest {
 
 	@Test
 	void can_read_bytes() throws IOException {
-		byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 127 };
+		byte[] bytes = { 1, 2, 3, 4, 5, 127 };
 
 		InputStream stream = fromWriter(bytes);
 		NumberReader reader = new NumberReader(stream);
@@ -55,7 +55,7 @@ class NumberReaderTest {
 
 	@Test
 	void can_read_ints() throws IOException {
-		int[] ints = new int[] { 12, 76294, 3742, 482972, 34 };
+		int[] ints = { 12, 76294, 3742, 482972, 34 };
 
 		InputStream stream = fromWriter(ints);
 		NumberReader reader = new NumberReader(stream);
@@ -67,7 +67,7 @@ class NumberReaderTest {
 
 	@Test
 	void can_read_negative_ints() throws IOException {
-		int[] ints = new int[] { -42742, -9743, -123, -874, -413741 };
+		int[] ints = { -42742, -9743, -123, -874, -413741 };
 
 		InputStream stream = fromWriter(ints);
 		NumberReader reader = new NumberReader(stream);

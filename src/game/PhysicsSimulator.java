@@ -445,7 +445,7 @@ public class PhysicsSimulator {
 	 */
 	private int[] handleCollisionWithWalls(MovingRectangle rect) {
 
-		int[] pushedBack = new int[] { 0, 0 };
+		int[] pushedBack = { 0, 0 };
 
 		Stream.concat(sideRectangles.values()
 				.stream()
@@ -491,8 +491,7 @@ public class PhysicsSimulator {
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1],
 				false);
 
-		int[] originalMovement = new int[] { collisionData[0],
-				collisionData[1] };
+		int[] originalMovement = { collisionData[0], collisionData[1] };
 
 		if (collisionData[0] != 0) {
 			fudgeCollision(collisionData,
