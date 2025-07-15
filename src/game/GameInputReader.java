@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Reads bytes and ints from an {@code InputStream}. The format of the stream is
- * that which is output by {@code GameInputWriter}.
+ * Reads bytes and ints from an {@code InputStream}. The format of the stream
+ * should be that which is written by {@link GameInputWriter}.
  * <p>
  * When end-of-stream is detected, the stream is automatically closed.
  * {@code isOpen} should be checked before any reads.
+ * 
+ * @see GameInputWriter
  * 
  * @author Frank Kormann
  */
@@ -75,7 +77,8 @@ public class GameInputReader {
 	}
 
 	/**
-	 * Interprets the next bytes as an {@code int} written by {@link#writeInt(int)}.
+	 * Interprets the next bytes as an {@code int} written by
+	 * {@link GameInputWriter#writeInt(int)}.
 	 * <p>
 	 * Closes the input stream if end-of-input is detected.
 	 * 
