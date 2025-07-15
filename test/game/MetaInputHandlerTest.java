@@ -23,16 +23,9 @@ class MetaInputHandlerTest {
 		inputHandler = new MetaInputHandler(inputProcessor);
 	}
 
-	private void pressKey(MetaInput input) {
+	private void pressKey(MetaInput input, int extraMasks) {
 		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED,
-				1l, input.mask, input.keyCode, '\0'));
-	}
-
-	private void pressInputAndAssertIt(MetaInput input,
-			boolean shouldHaveFile) {
-		pressKey(input);
-		assertEquals(input, inputProcessor.lastInputProcessed);
-		assertEquals(shouldHaveFile, inputProcessor.hadFile);
+				1l, input.mask + extraMasks, input.keyCode, '\0'));
 	}
 
 	@Test
@@ -42,7 +35,22 @@ class MetaInputHandlerTest {
 				MetaInput.TOGGLE_HINTS, MetaInput.PLAY_SOLUTION };
 
 		for (MetaInput inp : inputs) {
-			pressInputAndAssertIt(inp, false);
+			pressKey(inp, 0);
+			assertEquals(inp, inputProcessor.lastInputProcessed);
+			assertEquals(false, inputProcessor.hadFile);
+		}
+	}
+
+	@Test
+	void mouse_buttons_dont_affect_input_masks() {
+		MetaInput[] inputs = { MetaInput.FRAME_ADVANCE, MetaInput.PAUSE,
+				MetaInput.RELOAD_LEVEL, MetaInput.STOP_RECORDING,
+				MetaInput.TOGGLE_HINTS, MetaInput.PLAY_SOLUTION };
+
+		for (MetaInput inp : inputs) {
+			pressKey(inp, KeyEvent.BUTTON1_DOWN_MASK);
+			assertEquals(inp, inputProcessor.lastInputProcessed);
+			assertEquals(false, inputProcessor.hadFile);
 		}
 	}
 
