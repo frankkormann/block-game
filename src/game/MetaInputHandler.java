@@ -3,9 +3,6 @@ package game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -45,8 +42,6 @@ public class MetaInputHandler extends KeyAdapter {
 	}
 
 	private GameController actionListener;
-	private List<HintRectangle> hints;
-	private String solutionResource;
 
 	private JFileChooser fileChooser;
 
@@ -57,34 +52,12 @@ public class MetaInputHandler extends KeyAdapter {
 	 */
 	public MetaInputHandler(GameController actionListener) {
 		this.actionListener = actionListener;
-		hints = new ArrayList<>();
-		solutionResource = "";
 
 		fileChooser = new JFileChooser();  // global file chooser so it remembers which
 											  // directory the user was in if they open
 											  // it multiple times
 		fileChooser.setFileFilter(
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
-	}
-
-	/**
-	 * Registers {@code hint} with this. {@code HintRectangle}s which are registered
-	 * will be toggled visible or not visible.
-	 * 
-	 * @param hint {@code HintRectangle} to add
-	 */
-	public void addHint(HintRectangle hint) {
-		hints.add(hint);
-	}
-
-	/**
-	 * Sets the solution recording to play. {@code solutionResource} must be able to
-	 * be found by {@link java.lang.Class#getResourceAsStream(String)}.
-	 * 
-	 * @param solutionResource name of resource
-	 */
-	public void setSolution(String solutionResource) {
-		this.solutionResource = solutionResource;
 	}
 
 	@Override
@@ -100,71 +73,24 @@ public class MetaInputHandler extends KeyAdapter {
 	private void handleInput(MetaInput input) {
 		switch (input) {
 			case FRAME_ADVANCE:
-				if (actionListener.isPaused()) {
-					actionListener.nextFrame();
-				}
-				break;
 			case PAUSE:
-				actionListener.setPaused(!actionListener.isPaused());
-				break;
-			case PLAY_RECORDING: {
-				playRecording();
-				break;
-			}
 			case RELOAD_LEVEL:
-				actionListener.reloadLevel();
+			case STOP_RECORDING:
+			case TOGGLE_HINTS:
+			case PLAY_SOLUTION:
+				actionListener.processMetaInput(input);
 				break;
 			case SAVE_RECORDING: {
-				saveRecording();
+				File saveFile = promptFileSaveLocation();
+				actionListener.processMetaInput(input, saveFile);
 				break;
 			}
-			case STOP_RECORDING:
-				actionListener.endPlayback();
+			case PLAY_RECORDING: {
+				File openFile = promptFileOpenLocation();
+				actionListener.processMetaInput(input, openFile);
 				break;
-			case TOGGLE_HINTS:
-				hints.forEach(h -> h.toggleVisible());
-				break;
-			case PLAY_SOLUTION:
-				if (solutionResource != "") {
-					actionListener.reloadLevel();
-					actionListener.startPlayback(solutionResource);
-				}
-				break;
-		}
-	}
-
-	private void playRecording() {
-		boolean wasPaused = actionListener.isPaused();
-		actionListener.setPaused(true);
-		File openFile = promptFileOpenLocation();
-		if (openFile != null) {
-			try {
-				actionListener.startPlayback(openFile);
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error", "Could not load file '" + openFile + "'", e)
-						.setVisible(true);
 			}
 		}
-		actionListener.setPaused(wasPaused);
-	}
-
-	private void saveRecording() {
-		boolean wasPaused = actionListener.isPaused();
-		actionListener.setPaused(true);
-		File saveFile = promptFileSaveLocation();
-		if (saveFile != null) {
-			try {
-				actionListener.saveRecording(saveFile);
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error", "Could not save file '" + saveFile + "'", e)
-						.setVisible(true);
-			}
-		}
-		actionListener.setPaused(wasPaused);
 	}
 
 	private File promptFileSaveLocation() {

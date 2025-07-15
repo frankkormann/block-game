@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
@@ -19,6 +21,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import game.GameInputHandler.GameInput;
 import game.MainFrame.Direction;
+import game.MetaInputHandler.MetaInput;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
@@ -42,6 +45,8 @@ public class GameController extends WindowAdapter {
 	private MetaInputHandler metaInputHandler;
 
 	private String currentLevel;
+	private String currentSolution;
+	private List<HintRectangle> hints;
 
 	private File recording;
 
@@ -62,6 +67,10 @@ public class GameController extends WindowAdapter {
 		metaInputHandler = new MetaInputHandler(this);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler);
+
+		currentLevel = "";
+		currentSolution = "";
+		hints = new ArrayList<>();
 
 		mainFrame.addWindowListener(this);
 		mainFrame.addKeyListener(metaInputHandler);
@@ -127,8 +136,9 @@ public class GameController extends WindowAdapter {
 
 		physicsSimulator = new PhysicsSimulator();
 		mainFrame.setUpLevel(level);
+		hints.clear();
 
-		metaInputHandler.setSolution(level.solution);
+		currentSolution = level.solution;
 
 		for (MovingRectangle rect : level.movingRectangles) {
 			physicsSimulator.addMovingRectangle(rect);
@@ -156,7 +166,7 @@ public class GameController extends WindowAdapter {
 		}
 		for (HintRectangle hint : level.hints) {
 			mainFrame.add(hint, 3);
-			metaInputHandler.addHint(hint);
+			hints.add(hint);
 		}
 
 		currentLevel = levelResource;
@@ -225,6 +235,91 @@ public class GameController extends WindowAdapter {
 	}
 
 	/**
+	 * Processes a {@code MetaInput} by taking the action expected of it.
+	 * <p>
+	 * The {@code MetaInput} is expected to not require any extra data to process.
+	 * {@code MetaInput}s which require a {@code File} should be passed to
+	 * {@link #processMetaInput(MetaInput, File)} instead.
+	 * 
+	 * @param input {@code MetaInput} to process
+	 * 
+	 * @throws IllegalArgumentException if {@code input} requires extra data or is
+	 *                                  invalid
+	 * 
+	 * @see #processMetaInput(MetaInput, File)
+	 */
+	public void processMetaInput(MetaInput input) throws IllegalArgumentException {
+		switch (input) {
+			case PAUSE:
+				paused = !paused;
+				break;
+			case FRAME_ADVANCE:
+				if (paused) {
+					nextFrame();
+				}
+				break;
+			case RELOAD_LEVEL:
+				reloadLevel();
+				break;
+			case TOGGLE_HINTS:
+				hints.forEach(h -> h.toggleVisible());
+				break;
+			case PLAY_SOLUTION:
+				if (currentSolution != "") {
+					reloadLevel();
+					startPlayback(currentSolution);
+				}
+				break;
+			case STOP_RECORDING:
+				gameInputHandler.endReading();
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid MetaInput");
+		}
+	}
+
+	/**
+	 * Processes a {@code MetaInput} which requires a {@code File} by taking the
+	 * action expected of it.
+	 * <p>
+	 * The {@code MetaInput} must require a {@code File} to be processed. If it does
+	 * not, it should be passed to {@link #processMetaInput(MetaInput)} instead.
+	 * 
+	 * @param input {@code MetaInput} to process
+	 * @param file  {@code File} which is involved
+	 * 
+	 * @throws IllegalArgumentException if {@code input} does not require a
+	 *                                  {@code File} or is invalid
+	 * 
+	 * @see #processMetaInput(MetaInput)
+	 */
+	public void processMetaInput(MetaInput input, File file)
+			throws IllegalArgumentException {
+
+		String errorWord = "";
+
+		try {
+			switch (input) {
+				case SAVE_RECORDING:
+					errorWord = "save";
+					saveRecording(file);
+					break;
+				case PLAY_RECORDING:
+					errorWord = "open";
+					startPlayback(file);
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid MetaInput");
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Could not " + errorWord + " file '" + file + "'",
+					e).setVisible(true);
+		}
+	}
+
+	/**
 	 * Replay a recording {@code File} {@code file}.
 	 * 
 	 * @param file {@code File} to replay
@@ -243,13 +338,6 @@ public class GameController extends WindowAdapter {
 	 */
 	public void startPlayback(String resource) {
 		gameInputHandler.beginReading(getClass().getResourceAsStream(resource));
-	}
-
-	/**
-	 * Stops reading from a recording file.
-	 */
-	public void endPlayback() {
-		gameInputHandler.endReading();
 	}
 
 	/**
