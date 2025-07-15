@@ -357,14 +357,6 @@ public class GameController extends WindowAdapter {
 				StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	public void setPaused(boolean paused) {
-		this.paused = paused;
-	}
-
-	public boolean isPaused() {
-		return paused;
-	}
-
 	@Override
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
