@@ -10,15 +10,15 @@ import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GameInputWriterTest {
+class NumberWriterTest {
 
-	GameInputWriter writer;
+	NumberWriter writer;
 	ByteArrayOutputStream stream;
 
 	@BeforeEach()
 	void setUp() {
 		stream = new ByteArrayOutputStream();
-		writer = new GameInputWriter(stream);
+		writer = new NumberWriter(stream);
 	}
 
 	@Test

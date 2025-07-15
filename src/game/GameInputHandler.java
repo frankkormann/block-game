@@ -55,8 +55,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
-	private GameInputReader reader;
-	private GameInputWriter writer;
+	private NumberReader reader;
+	private NumberWriter writer;
 
 	/**
 	 * Creates a new {@code GameInputHandler} with no input stream or output stream.
@@ -164,7 +164,7 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	 */
 	public void beginReading(InputStream input) {
 		try {
-			reader = new GameInputReader(input);
+			reader = new NumberReader(input);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -180,7 +180,7 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	 * @param output {@code OutputStream} to write to
 	 */
 	public void beginWriting(OutputStream output) {
-		writer = new GameInputWriter(output);
+		writer = new NumberWriter(output);
 	}
 
 	/**

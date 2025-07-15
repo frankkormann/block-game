@@ -5,23 +5,23 @@ import java.io.OutputStream;
 
 /**
  * Writes bytes and ints to an {@code OutputStream}. The format of the stream is
- * such that {@link GameInputReader} can read it.
+ * such that {@link NumberReader} can read it.
  * <p>
  * The method {@code flush} should be called before closing this to clear the
  * stream's buffer if it is buffered.
  * 
- * @see GameInputReader
+ * @see NumberReader
  * 
  * @author Frank Kormann
  */
-public class GameInputWriter {
+public class NumberWriter {
 
 	OutputStream stream;
 
 	boolean isOpen;
 	int zerosInARow;
 
-	public GameInputWriter(OutputStream stream) {
+	public NumberWriter(OutputStream stream) {
 		this.stream = stream;
 		isOpen = true;
 		zerosInARow = 0;

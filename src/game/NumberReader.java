@@ -5,16 +5,16 @@ import java.io.InputStream;
 
 /**
  * Reads bytes and ints from an {@code InputStream}. The format of the stream
- * should be that which is written by {@link GameInputWriter}.
+ * should be that which is written by {@link NumberWriter}.
  * <p>
  * When end-of-stream is detected, the stream is automatically closed.
  * {@code isOpen} should be checked before any reads.
  * 
- * @see GameInputWriter
+ * @see NumberWriter
  * 
  * @author Frank Kormann
  */
-public class GameInputReader {
+public class NumberReader {
 
 	InputStream stream;
 
@@ -29,7 +29,7 @@ public class GameInputReader {
 	 * 
 	 * @throws IOException if an I/O error occurs
 	 */
-	public GameInputReader(InputStream stream) throws IOException {
+	public NumberReader(InputStream stream) throws IOException {
 		this.stream = stream;
 		isOpen = true;
 		zerosInARow = 0;
@@ -44,7 +44,7 @@ public class GameInputReader {
 	 * Reads the next {@code byte} in the input stream and returns it as an
 	 * {@code int}.
 	 * <p>
-	 * Follows the format defined by {@link GameInputWriter#writeByte(int)}.
+	 * Follows the format defined by {@link NumberWriter#writeByte(int)}.
 	 * <p>
 	 * Closes the input stream if end-of-input is detected.
 	 * 
@@ -78,7 +78,7 @@ public class GameInputReader {
 
 	/**
 	 * Interprets the next bytes as an {@code int} written by
-	 * {@link GameInputWriter#writeInt(int)}.
+	 * {@link NumberWriter#writeInt(int)}.
 	 * <p>
 	 * Closes the input stream if end-of-input is detected.
 	 * 

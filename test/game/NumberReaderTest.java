@@ -9,11 +9,11 @@ import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
-class GameInputReaderTest {
+class NumberReaderTest {
 
 	private InputStream fromWriter(byte[] bytes) throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		GameInputWriter writer = new GameInputWriter(outputStream);
+		NumberWriter writer = new NumberWriter(outputStream);
 
 		for (byte b : bytes) {
 			writer.writeByte(b);
@@ -30,7 +30,7 @@ class GameInputReaderTest {
 		byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 127 };
 
 		InputStream stream = fromWriter(bytes);
-		GameInputReader reader = new GameInputReader(stream);
+		NumberReader reader = new NumberReader(stream);
 
 		for (byte b : bytes) {
 			assertEquals(b, reader.readByte());
@@ -39,7 +39,7 @@ class GameInputReaderTest {
 
 	private InputStream fromWriter(int[] ints) throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		GameInputWriter writer = new GameInputWriter(outputStream);
+		NumberWriter writer = new NumberWriter(outputStream);
 
 		for (int i : ints) {
 			writer.writeInt(i);
@@ -56,7 +56,7 @@ class GameInputReaderTest {
 		int[] ints = new int[] { 12, 76294, 3742, 482972, 34 };
 
 		InputStream stream = fromWriter(ints);
-		GameInputReader reader = new GameInputReader(stream);
+		NumberReader reader = new NumberReader(stream);
 
 		for (int i : ints) {
 			assertEquals(i, reader.readInt());
@@ -68,7 +68,7 @@ class GameInputReaderTest {
 		int[] ints = new int[] { -42742, -9743, -123, -874, -413741 };
 
 		InputStream stream = fromWriter(ints);
-		GameInputReader reader = new GameInputReader(stream);
+		NumberReader reader = new NumberReader(stream);
 
 		for (int i : ints) {
 			assertEquals(i, reader.readInt());
@@ -83,7 +83,7 @@ class GameInputReaderTest {
 		}
 
 		InputStream stream = fromWriter(zeros);
-		GameInputReader reader = new GameInputReader(stream);
+		NumberReader reader = new NumberReader(stream);
 
 		for (int i = 0; i < zeros.length; i++) {
 			assertEquals(0, reader.readByte());
