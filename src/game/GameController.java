@@ -222,8 +222,7 @@ public class GameController extends WindowAdapter {
 	private void beginTempRecording() {
 		gameInputHandler.endWriting();
 		recording = null;  // In case a new file cannot be created, still stop
-							  // writing
-							  // to this one
+							  // writing to this one
 		try {
 			recording = File.createTempFile("blockgame", null);
 			gameInputHandler
@@ -233,8 +232,7 @@ public class GameController extends WindowAdapter {
 		catch (IOException e) {
 			e.printStackTrace();
 			// Don't pop up an ErrorDialog because the user probably doesn't
-			// care, and
-			// it would pop up on every level
+			// care, and it would pop up on every level
 		}
 	}
 
