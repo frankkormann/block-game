@@ -267,7 +267,8 @@ public class GameController extends WindowAdapter {
 			case PLAY_SOLUTION:
 				if (currentSolution != "") {
 					reloadLevel();
-					startPlayback(currentSolution);
+					gameInputHandler.beginReading(
+							getClass().getResourceAsStream(currentSolution));
 				}
 				break;
 			case STOP_RECORDING:
@@ -302,11 +303,13 @@ public class GameController extends WindowAdapter {
 			switch (input) {
 				case SAVE_RECORDING:
 					errorWord = "save";
-					saveRecording(file);
+					gameInputHandler.flushWriter();
+					Files.copy(recording.toPath(), file.toPath(),
+							StandardCopyOption.REPLACE_EXISTING);
 					break;
 				case PLAY_RECORDING:
 					errorWord = "open";
-					startPlayback(file);
+					gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
 					break;
 				default:
 					throw new IllegalArgumentException("Invalid MetaInput");
@@ -317,44 +320,6 @@ public class GameController extends WindowAdapter {
 			new ErrorDialog("Error", "Could not " + errorWord + " file '" + file + "'",
 					e).setVisible(true);
 		}
-	}
-
-	/**
-	 * Replay a recording {@code File} {@code file}.
-	 * 
-	 * @param file {@code File} to replay
-	 * 
-	 * @throws IOException if an I/O error occurs
-	 */
-	public void startPlayback(File file) throws IOException {
-		gameInputHandler.beginReading(Files.newInputStream(file.toPath()));
-	}
-
-	/**
-	 * Replay a recording stored as a resource. The resource must be able to be
-	 * found by {@link java.lang.Class#getResourceAsStream(String)}.
-	 * 
-	 * @param resource name of resource
-	 */
-	public void startPlayback(String resource) {
-		gameInputHandler.beginReading(getClass().getResourceAsStream(resource));
-	}
-
-	/**
-	 * Saves a recording of the current level to {@code destination}. If a file
-	 * already exists at that location, overwrites it; otherwise, creates it.
-	 * 
-	 * @param destination {@code File} to write to
-	 * 
-	 * @throws IOException if an I/O error occurs
-	 */
-	public void saveRecording(File destination) throws IOException {
-		if (recording == null) {
-			return;
-		}
-		gameInputHandler.flushWriter();
-		Files.copy(recording.toPath(), destination.toPath(),
-				StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	@Override
