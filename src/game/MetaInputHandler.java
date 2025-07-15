@@ -46,18 +46,18 @@ public class MetaInputHandler extends KeyAdapter {
 		}
 	}
 
-	private GameController actionListener;
+	private GameController listener;
 
 	private JFileChooser fileChooser;
 
 	/**
 	 * Creates a new {@code MetaInputHandler} which passes events to
-	 * {@code actionListener}.
+	 * {@code listener}.
 	 * 
-	 * @param actionListener {@code GameController} to receive events
+	 * @param listener {@code GameController} to receive events
 	 */
-	public MetaInputHandler(GameController actionListener) {
-		this.actionListener = actionListener;
+	public MetaInputHandler(GameController listener) {
+		this.listener = listener;
 
 		fileChooser = new JFileChooser();  // global file chooser so it remembers which
 											  // directory the user was in if they open
@@ -84,14 +84,14 @@ public class MetaInputHandler extends KeyAdapter {
 			case STOP_RECORDING:
 			case TOGGLE_HINTS:
 			case PLAY_SOLUTION:
-				actionListener.processMetaInput(input);
+				listener.processMetaInput(input);
 				break;
 			case SAVE_RECORDING: {
 				File saveFile = promptFileSaveLocation();
 				if (saveFile == null) {
 					return;
 				}
-				actionListener.processMetaInput(input, saveFile);
+				listener.processMetaInput(input, saveFile);
 				break;
 			}
 			case PLAY_RECORDING: {
@@ -99,7 +99,7 @@ public class MetaInputHandler extends KeyAdapter {
 				if (openFile == null) {
 					return;
 				}
-				actionListener.processMetaInput(input, openFile);
+				listener.processMetaInput(input, openFile);
 				break;
 			}
 		}
