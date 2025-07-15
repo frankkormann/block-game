@@ -247,6 +247,11 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	 * @param gameInputs {@code Set} of {@code Input}s to write
 	 */
 	private void writeInputs(Set<GameInput> gameInputs) throws IOException {
+		if (!writer.isOpen) {
+			writer = null;
+			return;
+		}
+
 		writer.writeByte(gameInputs.size());
 		for (GameInput inp : gameInputs) {
 			writer.writeByte(inp.ordinal());
@@ -263,7 +268,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 		catch (IOException e) {
 			e.printStackTrace();
 			new ErrorDialog("Potential error",
-					"Couldn't flush output stream\nOutput file may be corrupted", e);
+					"Couldn't flush output stream, output file may be corrupted", e)
+					.setVisible(true);
 		}
 	}
 
