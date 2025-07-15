@@ -64,8 +64,8 @@ class GameInputHandlerTest {
 
 	@Test
 	void inputs_are_returned_and_nothing_else() {
-		pressKey(KeyEvent.VK_W);
-		pressKey(KeyEvent.VK_A);
+		pressKey(GameInput.UP.keyCodes[0]);
+		pressKey(GameInput.LEFT.keyCodes[0]);
 
 		inputs = inputHandler.poll();
 
@@ -80,11 +80,11 @@ class GameInputHandlerTest {
 		inputHandler.beginWriting(output);
 		List<Pair<Map<Direction, Integer>, Set<GameInput>>> inputList = new ArrayList<>();
 
-		pressKey(KeyEvent.VK_D);
+		pressKey(GameInput.RIGHT.keyCodes[0]);
 		inputList.add(inputHandler.poll());
 
 		inputHandler.resize(100, Direction.EAST);
-		pressKey(KeyEvent.VK_S);
+		pressKey(GameInput.LEFT.keyCodes[0]);
 		inputList.add(inputHandler.poll());
 
 		inputList.add(inputHandler.poll());
