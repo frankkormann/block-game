@@ -50,7 +50,8 @@ public class ErrorDialog extends JDialog {
 		JTextArea messageArea = createTextArea(message + "\n\n" + err, 1, 50);
 		messageArea.setLineWrap(true);
 
-		JTextArea stackTraceArea = createTextArea(buildStackTrace(err), 20, 50);
+		JTextArea stackTraceArea = createTextArea(
+				err.toString() + "\n\n" + buildStackTrace(err), 20, 50);
 		JScrollPane scrollPane = new JScrollPane(stackTraceArea);
 		scrollPane.setVisible(false);
 

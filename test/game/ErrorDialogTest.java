@@ -174,7 +174,7 @@ class ErrorDialogTest {
 	}
 
 	private String getExpectedStackTrace() {
-		String expectedStackTrace = "";
+		String expectedStackTrace = error.toString() + "\n\n";
 		for (StackTraceElement elem : error.getStackTrace()) {
 			expectedStackTrace += elem + "\n";
 		}
