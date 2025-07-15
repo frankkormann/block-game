@@ -55,12 +55,10 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
-	private InputStream reader;
+	private GameInputReader reader;
 	private OutputStream writer;
 
-	private int nextByte;
 	private int writingZerosInARow;
-	private int readingZerosInARow;
 
 	/**
 	 * Creates a new {@code GameInputHandler} with no input stream or output stream.
@@ -110,10 +108,10 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 		}
 		else {
 			// Make sure values are read in the correct order
-			resizes.put(Direction.NORTH, readInt());
-			resizes.put(Direction.SOUTH, readInt());
-			resizes.put(Direction.WEST, readInt());
-			resizes.put(Direction.EAST, readInt());
+			resizes.put(Direction.NORTH, reader.readInt());
+			resizes.put(Direction.SOUTH, reader.readInt());
+			resizes.put(Direction.WEST, reader.readInt());
+			resizes.put(Direction.EAST, reader.readInt());
 		}
 		if (writer != null) {
 			// Make sure values are written in the correct order
@@ -167,10 +165,8 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	 * @param input {@code InputStream} to read from
 	 */
 	public void beginReading(InputStream input) {
-		reader = input;
-		readingZerosInARow = 0;
 		try {
-			nextByte = reader.read();
+			reader = new GameInputReader(input);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -234,73 +230,17 @@ public class GameInputHandler extends KeyAdapter implements FocusListener, Resiz
 	private Set<GameInput> readInputs() throws IOException {
 		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
 
-		int numberOfInputs = readByte();
+		int numberOfInputs = reader.readByte();
 		for (int i = 0; i < numberOfInputs; i++) {
-			int inputOrdinal = readByte();
+			int inputOrdinal = reader.readByte();
 			gameInputs.add(GameInput.values()[inputOrdinal]);
 		}
 
+		if (!reader.isOpen) {
+			reader = null;
+		}
+
 		return gameInputs;
-	}
-
-	/**
-	 * Reads the next {@code byte} in the input stream and returns it as an
-	 * {@code int}.
-	 * <p>
-	 * Follows the format defined by {@link#writeByte(int)}.
-	 * <p>
-	 * Closes the input stream if end-of-input is detected.
-	 * 
-	 * @return next {@code byte} as {@code int}
-	 */
-	private int readByte() throws IOException {
-
-		int value;
-
-		if (readingZerosInARow > 0) {
-			readingZerosInARow--;
-			value = 0;
-		}
-		else {
-
-			if (nextByte == 0) {
-				readingZerosInARow = reader.read();
-			}
-
-			value = nextByte;
-
-			nextByte = reader.read();
-
-		}
-
-		if (nextByte == -1 && readingZerosInARow == 0) {
-			endReading();
-		}
-
-		return value;
-	}
-
-	/**
-	 * Interprets the next bytes as an {@code int} written by {@link#writeInt(int)}.
-	 * <p>
-	 * Closes the input stream if end-of-input is detected.
-	 * 
-	 * @return next {@code int}
-	 */
-	private int readInt() throws IOException {
-		int i = 0;
-
-		int numBytes = (byte) readByte();  // Cast to byte for negative values
-		int sign = (int) Math.signum(numBytes);
-		numBytes = Math.abs(numBytes);
-
-		for (int j = 0; j < numBytes; j++) {
-			i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE) * j;
-		}
-
-		i *= sign;
-
-		return i;
 	}
 
 	/**
