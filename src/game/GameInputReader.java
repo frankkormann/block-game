@@ -92,7 +92,7 @@ public class GameInputReader {
 		numBytes = Math.abs(numBytes);
 
 		for (int j = 0; j < numBytes; j++) {
-			i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE) * j;
+			i += (readByte() & 0xFF) << Byte.SIZE * j;
 		}
 
 		i *= sign;
