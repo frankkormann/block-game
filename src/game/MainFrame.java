@@ -224,9 +224,9 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 
 		drawingPane.setOffsets(drawingPane.getXOffset() + xChange,
 				drawingPane.getYOffset() + yChange);
-		// Paint before packing to avoid stuttering issues
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
+
 		x += xChange;
 		y += yChange;
 		width += widthChange;
