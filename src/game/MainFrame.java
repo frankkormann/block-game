@@ -243,6 +243,7 @@ public class MainFrame extends JFrame implements Resizable {
 
 		drawingPane.setOffsets(drawingPane.getXOffset() + xChange,
 				drawingPane.getYOffset() + yChange);
+		// Paint before setting bounds to minimize stuttering
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
 
