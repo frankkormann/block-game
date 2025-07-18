@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -13,8 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -54,7 +51,6 @@ public class GameController extends WindowAdapter {
 
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
-		UIManager.put("TitlePane.buttonSize", new Dimension(0, 0));
 		new GameController().startGame();
 	}
 
@@ -173,7 +169,6 @@ public class GameController extends WindowAdapter {
 
 		currentLevel = levelResource;
 
-		mainFrame.arrangeComponents();
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
 				mainFrame.getNextYOffset());

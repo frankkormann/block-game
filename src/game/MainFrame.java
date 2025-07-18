@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  * JFrame that displays each level. Buffers changes to width/height between each
@@ -32,21 +34,22 @@ import javax.swing.SwingUtilities;
  * 
  * @author Frank Kormann
  */
-public class MainFrame extends JFrame implements Resizable, Movable {
+public class MainFrame extends JFrame implements Resizable {
 
 	public static final String TASKBAR_ICON = "/taskbar_icon.png";
 
 	private static final String WINDOW_TITLE = "Block Game";
+	// TODO Figure out how to have a different title on the taskbar than in
+	// titlebar
 
 	private static final int WIDTH_MINIMUM = 150;
 	private static final int HEIGHT_MINIMUM = 150;
 	// TODO Figure out how to work around maximum window size
 
-	private int x, y, width, height;
+	private int width, height;
 	private int xChange, yChange;
 	private int widthChange, heightChange;
 
-	private TitleBar titleBar;
 	private DrawingPane drawingPane;
 
 	public enum Direction {
@@ -84,14 +87,12 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 	public MainFrame(GameInputHandler gameInputHandler) {
 		super(WINDOW_TITLE);
 
-		// x and y are instantiated in moveToMiddleOfScreen()
 		// width and height are instantiated in setUpLevel()
 		xChange = 0;
 		yChange = 0;
 		widthChange = 0;
 		heightChange = 0;
 
-		titleBar = new TitleBar(this, this);
 		drawingPane = new DrawingPane();
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -99,6 +100,15 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 				createAndShowWindow(gameInputHandler);
 			}
 		});
+	}
+
+	public static int getTitlePaneHeight() {
+		return (int) ((Dimension) UIManager.get("TitlePane.buttonSize")).height;
+	}
+
+	public static int getTitlePaneWidth() {
+		return 2 * ((int) ((Dimension) UIManager
+				.get("TitlePane.buttonSize")).width);
 	}
 
 	private void createAndShowWindow(GameInputHandler gameInputHandler) {
@@ -115,7 +125,6 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		setLayout(null);
 		setResizable(false);
 
-		getLayeredPane().add(titleBar, -1);
 		getLayeredPane().add(drawingPane);
 
 		for (Direction direction : Direction.values()) {
@@ -137,8 +146,13 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		pack();  // set insets
 		width = level.width + getInsets().left + getInsets().right;
 		height = level.height + getInsets().top + getInsets().bottom
-				+ TitleBar.HEIGHT;
-		titleBar.setTitle(WINDOW_TITLE + " - " + level.name);
+				+ getTitlePaneHeight();
+		setTitle(WINDOW_TITLE + " - " + level.name);
+
+		setBounds(getX(), getY(), width, height);
+		width = getWidth();
+		height = getHeight();
+		arrangeComponents();
 	}
 
 	/**
@@ -227,10 +241,10 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
 
-		x += xChange;
-		y += yChange;
-		width += widthChange;
-		height += heightChange;
+		setBounds(getX() + xChange, getY() + yChange, getWidth() + widthChange,
+				getHeight() + heightChange);
+		width = getWidth();
+		height = getHeight();
 
 		xChange = 0;
 		yChange = 0;
@@ -240,34 +254,25 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 		arrangeComponents();
 	}
 
-	public void move2(int xDifference, int yDifference) {
-		x += xDifference;
-		y += yDifference;
-		setLocation(x, y);
-	}
-
 	public void moveToMiddleOfScreen() {
 		setLocationRelativeTo(null);
-		x = getX();
-		y = getY();
 	}
 
 	/**
-	 * Lays out all components within this and sets its bounds.
+	 * Lays out all components within this using its current width and height.
 	 */
-	public void arrangeComponents() {
-		setBounds(x, y, width, height);
-		width = getWidth();
-		height = getHeight();
+	private void arrangeComponents() {
 
 		for (Component comp : getLayeredPane().getComponents()) {
 
+			int insetsX = getInsets().left + getInsets().right;
+			int insetsY = getInsets().top + getInsets().bottom;
+
 			if (comp instanceof ResizingSide) {
-				int insetsX = getInsets().left + getInsets().right;
-				int insetsY = getInsets().top + getInsets().bottom;
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
-						comp.setBounds(0, 0, titleBar.getButtonsX(),
+						comp.setBounds(0, 0,
+								width - getTitlePaneWidth() - insetsX,
 								ResizingSide.THICKNESS / 2);
 						break;
 					case SOUTH:
@@ -282,21 +287,15 @@ public class MainFrame extends JFrame implements Resizable, Movable {
 						break;
 					case EAST:
 						comp.setBounds(width - ResizingSide.THICKNESS - insetsX,
-								TitleBar.HEIGHT, ResizingSide.THICKNESS,
+								getTitlePaneHeight(), ResizingSide.THICKNESS,
 								height - ResizingSide.THICKNESS
-										- TitleBar.HEIGHT);
+										- getTitlePaneHeight());
 				}
 			}
 
 			if (comp instanceof DrawingPane) {
-				int insetsX = getInsets().left + getInsets().right;
-				int insetsY = getInsets().top + getInsets().bottom;
-				comp.setBounds(0, TitleBar.HEIGHT, getWidth() - insetsX,
-						getHeight() - insetsY - TitleBar.HEIGHT);
-			}
-
-			if (comp instanceof TitleBar) {
-				comp.setBounds(0, 0, getWidth(), TitleBar.HEIGHT);
+				comp.setBounds(0, getTitlePaneHeight(), getWidth() - insetsX,
+						getHeight() - insetsY - getTitlePaneHeight());
 			}
 
 		}
