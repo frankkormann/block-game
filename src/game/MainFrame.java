@@ -41,8 +41,6 @@ public class MainFrame extends JFrame implements Resizable {
 	public static final String TASKBAR_ICON = "/taskbar_icon.png";
 
 	private static final String WINDOW_TITLE = "Block Game";
-	// TODO Figure out how to have a different title on the taskbar than in
-	// titlebar
 
 	private static final int WIDTH_MINIMUM = 150;
 	private static final int HEIGHT_MINIMUM = 150;
