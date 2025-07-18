@@ -32,6 +32,8 @@ import javax.swing.UIManager;
  * Whenever a level needs to be loaded, use {@code setUpLevel} to load the
  * width/height and title. Then add each {@code Rectangle} with {@code add}.
  * 
+ * @apiNote Assumes look-and-feel is FlatLightLaf
+ * 
  * @author Frank Kormann
  */
 public class MainFrame extends JFrame implements Resizable {
@@ -158,19 +160,6 @@ public class MainFrame extends JFrame implements Resizable {
 		width = getWidth();
 		height = getHeight();
 		arrangeComponents();
-	}
-
-	/**
-	 * Sets only the text in the title pane. Task bar text is unaffected.
-	 * 
-	 * @param newText text to display
-	 */
-	private void updateTitleBarText(String newText) {
-		String taskbarText = getTitle();
-		setTitle(newText);
-		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
-		setTitle(taskbarText);  				// setting its text back
-		interceptPropertyChangeEvent = false;
 	}
 
 	/**
@@ -317,6 +306,19 @@ public class MainFrame extends JFrame implements Resizable {
 			}
 
 		}
+	}
+
+	/**
+	 * Sets only the text in the title pane. Task bar text is unaffected.
+	 * 
+	 * @param newText text to display
+	 */
+	private void updateTitleBarText(String newText) {
+		String taskbarText = getTitle();
+		setTitle(newText);
+		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
+		setTitle(taskbarText);  				// setting its text back
+		interceptPropertyChangeEvent = false;
 	}
 
 	/**
