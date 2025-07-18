@@ -41,7 +41,7 @@ public class DrawingPane extends JPanel {
 	}
 
 	/**
-	 * Add {@code drawable} to this at {@code index}. {@code Drawable}s with a
+	 * Adds {@code drawable} to this at {@code index}. {@code Drawable}s with a
 	 * higher index will be drawn on top of those with a lower index.
 	 * <p>
 	 * The drawing order for {@code Drawable}s with the same index is undefined.
@@ -57,7 +57,7 @@ public class DrawingPane extends JPanel {
 	}
 
 	/**
-	 * Remove all drawables from this.
+	 * Removes all {@code Drawable}s from this.
 	 */
 	public void clearDrawables() {
 		drawableLists.clear();
