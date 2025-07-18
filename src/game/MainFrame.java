@@ -300,8 +300,8 @@ public class MainFrame extends JFrame implements Resizable {
 			}
 
 			if (comp instanceof DrawingPane) {
-				comp.setBounds(0, getTitlePaneHeight(), getWidth() - insetsX,
-						getHeight() - insetsY - getTitlePaneHeight());
+				comp.setBounds(0, getTitlePaneHeight(), width - insetsX,
+						height - insetsY - getTitlePaneHeight());
 			}
 
 		}
