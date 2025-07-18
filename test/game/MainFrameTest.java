@@ -7,8 +7,11 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 import game.MainFrame.Direction;
 
@@ -21,6 +24,11 @@ class MainFrameTest {
 
 	int initialX, initialY, initialWidth, initialHeight;
 
+	@BeforeAll
+	static void setUpLaF() {
+		FlatLightLaf.setup();
+	}
+
 	@BeforeEach
 	void setUp() {
 		assumeFalse(GraphicsEnvironment.isHeadless());
@@ -32,7 +40,6 @@ class MainFrameTest {
 		level.width = 800;
 		level.height = 500;
 		mainFrame.setUpLevel(level);
-		mainFrame.arrangeComponents();
 	}
 
 	@Test
@@ -86,20 +93,6 @@ class MainFrameTest {
 		assertEquals(initialHeight + northChange, mainFrame.getHeight());
 		assertEquals(initialX - westChange, mainFrame.getX());
 		assertEquals(initialY - northChange, mainFrame.getY());
-	}
-
-	@Test
-	void position_is_as_expected_after_move2() {
-		assumeFalse(GraphicsEnvironment.isHeadless());
-
-		setInitialValues();
-		int xChange = 80;
-		int yChange = -23;
-
-		mainFrame.move2(xChange, yChange);
-
-		assertEquals(initialX + xChange, mainFrame.getX());
-		assertEquals(initialY + yChange, mainFrame.getY());
 	}
 
 	@Test
