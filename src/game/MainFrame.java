@@ -50,6 +50,8 @@ public class MainFrame extends JFrame implements Resizable {
 	private int xChange, yChange;
 	private int widthChange, heightChange;
 
+	private boolean interceptPropertyChangeEvent;
+
 	private DrawingPane drawingPane;
 
 	public enum Direction {
@@ -92,6 +94,8 @@ public class MainFrame extends JFrame implements Resizable {
 		yChange = 0;
 		widthChange = 0;
 		heightChange = 0;
+
+		interceptPropertyChangeEvent = false;
 
 		drawingPane = new DrawingPane();
 
@@ -147,12 +151,26 @@ public class MainFrame extends JFrame implements Resizable {
 		width = level.width + getInsets().left + getInsets().right;
 		height = level.height + getInsets().top + getInsets().bottom
 				+ getTitlePaneHeight();
-		setTitle(WINDOW_TITLE + " - " + level.name);
+
+		updateTitleBarText(WINDOW_TITLE + " - " + level.name);
 
 		setBounds(getX(), getY(), width, height);
 		width = getWidth();
 		height = getHeight();
 		arrangeComponents();
+	}
+
+	/**
+	 * Sets only the text in the title pane. Task bar text is unaffected.
+	 * 
+	 * @param newText text to display
+	 */
+	private void updateTitleBarText(String newText) {
+		String taskbarText = getTitle();
+		setTitle(newText);
+		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
+		setTitle(taskbarText);  				// setting its text back
+		interceptPropertyChangeEvent = false;
 	}
 
 	/**
@@ -327,6 +345,16 @@ public class MainFrame extends JFrame implements Resizable {
 	 */
 	public int getNextYOffset() {
 		return drawingPane.getYOffset() + yChange;
+	}
+
+	@Override
+	protected void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
+		if (interceptPropertyChangeEvent) {
+			return;
+		}
+
+		super.firePropertyChange(propertyName, oldValue, newValue);
 	}
 
 }
