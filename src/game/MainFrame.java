@@ -30,7 +30,9 @@ import javax.swing.UIManager;
  * no effect on game physics and should not cause visual issues.
  * <p>
  * Whenever a level needs to be loaded, use {@code setUpLevel} to load the
- * width/height and title. Then add each {@code Rectangle} with {@code add}.
+ * width/height and title. Then add each {@code Rectangle} with {@code add}. A
+ * level should be loaded before calling {@code setVisible(true)} to avoid
+ * graphical glitches.
  * 
  * @apiNote Assumes look-and-feel is FlatLightLaf
  * 
