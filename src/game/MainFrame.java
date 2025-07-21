@@ -101,7 +101,7 @@ public class MainFrame extends JFrame implements Resizable {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				createAndShowWindow(gameInputHandler);
+				createWindow(gameInputHandler);
 			}
 		});
 	}
@@ -115,7 +115,7 @@ public class MainFrame extends JFrame implements Resizable {
 				.get("TitlePane.buttonSize")).width);
 	}
 
-	private void createAndShowWindow(GameInputHandler gameInputHandler) {
+	private void createWindow(GameInputHandler gameInputHandler) {
 		try {
 			setIconImage(ImageIO.read(getClass().getResource(TASKBAR_ICON)));
 		}
