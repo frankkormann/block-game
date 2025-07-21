@@ -31,7 +31,7 @@ import game.MainFrame.Direction;
  * {@code AttachmentOption}s used.
  * <p>
  * {@code Rectangles} (and levels in general) should be created through JSON.
- * See the README for more details.
+ * See the wiki for more details.
  * <p>
  * Subclasses which can move should override
  * {@link#getLastX()}, {@link#getLastY()}, {@link#getLastWidth()}, and
