@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -109,12 +108,11 @@ public class MainFrame extends JFrame implements Resizable {
 	}
 
 	private static int getTitlePaneHeight() {
-		return (int) ((Dimension) UIManager.get("TitlePane.buttonSize")).height;
+		return UIManager.getDimension("TitlePane.buttonSize").height;
 	}
 
 	private static int getTitlePaneButtonsWidth() {
-		return 2 * ((int) ((Dimension) UIManager
-				.get("TitlePane.buttonSize")).width);
+		return 2 * UIManager.getDimension("TitlePane.buttonSize").width;
 	}
 
 	private void createWindow(GameInputHandler gameInputHandler) {
