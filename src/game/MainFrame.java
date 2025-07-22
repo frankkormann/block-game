@@ -206,7 +206,10 @@ public class MainFrame extends JFrame implements Resizable {
 	}
 
 	/**
-	 * @param resizes Map from Direction of each resize to change amount
+	 * Resizes this frame's preferred bounds. Respects minimum bounds as defined
+	 * by {@code WIDTH_MINIMUM} and {@code HEIGHT_MINIMUM}.
+	 * 
+	 * @param resizes Map from {@code Direction} of each resize to change amount
 	 * 
 	 * @see MainFrame#resize(int, Direction)
 	 */
