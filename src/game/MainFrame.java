@@ -15,8 +15,9 @@ import javax.swing.UIManager;
  * frame.
  * <p>
  * The usual methods for resizing a JFrame should not be used for this. The
- * methods {@code resize} and {@code resizeAll} should be used instead.
- * {@code incorporateChanges} should be called at the end of each frame.
+ * methods {@link #resize(int, Direction)} and {@link #resizeAll(Map)} should be
+ * used instead. {@code incorporateChanges} should be called at the end of each
+ * frame.
  * <p>
  * Actual resizing of the window is delayed until {@code incorporateChanges} is
  * called at the end of each frame, after the new window size has been verified
