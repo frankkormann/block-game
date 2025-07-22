@@ -84,7 +84,7 @@ public class MovingRectangle extends Rectangle {
 
 		updateLastPosition();
 
-		addAttachment(new GroundingArea(x, y - 1, width, 1),
+		addAttachment(new GroundingArea(x, y - 1, width),
 				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 
