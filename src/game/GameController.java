@@ -32,9 +32,9 @@ import game.MetaInputHandler.MetaInput;
  */
 public class GameController extends WindowAdapter {
 
-	private static final String FIRST_LEVEL = "/level_1.json";
+	private static final String FIRST_LEVEL = "/level_demo.json";
 
-	private static final int MILLISECONDS_BETWEEN_FRAMES = 20;
+	private static final int MILLISECONDS_BETWEEN_FRAMES = 19;
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
@@ -81,7 +81,7 @@ public class GameController extends WindowAdapter {
 	public void startGame() {
 		loadLevel(FIRST_LEVEL);
 		mainFrame.setVisible(true);
-		new Timer().scheduleAtFixedRate(new TimerTask() {
+		new Timer().schedule(new TimerTask() {
 			public void run() {
 				try {
 					if (!paused && mainFrame.isFocused()) {
