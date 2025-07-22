@@ -170,13 +170,6 @@ public class MainFrame extends JFrame implements Resizable {
 		drawingPane.add(drawable, index);
 	}
 
-	/**
-	 * Resizes this frame's preferred bounds. Respects minimum bounds as defined
-	 * by {@code WIDTH_MINIMUM} and {@code HEIGHT_MINIMUM}.
-	 * 
-	 * @param change    new dimension size minus old dimension size
-	 * @param direction side of the window to move
-	 */
 	public void resize(int change, Direction direction) {
 		if (direction == Direction.NORTH || direction == Direction.WEST) {
 			change *= -1;
