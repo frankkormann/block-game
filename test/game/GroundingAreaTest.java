@@ -15,7 +15,7 @@ class GroundingAreaTest {
 
 	@BeforeEach
 	void setUp() {
-		area = new GroundingArea(0, 0, 20, 20);
+		area = new GroundingArea(0, 0, 20);
 		rect = new MovingRectangle(0, 0, 20, 20);
 	}
 
@@ -39,11 +39,11 @@ class GroundingAreaTest {
 
 	@Test
 	void rect_state_is_ON_GROUND_when_there_are_multiple_overlapping_areas_and_it_only_leaves_one_of_them() {
-		GroundingArea secondArea = new GroundingArea(0, 0, 20, 40);
+		GroundingArea secondArea = new GroundingArea(0, 2, 20);
 		area.handle(rect);
 		secondArea.handle(rect);
 
-		rect.setY(30);
+		rect.setY(5);
 		area.handle(rect);
 		secondArea.handle(rect);
 
