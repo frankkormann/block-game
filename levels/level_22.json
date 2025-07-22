@@ -1,13 +1,13 @@
 {
-	"name": "Non-Newtonian",
+	"name": "Round Trip",
 	"width": 700,
 	"height": 500,
-	"solution": "/level_21.rec",
+	"solution": "/level_22.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
-			"x": 340,
-			"y": 460,
+			"x": 90,
+			"y": 180,
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER",
@@ -21,7 +21,7 @@
 			"y": 0,
 			"width": 700,
 			"height": 20,
-			"resizeBehavior": "STAY"
+			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": ".WallRectangle",
@@ -61,7 +61,7 @@
 			"y": 480,
 			"width": 700,
 			"height": 20,
-			"resizeBehavior": "PREVENT_Y"
+			"resizeBehavior": "STAY"
 		}
 	],
 	"areas": [
@@ -76,37 +76,37 @@
 	"goals": [
 		{
 			"type": ".GoalArea",
-			"x": 575,
-			"y": 150,
+			"x": 325,
+			"y": 430,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_22.json"
+			"nextLevel": "/level_1.json"
 		}
 	],
 	"hints": [
 		{
 			"type": ".HintRectangle",
-			"x": 340,
-			"y": 360,
+			"x": 210,
+			"y": 120,
 			"width": 20,
 			"height": 20,
-			"color": "PLAYER"
+			"color": "PLAYER"	
 		},
 		{
 			"type": ".HintRectangle",
-			"x": 340,
-			"y": 320,
+			"x": 240,
+			"y": 150,
 			"width": 20,
 			"height": 20,
-			"color": "PLAYER"
+			"color": "PLAYER"	
 		},
 		{
 			"type": ".HintRectangle",
-			"x": 340,
-			"y": 280,
+			"x": 270,
+			"y": 180,
 			"width": 20,
 			"height": 20,
-			"color": "PLAYER"
+			"color": "PLAYER"	
 		}
 	]
 }
