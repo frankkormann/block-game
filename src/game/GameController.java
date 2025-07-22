@@ -32,7 +32,7 @@ import game.MetaInputHandler.MetaInput;
  */
 public class GameController extends WindowAdapter {
 
-	private static final String FIRST_LEVEL = "/level_demo.json";
+	private static final String FIRST_LEVEL = "/level_1.json";
 
 	private static final int MILLISECONDS_BETWEEN_FRAMES = 19;
 
