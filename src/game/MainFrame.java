@@ -47,7 +47,6 @@ public class MainFrame extends JFrame implements Resizable {
 	private static final int HEIGHT_MINIMUM = 150;
 	// TODO Figure out how to work around maximum window size
 
-	private int width, height;
 	private int xChange, yChange;
 	private int widthChange, heightChange;
 
@@ -148,15 +147,13 @@ public class MainFrame extends JFrame implements Resizable {
 		drawingPane.setOffsets(0, 0);
 
 		pack();  // set insets
-		width = level.width + getInsets().left + getInsets().right;
-		height = level.height + getInsets().top + getInsets().bottom
+		int width = level.width + getInsets().left + getInsets().right;
+		int height = level.height + getInsets().top + getInsets().bottom
 				+ getTitlePaneHeight();
+		setSize(width, height);
 
 		updateTitleBarText(WINDOW_TITLE + " - " + level.name);
 
-		setBounds(getX(), getY(), width, height);
-		width = getWidth();
-		height = getHeight();
 		arrangeComponents();
 	}
 
@@ -186,12 +183,12 @@ public class MainFrame extends JFrame implements Resizable {
 		}
 
 		if ((direction == Direction.NORTH || direction == Direction.SOUTH)
-				&& (height + change < HEIGHT_MINIMUM)) {
-			change = HEIGHT_MINIMUM - height;
+				&& (getHeight() + change < HEIGHT_MINIMUM)) {
+			change = HEIGHT_MINIMUM - getHeight();
 		}
 		if ((direction == Direction.WEST || direction == Direction.EAST)
-				&& (width + change < WIDTH_MINIMUM)) {
-			change = WIDTH_MINIMUM - width;
+				&& (getWidth() + change < WIDTH_MINIMUM)) {
+			change = WIDTH_MINIMUM - getWidth();
 		}
 
 		switch (direction) {
@@ -249,8 +246,6 @@ public class MainFrame extends JFrame implements Resizable {
 
 		setBounds(getX() + xChange, getY() + yChange, getWidth() + widthChange,
 				getHeight() + heightChange);
-		width = getWidth();
-		height = getHeight();
 
 		xChange = 0;
 		yChange = 0;
@@ -277,31 +272,32 @@ public class MainFrame extends JFrame implements Resizable {
 			if (comp instanceof ResizingSide) {
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
-						comp.setBounds(0, 0,
-								width - getTitlePaneButtonsWidth() - insetsX,
+						comp.setBounds(0, 0, getWidth()
+								- getTitlePaneButtonsWidth() - insetsX,
 								ResizingSide.THICKNESS / 2);
 						break;
 					case SOUTH:
 						comp.setBounds(0,
-								height - ResizingSide.THICKNESS - insetsY,
-								width, ResizingSide.THICKNESS);
+								getHeight() - ResizingSide.THICKNESS - insetsY,
+								getWidth(), ResizingSide.THICKNESS);
 						break;
 					case WEST:
 						comp.setBounds(0, ResizingSide.THICKNESS / 2,
-								ResizingSide.THICKNESS,
-								height - (int) (1.5 * ResizingSide.THICKNESS));
+								ResizingSide.THICKNESS, getHeight()
+										- (int) (1.5 * ResizingSide.THICKNESS));
 						break;
 					case EAST:
-						comp.setBounds(width - ResizingSide.THICKNESS - insetsX,
+						comp.setBounds(
+								getWidth() - ResizingSide.THICKNESS - insetsX,
 								getTitlePaneHeight(), ResizingSide.THICKNESS,
-								height - ResizingSide.THICKNESS
+								getHeight() - ResizingSide.THICKNESS
 										- getTitlePaneHeight());
 				}
 			}
 
 			if (comp instanceof DrawingPane) {
-				comp.setBounds(0, getTitlePaneHeight(), width - insetsX,
-						height - insetsY - getTitlePaneHeight());
+				comp.setBounds(0, getTitlePaneHeight(), getWidth() - insetsX,
+						getHeight() - insetsY - getTitlePaneHeight());
 			}
 
 		}
