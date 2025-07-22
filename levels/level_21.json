@@ -87,7 +87,23 @@
 		{
 			"type": ".HintRectangle",
 			"x": 340,
-			"y": 260,
+			"y": 360,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"	
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 340,
+			"y": 320,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"	
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 340,
+			"y": 280,
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER"	
