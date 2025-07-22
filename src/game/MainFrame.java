@@ -108,11 +108,11 @@ public class MainFrame extends JFrame implements Resizable {
 		});
 	}
 
-	public static int getTitlePaneHeight() {
+	private static int getTitlePaneHeight() {
 		return (int) ((Dimension) UIManager.get("TitlePane.buttonSize")).height;
 	}
 
-	public static int getTitlePaneWidth() {
+	private static int getTitlePaneButtonsWidth() {
 		return 2 * ((int) ((Dimension) UIManager
 				.get("TitlePane.buttonSize")).width);
 	}
@@ -280,7 +280,7 @@ public class MainFrame extends JFrame implements Resizable {
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
 						comp.setBounds(0, 0,
-								width - getTitlePaneWidth() - insetsX,
+								width - getTitlePaneButtonsWidth() - insetsX,
 								ResizingSide.THICKNESS / 2);
 						break;
 					case SOUTH:
