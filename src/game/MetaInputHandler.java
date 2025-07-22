@@ -71,8 +71,7 @@ public class MetaInputHandler extends KeyAdapter {
 	public void keyPressed(KeyEvent e) {
 		int mouseMasks = KeyEvent.BUTTON1_DOWN_MASK + KeyEvent.BUTTON2_DOWN_MASK
 				+ KeyEvent.BUTTON3_DOWN_MASK;
-		int modifiersWithoutMouse = (e.getModifiersEx() | mouseMasks)
-				- mouseMasks;
+		int modifiersWithoutMouse = e.getModifiersEx() & ~mouseMasks;
 
 		for (MetaInput inp : MetaInput.values()) {
 			if (e.getKeyCode() == inp.keyCode
