@@ -81,6 +81,7 @@ public class GameController extends WindowAdapter {
 	public void startGame() {
 		loadLevel(FIRST_LEVEL);
 		mainFrame.setVisible(true);
+
 		new Timer().schedule(new TimerTask() {
 			public void run() {
 				try {
