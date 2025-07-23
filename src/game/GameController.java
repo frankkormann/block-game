@@ -4,6 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -286,14 +287,7 @@ public class GameController extends WindowAdapter {
 				hints.forEach(h -> h.toggleVisible());
 				break;
 			case PLAY_SOLUTION:
-				if (currentSolution != "") {
-					reloadLevel();
-					JOptionPane.showMessageDialog(mainFrame,
-							"Press S to stop playback at any time.",
-							"Seen Enough?", JOptionPane.INFORMATION_MESSAGE);
-					gameInputHandler.beginReading(
-							getClass().getResourceAsStream(currentSolution));
-				}
+				playSolution();
 				break;
 			case STOP_RECORDING:
 				gameInputHandler.endReading();
@@ -301,6 +295,33 @@ public class GameController extends WindowAdapter {
 			default:
 				throw new IllegalArgumentException("Invalid MetaInput");
 		}
+	}
+
+	private void playSolution() {
+		if (currentSolution == "") {
+			JOptionPane.showMessageDialog(mainFrame,
+					"Current level has no solution file", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		InputStream solutionStream = getClass()
+				.getResourceAsStream(currentSolution);
+
+		if (solutionStream == null) {
+			JOptionPane.showMessageDialog(mainFrame,
+					"Couldn't open solution '" + currentSolution + "'", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		reloadLevel();
+		JOptionPane.showMessageDialog(mainFrame,
+				"Press S to stop playback at any time.", "Seen Enough?",
+				JOptionPane.INFORMATION_MESSAGE);
+
+		gameInputHandler
+				.beginReading(getClass().getResourceAsStream(currentSolution));
 	}
 
 	/**
