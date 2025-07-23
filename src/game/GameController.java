@@ -30,6 +30,10 @@ import game.MetaInputHandler.MetaInput;
  * Level data is read from JSON files. The JSON is used to fill the fields in
  * {@link Level}, so it should have data for each of that class's public
  * attributes.
+ * <p>
+ * If there are arguments passed to {@code main}, the first argument will be
+ * used as the path to the first level's JSON. Otherwise, a default first level
+ * will be used.
  * 
  * @author Frank Kormann
  */

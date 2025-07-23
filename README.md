@@ -129,8 +129,9 @@ Each level is built from a `JSON` file. See
 requirements. See `level_demo.json` for an example level that creates every type
 of rectangle.
 
-The game will automatically load `level_1.json` as its first level. Subsequent
-level filenames are read from the activated Goal Area.
+The game will automatically load `level_1.json` as its first level unless a
+command-line argument is used. Subsequent level filenames are read from the
+activated Goal Area.
 
 ## Contributing
 
