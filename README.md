@@ -105,6 +105,18 @@ current level. Then open an issue on this GitHub page and include:
 - A description of the bug
 - Any other information you think is relevant
 
+### Starting from a specific level
+
+If you want to resume playing from a specific level, start the `jar` file from
+the command line and type the level number you want to play after it like so:
+
+`"block game 0.7-beta" [LEVEL NUMBER HERE]`
+
+For example: `"block game 0.7-beta" 18` will start you on the 18th level.
+
+Remembering which level number you stopped playing at is left as an exercise
+for the user.
+
 ## Technical details
 
 ### Version information
