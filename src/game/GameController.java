@@ -144,37 +144,8 @@ public class GameController extends WindowAdapter {
 		hints.clear();
 
 		currentSolution = level.solution;
-
-		for (MovingRectangle rect : level.movingRectangles) {
-			physicsSimulator.addMovingRectangle(rect);
-			mainFrame.add(rect, 1);
-			for (Area attached : rect.getAttachments()) {
-				physicsSimulator.addArea(attached);
-				mainFrame.add(attached, 0);
-			}
-		}
-		for (WallRectangle wall : level.walls) {
-			physicsSimulator.addWall(wall);
-			mainFrame.add(wall, 2);
-			for (Area attached : wall.getAttachments()) {
-				physicsSimulator.addArea(attached);
-				mainFrame.add(attached, 0);
-			}
-		}
-		for (Area area : level.areas) {
-			physicsSimulator.addArea(area);
-			mainFrame.add(area, 0);
-		}
-		for (GoalArea goal : level.goals) {
-			physicsSimulator.addGoalArea(goal);
-			mainFrame.add(goal, 0);
-		}
-		for (HintRectangle hint : level.hints) {
-			mainFrame.add(hint, 3);
-			hints.add(hint);
-		}
-
 		currentLevel = levelResource;
+		loadObjectsFromLevel(level);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
@@ -184,6 +155,50 @@ public class GameController extends WindowAdapter {
 
 		beginTempRecording();
 		paused = false;
+
+	}
+
+	/**
+	 * Adds all {@code MovingRectangle}s, {@code WallRectangle}s, {@code Area}s,
+	 * {@code GoalArea}s, and {@code HintRectangle}s from {@code level} to
+	 * {@code physicsPanel}, {@code mainFrame}, and/or {@code hints}.
+	 * 
+	 * @param level {@code Level} to take objects from
+	 */
+	private void loadObjectsFromLevel(Level level) {
+
+		for (MovingRectangle rect : level.movingRectangles) {
+			physicsSimulator.addMovingRectangle(rect);
+			mainFrame.add(rect, 1);
+			for (Area attached : rect.getAttachments()) {
+				physicsSimulator.addArea(attached);
+				mainFrame.add(attached, 0);
+			}
+		}
+
+		for (WallRectangle wall : level.walls) {
+			physicsSimulator.addWall(wall);
+			mainFrame.add(wall, 2);
+			for (Area attached : wall.getAttachments()) {
+				physicsSimulator.addArea(attached);
+				mainFrame.add(attached, 0);
+			}
+		}
+
+		for (Area area : level.areas) {
+			physicsSimulator.addArea(area);
+			mainFrame.add(area, 0);
+		}
+
+		for (GoalArea goal : level.goals) {
+			physicsSimulator.addGoalArea(goal);
+			mainFrame.add(goal, 0);
+		}
+
+		for (HintRectangle hint : level.hints) {
+			mainFrame.add(hint, 3);
+			hints.add(hint);
+		}
 
 	}
 
