@@ -223,7 +223,7 @@ public class GameController extends WindowAdapter {
 	 * <li>Redraws {@code MainFrame}
 	 * </ul>
 	 */
-	public void nextFrame() {
+	private void nextFrame() {
 		Pair<Map<Direction, Integer>, Set<GameInput>> allInputs = gameInputHandler
 				.poll();
 
