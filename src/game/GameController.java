@@ -54,7 +54,8 @@ public class GameController extends WindowAdapter {
 
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
-		new GameController().startGame();
+		new GameController()
+				.startGame(args.length == 0 ? FIRST_LEVEL : args[0]);
 	}
 
 	/**
@@ -78,11 +79,13 @@ public class GameController extends WindowAdapter {
 	}
 
 	/**
-	 * Loads the first level and begins a repeating {@code TimerTask} to process
-	 * each frame.
+	 * Loads {@code firstLevel} and begins a repeating {@code TimerTask} to
+	 * process each frame.
+	 * 
+	 * @param firstLevel resource name of first level to load
 	 */
-	public void startGame() {
-		loadLevel(FIRST_LEVEL);
+	public void startGame(String firstLevel) {
+		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
 		new Timer().schedule(new TimerTask() {
