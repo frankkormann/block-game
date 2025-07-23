@@ -121,7 +121,7 @@ public class GameController extends WindowAdapter {
 
 		paused = true;
 
-		Level level = null;
+		Level level;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
