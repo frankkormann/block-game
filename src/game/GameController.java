@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -271,6 +273,9 @@ public class GameController extends WindowAdapter {
 			case PLAY_SOLUTION:
 				if (currentSolution != "") {
 					reloadLevel();
+					JOptionPane.showMessageDialog(mainFrame,
+							"Press S to stop playback at any time.",
+							"Seen Enough?", JOptionPane.INFORMATION_MESSAGE);
 					gameInputHandler.beginReading(
 							getClass().getResourceAsStream(currentSolution));
 				}
