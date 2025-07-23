@@ -92,6 +92,17 @@ class ErrorDialogTest {
 		}
 
 		@Test
+		void dialog_is_properly_sized_when_message_area_has_wrapped_lines() {
+			error = new Exception(
+					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+			errorDialog = new ErrorDialog(TITLE, MESSAGE, error);
+			findTopComponents();
+
+			assertTrue(messageArea.getPreferredSize().height <= messageArea
+					.getSize().height);
+		}
+
+		@Test
 		void button_panel_contains_three_buttons() {
 			assertEquals(3, buttonPanel.getComponents().length);
 
