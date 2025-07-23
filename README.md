@@ -116,8 +116,8 @@ The project is developed in using:
 
 ### Documentation
 
-The most up-to-date documention, including Javadocs and required format for JSON,
-can be found through the wiki:
+The most up-to-date documention, including Javadocs and required format for
+level JSON, can be found through the wiki:
 [https://github.com/frankkormann/block-game/wiki](https://github.com/frankkormann/block-game/wiki).
 
 ### Creating / editing levels
