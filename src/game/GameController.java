@@ -132,6 +132,8 @@ public class GameController extends WindowAdapter {
 				System.exit(1);
 			}
 
+			paused = false;
+
 			return;
 		}
 
