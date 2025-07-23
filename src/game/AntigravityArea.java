@@ -52,6 +52,8 @@ public class AntigravityArea extends Area {
 	 * @param rect unused
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {}
+	protected void everyFrame(MovingRectangle rect) {
+		rect.setHasGravity(false);
+	}
 
 }
