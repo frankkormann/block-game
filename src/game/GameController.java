@@ -32,7 +32,7 @@ import game.MetaInputHandler.MetaInput;
  * attributes.
  * <p>
  * If there are arguments passed to {@code main}, the first argument will be
- * used as the path to the first level's JSON. Otherwise, a default first level
+ * used as the level number of the first level. Otherwise, a default first level
  * will be used.
  * 
  * @author Frank Kormann
@@ -58,8 +58,8 @@ public class GameController extends WindowAdapter {
 
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
-		new GameController()
-				.startGame(args.length == 0 ? FIRST_LEVEL : args[0]);
+		new GameController().startGame(
+				args.length == 0 ? FIRST_LEVEL : "/level_" + args[0] + ".json");
 	}
 
 	/**
