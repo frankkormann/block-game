@@ -43,25 +43,13 @@ public class ErrorDialog extends JDialog {
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-		JTextArea messageArea = createTextArea(message + "\n\n" + err, 1, 50);
-		messageArea.setLineWrap(true);
-		setMaximumSizeHeight(messageArea,
-				messageArea.getPreferredSize().height);
+		JTextArea messageArea = createMessageArea(message, err);
 
 		JTextArea stackTraceArea = createTextArea(
 				err.toString() + "\n\n" + buildStackTrace(err), 20, 50);
-		JScrollPane scrollPane = new JScrollPane(stackTraceArea);
-		scrollPane.setMaximumSize(
-				new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-		scrollPane.setVisible(false);
+		JScrollPane scrollPane = createScrollPane(stackTraceArea);
 
-		JPanel buttonPanel = createButtonsPanel("Details", "OK", "Copy",
-				scrollPane, stackTraceArea);
-		buttonPanel.setPreferredSize(
-				new Dimension(scrollPane.getPreferredSize().width,
-						buttonPanel.getPreferredSize().height));
-		setMaximumSizeHeight(buttonPanel,
-				buttonPanel.getPreferredSize().height);
+		JPanel buttonPanel = createButtonsPanel(scrollPane, stackTraceArea);
 
 		setAlignmentForAll(LEFT_ALIGNMENT, messageArea, buttonPanel,
 				scrollPane);
@@ -77,6 +65,37 @@ public class ErrorDialog extends JDialog {
 															  // taken into
 															  // account by
 															  // pack()
+	}
+
+	private JTextArea createMessageArea(String message, Exception err) {
+		JTextArea messageArea = createTextArea(message + "\n\n" + err, 1, 50);
+		messageArea.setLineWrap(true);
+		setMaximumSizeHeight(messageArea,
+				messageArea.getPreferredSize().height);
+
+		return messageArea;
+	}
+
+	private JScrollPane createScrollPane(Component toContain) {
+		JScrollPane scrollPane = new JScrollPane(toContain);
+		scrollPane.setMaximumSize(
+				new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+		scrollPane.setVisible(false);
+
+		return scrollPane;
+	}
+
+	private JPanel createButtonsPanel(JScrollPane scrollPaneToReveal,
+			JTextArea textAreaToCopy) {
+		JPanel buttonPanel = createButtonsPanel("Details", "OK", "Copy",
+				scrollPaneToReveal, textAreaToCopy);
+		buttonPanel.setPreferredSize(
+				new Dimension(scrollPaneToReveal.getPreferredSize().width,
+						buttonPanel.getPreferredSize().height));
+		setMaximumSizeHeight(buttonPanel,
+				buttonPanel.getPreferredSize().height);
+
+		return buttonPanel;
 	}
 
 	/**
