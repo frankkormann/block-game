@@ -132,8 +132,9 @@ public class GameController extends WindowAdapter {
 		catch (Exception e) {
 			e.printStackTrace();
 			new ErrorDialog("Error",
-					"Could not load level '" + levelResource + "'", e)
-					.setVisible(true);
+					"Could not load level '" + levelResource
+							+ "', file probably does not exist",
+					e).setVisible(true);
 
 			if (mainFrame.isVisible()) {
 				physicsSimulator.resetNextlevel();
