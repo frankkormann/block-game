@@ -80,9 +80,8 @@ public class MainFrame extends JFrame implements Resizable {
 	}
 
 	/**
-	 * Creates a new {@code MainFrame} and populates it with all classes it
-	 * depends on. {@code gameInputHandler} is registered to this as a
-	 * {@code KeyListener} and {@code FocusListener}.
+	 * Creates a new {@code MainFrame}. {@code gameInputHandler} is registered
+	 * to this as a {@code KeyListener} and {@code FocusListener}.
 	 * 
 	 * @param gameInputHandler {@code GameInputHandler} to register
 	 */

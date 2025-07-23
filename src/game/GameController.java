@@ -63,8 +63,7 @@ public class GameController extends WindowAdapter {
 	}
 
 	/**
-	 * Creates a {@code GameController} and populates it with all classes it
-	 * depends on.
+	 * Creates a {@code GameController}.
 	 */
 	public GameController() {
 		gameInputHandler = new GameInputHandler();
