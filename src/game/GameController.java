@@ -103,7 +103,7 @@ public class GameController extends WindowAdapter {
 	 * Restarts and reloads the current level, and stops reading from the
 	 * recording file if there is one.
 	 */
-	public void reloadLevel() {
+	private void reloadLevel() {
 		gameInputHandler.endReading();
 		loadLevel(currentLevel);
 	}
