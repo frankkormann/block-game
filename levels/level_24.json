@@ -2,7 +2,7 @@
 	"name": "Pick Up and Put Down",
 	"width": 700,
 	"height": 400,
-	"solution": "/level_23.rec",
+	"solution": "/level_24.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
