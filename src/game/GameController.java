@@ -110,6 +110,8 @@ public class GameController extends WindowAdapter {
 
 	private void loadLevel(String levelResource) {
 
+		paused = true;
+
 		Level level = null;
 
 		try {
@@ -176,8 +178,8 @@ public class GameController extends WindowAdapter {
 
 		mainFrame.moveToMiddleOfScreen();
 
-		paused = false;
 		beginTempRecording();
+		paused = false;
 
 	}
 
