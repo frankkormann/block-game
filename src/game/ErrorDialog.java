@@ -44,10 +44,14 @@ public class ErrorDialog extends JDialog {
 
 		JTextArea messageArea = createTextArea(message + "\n\n" + err, 1, 50);
 		messageArea.setLineWrap(true);
+		setMaximumSizeHeight(messageArea,
+				messageArea.getPreferredSize().height);
 
 		JTextArea stackTraceArea = createTextArea(
 				err.toString() + "\n\n" + buildStackTrace(err), 20, 50);
 		JScrollPane scrollPane = new JScrollPane(stackTraceArea);
+		scrollPane.setMaximumSize(
+				new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		scrollPane.setVisible(false);
 
 		JPanel buttonPanel = createButtonsPanel("Details", "OK", "Copy",
@@ -55,6 +59,8 @@ public class ErrorDialog extends JDialog {
 		buttonPanel.setPreferredSize(
 				new Dimension(scrollPane.getPreferredSize().width,
 						buttonPanel.getPreferredSize().height));
+		setMaximumSizeHeight(buttonPanel,
+				buttonPanel.getPreferredSize().height);
 
 		setAlignmentForAll(LEFT_ALIGNMENT, messageArea, buttonPanel,
 				scrollPane);
@@ -156,6 +162,16 @@ public class ErrorDialog extends JDialog {
 			trace += elem + "\n";
 		}
 		return trace;
+	}
+
+	/**
+	 * Sets only the height of {@code comp}'s maximum size.
+	 * 
+	 * @param comp   {@code Component} to alter
+	 * @param height new maximum height
+	 */
+	private void setMaximumSizeHeight(Component comp, int height) {
+		comp.setMaximumSize(new Dimension(comp.getMaximumSize().width, height));
 	}
 
 	/**
