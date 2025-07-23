@@ -70,8 +70,12 @@ public class ErrorDialog extends JDialog {
 		add(buttonPanel);
 		add(scrollPane);
 
-		pack();
-		setLocationRelativeTo(null);
+		messageArea.setSize(messageArea.getPreferredSize());  // Fix issue where
+		pack();												  // wrapped line
+		setLocationRelativeTo(null);						  // height is not
+															  // taken into
+															  // account by
+															  // pack()
 	}
 
 	/**
