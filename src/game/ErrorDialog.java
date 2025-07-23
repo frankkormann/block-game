@@ -37,9 +37,9 @@ public class ErrorDialog extends JDialog {
 	public ErrorDialog(String title, String message, Exception err) {
 		super((Frame) null, title, true);
 
-		JPanel panelContentPane = new JPanel(); // Ensure that content pane is a
-		setContentPane(panelContentPane);	   // JPanel so it can have a border
-		panelContentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
+		setContentPane(contentPanePanel);	   // JPanel so it can have a border
+		contentPanePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
