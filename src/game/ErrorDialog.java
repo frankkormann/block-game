@@ -7,6 +7,7 @@ import java.awt.Frame;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -66,6 +67,7 @@ public class ErrorDialog extends JDialog {
 				scrollPane);
 
 		add(messageArea);
+		add(Box.createVerticalGlue());
 		add(buttonPanel);
 		add(scrollPane);
 
