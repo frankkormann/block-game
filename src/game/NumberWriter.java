@@ -61,7 +61,7 @@ public class NumberWriter {
 	 * First, {@code i} is split into four bytes. Any bytes which are entirely
 	 * {@code 0} and do not have useful bytes above them are thrown out. Then,
 	 * the number of remaining bytes is written and each byte is written in
-	 * turn. If {@i == 0}, only one byte (being 0) is written.
+	 * turn. If {@code i == 0}, only one byte (being 0) is written.
 	 * <p>
 	 * If {@code i} is negative, the byte indicating the number of bytes in
 	 * {@code i} will be negative. Each byte of {@code i} represents {@code i}'s

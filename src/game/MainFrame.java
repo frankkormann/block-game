@@ -32,8 +32,8 @@ import javax.swing.UIManager;
  * width/height and title. Then add each {@code Rectangle} with {@code add}. A
  * level should be loaded before calling {@code setVisible(true)} to avoid
  * graphical glitches.
- * 
- * @apiNote Assumes look-and-feel is FlatLightLaf
+ * <p>
+ * Note: Assumes look-and-feel is FlatLightLaf
  * 
  * @author Frank Kormann
  */

@@ -49,6 +49,8 @@ public class NumberReader {
 	 * Closes the input stream if end-of-input is detected.
 	 * 
 	 * @return next {@code byte} as {@code int}
+	 * 
+	 * @throws IOException if an I/O error occurs
 	 */
 	public int readByte() throws IOException {
 		int value;
@@ -83,6 +85,8 @@ public class NumberReader {
 	 * Closes the input stream if end-of-input is detected.
 	 * 
 	 * @return next {@code int}
+	 * 
+	 * @throws IOException if an I/O error occurs
 	 */
 	public int readInt() throws IOException {
 		int i = 0;

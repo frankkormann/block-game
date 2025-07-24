@@ -130,6 +130,9 @@ public class MovingRectangle extends Rectangle {
 	 * Sets {@code x += xChange}, {@code y += yChange}. If this was moved in the
 	 * opposite direction to its velocity, sets that component of its velocity
 	 * to zero.
+	 * 
+	 * @param xChange amount to move in x direction
+	 * @param yChange amount to move in y direction
 	 */
 	public void moveCollision(int xChange, int yChange) {
 
