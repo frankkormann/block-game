@@ -23,9 +23,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MovingRectangle extends Rectangle {
 
 	public enum Colors {
-		BLACK(0, 0, 0, 255), BLUE(130, 202, 255, 255), GREEN(100, 250, 100, 255),
-		GRAY(229, 229, 229, 255), ORANGE(255, 174, 66, 255), RED(246, 114, 128, 255),
-		PLAYER(66, 148, 255, 255);
+		BLACK(0, 0, 0, 255), BLUE(130, 202, 255, 255),
+		GREEN(100, 250, 100, 255), GRAY(229, 229, 229, 255),
+		ORANGE(255, 174, 66, 255), RED(246, 114, 128, 255),
+		PLAYER(66, 148, 255, 255), PINK(255, 119, 255, 255);
 
 		public final Color color;
 
@@ -44,7 +45,8 @@ public class MovingRectangle extends Rectangle {
 	private int xVelocity, yVelocity;
 
 	private int lastX, lastY, lastWidth, lastHeight;
-	// These are used in collision to determine how much width/height to remove if
+	// These are used in collision to determine how much width/height to remove
+	// if
 	// this is colliding because it increased in width/height
 	private int leftWidthChange, topHeightChange;
 
@@ -64,7 +66,8 @@ public class MovingRectangle extends Rectangle {
 
 	@JsonCreator
 	public MovingRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
-			@JsonProperty("width") int width, @JsonProperty("height") int height,
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height,
 			@JsonProperty("color") Colors color) {
 		this(x, y, width, height, color.color);
 	}
@@ -81,13 +84,13 @@ public class MovingRectangle extends Rectangle {
 
 		updateLastPosition();
 
-		addAttachment(new GroundingArea(x, y - 1, width, 1),
+		addAttachment(new GroundingArea(x, y - 1, width),
 				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 
 	/**
-	 * Updates the stored location of this on the previous frame to be equal to its
-	 * current position. This should be called at the start of each frame.
+	 * Updates the stored location of this on the previous frame to be equal to
+	 * its current position. This should be called at the start of each frame.
 	 */
 	public void updateLastPosition() {
 		lastX = getX();
@@ -125,8 +128,11 @@ public class MovingRectangle extends Rectangle {
 
 	/**
 	 * Sets {@code x += xChange}, {@code y += yChange}. If this was moved in the
-	 * opposite direction to its velocity, sets that component of its velocity to
-	 * zero.
+	 * opposite direction to its velocity, sets that component of its velocity
+	 * to zero.
+	 * 
+	 * @param xChange amount to move in x direction
+	 * @param yChange amount to move in y direction
 	 */
 	public void moveCollision(int xChange, int yChange) {
 
@@ -155,10 +161,12 @@ public class MovingRectangle extends Rectangle {
 		boolean usedToBeInBoundsX = (lastX <= other.getLastX()
 				&& other.getLastX() < lastX + lastWidth)
 				|| (lastX < other.getLastX() + other.getLastWidth()
-						&& other.getLastX() + other.getLastWidth() <= lastX + lastWidth)
+						&& other.getLastX() + other.getLastWidth() <= lastX
+								+ lastWidth)
 				|| (other.getLastX() < lastX
 						&& lastX < other.getLastX() + other.getLastWidth());
-		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsX;
+		return canInteract(other) && other.canInteract(this)
+				&& usedToBeInBoundsX;
 	}
 
 	/**
@@ -172,19 +180,21 @@ public class MovingRectangle extends Rectangle {
 	public boolean usedToIntersectY(Rectangle other) {
 		boolean usedToBeInBoundsY = (lastY <= other.getLastY()
 				&& other.getLastY() < lastY + lastHeight)
-				|| (lastY < other.getLastY() + other.getLastHeight() && other.getLastY()
-						+ other.getLastHeight() <= lastY + lastHeight)
+				|| (lastY < other.getLastY() + other.getLastHeight()
+						&& other.getLastY() + other.getLastHeight() <= lastY
+								+ lastHeight)
 				|| (other.getLastY() < lastY
 						&& lastY < other.getLastY() + other.getLastHeight());
-		return canInteract(other) && other.canInteract(this) && usedToBeInBoundsY;
+		return canInteract(other) && other.canInteract(this)
+				&& usedToBeInBoundsY;
 	}
 
 	/**
 	 * Change the width by {@code change}.
 	 * <p>
-	 * If {@code addToLeft} is {@code true}, the left edge of this will move and the
-	 * right edge will stay in place. Otherwise, the right edge will move and the
-	 * left edge will stay in place.
+	 * If {@code addToLeft} is {@code true}, the left edge of this will move and
+	 * the right edge will stay in place. Otherwise, the right edge will move
+	 * and the left edge will stay in place.
 	 * 
 	 * @param change    amount to adjust width by
 	 * @param addToLeft {@code true} if the left edge should move
@@ -205,9 +215,9 @@ public class MovingRectangle extends Rectangle {
 	/**
 	 * Change the height by {@code change}.
 	 * <p>
-	 * If {@code addToTop} is {@code true}, the top edge of this will move and the
-	 * bottom edge will stay in place. Otherwise, the bottom edge will move and the
-	 * top edge will stay in place.
+	 * If {@code addToTop} is {@code true}, the top edge of this will move and
+	 * the bottom edge will stay in place. Otherwise, the bottom edge will move
+	 * and the top edge will stay in place.
 	 * 
 	 * @param change   amount to adjust height by
 	 * @param addToTop {@code true} if the top edge should move

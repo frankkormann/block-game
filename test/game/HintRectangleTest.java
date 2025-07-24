@@ -35,7 +35,8 @@ class HintRectangleTest {
 			assertEquals(rgb, bufferedImage.getRGB(x, y));
 		}
 		catch (AssertionError e) {
-			System.out.println("Pixel color at " + x + ", " + y + " assertion failed");
+			System.out.println(
+					"Pixel color at " + x + ", " + y + " assertion failed");
 			throw e;
 		}
 	}

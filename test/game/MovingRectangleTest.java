@@ -35,7 +35,8 @@ class MovingRectangleTest {
 	void comes_with_a_GroundingArea_by_default() {
 		List<Area> attachments = rect.getAttachments();
 
-		assertTrue(attachments.stream().anyMatch(a -> a instanceof GroundingArea));
+		assertTrue(
+				attachments.stream().anyMatch(a -> a instanceof GroundingArea));
 	}
 
 	@Test
@@ -125,8 +126,8 @@ class MovingRectangleTest {
 
 		@BeforeEach
 		void createSecondRectangle() {
-			other = new MovingRectangle(rect.getX(), rect.getY(), rect.getWidth(),
-					rect.getHeight());
+			other = new MovingRectangle(rect.getX(), rect.getY(),
+					rect.getWidth(), rect.getHeight());
 		}
 
 		void updateLastPositions() {

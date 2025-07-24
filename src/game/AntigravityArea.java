@@ -15,13 +15,10 @@ public class AntigravityArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(255, 119, 255, 96);
 
-	public AntigravityArea() {
-		this(0, 0, 0, 0);
-	}
-
 	@JsonCreator
 	public AntigravityArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
-			@JsonProperty("width") int width, @JsonProperty("height") int height) {
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height) {
 		super(x, y, width, height, DEFAULT_COLOR);
 	}
 
@@ -46,11 +43,13 @@ public class AntigravityArea extends Area {
 	}
 
 	/**
-	 * Not implemented.
+	 * Removes {@code rect}'s gravity.
 	 * 
-	 * @param rect unused
+	 * @param rect {@code MovingRectangle} to affect
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {}
+	protected void everyFrame(MovingRectangle rect) {
+		rect.setHasGravity(false);
+	}
 
 }

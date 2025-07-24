@@ -16,8 +16,11 @@ import game.MovingRectangle.State;
  */
 public class GroundingArea extends Area {
 
-	public GroundingArea(int x, int y, int width, int height) {
-		super(x, y, width, height, new Color(0, 0, 0, 0));
+	private static int HEIGHT = 1; // TODO Add leniency for jumping when
+									 // hovering a few pixels above the floor
+
+	public GroundingArea(int x, int y, int width) {
+		super(x, y, width, HEIGHT, new Color(0, 0, 0, 0));
 	}
 
 	/**

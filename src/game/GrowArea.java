@@ -27,26 +27,23 @@ public class GrowArea extends Area {
 
 	private int xGrowth, yGrowth;
 
-	public GrowArea() {
-		this(0, 0, 0, 0, 0, 0);
-	}
-
 	/**
 	 * Note: {@code xGrowth} and {@code yGrowth} effect each side of the
-	 * {@code MovingRectangle} independently. Therefore, if both sides are growing,
-	 * the {@code MovingRectangle}'s {@code width} will increase at twice the
-	 * nominal rate.
+	 * {@code MovingRectangle} independently. Therefore, if both sides are
+	 * growing, the {@code MovingRectangle}'s {@code width} will increase at
+	 * twice the nominal rate.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
+	 * @param x       x position
+	 * @param y       y position
+	 * @param width   width
+	 * @param height  height
 	 * @param xGrowth amount to grow the left/right sides by each frame
 	 * @param yGrowth amount to grow the top/bottom sides by each frame
 	 */
 	@JsonCreator
 	public GrowArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
-			@JsonProperty("width") int width, @JsonProperty("height") int height,
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height,
 			@JsonProperty("xGrowth") int xGrowth,
 			@JsonProperty("yGrowth") int yGrowth) {
 		super(x, y, width, height, DEFAULT_COLOR);
@@ -63,22 +60,24 @@ public class GrowArea extends Area {
 		if (xGrowth != 0) {
 			drawArrow(g, getX() + ARROW_INSET, getY() + getHeight() / 2,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
-					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					Direction.WEST);
-			drawArrow(g, getX() + getWidth() - ARROW_INSET, getY() + getHeight() / 2,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
-					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					Direction.EAST);
+					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
+					ARROW_TAIL_WIDTH, Direction.WEST);
+			drawArrow(g, getX() + getWidth() - ARROW_INSET,
+					getY() + getHeight() / 2, ARROW_HEAD_LENGTH,
+					ARROW_HEAD_WIDTH,
+					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
+					ARROW_TAIL_WIDTH, Direction.EAST);
 		}
 		if (yGrowth != 0) {
 			drawArrow(g, getX() + getWidth() / 2, getY() + ARROW_INSET,
 					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
-					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					Direction.NORTH);
-			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() - ARROW_INSET,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
-					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH, ARROW_TAIL_WIDTH,
-					Direction.SOUTH);
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
+					ARROW_TAIL_WIDTH, Direction.NORTH);
+			drawArrow(g, getX() + getWidth() / 2,
+					getY() + getHeight() - ARROW_INSET, ARROW_HEAD_LENGTH,
+					ARROW_HEAD_WIDTH,
+					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
+					ARROW_TAIL_WIDTH, Direction.SOUTH);
 		}
 
 		g.dispose();

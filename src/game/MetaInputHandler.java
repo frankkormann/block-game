@@ -3,16 +3,18 @@ package game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * Handles inputs that are not directly related to playing the game.
+ * Reports player input which is not directly related to playing the game, for
+ * example pausing or reloading the level.
+ * <p>
+ * If an input requires multiple pieces to be acted on, this will interrupt the
+ * game to get the extra information. For instance, loading a file requires
+ * asking the player which file to load.
  * 
  * @author Frank Kormann
  */
@@ -44,53 +46,36 @@ public class MetaInputHandler extends KeyAdapter {
 		}
 	}
 
-	private GameController actionListener;
-	private List<HintRectangle> hints;
-	private String solutionResource;
+	private GameController listener;
 
 	private JFileChooser fileChooser;
 
 	/**
-	 * Creates a new {@code MetaInputHandler} which affects {@code actionListener}.
+	 * Creates a new {@code MetaInputHandler} which passes events to
+	 * {@code listener}.
 	 * 
-	 * @param actionListener {@code GameController} to receive events
+	 * @param listener {@code GameController} to receive events
 	 */
-	public MetaInputHandler(GameController actionListener) {
-		this.actionListener = actionListener;
-		hints = new ArrayList<>();
-		solutionResource = "";
+	public MetaInputHandler(GameController listener) {
+		this.listener = listener;
 
-		fileChooser = new JFileChooser();  // global file chooser so it remembers which
-											  // directory the user was in if they open
-											  // it multiple times
+		fileChooser = new JFileChooser();  // global file chooser so it
+											  // remembers which directory the
+											  // user was in if they open it
+											  // multiple times
 		fileChooser.setFileFilter(
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 	}
 
-	/**
-	 * Registers {@code hint} with this. {@code HintRectangle}s which are registered
-	 * will be toggled visible or not visible.
-	 * 
-	 * @param hint {@code HintRectangle} to add
-	 */
-	public void addHint(HintRectangle hint) {
-		hints.add(hint);
-	}
-
-	/**
-	 * Sets the solution recording to play. {@code solutionResource} must be able to
-	 * be found by {@link java.lang.Class#getResourceAsStream(String)}.
-	 * 
-	 * @param solutionResource name of resource
-	 */
-	public void setSolution(String solutionResource) {
-		this.solutionResource = solutionResource;
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
+		int mouseMasks = KeyEvent.BUTTON1_DOWN_MASK + KeyEvent.BUTTON2_DOWN_MASK
+				+ KeyEvent.BUTTON3_DOWN_MASK;
+		int modifiersWithoutMouse = e.getModifiersEx() & ~mouseMasks;
+
 		for (MetaInput inp : MetaInput.values()) {
-			if (e.getKeyCode() == inp.keyCode && (e.getModifiersEx() ^ inp.mask) == 0) {
+			if (e.getKeyCode() == inp.keyCode
+					&& (modifiersWithoutMouse ^ inp.mask) == 0) {
 				handleInput(inp);
 				break;
 			}
@@ -100,71 +85,30 @@ public class MetaInputHandler extends KeyAdapter {
 	private void handleInput(MetaInput input) {
 		switch (input) {
 			case FRAME_ADVANCE:
-				if (actionListener.isPaused()) {
-					actionListener.nextFrame();
-				}
-				break;
 			case PAUSE:
-				actionListener.setPaused(!actionListener.isPaused());
-				break;
-			case PLAY_RECORDING: {
-				playRecording();
-				break;
-			}
 			case RELOAD_LEVEL:
-				actionListener.reloadLevel();
+			case STOP_RECORDING:
+			case TOGGLE_HINTS:
+			case PLAY_SOLUTION:
+				listener.processMetaInput(input);
 				break;
 			case SAVE_RECORDING: {
-				saveRecording();
-				break;
-			}
-			case STOP_RECORDING:
-				actionListener.endPlayback();
-				break;
-			case TOGGLE_HINTS:
-				hints.forEach(h -> h.toggleVisible());
-				break;
-			case PLAY_SOLUTION:
-				if (solutionResource != "") {
-					actionListener.reloadLevel();
-					actionListener.startPlayback(solutionResource);
+				File saveFile = promptFileSaveLocation();
+				if (saveFile == null) {
+					return;
 				}
+				listener.processMetaInput(input, saveFile);
 				break;
-		}
-	}
-
-	private void playRecording() {
-		boolean wasPaused = actionListener.isPaused();
-		actionListener.setPaused(true);
-		File openFile = promptFileOpenLocation();
-		if (openFile != null) {
-			try {
-				actionListener.startPlayback(openFile);
 			}
-			catch (IOException e) {
-				JOptionPane.showMessageDialog(fileChooser, "Could not load file\n" + e,
-						"Error", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+			case PLAY_RECORDING: {
+				File openFile = promptFileOpenLocation();
+				if (openFile == null) {
+					return;
+				}
+				listener.processMetaInput(input, openFile);
+				break;
 			}
 		}
-		actionListener.setPaused(wasPaused);
-	}
-
-	private void saveRecording() {
-		boolean wasPaused = actionListener.isPaused();
-		actionListener.setPaused(true);
-		File saveFile = promptFileSaveLocation();
-		if (saveFile != null) {
-			try {
-				actionListener.saveRecording(saveFile);
-			}
-			catch (IOException e) {
-				JOptionPane.showMessageDialog(fileChooser, "Could not save file\n" + e,
-						"Error", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
-			}
-		}
-		actionListener.setPaused(wasPaused);
 	}
 
 	private File promptFileSaveLocation() {
@@ -185,7 +129,8 @@ public class MetaInputHandler extends KeyAdapter {
 				saveFile = new File(saveFile.getPath() + ".rec");
 			}
 
-			if (fileChooserResult == JFileChooser.APPROVE_OPTION && saveFile.exists()) {
+			if (fileChooserResult == JFileChooser.APPROVE_OPTION
+					&& saveFile.exists()) {
 				String message = saveFile.getName()
 						+ " already exists.\nDo you want to replace it?";
 				canSave = JOptionPane.showConfirmDialog(fileChooser, message,

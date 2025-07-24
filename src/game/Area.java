@@ -30,6 +30,10 @@ public abstract class Area extends Rectangle {
 
 	@Override
 	public void draw(Graphics g) {
+		if (getColor().getAlpha() == 0) {
+			return;
+		}
+
 		g = g.create();
 		g.setColor(getColor());
 		g.fillRect(getX(), getY(), getWidth(), getHeight());

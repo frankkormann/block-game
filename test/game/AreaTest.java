@@ -37,7 +37,8 @@ class AreaTest {
 		drawArea();
 
 		int edgeColor = bufferedImage.getRGB(area.getX(), area.getY());
-		int centerColor = bufferedImage.getRGB(area.getX() + area.getWidth() / 2,
+		int centerColor = bufferedImage.getRGB(
+				area.getX() + area.getWidth() / 2,
 				area.getY() + area.getHeight() / 2);
 
 		assertEquals(edgeColor, centerColor);

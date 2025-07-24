@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -11,12 +13,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import game.MainFrame.Direction;
 
 /**
  * Get inputs from the user or a stream. Optionally write inputs to a stream.
+ * <p>
+ * This should be registered as a {@code KeyListener} and {@code FocusListener}
+ * to the main window. If the window loses focus, all keys will be considered
+ * un-pressed to prevent a key from becoming "stuck" down since the
+ * {@code KeyEvent.KEY_RELEASED} event cannot be dispatched.
  * <p>
  * By default, inputs will be taken from the user. Key presses will be taken
  * from the keyboard and window resizes will be taken from calls to
@@ -32,11 +37,13 @@ import game.MainFrame.Direction;
  * 
  * @author Frank Kormann
  */
-public class GameInputHandler extends KeyAdapter implements Resizable {
+public class GameInputHandler extends KeyAdapter
+		implements FocusListener, Resizable {
 
 	public enum GameInput {
 		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
-		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT), RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
+		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT),
+		RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
 
 		/**
 		 * Key codes which will trigger this
@@ -50,15 +57,12 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
-	private InputStream reader;
-	private OutputStream writer;
-
-	private int nextByte;
-	private int writingZerosInARow;
-	private int readingZerosInARow;
+	private NumberReader reader;
+	private NumberWriter writer;
 
 	/**
-	 * Creates a new {@code GameInputHandler} with no input stream or output stream.
+	 * Creates a new {@code GameInputHandler} with no input stream or output
+	 * stream.
 	 */
 	public GameInputHandler() {
 		keysPressed = new HashSet<>();
@@ -70,34 +74,35 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	}
 
 	/**
-	 * Returns the inputs and resizes for this frame. If in reading mode, these will
-	 * be taken from the input stream; otherwise, they will be taken from the user.
-	 * If in writing mode, these will be written to the output stream.
+	 * Returns the inputs and resizes for this frame. If in reading mode, these
+	 * will be taken from the input stream; otherwise, they will be taken from
+	 * the user. If in writing mode, these will be written to the output stream.
 	 * 
-	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in each
-	 *         direction and {@code Set<GameInput>} for inputs
+	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in
+	 *         each direction and {@code Set<GameInput>} for inputs
 	 */
 	public Pair<Map<Direction, Integer>, Set<GameInput>> poll() {
 		try {
 			return new Pair<>(getResizes(), getInputs());
 		}
 		catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Malformed recording data",
-					"Error reading file", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			new ErrorDialog("Error", "Malformed recording data", e)
+					.setVisible(true);
 			endReading();
 			return new Pair<>(new HashMap<>(), new HashSet<>());
 		}
 	}
 
 	/**
-	 * Get the resizes on this frame. If in reading mode, these will be read from
-	 * the input stream . Otherwise, they will be taken from the
+	 * Get the resizes on this frame. If in reading mode, these will be read
+	 * from the input stream . Otherwise, they will be taken from the
 	 * {@code ResizingSides}.
 	 * <p>
 	 * If in writing mode, these will also be written to the output stream.
 	 * 
-	 * @return {@code Map} of {@code Direction} to {@code Integer} amount resized
+	 * @return {@code Map} of {@code Direction} to {@code Integer} amount
+	 *         resized
 	 */
 	private Map<Direction, Integer> getResizes() throws IOException {
 		Map<Direction, Integer> resizes = new HashMap<>();
@@ -106,17 +111,17 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		else {
 			// Make sure values are read in the correct order
-			resizes.put(Direction.NORTH, readInt());
-			resizes.put(Direction.SOUTH, readInt());
-			resizes.put(Direction.WEST, readInt());
-			resizes.put(Direction.EAST, readInt());
+			resizes.put(Direction.NORTH, reader.readInt());
+			resizes.put(Direction.SOUTH, reader.readInt());
+			resizes.put(Direction.WEST, reader.readInt());
+			resizes.put(Direction.EAST, reader.readInt());
 		}
 		if (writer != null) {
 			// Make sure values are written in the correct order
-			writeInt(resizes.get(Direction.NORTH));
-			writeInt(resizes.get(Direction.SOUTH));
-			writeInt(resizes.get(Direction.WEST));
-			writeInt(resizes.get(Direction.EAST));
+			writer.writeInt(resizes.get(Direction.NORTH));
+			writer.writeInt(resizes.get(Direction.SOUTH));
+			writer.writeInt(resizes.get(Direction.WEST));
+			writer.writeInt(resizes.get(Direction.EAST));
 		}
 		zeroAllDirectionsInResizes();
 		return resizes;
@@ -125,8 +130,8 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	/**
 	 * Gets the inputs pressed on this frame.
 	 * <p>
-	 * If in reading mode, these will be read from the input stream. Otherwise, they
-	 * will be taken from the keyboard.
+	 * If in reading mode, these will be read from the input stream. Otherwise,
+	 * they will be taken from the keyboard.
 	 * <p>
 	 * If in writing mode, these will also be written to the output stream.
 	 * 
@@ -157,36 +162,36 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	}
 
 	/**
-	 * Takes input from an {@code InputStream}. If this is already reading from a
-	 * different {@code InputStream}, that stream is replaced.
+	 * Takes input from an {@code InputStream}. If this is already reading from
+	 * a different {@code InputStream}, that stream is replaced.
 	 * 
 	 * @param input {@code InputStream} to read from
 	 */
 	public void beginReading(InputStream input) {
-		reader = input;
-		readingZerosInARow = 0;
 		try {
-			nextByte = reader.read();
+			reader = new NumberReader(input);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error", "Couldn't open stream for reading", e)
+					.setVisible(true);
 		}
 	}
 
 	/**
 	 * Starts writing input to an {@code OutputStream}. If a different
-	 * {@code OutputStream} is already being written to, that stream is replaced.
+	 * {@code OutputStream} is already being written to, that stream is
+	 * replaced.
 	 * 
 	 * @param output {@code OutputStream} to write to
 	 */
 	public void beginWriting(OutputStream output) {
-		writer = output;
-		writingZerosInARow = 0;
+		writer = new NumberWriter(output);
 	}
 
 	/**
-	 * Stops reading and closes the stream. If this is not reading, this method has
-	 * no effect.
+	 * Stops reading and closes the stream. If this is not reading, this method
+	 * has no effect.
 	 */
 	public void endReading() {
 		if (reader == null) {
@@ -198,12 +203,14 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error", "Couldn't close reading stream", e)
+					.setVisible(true);
 		}
 	}
 
 	/**
-	 * Stops writing and closes the stream. If this is not writing, this method has
-	 * no effect.
+	 * Stops writing and closes the stream. If this is not writing, this method
+	 * has no effect.
 	 */
 	public void endWriting() {
 		if (writer == null) {
@@ -216,6 +223,8 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			// Don't pop up an ErrorDialog because the user probably doesn't
+			// care
 		}
 	}
 
@@ -225,73 +234,17 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	private Set<GameInput> readInputs() throws IOException {
 		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
 
-		int numberOfInputs = readByte();
+		int numberOfInputs = reader.readByte();
 		for (int i = 0; i < numberOfInputs; i++) {
-			int inputOrdinal = readByte();
+			int inputOrdinal = reader.readByte();
 			gameInputs.add(GameInput.values()[inputOrdinal]);
 		}
 
+		if (!reader.isOpen) {
+			reader = null;
+		}
+
 		return gameInputs;
-	}
-
-	/**
-	 * Reads the next {@code byte} in the input stream and returns it as an
-	 * {@code int}.
-	 * <p>
-	 * Follows the format defined by {@link#writeByte(int)}.
-	 * <p>
-	 * Closes the input stream if end-of-input is detected.
-	 * 
-	 * @return next {@code byte} as {@code int}
-	 */
-	private int readByte() throws IOException {
-
-		int value;
-
-		if (readingZerosInARow > 0) {
-			readingZerosInARow--;
-			value = 0;
-		}
-		else {
-
-			if (nextByte == 0) {
-				readingZerosInARow = reader.read();
-			}
-
-			value = nextByte;
-
-			nextByte = reader.read();
-
-		}
-
-		if (nextByte == -1 && readingZerosInARow == 0) {
-			endReading();
-		}
-
-		return value;
-	}
-
-	/**
-	 * Interprets the next bytes as an {@code int} written by {@link#writeInt(int)}.
-	 * <p>
-	 * Closes the input stream if end-of-input is detected.
-	 * 
-	 * @return next {@code int}
-	 */
-	private int readInt() throws IOException {
-		int i = 0;
-
-		int numBytes = (byte) readByte();  // Cast to byte for negative values
-		int sign = (int) Math.signum(numBytes);
-		numBytes = Math.abs(numBytes);
-
-		for (int j = 0; j < numBytes; j++) {
-			i += (readByte() & 0xFF) << (Integer.SIZE - Byte.SIZE) * j;
-		}
-
-		i *= sign;
-
-		return i;
 	}
 
 	/**
@@ -300,84 +253,16 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	 * 
 	 * @param gameInputs {@code Set} of {@code Input}s to write
 	 */
-	private void writeInputs(Set<GameInput> gameInputs) {
-		writeByte(gameInputs.size());
-		for (GameInput inp : gameInputs) {
-			writeByte(inp.ordinal());
-		}
-	}
-
-	/**
-	 * Writes a single {@code byte} to the output stream.
-	 * <p>
-	 * For {@code 0} specifically, instead of writing many {@code 0}s in a row, only
-	 * the first {@code 0} is written. Then the number of following {@code 0}s is
-	 * written.
-	 * 
-	 * @param b {@code byte} to write
-	 */
-	private void writeByte(int b) {
-		try {
-
-			if (b == 0) {
-				writingZerosInARow++;
-			}
-			if ((b != 0 && writingZerosInARow > 0) || writingZerosInARow > 0xFF) {
-				writer.write(writingZerosInARow - 1);
-				writingZerosInARow = 0;
-			}
-			if ((b == 0 && writingZerosInARow == 1) || b != 0) {
-				writer.write(b);
-			}
-
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			endWriting();
-		}
-	}
-
-	/**
-	 * Writes a compressed {@code int} to the output stream.
-	 * <p>
-	 * First, {@code i} is split into four bytes. Any bytes which are entirely
-	 * {@code 0} and do not have useful bytes above them are thrown out. Then, the
-	 * number of remaining bytes is written and each byte is written in turn. If
-	 * {@i == 0}, only one byte (being 0) is written.
-	 * <p>
-	 * If {@code i} is negative, the byte indicating the number of bytes in
-	 * {@code i} will be negative. Each byte of {@code i} represents {@code i}'s
-	 * absolute value.
-	 * 
-	 * @param i {@code int} to write
-	 */
-	private void writeInt(int i) {
-
-		if (i == 0) {
-			writeByte(0);
+	private void writeInputs(Set<GameInput> gameInputs) throws IOException {
+		if (!writer.isOpen) {
+			writer = null;
 			return;
 		}
 
-		byte[] bytes = new byte[Integer.BYTES];
-		int usefulBytes;
-		int originalSign = (int) Math.signum(i);
-
-		i = Math.abs(i);
-
-		for (int j = 0; j < Integer.BYTES; j++) {
-			bytes[j] = (byte) i;
-			i >>= Byte.SIZE;
+		writer.writeByte(gameInputs.size());
+		for (GameInput inp : gameInputs) {
+			writer.writeByte(inp.ordinal());
 		}
-
-		for (usefulBytes = bytes.length; usefulBytes > 0
-				&& bytes[usefulBytes - 1] == 0; usefulBytes--)
-			;
-
-		writeByte(usefulBytes * originalSign);
-		for (int j = 0; j < usefulBytes; j++) {
-			writeByte(bytes[j]);
-		}
-
 	}
 
 	/**
@@ -385,14 +270,13 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	 */
 	public void flushWriter() {
 		try {
-			if (writingZerosInARow > 0) {
-				writer.write(writingZerosInARow - 1);
-				writingZerosInARow = 0;
-			}
 			writer.flush();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Potential error",
+					"Couldn't flush output stream, output file may be corrupted",
+					e).setVisible(true);
 		}
 	}
 
@@ -425,6 +309,14 @@ public class GameInputHandler extends KeyAdapter implements Resizable {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		keysPressed.remove(e.getKeyCode());
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		keysPressed.clear();
 	}
 
 }

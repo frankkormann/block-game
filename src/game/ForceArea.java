@@ -19,14 +19,12 @@ public class ForceArea extends Area {
 
 	private int xForce, yForce;
 
-	public ForceArea() {
-		this(0, 0, 0, 0, 0, 0);
-	}
-
 	@JsonCreator
 	public ForceArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
-			@JsonProperty("width") int width, @JsonProperty("height") int height,
-			@JsonProperty("xForce") int xForce, @JsonProperty("yForce") int yForce) {
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height,
+			@JsonProperty("xForce") int xForce,
+			@JsonProperty("yForce") int yForce) {
 		super(x, y, width, height, DEFAULT_COLOR);
 		this.xForce = xForce;
 		this.yForce = yForce;

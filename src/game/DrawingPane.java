@@ -26,8 +26,8 @@ public class DrawingPane extends JPanel {
 	private int xOffset, yOffset;
 
 	/**
-	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0} and a
-	 * white background.
+	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0}
+	 * and a white background.
 	 */
 	public DrawingPane() {
 		super();
@@ -41,7 +41,7 @@ public class DrawingPane extends JPanel {
 	}
 
 	/**
-	 * Add {@code drawable} to this at {@code index}. {@code Drawable}s with a
+	 * Adds {@code drawable} to this at {@code index}. {@code Drawable}s with a
 	 * higher index will be drawn on top of those with a lower index.
 	 * <p>
 	 * The drawing order for {@code Drawable}s with the same index is undefined.
@@ -57,7 +57,7 @@ public class DrawingPane extends JPanel {
 	}
 
 	/**
-	 * Remove all drawables from this.
+	 * Removes all {@code Drawable}s from this.
 	 */
 	public void clearDrawables() {
 		drawableLists.clear();
@@ -69,7 +69,8 @@ public class DrawingPane extends JPanel {
 
 		g.translate(-xOffset, -yOffset);
 
-		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists.entrySet()) {
+		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists
+				.entrySet()) {
 			for (Drawable drawable : entry.getValue()) {
 				drawable.draw(g);
 			}

@@ -124,7 +124,8 @@ class RectangleTest {
 		void glued_north_option_puts_area_above() {
 			Area newAttachment = addNewAttachment(AttachmentOption.GLUED_NORTH);
 
-			assertEquals(rect.getY(), newAttachment.getY() + newAttachment.getHeight());
+			assertEquals(rect.getY(),
+					newAttachment.getY() + newAttachment.getHeight());
 		}
 
 		@Test
@@ -138,7 +139,8 @@ class RectangleTest {
 		void glue_west_option_puts_area_to_the_left() {
 			Area newAttachment = addNewAttachment(AttachmentOption.GLUED_WEST);
 
-			assertEquals(rect.getX(), newAttachment.getX() + newAttachment.getWidth());
+			assertEquals(rect.getX(),
+					newAttachment.getX() + newAttachment.getWidth());
 		}
 
 		@Test

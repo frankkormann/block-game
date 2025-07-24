@@ -98,10 +98,24 @@ Download the latest `jar` file from the
 If you encounter a bug, press `Control + Shift + S` to save a recording of the
 current level. Then open an issue on this GitHub page and include:
 
-- The level you encountered the bug
+- The full copied text of any error message you received, if there was an error
+  message. Make sure to click "Details" for the full text
 - The recording file
+- The level you encountered the bug
 - A description of the bug
 - Any other information you think is relevant
+
+### Starting from a specific level
+
+If you want to resume playing from a specific level, start the `jar` file from
+the command line and type the level number you want to play after it like so:
+
+`"block game 0.7-beta" [LEVEL NUMBER HERE]`
+
+For example: `"block game 0.7-beta" 18` will start you on the 18th level.
+
+Remembering which level number you stopped playing at is left as an exercise
+for the user.
 
 ## Technical details
 
@@ -116,8 +130,7 @@ The project is developed in using:
 
 ### Documentation
 
-The most up-to-date documention, including Javadocs and required format for
-level JSON, can be found through the wiki:
+The most up-to-date documentation can be found through the wiki:
 [https://github.com/frankkormann/block-game/wiki](https://github.com/frankkormann/block-game/wiki).
 
 ### Creating / editing levels
@@ -127,8 +140,9 @@ Each level is built from a `JSON` file. See
 requirements. See `level_demo.json` for an example level that creates every type
 of rectangle.
 
-The game will automatically load `level_1.json` as its first level. Subsequent
-level filenames are read from the activated Goal Area.
+The game will automatically load `level_1.json` as its first level unless a
+command-line argument is used. Subsequent level filenames are read from the
+activated Goal Area.
 
 ## Contributing
 
