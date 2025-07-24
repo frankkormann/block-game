@@ -24,7 +24,10 @@ import javax.swing.JTextArea;
 public class ErrorDialog extends JDialog {
 
 	/**
-	 * Creates an {@code ErrorDialog} for {@code err} and displays it.
+	 * Creates an {@code ErrorDialog} for {@code err}.
+	 * <p>
+	 * When this is created, it is invisible. {@code setVisible(true)} should
+	 * be called when it is time to display this.
 	 * <p>
 	 * {@code message} and {@code err}'s short form are shown in the dialog's
 	 * body, and {@code err}'s full stack trace is hidden behind a "Details"
