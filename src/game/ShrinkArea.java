@@ -28,10 +28,6 @@ public class ShrinkArea extends Area {
 
 	private int xShrink, yShrink;
 
-	public ShrinkArea() {
-		this(0, 0, 0, 0, 0, 0);
-	}
-
 	/**
 	 * Note: {@code xShrink} and {@code yShrink} effect each side of the
 	 * {@code MovingRectangle} independently. Therefore, if both sides are

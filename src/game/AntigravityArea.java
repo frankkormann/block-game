@@ -15,10 +15,6 @@ public class AntigravityArea extends Area {
 
 	public static final Color DEFAULT_COLOR = new Color(255, 119, 255, 96);
 
-	public AntigravityArea() {
-		this(0, 0, 0, 0);
-	}
-
 	@JsonCreator
 	public AntigravityArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,

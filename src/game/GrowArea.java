@@ -27,10 +27,6 @@ public class GrowArea extends Area {
 
 	private int xGrowth, yGrowth;
 
-	public GrowArea() {
-		this(0, 0, 0, 0, 0, 0);
-	}
-
 	/**
 	 * Note: {@code xGrowth} and {@code yGrowth} effect each side of the
 	 * {@code MovingRectangle} independently. Therefore, if both sides are
