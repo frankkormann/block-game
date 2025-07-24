@@ -33,10 +33,10 @@ public class GrowArea extends Area {
 	 * growing, the {@code MovingRectangle}'s {@code width} will increase at
 	 * twice the nominal rate.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
+	 * @param x       x position
+	 * @param y       y position
+	 * @param width   width
+	 * @param height  height
 	 * @param xGrowth amount to grow the left/right sides by each frame
 	 * @param yGrowth amount to grow the top/bottom sides by each frame
 	 */

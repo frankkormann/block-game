@@ -34,12 +34,12 @@ public class ShrinkArea extends Area {
 	 * shrinking, the {@code MovingRectangle}'s {@code width} will decrease at
 	 * twice the nominal rate.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param xShrink
-	 * @param yShrink
+	 * @param x       x position
+	 * @param y       y position
+	 * @param width   width
+	 * @param height  height
+	 * @param xShrink amount to shrink the left/right sides by each frame
+	 * @param yShrink amount to shrink the top/bottom sides by each frame
 	 */
 	@JsonCreator
 	public ShrinkArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
