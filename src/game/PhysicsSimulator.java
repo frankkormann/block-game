@@ -376,6 +376,10 @@ public class PhysicsSimulator {
 		colliders = new ArrayList<>(colliders);
 		colliders.remove(rect);
 
+		int[] wallPushback = handleCollisionWithWalls(rect);
+		pushedAmount[0] += wallPushback[0];
+		pushedAmount[1] += wallPushback[1];
+
 		for (MovingRectangle other : colliders) {
 
 			collisionData = calculateCollision(rect, other);
@@ -420,10 +424,6 @@ public class PhysicsSimulator {
 			}
 
 		}
-
-		int[] wallPushback = handleCollisionWithWalls(rect);
-		pushedAmount[0] += wallPushback[0];
-		pushedAmount[1] += wallPushback[1];
 
 		// Pull back Rectangles that collided to be aligned with the edge of
 		// this
