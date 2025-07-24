@@ -16,7 +16,8 @@ public class MetaInputProcessingMock extends GameController {
 	}
 
 	@Override
-	public void processMetaInput(MetaInput input) throws IllegalArgumentException {
+	public void processMetaInput(MetaInput input)
+			throws IllegalArgumentException {
 		lastInputProcessed = input;
 		hadFile = false;
 	}
