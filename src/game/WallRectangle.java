@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * {@code Rectangle} to represent immovable walls. Default
- * {@code ResizeBehavior} is {@code PREVENT}.
+ * {@code ResizeBehavior} is {@code STAY}.
  * 
  * @author Frank Kormann
  */
@@ -20,7 +20,7 @@ public class WallRectangle extends Rectangle {
 	private static final int TICK_MARK_SIZE = 5;
 
 	public WallRectangle(int x, int y, int width, int height) {
-		this(x, y, width, height, STAY_COLOR, ResizeBehavior.PREVENT_X);
+		this(x, y, width, height, STAY_COLOR, ResizeBehavior.STAY);
 	}
 
 	@JsonCreator
