@@ -38,12 +38,12 @@ class GroundingAreaTest {
 	}
 
 	@Test
-	void rect_state_is_ON_GROUND_when_there_are_multiple_overlapping_areas_and_it_only_leaves_one_of_them() {
-		GroundingArea secondArea = new GroundingArea(0, 2, 20);
+	void rect_state_is_ON_GROUND_when_it_is_in_multiple_areas_and_it_only_leaves_one_of_them() {
+		GroundingArea secondArea = new GroundingArea(0, area.getHeight(), 20);
 		area.handle(rect);
 		secondArea.handle(rect);
 
-		rect.setY(5);
+		rect.setY(secondArea.getY());
 		area.handle(rect);
 		secondArea.handle(rect);
 
