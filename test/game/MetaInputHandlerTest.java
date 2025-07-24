@@ -1,7 +1,9 @@
 package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
@@ -12,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import game.MetaInputHandler.MetaInput;
 import mocks.MetaInputProcessingMock;
 
+// These tests will skip if in a headless environment (an environment that doesn't
+// support keyboard, display, etc.)
+// because MetaInputProcessingMock ultimately extends JFrame
 class MetaInputHandlerTest {
 
 	MetaInputHandler inputHandler;
@@ -19,6 +24,8 @@ class MetaInputHandlerTest {
 
 	@BeforeEach
 	void setUp() {
+		assumeFalse(GraphicsEnvironment.isHeadless());
+
 		inputProcessor = new MetaInputProcessingMock();
 		inputHandler = new MetaInputHandler(inputProcessor);
 	}
