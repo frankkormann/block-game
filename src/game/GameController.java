@@ -132,7 +132,7 @@ public class GameController extends WindowAdapter {
 			e.printStackTrace();
 			new ErrorDialog("Error",
 					"Could not load level '" + levelResource
-							+ "', file probably does not exist",
+							+ "', file is corrupt or does not exist",
 					e).setVisible(true);
 
 			if (mainFrame.isVisible()) {
