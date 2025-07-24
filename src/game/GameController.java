@@ -317,8 +317,8 @@ public class GameController extends WindowAdapter {
 
 		if (solutionStream == null) {
 			JOptionPane.showMessageDialog(mainFrame,
-					"Couldn't open solution '" + currentSolution + "'", "Error",
-					JOptionPane.ERROR_MESSAGE);
+					"Couldn't open solution file '" + currentSolution + "'",
+					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
