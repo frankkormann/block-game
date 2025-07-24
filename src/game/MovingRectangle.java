@@ -26,7 +26,7 @@ public class MovingRectangle extends Rectangle {
 		BLACK(0, 0, 0, 255), BLUE(130, 202, 255, 255),
 		GREEN(100, 250, 100, 255), GRAY(229, 229, 229, 255),
 		ORANGE(255, 174, 66, 255), RED(246, 114, 128, 255),
-		PLAYER(66, 148, 255, 255), PINK(255, 119, 255, 96);
+		PLAYER(66, 148, 255, 255), PINK(255, 119, 255, 255);
 
 		public final Color color;
 
