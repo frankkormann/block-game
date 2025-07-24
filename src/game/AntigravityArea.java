@@ -47,9 +47,9 @@ public class AntigravityArea extends Area {
 	}
 
 	/**
-	 * Not implemented.
+	 * Removes {@code rect}'s gravity.
 	 * 
-	 * @param rect unused
+	 * @param rect {@code MovingRectangle} to affect
 	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {
