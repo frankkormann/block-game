@@ -163,7 +163,8 @@ public class GameInputHandler extends KeyAdapter
 
 	/**
 	 * Takes input from an {@code InputStream}. If this is already reading from
-	 * a different {@code InputStream}, that stream is replaced.
+	 * a different {@code InputStream}, that stream is replaced. Note that this
+	 * does not close the previous stream.
 	 * 
 	 * @param input {@code InputStream} to read from
 	 */
@@ -181,7 +182,7 @@ public class GameInputHandler extends KeyAdapter
 	/**
 	 * Starts writing input to an {@code OutputStream}. If a different
 	 * {@code OutputStream} is already being written to, that stream is
-	 * replaced.
+	 * replaced. Note that this does not close the previous stream.
 	 * 
 	 * @param output {@code OutputStream} to write to
 	 */
