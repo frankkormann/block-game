@@ -17,7 +17,9 @@ import javax.swing.JLabel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import game.GameInputHandler.DirectionSelectorInput;
 import game.GameInputHandler.GameInput;
+import game.GameInputHandler.ResizingInput;
 import game.MainFrame.Direction;
 
 class GameInputHandlerTest {
@@ -57,15 +59,15 @@ class GameInputHandlerTest {
 		assertTrue(inputs.second.isEmpty());
 	}
 
-	private void pressKey(int keyCode) {
+	private void pressKey(int keyCode, int modifiers) {
 		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED,
-				1l, 0, keyCode, '\0'));
+				1l, modifiers, keyCode, '\0'));
 	}
 
 	@Test
 	void inputs_are_returned_and_nothing_else() {
-		pressKey(GameInput.UP.keyCodes[0]);
-		pressKey(GameInput.LEFT.keyCodes[0]);
+		pressKey(GameInput.UP.keyCodes[0], 0);
+		pressKey(GameInput.LEFT.keyCodes[0], 0);
 
 		inputs = inputHandler.poll();
 
@@ -80,11 +82,11 @@ class GameInputHandlerTest {
 		inputHandler.beginWriting(output);
 		List<Pair<Map<Direction, Integer>, Set<GameInput>>> inputList = new ArrayList<>();
 
-		pressKey(GameInput.RIGHT.keyCodes[0]);
+		pressKey(GameInput.RIGHT.keyCodes[0], 0);
 		inputList.add(inputHandler.poll());
 
 		inputHandler.resize(100, Direction.EAST);
-		pressKey(GameInput.LEFT.keyCodes[0]);
+		pressKey(GameInput.LEFT.keyCodes[0], 0);
 		inputList.add(inputHandler.poll());
 
 		inputList.add(inputHandler.poll());
@@ -117,5 +119,18 @@ class GameInputHandlerTest {
 		}
 
 		inputHandler.endReading();
+	}
+
+	@Test
+	void selected_side_is_resized() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_EAST;
+		ResizingInput resizingInput = ResizingInput.INCREASE;
+
+		pressKey(selection.keyCode, selection.mask);
+		pressKey(resizingInput.keyCodes[0], 0);
+
+		inputs = inputHandler.poll();
+
+		assertResizes(inputs.first, 0, 0, 0, resizingInput.amount);
 	}
 }
