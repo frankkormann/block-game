@@ -50,7 +50,7 @@ Download the latest `jar` file from the
 	</tr>
 	<tr>
 		<td>Pause</td>
-		<td>K</td>
+		<td>P</td>
 	</tr>
 	<tr>
 		<td>Restart level</td>
