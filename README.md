@@ -42,7 +42,7 @@ Download the latest `jar` file from the
 <table>
 	<tr>
 		<td>Move</td>
-		<td>A/D or arrow keys</td>
+		<td>A and D, or arrow keys</td>
 	</tr>
 	<tr>
 		<td>Jump</td>
@@ -71,6 +71,25 @@ Download the latest `jar` file from the
 	</tr>
 </table>
 
+**Keyboard resizing**
+
+First, select a direction to resize. Then adjust it.
+
+<table>
+	<tr>
+		<td>Select a direction</td>
+		<td>Control + I, J, K, or L<br>I: Top
+			<br>K: Bottom<br>J: Left<br>L:Right</td>
+	</tr>
+	<tr>
+		<td>Move side up/down</td>
+		<td>I and K</td>
+	</tr>
+	<tr>
+		<td>Move side left/right</td>
+		<td>J and L</td>
+	</tr>
+</table>
 
 **Advanced**
 
