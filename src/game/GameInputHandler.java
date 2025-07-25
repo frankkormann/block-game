@@ -55,8 +55,56 @@ public class GameInputHandler extends KeyAdapter
 		}
 	}
 
+	public enum DirectionSelectorInput {
+		SELECT_NORTH(KeyEvent.VK_I, KeyEvent.SHIFT_DOWN_MASK, Direction.NORTH),
+		SELECT_SOUTH(KeyEvent.VK_K, KeyEvent.SHIFT_DOWN_MASK, Direction.SOUTH),
+		SELECT_WEST(KeyEvent.VK_J, KeyEvent.SHIFT_DOWN_MASK, Direction.WEST),
+		SELECT_EAST(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK, Direction.EAST);
+
+		/**
+		 * Key code which will trigger this
+		 */
+		public final int keyCode;
+		/**
+		 * {@code KeyEvent} modifier key mask which is required to trigger this
+		 */
+		public final int mask;
+		/**
+		 * {@code Direction} which this selects
+		 */
+		public final Direction direction;
+
+		private DirectionSelectorInput(int keyCode, int mask,
+				Direction direction) {
+			this.keyCode = keyCode;
+			this.mask = mask;
+			this.direction = direction;
+		}
+	}
+
+	public enum ResizingInput {
+		INCREASE(5, KeyEvent.VK_K, KeyEvent.VK_L),
+		DECREASE(-5, KeyEvent.VK_I, KeyEvent.VK_J);
+
+		/**
+		 * Key codes which will trigger this
+		 */
+		public final int[] keyCodes;
+		/**
+		 * Amount this will resize
+		 */
+		public int amount;
+
+		private ResizingInput(int amount, int... keyCodes) {
+			this.keyCodes = keyCodes;
+			this.amount = amount;
+		}
+	}
+
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
+	private Direction selectedDirection;
+
 	private NumberReader reader;
 	private NumberWriter writer;
 
@@ -67,6 +115,8 @@ public class GameInputHandler extends KeyAdapter
 	public GameInputHandler() {
 		keysPressed = new HashSet<>();
 		resizesSinceLastFrame = new HashMap<>();
+		selectedDirection = Direction.NORTH;
+
 		zeroAllDirectionsInResizes();
 
 		reader = null;
@@ -108,6 +158,7 @@ public class GameInputHandler extends KeyAdapter
 		Map<Direction, Integer> resizes = new HashMap<>();
 		if (reader == null) {
 			resizes.putAll(resizesSinceLastFrame);
+			addResizesFromKeyboard(resizes);
 		}
 		else {
 			// Make sure values are read in the correct order
@@ -123,8 +174,27 @@ public class GameInputHandler extends KeyAdapter
 			writer.writeInt(resizes.get(Direction.WEST));
 			writer.writeInt(resizes.get(Direction.EAST));
 		}
+
 		zeroAllDirectionsInResizes();
 		return resizes;
+
+	}
+
+	/**
+	 * Adds any resizes from the keyboard.
+	 * 
+	 * @param resizes {@code Map} to add resizes to
+	 */
+	private void addResizesFromKeyboard(Map<Direction, Integer> resizes) {
+		for (ResizingInput inp : ResizingInput.values()) {
+			for (int key : inp.keyCodes) {
+				if (keysPressed.contains(key)) {
+					int newAmount = resizesSinceLastFrame.get(selectedDirection)
+							+ inp.amount;
+					resizes.put(selectedDirection, newAmount);
+				}
+			}
+		}
 	}
 
 	/**
@@ -281,6 +351,31 @@ public class GameInputHandler extends KeyAdapter
 		}
 	}
 
+	/**
+	 * Selects a new direction for {@code selectedDirection} if {@code keyCode}
+	 * and {@code modifiers} match a {@code DirectionSelectorInput}.
+	 * 
+	 * @param keyCode   key code which was pressed
+	 * @param modifiers modifier mask which was held
+	 * 
+	 * @return {@code true} if a new direction was selected
+	 */
+	private boolean selectDirection(int keyCode, int modifiers) {
+		int mouseMasks = KeyEvent.BUTTON1_DOWN_MASK + KeyEvent.BUTTON2_DOWN_MASK
+				+ KeyEvent.BUTTON3_DOWN_MASK;
+		int modifiersWithoutMouse = modifiers & ~mouseMasks;
+
+		for (DirectionSelectorInput inp : DirectionSelectorInput.values()) {
+			if (keyCode == inp.keyCode
+					&& (modifiersWithoutMouse ^ inp.mask) == 0) {
+				selectedDirection = inp.direction;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private void zeroAllDirectionsInResizes() {
 		for (Direction direction : Direction.values()) {
 			resizesSinceLastFrame.put(direction, 0);
@@ -304,6 +399,10 @@ public class GameInputHandler extends KeyAdapter
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (selectDirection(e.getKeyCode(), e.getModifiersEx())) {
+			return;
+		}
+
 		keysPressed.add(e.getKeyCode());
 	}
 
