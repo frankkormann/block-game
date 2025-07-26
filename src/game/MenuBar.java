@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -37,36 +36,50 @@ public class MenuBar extends JMenuBar {
 	private JMenu createHintMenu() {
 		JMenu hintMenu = new JMenu("Hint");
 
-		AbstractAction showHint = new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				listener.processMetaInput(MetaInput.TOGGLE_HINTS);
-				showSolutionItem.setEnabled(true);
-			}
-		};
-		showHint.putValue(Action.NAME, "Show hint");
-		showHintItem = new JCheckBoxMenuItem(showHint);
-		showHintItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-				.put(KeyStroke.getKeyStroke(KeyEvent.VK_G, 0), "Action");
-		showHintItem.getActionMap().put("Action", showHint);
+		showHintItem = createMenuItem("Show hint", KeyEvent.VK_G, 0, () -> {
+			listener.processMetaInput(MetaInput.TOGGLE_HINTS);
+			showSolutionItem.setEnabled(true);
+		});
 
-		AbstractAction showSolution = new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				listener.processMetaInput(MetaInput.PLAY_SOLUTION);
-			}
-		};
-		showSolution.putValue(Action.NAME, "Show solution");
-		showSolutionItem = new JMenuItem(showSolution);
-		showHintItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-				.put(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0), "Action");
-		showHintItem.getActionMap().put("Action", showSolution);
-		showSolutionItem.setEnabled(false);
+		showSolutionItem = createMenuItem("Show solution", KeyEvent.VK_T, 0,
+				() -> {
+					listener.processMetaInput(MetaInput.PLAY_SOLUTION);
+				});
 
 		hintMenu.add(showHintItem);
 		hintMenu.add(showSolutionItem);
 
 		return hintMenu;
+	}
+
+	/**
+	 * Creates a {@code JMenuItem} with the specified properties. {@code toDo}
+	 * will be run when the item is selected or {@code keyCode} is pressed.
+	 * 
+	 * @param text      to display on the menu item
+	 * @param keyCode   key code which will activate it
+	 * @param modifiers modifier mask to the key code
+	 * @param toDo      action to perform when selected
+	 * 
+	 * @return the {@code JMenuItem}
+	 */
+	private JMenuItem createMenuItem(String text, int keyCode, int modifiers,
+			Runnable toDo) {
+
+		AbstractAction action = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				toDo.run();
+			}
+		};
+		action.putValue(Action.NAME, text);
+
+		JMenuItem menuItem = new JMenuItem(action);
+		menuItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(keyCode, modifiers), "Action");
+		menuItem.getActionMap().put("Action", action);
+
+		return menuItem;
 	}
 
 }
