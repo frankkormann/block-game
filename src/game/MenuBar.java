@@ -33,6 +33,7 @@ public class MenuBar extends JMenuBar {
 	private JMenuItem showHintItem;
 	private JMenuItem showSolutionItem;
 	private JMenuItem pauseItem;
+	private JMenuItem frameAdvanceItem;
 
 	/**
 	 * Creates a new {@code MenuBar} to handle {@code MetaInput}s. Inputs are
@@ -57,8 +58,9 @@ public class MenuBar extends JMenuBar {
 
 	public void reset() {
 		showHintItem.setSelected(false);
-		showSolutionItem.setEnabled(false);
 		pauseItem.setSelected(false);
+		showSolutionItem.setEnabled(false);
+		frameAdvanceItem.setEnabled(false);
 	}
 
 	private JMenu createHintMenu() {
@@ -108,8 +110,12 @@ public class MenuBar extends JMenuBar {
 		JMenuItem restartItem = createMenuItem("Retry", KeyEvent.VK_R, 0,
 				this::restartAction, false);
 
+		frameAdvanceItem = createMenuItem("Frame advance", KeyEvent.VK_N, 0,
+				this::frameAdvanceAction, false);
+
 		menu.add(pauseItem);
 		menu.add(restartItem);
+		menu.add(frameAdvanceItem);
 
 		return menu;
 	}
@@ -223,10 +229,15 @@ public class MenuBar extends JMenuBar {
 
 	private void pauseAction() {
 		listener.processMetaInput(MetaInput.PAUSE);
+		frameAdvanceItem.setEnabled(!frameAdvanceItem.isEnabled());
 	}
 
 	private void restartAction() {
 		listener.processMetaInput(MetaInput.RELOAD_LEVEL);
+	}
+
+	private void frameAdvanceAction() {
+		listener.processMetaInput(MetaInput.FRAME_ADVANCE);
 	}
 
 }
