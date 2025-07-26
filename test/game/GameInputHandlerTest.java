@@ -122,7 +122,46 @@ class GameInputHandlerTest {
 	}
 
 	@Test
-	void selected_side_is_resized() {
+	void selected_side_is_resized_north() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
+		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
+
+		pressKey(selection.keyCode, selection.mask);
+		pressKey(resizingInput.keyCode, 0);
+
+		inputs = inputHandler.poll();
+
+		assertEquals(resizingInput.amount, inputs.first.get(Direction.NORTH));
+	}
+
+	@Test
+	void selected_side_is_resized__south() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_SOUTH;
+		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
+
+		pressKey(selection.keyCode, selection.mask);
+		pressKey(resizingInput.keyCode, 0);
+
+		inputs = inputHandler.poll();
+
+		assertEquals(resizingInput.amount, inputs.first.get(Direction.SOUTH));
+	}
+
+	@Test
+	void selected_side_is_resized_west() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
+		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
+
+		pressKey(selection.keyCode, selection.mask);
+		pressKey(resizingInput.keyCode, 0);
+
+		inputs = inputHandler.poll();
+
+		assertEquals(resizingInput.amount, inputs.first.get(Direction.WEST));
+	}
+
+	@Test
+	void selected_side_is_resized_east() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_EAST;
 		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
 
@@ -131,6 +170,32 @@ class GameInputHandlerTest {
 
 		inputs = inputHandler.poll();
 
-		assertResizes(inputs.first, 0, 0, 0, resizingInput.amount);
+		assertEquals(resizingInput.amount, inputs.first.get(Direction.EAST));
+	}
+
+	@Test
+	void no_vertical_resizing_when_a_horizontal_increase_is_used() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
+		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
+
+		pressKey(selection.keyCode, selection.mask);
+		pressKey(resizingInput.keyCode, 0);
+
+		inputs = inputHandler.poll();
+
+		assertEquals(0, inputs.first.get(Direction.NORTH));
+	}
+
+	@Test
+	void no_horizontal_resizing_when_a_vertical_increase_is_used() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
+		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
+
+		pressKey(selection.keyCode, selection.mask);
+		pressKey(resizingInput.keyCode, 0);
+
+		inputs = inputHandler.poll();
+
+		assertEquals(0, inputs.first.get(Direction.WEST));
 	}
 }
