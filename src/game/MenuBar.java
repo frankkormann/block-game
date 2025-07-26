@@ -14,6 +14,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import game.MetaInputHandler.MetaInput;
 
+/**
+ * JMenuBar to handle inputs which are not directly related to playing the game,
+ * for example pausing, reloading the level, or saving a recording file.
+ * <p>
+ * If an input requires multiple pieces to be acted on, this will interrupt the
+ * game to get the extra information. For instance, loading a file requires
+ * asking the player which file to load.
+ * 
+ * @author Frank Kormann
+ */
 public class MenuBar extends JMenuBar {
 
 	private GameController listener;
@@ -24,6 +34,12 @@ public class MenuBar extends JMenuBar {
 	private JMenuItem showSolutionItem;
 	private JMenuItem pauseItem;
 
+	/**
+	 * Creates a new {@code MenuBar} to handle {@code MetaInput}s. Inputs are
+	 * sent to {@code listener}.
+	 * 
+	 * @param listener {@code GameController} which will process inputs
+	 */
 	public MenuBar(GameController listener) {
 		this.listener = listener;
 
