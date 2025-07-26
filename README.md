@@ -60,6 +60,8 @@ Download the latest `jar` file from the
 
 **Hints**
 
+These options are also available from the menu bar.
+
 <table>
 	<tr>
 		<td>Show hint</td>
@@ -93,6 +95,8 @@ First, select a direction to resize. Then adjust it.
 
 **Advanced**
 
+These options are also available from the menu bar.
+
 <table>
 	<tr>
 		<td>Save replay of current level<t/d>
@@ -108,7 +112,7 @@ First, select a direction to resize. Then adjust it.
 	</tr>
 	<tr>
 		<td>Advance frame while paused</td>
-		<td>L</td>
+		<td>N</td>
 	</tr>
 </table>
 
