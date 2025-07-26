@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +50,7 @@ public class GameController extends WindowAdapter {
 	private PhysicsSimulator physicsSimulator;
 	private GameInputHandler gameInputHandler;
 	private MetaInputHandler metaInputHandler;
+	private MenuBar menuBar;
 
 	private String currentLevel;
 	private String currentSolution;
@@ -80,12 +83,16 @@ public class GameController extends WindowAdapter {
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler);
 
+		menuBar = new MenuBar(this);
+
 		currentLevel = "";
 		currentSolution = "";
 		hints = new ArrayList<>();
 
 		mainFrame.addWindowListener(this);
 		mainFrame.addKeyListener(metaInputHandler);
+
+		mainFrame.setJMenuBar(menuBar);
 
 		paused = false;
 	}
@@ -158,6 +165,7 @@ public class GameController extends WindowAdapter {
 
 		physicsSimulator = new PhysicsSimulator();
 		mainFrame.setUpLevel(level);
+		menuBar.reset();
 		hints.clear();
 
 		currentSolution = level.solution;
