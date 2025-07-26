@@ -21,12 +21,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MetaInputHandler extends KeyAdapter {
 
 	public enum MetaInput {
-		PAUSE(KeyEvent.VK_P, 0), FRAME_ADVANCE(KeyEvent.VK_L, 0),
-		RELOAD_LEVEL(KeyEvent.VK_R, 0), TOGGLE_HINTS(0, 0),
-		PLAY_SOLUTION(0, MetaInput.SHIFT_CONTROL_MASK),
-		SAVE_RECORDING(KeyEvent.VK_S, MetaInput.SHIFT_CONTROL_MASK),
-		PLAY_RECORDING(KeyEvent.VK_P, MetaInput.SHIFT_CONTROL_MASK),
-		STOP_RECORDING(KeyEvent.VK_S, 0);
+		PAUSE(0, 0), FRAME_ADVANCE(KeyEvent.VK_L, 0), RELOAD_LEVEL(0, 0),
+		TOGGLE_HINTS(0, 0), PLAY_SOLUTION(0, MetaInput.SHIFT_CONTROL_MASK),
+		SAVE_RECORDING(0, MetaInput.SHIFT_CONTROL_MASK),
+		PLAY_RECORDING(0, MetaInput.SHIFT_CONTROL_MASK), STOP_RECORDING(0, 0);
 
 		private static final int SHIFT_CONTROL_MASK = KeyEvent.CTRL_DOWN_MASK
 				| KeyEvent.SHIFT_DOWN_MASK;
