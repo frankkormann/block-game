@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.util.SystemInfo;
 
 import game.GameInputHandler.GameInput;
 import game.MainFrame.Direction;
@@ -58,6 +59,14 @@ public class GameController extends WindowAdapter {
 
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
+
+		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
+		if (SystemInfo.isLinux) {
+			// enable custom window decorations
+			JFrame.setDefaultLookAndFeelDecorated(true);
+			JDialog.setDefaultLookAndFeelDecorated(true);
+		}
+
 		new GameController().startGame(
 				args.length == 0 ? FIRST_LEVEL : "/level_" + args[0] + ".json");
 	}
