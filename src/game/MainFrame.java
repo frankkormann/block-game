@@ -151,7 +151,8 @@ public class MainFrame extends JFrame implements Resizable {
 				+ getTitlePaneHeight();
 		setSize(width, height);
 
-		updateTitleBarText(WINDOW_TITLE + " - " + level.name);
+		updateTitleBarText(
+				"<html><body><b>" + level.name + "</b></body></html>");
 
 		arrangeComponents();
 	}

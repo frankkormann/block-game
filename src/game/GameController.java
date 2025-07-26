@@ -18,6 +18,7 @@ import java.util.TimerTask;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -62,6 +63,8 @@ public class GameController extends WindowAdapter {
 
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
+		UIManager.put("TitlePane.embeddedForeground",
+				UIManager.get("TitlePane.foreground"));
 
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
@@ -81,7 +84,6 @@ public class GameController extends WindowAdapter {
 		gameInputHandler = new GameInputHandler();
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler);
-
 		menuBar = new MenuBar(this);
 
 		currentLevel = "";
@@ -90,7 +92,6 @@ public class GameController extends WindowAdapter {
 		hints = new ArrayList<>();
 
 		mainFrame.addWindowListener(this);
-
 		mainFrame.setJMenuBar(menuBar);
 
 		paused = false;
