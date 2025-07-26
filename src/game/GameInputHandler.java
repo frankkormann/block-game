@@ -56,10 +56,10 @@ public class GameInputHandler extends KeyAdapter
 	}
 
 	public enum DirectionSelectorInput {
-		SELECT_NORTH(KeyEvent.VK_I, KeyEvent.SHIFT_DOWN_MASK, Direction.NORTH),
-		SELECT_SOUTH(KeyEvent.VK_K, KeyEvent.SHIFT_DOWN_MASK, Direction.SOUTH),
-		SELECT_WEST(KeyEvent.VK_J, KeyEvent.SHIFT_DOWN_MASK, Direction.WEST),
-		SELECT_EAST(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK, Direction.EAST);
+		SELECT_NORTH(KeyEvent.VK_I, KeyEvent.SHIFT_DOWN_MASK),
+		SELECT_SOUTH(KeyEvent.VK_K, KeyEvent.SHIFT_DOWN_MASK),
+		SELECT_WEST(KeyEvent.VK_J, KeyEvent.SHIFT_DOWN_MASK),
+		SELECT_EAST(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK);
 
 		/**
 		 * Key code which will trigger this
@@ -69,41 +69,38 @@ public class GameInputHandler extends KeyAdapter
 		 * {@code KeyEvent} modifier key mask which is required to trigger this
 		 */
 		public final int mask;
-		/**
-		 * {@code Direction} which this selects
-		 */
-		public final Direction direction;
 
-		private DirectionSelectorInput(int keyCode, int mask,
-				Direction direction) {
+		private DirectionSelectorInput(int keyCode, int mask) {
 			this.keyCode = keyCode;
 			this.mask = mask;
-			this.direction = direction;
 		}
 	}
 
 	public enum ResizingInput {
-		INCREASE(5, KeyEvent.VK_K, KeyEvent.VK_L),
-		DECREASE(-5, KeyEvent.VK_I, KeyEvent.VK_J);
+		INCREASE_VERTICAL(5, KeyEvent.VK_K),
+		DECREASE_VERTICAL(-5, KeyEvent.VK_I),
+		INCREASE_HORIZONTAL(5, KeyEvent.VK_L),
+		DECREASE_HORIZONTAL(-5, KeyEvent.VK_J);
 
 		/**
-		 * Key codes which will trigger this
+		 * Key code which will trigger this
 		 */
-		public final int[] keyCodes;
+		public final int keyCode;
 		/**
 		 * Amount this will resize
 		 */
 		public int amount;
 
-		private ResizingInput(int amount, int... keyCodes) {
-			this.keyCodes = keyCodes;
+		private ResizingInput(int amount, int keyCode) {
+			this.keyCode = keyCode;
 			this.amount = amount;
 		}
 	}
 
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
-	private Direction selectedDirection;
+	private boolean isNorthSelected;
+	private boolean isWestSelected;
 
 	private NumberReader reader;
 	private NumberWriter writer;
@@ -115,7 +112,8 @@ public class GameInputHandler extends KeyAdapter
 	public GameInputHandler() {
 		keysPressed = new HashSet<>();
 		resizesSinceLastFrame = new HashMap<>();
-		selectedDirection = Direction.NORTH;
+		isNorthSelected = true;
+		isWestSelected = true;
 
 		zeroAllDirectionsInResizes();
 
@@ -157,8 +155,8 @@ public class GameInputHandler extends KeyAdapter
 	private Map<Direction, Integer> getResizes() throws IOException {
 		Map<Direction, Integer> resizes = new HashMap<>();
 		if (reader == null) {
-			resizes.putAll(resizesSinceLastFrame);
 			addResizesFromKeyboard(resizes);
+			resizes.putAll(resizesSinceLastFrame);
 		}
 		else {
 			// Make sure values are read in the correct order
@@ -187,11 +185,24 @@ public class GameInputHandler extends KeyAdapter
 	 */
 	private void addResizesFromKeyboard(Map<Direction, Integer> resizes) {
 		for (ResizingInput inp : ResizingInput.values()) {
-			for (int key : inp.keyCodes) {
-				if (keysPressed.contains(key)) {
-					int newAmount = resizesSinceLastFrame.get(selectedDirection)
-							+ inp.amount;
-					resizes.put(selectedDirection, newAmount);
+			if (keysPressed.contains(inp.keyCode)) {
+				if (inp == ResizingInput.INCREASE_VERTICAL
+						|| inp == ResizingInput.DECREASE_VERTICAL) {
+					if (isNorthSelected) {
+						resize(inp.amount, Direction.NORTH);
+					}
+					else {
+						resize(inp.amount, Direction.SOUTH);
+					}
+				}
+				if (inp == ResizingInput.INCREASE_HORIZONTAL
+						|| inp == ResizingInput.DECREASE_HORIZONTAL) {
+					if (isWestSelected) {
+						resize(inp.amount, Direction.WEST);
+					}
+					else {
+						resize(inp.amount, Direction.EAST);
+					}
 				}
 			}
 		}
@@ -368,7 +379,20 @@ public class GameInputHandler extends KeyAdapter
 		for (DirectionSelectorInput inp : DirectionSelectorInput.values()) {
 			if (keyCode == inp.keyCode
 					&& (modifiersWithoutMouse ^ inp.mask) == 0) {
-				selectedDirection = inp.direction;
+				switch (inp) {
+					case SELECT_NORTH:
+						isNorthSelected = true;
+						break;
+					case SELECT_SOUTH:
+						isNorthSelected = false;
+						break;
+					case SELECT_WEST:
+						isWestSelected = true;
+						break;
+					case SELECT_EAST:
+						isWestSelected = false;
+						break;
+				}
 				return true;
 			}
 		}

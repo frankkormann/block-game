@@ -124,10 +124,10 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_EAST;
-		ResizingInput resizingInput = ResizingInput.INCREASE;
+		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
 
 		pressKey(selection.keyCode, selection.mask);
-		pressKey(resizingInput.keyCodes[0], 0);
+		pressKey(resizingInput.keyCode, 0);
 
 		inputs = inputHandler.poll();
 
