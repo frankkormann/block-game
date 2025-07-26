@@ -2,11 +2,12 @@ package game;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class GameController extends WindowAdapter {
 	private String currentSolution;
 	private List<HintRectangle> hints;
 
-	private File recording;
+	private ByteArrayOutputStream currentLevelOutputStream;
 
 	private boolean paused;
 
@@ -84,6 +85,7 @@ public class GameController extends WindowAdapter {
 
 		currentLevel = "";
 		currentSolution = "";
+		currentLevelOutputStream = null;
 		hints = new ArrayList<>();
 
 		mainFrame.addWindowListener(this);
@@ -258,19 +260,9 @@ public class GameController extends WindowAdapter {
 	 */
 	private void beginTempRecording() {
 		gameInputHandler.endWriting();
-		recording = null;  // In case a new file cannot be created, still stop
-							  // writing to this one
-		try {
-			recording = File.createTempFile("blockgame", null);
-			gameInputHandler
-					.beginWriting(Files.newOutputStream(recording.toPath()));
-			recording.deleteOnExit();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			// Don't pop up an ErrorDialog because the user probably doesn't
-			// care, and it would pop up on every level
-		}
+
+		currentLevelOutputStream = new ByteArrayOutputStream();
+		gameInputHandler.beginWriting(currentLevelOutputStream);
 	}
 
 	/**
@@ -368,8 +360,8 @@ public class GameController extends WindowAdapter {
 				case SAVE_RECORDING:
 					errorWord = "save";
 					gameInputHandler.flushWriter();
-					Files.copy(recording.toPath(), file.toPath(),
-							StandardCopyOption.REPLACE_EXISTING);
+					currentLevelOutputStream
+							.writeTo(new FileOutputStream(file));
 					break;
 				case PLAY_RECORDING:
 					errorWord = "open";
