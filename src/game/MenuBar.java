@@ -12,8 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import game.MetaInputHandler.MetaInput;
-
 /**
  * JMenuBar to handle inputs which are not directly related to playing the game,
  * for example pausing, reloading the level, or saving a recording file.
@@ -25,6 +23,31 @@ import game.MetaInputHandler.MetaInput;
  * @author Frank Kormann
  */
 public class MenuBar extends JMenuBar {
+
+	public enum MetaInput {
+		PAUSE(KeyEvent.VK_P, 0), FRAME_ADVANCE(KeyEvent.VK_N, 0),
+		RELOAD_LEVEL(KeyEvent.VK_R, 0), TOGGLE_HINTS(KeyEvent.VK_H, 0),
+		PLAY_SOLUTION(KeyEvent.VK_H, MetaInput.SHIFT_CONTROL_MASK),
+		SAVE_RECORDING(KeyEvent.VK_S, MetaInput.SHIFT_CONTROL_MASK),
+		PLAY_RECORDING(KeyEvent.VK_P, MetaInput.SHIFT_CONTROL_MASK),
+		STOP_RECORDING(KeyEvent.VK_S, 0);
+
+		private static final int SHIFT_CONTROL_MASK = KeyEvent.CTRL_DOWN_MASK
+				| KeyEvent.SHIFT_DOWN_MASK;
+		/**
+		 * Key code which will trigger this
+		 */
+		public final int keyCode;
+		/**
+		 * {@code KeyEvent} modifier key mask which is required to trigger this
+		 */
+		public final int mask;
+
+		private MetaInput(int keyCode, int mask) {
+			this.keyCode = keyCode;
+			this.mask = mask;
+		}
+	}
 
 	private GameController listener;
 
@@ -66,12 +89,11 @@ public class MenuBar extends JMenuBar {
 	private JMenu createHintMenu() {
 		JMenu menu = new JMenu("Hint");
 
-		showHintItem = createMenuItem("Show hint", KeyEvent.VK_H, 0,
+		showHintItem = createMenuItem("Show hint", MetaInput.TOGGLE_HINTS,
 				this::hintsAction, true);
 
-		showSolutionItem = createMenuItem("Show solution", KeyEvent.VK_H,
-				KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK,
-				this::showSolutionAction, false);
+		showSolutionItem = createMenuItem("Show solution",
+				MetaInput.PLAY_SOLUTION, this::showSolutionAction, false);
 		showSolutionItem.setEnabled(false);
 
 		menu.add(showHintItem);
@@ -83,15 +105,13 @@ public class MenuBar extends JMenuBar {
 	private JMenu createRecordingMenu() {
 		JMenu menu = new JMenu("Recordings");
 
-		JMenuItem openItem = createMenuItem("Open", KeyEvent.VK_P,
-				KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK,
+		JMenuItem openItem = createMenuItem("Open", MetaInput.PLAY_RECORDING,
 				this::openRecordingAction, false);
 
-		JMenuItem saveItem = createMenuItem("Save current", KeyEvent.VK_S,
-				KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK,
-				this::saveRecordingAction, false);
+		JMenuItem saveItem = createMenuItem("Save current",
+				MetaInput.SAVE_RECORDING, this::saveRecordingAction, false);
 
-		JMenuItem stopItem = createMenuItem("Stop", KeyEvent.VK_S, 0,
+		JMenuItem stopItem = createMenuItem("Stop", MetaInput.STOP_RECORDING,
 				this::stopRecordingAction, false);
 
 		menu.add(openItem);
@@ -104,14 +124,14 @@ public class MenuBar extends JMenuBar {
 	private JMenu createPauseRestartMenu() {
 		JMenu menu = new JMenu("Pause/Retry");
 
-		pauseItem = createMenuItem("Pause", KeyEvent.VK_P, 0, this::pauseAction,
+		pauseItem = createMenuItem("Pause", MetaInput.PAUSE, this::pauseAction,
 				true);
 
-		JMenuItem restartItem = createMenuItem("Retry", KeyEvent.VK_R, 0,
+		JMenuItem restartItem = createMenuItem("Retry", MetaInput.RELOAD_LEVEL,
 				this::restartAction, false);
 
-		frameAdvanceItem = createMenuItem("Frame advance", KeyEvent.VK_N, 0,
-				this::frameAdvanceAction, false);
+		frameAdvanceItem = createMenuItem("Frame advance",
+				MetaInput.FRAME_ADVANCE, this::frameAdvanceAction, false);
 
 		menu.add(pauseItem);
 		menu.add(restartItem);
@@ -121,19 +141,20 @@ public class MenuBar extends JMenuBar {
 	}
 
 	/**
-	 * Creates a {@code JMenuItem} with the specified properties. {@code toDo}
-	 * will be run when the item is selected or {@code keyCode} is pressed.
+	 * Creates a {@code JMenuItem} with the specified properties. {@code action}
+	 * will be run when the item is selected or the shortcut from
+	 * {@code metaInput} is pressed.
 	 * 
 	 * @param text       to display on the menu item
 	 * @param keyCode    key code which will activate it, or 0 if no shortcut is
 	 *                   to be set
-	 * @param modifiers  modifier mask to the key code
-	 * @param action     action to perform when selected
+	 * @param metaInput  {@code MetaInput} to pull keyboard shortcut information
+	 *                   from
 	 * @param isCheckBox whether to use a {@code JCheckBoxMenuItem} or not
 	 * 
 	 * @return the {@code JMenuItem}
 	 */
-	private JMenuItem createMenuItem(String text, int keyCode, int modifiers,
+	private JMenuItem createMenuItem(String text, MetaInput metaInput,
 			Runnable action, boolean isCheckBox) {
 
 		JMenuItem menuItem;
@@ -145,8 +166,9 @@ public class MenuBar extends JMenuBar {
 		}
 
 		menuItem.addActionListener(e -> action.run());
-		if (keyCode != 0) {
-			menuItem.setAccelerator(KeyStroke.getKeyStroke(keyCode, modifiers));
+		if (metaInput.keyCode != 0) {
+			menuItem.setAccelerator(
+					KeyStroke.getKeyStroke(metaInput.keyCode, metaInput.mask));
 		}
 
 		return menuItem;

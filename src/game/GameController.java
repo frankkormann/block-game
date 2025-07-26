@@ -24,7 +24,7 @@ import com.formdev.flatlaf.util.SystemInfo;
 
 import game.GameInputHandler.GameInput;
 import game.MainFrame.Direction;
-import game.MetaInputHandler.MetaInput;
+import game.MenuBar.MetaInput;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
@@ -49,7 +49,6 @@ public class GameController extends WindowAdapter {
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
 	private GameInputHandler gameInputHandler;
-	private MetaInputHandler metaInputHandler;
 	private MenuBar menuBar;
 
 	private String currentLevel;
@@ -79,7 +78,6 @@ public class GameController extends WindowAdapter {
 	 */
 	public GameController() {
 		gameInputHandler = new GameInputHandler();
-		metaInputHandler = new MetaInputHandler(this);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler);
 
@@ -90,7 +88,6 @@ public class GameController extends WindowAdapter {
 		hints = new ArrayList<>();
 
 		mainFrame.addWindowListener(this);
-		mainFrame.addKeyListener(metaInputHandler);
 
 		mainFrame.setJMenuBar(menuBar);
 
