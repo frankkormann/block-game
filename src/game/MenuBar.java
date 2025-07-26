@@ -79,6 +79,10 @@ public class MenuBar extends JMenuBar {
 		add(createPauseRestartMenu());
 	}
 
+	/**
+	 * Resets the enabledness and selectedness of certain {@code JMenuItem}s
+	 * back to their original states.
+	 */
 	public void reset() {
 		showHintItem.setSelected(false);
 		pauseItem.setSelected(false);
