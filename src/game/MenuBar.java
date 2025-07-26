@@ -37,13 +37,13 @@ public class MenuBar extends JMenuBar {
 	private JMenu createHintMenu() {
 		JMenu hintMenu = new JMenu("Hint");
 
-		showHintItem = createMenuItem("Show hint", KeyEvent.VK_G, 0, () -> {
+		showHintItem = createMenuItem("Show hint", KeyEvent.VK_H, 0, () -> {
 			listener.processMetaInput(MetaInput.TOGGLE_HINTS);
 			showSolutionItem.setEnabled(true);
 		}, true);
 
-		showSolutionItem = createMenuItem("Show solution", KeyEvent.VK_T, 0,
-				() -> {
+		showSolutionItem = createMenuItem("Show solution", KeyEvent.VK_H,
+				KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK, () -> {
 					listener.processMetaInput(MetaInput.PLAY_SOLUTION);
 				}, false);
 		showSolutionItem.setEnabled(false);
