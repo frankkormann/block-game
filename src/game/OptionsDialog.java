@@ -61,7 +61,18 @@ public class OptionsDialog extends JDialog implements KeyListener {
 
 		for (JPanel pa : createButtonPanels()) {
 			panel.add(pa);
+			pa.setAlignmentX(CENTER_ALIGNMENT);
 		}
+
+		JButton resetButton = new JButton("Reset to defaults");
+		resetButton.addActionListener(e -> {
+			inputMapper.setToDefaults();
+			dispose();
+		});
+		resetButton.setFocusable(false);
+		resetButton.setAlignmentX(CENTER_ALIGNMENT);
+
+		panel.add(resetButton);
 
 		return panel;
 	}

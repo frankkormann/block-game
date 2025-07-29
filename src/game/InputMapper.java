@@ -38,6 +38,13 @@ public class InputMapper {
 		inputToKeybind = new HashMap<>();
 		changeListeners = new ArrayList<>();
 
+		setToDefaults();
+	}
+
+	/**
+	 * Sets all keybinds to their default values.
+	 */
+	public void setToDefaults() {
 		// TODO Read these from a file instead
 		setKeybind(GameInput.UP, KeyEvent.VK_W, 0);
 		setKeybind(GameInput.LEFT, KeyEvent.VK_A, 0);
