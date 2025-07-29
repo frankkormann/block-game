@@ -238,8 +238,8 @@ public class OptionsDialog extends JDialog
 		Pair<Integer, Integer> keybind = inputMapper.getKeybind(input);
 
 		if (keybind == null) {
-			return "";
-		}
+			return " ";  // Return a space to prevent the button's height from
+		}				 // decreasing
 
 		if (keybind.second != 0) {
 			asString += KeyEvent.getModifiersExText(keybind.second) + "+";
