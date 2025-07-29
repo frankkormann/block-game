@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -9,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -60,6 +63,7 @@ public class MenuBar extends JMenuBar {
 		add(createHintMenu());
 		add(createRecordingMenu());
 		add(createPauseRestartMenu());
+		add(createOptionsButton());
 	}
 
 	/**
@@ -125,6 +129,20 @@ public class MenuBar extends JMenuBar {
 		menu.add(frameAdvanceItem);
 
 		return menu;
+	}
+
+	private JMenu createOptionsButton() {
+		JMenu button = new JMenu("Options");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new OptionsDialog(SwingUtilities.getWindowAncestor(button),
+						inputMapper).setVisible(true);
+			}
+		});
+		button.setFocusable(false);
+
+		return button;
 	}
 
 	/**
