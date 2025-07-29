@@ -133,10 +133,9 @@ public class MenuBar extends JMenuBar {
 	 * {@code metaInput} is pressed.
 	 * 
 	 * @param text       to display on the menu item
-	 * @param keyCode    key code which will activate it, or 0 if no shortcut is
-	 *                   to be set
 	 * @param metaInput  {@code MetaInput} to pull keyboard shortcut information
 	 *                   from
+	 * @param action     {@code Runnable} which will run when this is activated
 	 * @param isCheckBox whether to use a {@code JCheckBoxMenuItem} or not
 	 * 
 	 * @return the {@code JMenuItem}
