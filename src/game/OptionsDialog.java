@@ -34,11 +34,13 @@ public class OptionsDialog extends JDialog
 		implements KeyListener, KeybindChangeListener, WindowListener {
 
 	private static final String TITLE = "Options";
-	private static final String REBIND_INSTRUCTIONS = "Click to finish";
+	private static final String REBIND_INSTRUCTIONS = "Type a new key";
 
 	private static final String MOVEMENT_CONTROLS_TITLE = "Movement";
 	private static final String RESIZING_CONTROLS_TITLE = "Window Resizing";
 	private static final String META_CONTROLS_TITLE = "Menu Shortcuts";
+
+	private static final int VERTICAL_SPACE = 3;
 
 	private InputMapper inputMapper;
 	private Enum<?> currentlyRebindingInput;
@@ -72,7 +74,7 @@ public class OptionsDialog extends JDialog
 		closeButton.setAlignmentX(CENTER_ALIGNMENT);
 
 		add(controlsPanel);
-		add(Box.createVerticalStrut(3));
+		add(Box.createVerticalStrut(VERTICAL_SPACE));
 		add(closeButton);
 
 		addKeyListener(this);
@@ -110,7 +112,7 @@ public class OptionsDialog extends JDialog
 
 		panel.add(cardsPanelComponents.second);
 		panel.add(cardsPanelComponents.first);
-		panel.add(Box.createVerticalStrut(5));
+		panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
 		panel.add(resetButton);
 
 		return panel;
@@ -167,7 +169,7 @@ public class OptionsDialog extends JDialog
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		for (Enum<?> input : inputs) {
-			panel.add(Box.createVerticalStrut(3));
+			panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
 			panel.add(createButtonPanel(input));
 			panel.setAlignmentX(CENTER_ALIGNMENT);
 		}
@@ -205,11 +207,8 @@ public class OptionsDialog extends JDialog
 		button.addActionListener(e -> {
 			if (currentlyRebindingInput == null) {
 				currentlyRebindingInput = input;
+				button.setText(REBIND_INSTRUCTIONS);
 			}
-			else if (currentlyRebindingInput == input) {
-				currentlyRebindingInput = null;
-			}
-			updateButtonText(input);
 		});
 		button.setFocusable(false);
 
@@ -224,14 +223,7 @@ public class OptionsDialog extends JDialog
 	 * @param input enum value for the button
 	 */
 	private void updateButtonText(Enum<?> input) {
-		String newText;
-		if (currentlyRebindingInput != input) {
-			newText = inputToKeybindString(input);
-		}
-		else {
-			newText = REBIND_INSTRUCTIONS;
-		}
-		inputToButton.get(input).setText(newText);
+		inputToButton.get(input).setText(inputToKeybindString(input));
 	}
 
 	/**
@@ -324,10 +316,17 @@ public class OptionsDialog extends JDialog
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (currentlyRebindingInput != null) {
+		if (currentlyRebindingInput != null && !isModifierKey(e.getKeyCode())) {
 			inputMapper.setKeybind(currentlyRebindingInput, e.getKeyCode(),
 					e.getModifiersEx());
+			currentlyRebindingInput = null;
 		}
+	}
+
+	private boolean isModifierKey(int keyCode) {
+		return keyCode == KeyEvent.VK_ALT || keyCode == KeyEvent.VK_ALT_GRAPH
+				|| keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_META
+				|| keyCode == KeyEvent.VK_SHIFT;
 	}
 
 	@Override
