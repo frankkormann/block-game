@@ -177,14 +177,14 @@ public class OptionsDialog extends JDialog
 	private JPanel createButtonPanel(Enum<?> input) {
 		JPanel panel = new JPanel();
 
-		panel.add(new JLabel(input.toString()));
+		panel.add(new JLabel(inputToName(input)));
 		panel.add(createButtonForInput(input));
 
 		return panel;
 	}
 
 	private JButton createButtonForInput(Enum<?> input) {
-		JButton button = new JButton(inputToString(input));
+		JButton button = new JButton(inputToKeybindString(input));
 		button.addActionListener(e -> {
 			if (currentlyRebindingInput == null) {
 				currentlyRebindingInput = input;
@@ -209,7 +209,7 @@ public class OptionsDialog extends JDialog
 	private void updateButtonText(Enum<?> input) {
 		String newText;
 		if (currentlyRebindingInput != input) {
-			newText = inputToString(input);
+			newText = inputToKeybindString(input);
 		}
 		else {
 			newText = REBIND_INSTRUCTIONS;
@@ -217,13 +217,90 @@ public class OptionsDialog extends JDialog
 		inputToButton.get(input).setText(newText);
 	}
 
-	private String inputToString(Enum<?> input) {
+	/**
+	 * Converts {@code input} into a {@code String} that represents its keybind.
+	 * 
+	 * @param input enum value to convert
+	 * 
+	 * @return {@code String} representation of the key presses to trigger it
+	 */
+	private String inputToKeybindString(Enum<?> input) {
 		String asString = "";
 		Pair<Integer, Integer> keybind = inputMapper.getKeybind(input);
 		if (keybind.second != 0) {
 			asString += KeyEvent.getModifiersExText(keybind.second) + "+";
 		}
 		return asString + KeyEvent.getKeyText(keybind.first);
+	}
+
+	/**
+	 * Converts {@code input} to a user-understandable {@code String}. If there
+	 * is no mapping available, returns {@code input.toString()}.
+	 * 
+	 * @param input enum value to convert
+	 * 
+	 * @return {@code String} that describes {@code input}
+	 */
+	private String inputToName(Enum<?> input) {
+		if (input == MovementInput.UP) {
+			return "Jump";
+		}
+		if (input == MovementInput.LEFT) {
+			return "Move left";
+		}
+		if (input == MovementInput.RIGHT) {
+			return "Move right";
+		}
+		if (input == DirectionSelectorInput.SELECT_NORTH) {
+			return "Select top edge";
+		}
+		if (input == DirectionSelectorInput.SELECT_SOUTH) {
+			return "Select bottom edge";
+		}
+		if (input == DirectionSelectorInput.SELECT_WEST) {
+			return "Select left edge";
+		}
+		if (input == DirectionSelectorInput.SELECT_EAST) {
+			return "Select right edge";
+		}
+		if (input == ResizingInput.MOVE_UP) {
+			return "Move selected edge up";
+		}
+		if (input == ResizingInput.MOVE_DOWN) {
+			return "Move selected edge down";
+		}
+		if (input == ResizingInput.MOVE_LEFT) {
+			return "Move selected edge left";
+		}
+		if (input == ResizingInput.MOVE_RIGHT) {
+			return "Move selected edge right";
+		}
+		if (input == MetaInput.FRAME_ADVANCE) {
+			return "Advance frame";
+		}
+		if (input == MetaInput.PAUSE) {
+			return "Pause";
+		}
+		if (input == MetaInput.PLAY_RECORDING) {
+			return "Open recording file";
+		}
+		if (input == MetaInput.PLAY_SOLUTION) {
+			return "Show level solution";
+		}
+		if (input == MetaInput.RELOAD_LEVEL) {
+			return "Retry";
+		}
+		if (input == MetaInput.SAVE_RECORDING) {
+			return "Save recording file";
+		}
+		if (input == MetaInput.STOP_RECORDING) {
+			return "Stop recording playback";
+		}
+		if (input == MetaInput.TOGGLE_HINTS) {
+			return "Show hint";
+		}
+
+		return input.toString();
 	}
 
 	/* KeyListener */
