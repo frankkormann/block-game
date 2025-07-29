@@ -147,7 +147,6 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 						inputMapper).setVisible(true);
 			}
 		});
-		button.setFocusable(false);
 
 		return button;
 	}
