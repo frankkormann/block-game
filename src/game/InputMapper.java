@@ -1,7 +1,9 @@
 package game;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import game.GameInputHandler.DirectionSelectorInput;
@@ -13,6 +15,11 @@ import game.MenuBar.MetaInput;
  * Maps keyboard inputs to enumerated values. A keyboard input is a
  * {@code KeyEvent.VK_?} key code and a {@code KeyEvent.???_MASK} modifier mask,
  * or {@code 0} if no modifier keys should be held down.
+ * <p>
+ * A core part of this is that keybinds can be changed. Any class which is
+ * interested in receiving updates on changes to keybinds should implement
+ * {@code KeybindChangeListener} and register itself with {link
+ * {@link #addKeybindListener(KeybindChangeListener)}.
  */
 public class InputMapper {
 
@@ -20,6 +27,7 @@ public class InputMapper {
 			| KeyEvent.SHIFT_DOWN_MASK;
 
 	private Map<Enum<?>, Pair<Integer, Integer>> inputToKeybind;
+	private List<KeybindChangeListener> changeListeners;
 
 	/**
 	 * Creates an {@code InputMapper} with default key binds for
@@ -28,6 +36,7 @@ public class InputMapper {
 	 */
 	public InputMapper() {
 		inputToKeybind = new HashMap<>();
+		changeListeners = new ArrayList<>();
 
 		// TODO Read these from a file instead
 		setKeybind(GameInput.UP, KeyEvent.VK_W, 0);
@@ -66,6 +75,10 @@ public class InputMapper {
 	 */
 	public void setKeybind(Enum<?> input, int keyCode, int modifiers) {
 		inputToKeybind.put(input, new Pair<>(keyCode, modifiers));
+
+		for (KeybindChangeListener listener : changeListeners) {
+			listener.keybindChanged(input, keyCode, modifiers);
+		}
 	}
 
 	/**
@@ -78,6 +91,15 @@ public class InputMapper {
 	 */
 	public Pair<Integer, Integer> getKeybind(Enum<?> input) {
 		return inputToKeybind.get(input);
+	}
+
+	/**
+	 * Registers {@code listener} to receive keybind change events.
+	 * 
+	 * @param listener {@code KeybindChangeListener} to add
+	 */
+	public void addKeybindListener(KeybindChangeListener listener) {
+		changeListeners.add(listener);
 	}
 
 }
