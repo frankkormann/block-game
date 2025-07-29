@@ -63,9 +63,9 @@ class GameInputHandlerTest {
 	}
 
 	private void pressKey(Enum<?> input) {
-		Pair<Integer, Integer> keyBind = inputMapper.getKeyBind(input);
+		Pair<Integer, Integer> keybind = inputMapper.getKeybind(input);
 		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED,
-				1l, keyBind.second, keyBind.first, '\0'));
+				1l, keybind.second, keybind.first, '\0'));
 	}
 
 	@Test

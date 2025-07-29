@@ -151,7 +151,7 @@ public class MenuBar extends JMenuBar {
 			menuItem = new JMenuItem(text);
 		}
 
-		Pair<Integer, Integer> keybind = inputMapper.getKeyBind(metaInput);
+		Pair<Integer, Integer> keybind = inputMapper.getKeybind(metaInput);
 		menuItem.addActionListener(e -> action.run());
 		if (keybind.first != 0) {
 			menuItem.setAccelerator(
