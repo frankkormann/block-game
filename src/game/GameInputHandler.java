@@ -146,7 +146,9 @@ public class GameInputHandler extends KeyAdapter
 	 */
 	private void addResizesFromKeyboard(Map<Direction, Integer> resizes) {
 		for (ResizingInput inp : ResizingInput.values()) {
-			if (keysPressed.contains(inputMapper.getKeybind(inp).first)) {
+			Pair<Integer, Integer> keybind = inputMapper.getKeybind(inp);
+			if (keysPressed.contains(keybind.first)
+					&& containsMask(keysPressed, keybind.second)) {
 				int amount = KEYBOARD_RESIZE_AMOUNT;
 
 				switch (inp) {
@@ -190,7 +192,9 @@ public class GameInputHandler extends KeyAdapter
 
 		if (reader == null) {
 			for (GameInput inp : GameInput.values()) {
-				if (keysPressed.contains(inputMapper.getKeybind(inp).first)) {
+				Pair<Integer, Integer> keybind = inputMapper.getKeybind(inp);
+				if (keysPressed.contains(keybind.first)
+						&& containsMask(keysPressed, keybind.second)) {
 					gameInputs.add(inp);
 				}
 			}
@@ -362,6 +366,42 @@ public class GameInputHandler extends KeyAdapter
 		}
 
 		return false;
+	}
+
+	/**
+	 * Tests whether {@code keys} contains all of the modifier key codes that
+	 * would produce {@code modifierMask} and none of the ones that would not.
+	 * <p>
+	 * For example, if
+	 * {@code modifierMask == KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK},
+	 * this returns {@code true} if {@code keys} contains
+	 * {@code KeyEvent.VK_SHIFT} and {@code KeyEvent.VK_CONTROL} and no other
+	 * modifier keys.
+	 * 
+	 * @param keys         {@code Set} of key codes to test
+	 * @param modifierMask modifier mask to compare against
+	 * 
+	 * @return {@code true} if {@code keys} contains exactly the modifier key
+	 *         codes necessary to produce {@code modifierMask}
+	 */
+	private boolean containsMask(Set<Integer> keys, int modifierMask) {
+		if ((modifierMask & KeyEvent.ALT_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_ALT))
+			return false;
+		if ((modifierMask & KeyEvent.ALT_GRAPH_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_ALT_GRAPH))
+			return false;
+		if ((modifierMask & KeyEvent.CTRL_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_CONTROL))
+			return false;
+		if ((modifierMask & KeyEvent.META_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_META))
+			return false;
+		if ((modifierMask & KeyEvent.SHIFT_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_SHIFT))
+			return false;
+
+		return true;
 	}
 
 	private void zeroAllDirectionsInResizes() {
