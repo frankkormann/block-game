@@ -3,6 +3,8 @@ package game;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -25,7 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 
  * @author Frank Kormann
  */
-public class MenuBar extends JMenuBar {
+public class MenuBar extends JMenuBar implements KeybindChangeListener {
 
 	public enum MetaInput {
 		PAUSE, FRAME_ADVANCE, RELOAD_LEVEL, TOGGLE_HINTS, PLAY_SOLUTION,
@@ -36,6 +38,8 @@ public class MenuBar extends JMenuBar {
 	private GameController listener;
 
 	private JFileChooser fileChooser;
+
+	private Map<Enum<?>, JMenuItem> inputToMenuItem;
 
 	private JMenuItem showHintItem;
 	private JMenuItem showSolutionItem;
@@ -52,6 +56,7 @@ public class MenuBar extends JMenuBar {
 	public MenuBar(InputMapper inputMapper, GameController listener) {
 		this.inputMapper = inputMapper;
 		this.listener = listener;
+		inputToMenuItem = new HashMap<>();
 
 		fileChooser = new JFileChooser();  // global file chooser so it
 											  // remembers which directory the
@@ -59,6 +64,8 @@ public class MenuBar extends JMenuBar {
 											  // multiple times
 		fileChooser.setFileFilter(
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
+
+		inputMapper.addKeybindListener(this);
 
 		add(createHintMenu());
 		add(createRecordingMenu());
@@ -176,6 +183,8 @@ public class MenuBar extends JMenuBar {
 					KeyStroke.getKeyStroke(keybind.first, keybind.second));
 		}
 
+		inputToMenuItem.put(metaInput, menuItem);
+
 		return menuItem;
 	}
 
@@ -265,6 +274,16 @@ public class MenuBar extends JMenuBar {
 
 	private void frameAdvanceAction() {
 		listener.processMetaInput(MetaInput.FRAME_ADVANCE);
+	}
+
+	@Override
+	public void keybindChanged(Enum<?> input, int newKeyCode,
+			int newModifiers) {
+		if (inputToMenuItem.containsKey(input)) {
+			inputToMenuItem.get(input)
+					.setAccelerator(
+							KeyStroke.getKeyStroke(newKeyCode, newModifiers));
+		}
 	}
 
 }
