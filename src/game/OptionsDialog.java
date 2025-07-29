@@ -6,12 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -32,6 +28,7 @@ public class OptionsDialog extends JDialog
 		implements KeyListener, KeybindChangeListener, WindowListener {
 
 	private static final String TITLE = "Options";
+	private static final String REBIND_INSTRUCTIONS = "Click to finish";
 
 	private InputMapper inputMapper;
 	private Enum<?> currentlyRebindingInput;
@@ -68,10 +65,9 @@ public class OptionsDialog extends JDialog
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		for (JPanel pa : createButtonPanels()) {
-			panel.add(pa);
-			pa.setAlignmentX(CENTER_ALIGNMENT);
-		}
+		panel.add(createMovementControlsPanel());
+		panel.add(createResizingControlsPanel());
+		panel.add(createMetaControlsPanel());
 
 		JButton resetButton = new JButton("Reset to defaults");
 		resetButton.addActionListener(e -> {
@@ -85,23 +81,53 @@ public class OptionsDialog extends JDialog
 		return panel;
 	}
 
-	private List<JPanel> createButtonPanels() {
-		List<JPanel> panelsList = new ArrayList<>();
+	private JPanel createMovementControlsPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		Stream.concat(
-				Stream.concat(Arrays.stream(MetaInput.values()),
-						Stream.concat(Arrays.stream(ResizingInput.values()),
-								Arrays.stream(
-										DirectionSelectorInput.values()))),
-				Arrays.stream(GameInput.values())).forEach(e -> {
-					JPanel panel = new JPanel();
-					panel.add(new JLabel(e.name()));
-					panel.add(createButtonForInput(e));
+		for (GameInput input : GameInput.values()) {
+			panel.add(createButtonPanel(input));
+			panel.setAlignmentX(CENTER_ALIGNMENT);
+		}
 
-					panelsList.add(panel);
-				});
+		return panel;
+	}
 
-		return panelsList;
+	private JPanel createResizingControlsPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		for (DirectionSelectorInput input : DirectionSelectorInput.values()) {
+			panel.add(createButtonPanel(input));
+			panel.setAlignmentX(CENTER_ALIGNMENT);
+		}
+		for (ResizingInput input : ResizingInput.values()) {
+			panel.add(createButtonPanel(input));
+			panel.setAlignmentX(CENTER_ALIGNMENT);
+		}
+
+		return panel;
+	}
+
+	private JPanel createMetaControlsPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		for (MetaInput input : MetaInput.values()) {
+			panel.add(createButtonPanel(input));
+			panel.setAlignmentX(CENTER_ALIGNMENT);
+		}
+
+		return panel;
+	}
+
+	private JPanel createButtonPanel(Enum<?> input) {
+		JPanel panel = new JPanel();
+
+		panel.add(new JLabel(input.toString()));
+		panel.add(createButtonForInput(input));
+
+		return panel;
 	}
 
 	private JButton createButtonForInput(Enum<?> input) {
@@ -133,7 +159,7 @@ public class OptionsDialog extends JDialog
 			newText = inputToString(input);
 		}
 		else {
-			newText = "Type a new keybind, click to finish";
+			newText = REBIND_INSTRUCTIONS;
 		}
 		inputToButton.get(input).setText(newText);
 	}
@@ -168,7 +194,9 @@ public class OptionsDialog extends JDialog
 	@Override
 	public void keybindChanged(Enum<?> input, int newKeyCode,
 			int newModifiers) {
-		updateButtonText(input);
+		if (inputToButton.containsKey(input)) {
+			updateButtonText(input);
+		}
 	}
 
 	/* WindowListener */
