@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.event.KeyEvent;
 import java.io.File;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -13,8 +12,9 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * JMenuBar to handle inputs which are not directly related to playing the game,
- * for example pausing, reloading the level, or saving a recording file.
+ * {@code JMenuBar} to handle inputs which are not directly related to playing
+ * the game, for example pausing, reloading the level, or saving a recording
+ * file.
  * <p>
  * If an input requires multiple pieces to be acted on, this will interrupt the
  * game to get the extra information. For instance, loading a file requires
@@ -25,30 +25,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MenuBar extends JMenuBar {
 
 	public enum MetaInput {
-		PAUSE(KeyEvent.VK_P, 0), FRAME_ADVANCE(KeyEvent.VK_N, 0),
-		RELOAD_LEVEL(KeyEvent.VK_R, 0), TOGGLE_HINTS(KeyEvent.VK_H, 0),
-		PLAY_SOLUTION(KeyEvent.VK_H, MetaInput.SHIFT_CONTROL_MASK),
-		SAVE_RECORDING(KeyEvent.VK_S, MetaInput.SHIFT_CONTROL_MASK),
-		PLAY_RECORDING(KeyEvent.VK_P, MetaInput.SHIFT_CONTROL_MASK),
-		STOP_RECORDING(KeyEvent.VK_S, 0);
-
-		private static final int SHIFT_CONTROL_MASK = KeyEvent.CTRL_DOWN_MASK
-				| KeyEvent.SHIFT_DOWN_MASK;
-		/**
-		 * Key code which will trigger this
-		 */
-		public final int keyCode;
-		/**
-		 * {@code KeyEvent} modifier key mask which is required to trigger this
-		 */
-		public final int mask;
-
-		private MetaInput(int keyCode, int mask) {
-			this.keyCode = keyCode;
-			this.mask = mask;
-		}
+		PAUSE, FRAME_ADVANCE, RELOAD_LEVEL, TOGGLE_HINTS, PLAY_SOLUTION,
+		SAVE_RECORDING, PLAY_RECORDING, STOP_RECORDING
 	}
 
+	private InputMapper inputMapper;
 	private GameController listener;
 
 	private JFileChooser fileChooser;
@@ -60,11 +41,13 @@ public class MenuBar extends JMenuBar {
 
 	/**
 	 * Creates a new {@code MenuBar} to handle {@code MetaInput}s. Inputs are
-	 * sent to {@code listener}.
+	 * sent to {@code listener}. {@code MetaInput} keybinds are taken from
+	 * {@code inputMapper}.
 	 * 
 	 * @param listener {@code GameController} which will process inputs
 	 */
-	public MenuBar(GameController listener) {
+	public MenuBar(InputMapper inputMapper, GameController listener) {
+		this.inputMapper = inputMapper;
 		this.listener = listener;
 
 		fileChooser = new JFileChooser();  // global file chooser so it
@@ -169,10 +152,11 @@ public class MenuBar extends JMenuBar {
 			menuItem = new JMenuItem(text);
 		}
 
+		Pair<Integer, Integer> keybind = inputMapper.getKeyBind(metaInput);
 		menuItem.addActionListener(e -> action.run());
-		if (metaInput.keyCode != 0) {
+		if (keybind.first != 0) {
 			menuItem.setAccelerator(
-					KeyStroke.getKeyStroke(metaInput.keyCode, metaInput.mask));
+					KeyStroke.getKeyStroke(keybind.first, keybind.second));
 		}
 
 		return menuItem;

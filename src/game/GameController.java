@@ -81,10 +81,12 @@ public class GameController extends WindowAdapter {
 	 * Creates a {@code GameController}.
 	 */
 	public GameController() {
-		gameInputHandler = new GameInputHandler();
+		InputMapper inputMapper = new InputMapper();
+
+		gameInputHandler = new GameInputHandler(inputMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler);
-		menuBar = new MenuBar(this);
+		menuBar = new MenuBar(inputMapper, this);
 
 		currentLevel = "";
 		currentSolution = "";

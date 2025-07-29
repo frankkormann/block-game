@@ -41,61 +41,21 @@ public class GameInputHandler extends KeyAdapter
 		implements FocusListener, Resizable {
 
 	public enum GameInput {
-		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
-		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT),
-		RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
-
-		/**
-		 * Key codes which will trigger this
-		 */
-		public final int[] keyCodes;
-
-		private GameInput(int... keyCodes) {
-			this.keyCodes = keyCodes;
-		}
+		UP, LEFT, RIGHT
 	}
 
 	public enum DirectionSelectorInput {
-		SELECT_NORTH(KeyEvent.VK_I, KeyEvent.SHIFT_DOWN_MASK),
-		SELECT_SOUTH(KeyEvent.VK_K, KeyEvent.SHIFT_DOWN_MASK),
-		SELECT_WEST(KeyEvent.VK_J, KeyEvent.SHIFT_DOWN_MASK),
-		SELECT_EAST(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK);
-
-		/**
-		 * Key code which will trigger this
-		 */
-		public final int keyCode;
-		/**
-		 * {@code KeyEvent} modifier key mask which is required to trigger this
-		 */
-		public final int mask;
-
-		private DirectionSelectorInput(int keyCode, int mask) {
-			this.keyCode = keyCode;
-			this.mask = mask;
-		}
+		SELECT_NORTH, SELECT_SOUTH, SELECT_WEST, SELECT_EAST
 	}
 
 	public enum ResizingInput {
-		INCREASE_VERTICAL(5, KeyEvent.VK_K),
-		DECREASE_VERTICAL(-5, KeyEvent.VK_I),
-		INCREASE_HORIZONTAL(5, KeyEvent.VK_L),
-		DECREASE_HORIZONTAL(-5, KeyEvent.VK_J);
-
-		/**
-		 * Key code which will trigger this
-		 */
-		public final int keyCode;
-		/**
-		 * Amount this will resize
-		 */
-		public int amount;
-
-		private ResizingInput(int amount, int keyCode) {
-			this.keyCode = keyCode;
-			this.amount = amount;
-		}
+		INCREASE_VERTICAL, INCREASE_HORIZONTAL, DECREASE_VERTICAL,
+		DECREASE_HORIZONTAL
 	}
+
+	private static final int KEYBOARD_RESIZE_AMOUNT = 5;
+
+	private InputMapper inputMapper;
 
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
@@ -109,7 +69,9 @@ public class GameInputHandler extends KeyAdapter
 	 * Creates a new {@code GameInputHandler} with no input stream or output
 	 * stream.
 	 */
-	public GameInputHandler() {
+	public GameInputHandler(InputMapper inputMapper) {
+		this.inputMapper = inputMapper;
+
 		keysPressed = new HashSet<>();
 		resizesSinceLastFrame = new HashMap<>();
 		isNorthSelected = true;
@@ -185,24 +147,30 @@ public class GameInputHandler extends KeyAdapter
 	 */
 	private void addResizesFromKeyboard(Map<Direction, Integer> resizes) {
 		for (ResizingInput inp : ResizingInput.values()) {
-			if (keysPressed.contains(inp.keyCode)) {
-				if (inp == ResizingInput.INCREASE_VERTICAL
-						|| inp == ResizingInput.DECREASE_VERTICAL) {
-					if (isNorthSelected) {
-						resize(inp.amount, Direction.NORTH);
-					}
-					else {
-						resize(inp.amount, Direction.SOUTH);
-					}
-				}
-				if (inp == ResizingInput.INCREASE_HORIZONTAL
-						|| inp == ResizingInput.DECREASE_HORIZONTAL) {
-					if (isWestSelected) {
-						resize(inp.amount, Direction.WEST);
-					}
-					else {
-						resize(inp.amount, Direction.EAST);
-					}
+			if (keysPressed.contains(inputMapper.getKeyBind(inp).first)) {
+				int amount = KEYBOARD_RESIZE_AMOUNT;
+
+				switch (inp) {
+					case DECREASE_VERTICAL:
+						amount *= -1;
+					case INCREASE_VERTICAL:
+						if (isNorthSelected) {
+							resize(amount, Direction.NORTH);
+						}
+						else {
+							resize(amount, Direction.SOUTH);
+						}
+						break;
+					case DECREASE_HORIZONTAL:
+						amount *= -1;
+					case INCREASE_HORIZONTAL:
+						if (isWestSelected) {
+							resize(amount, Direction.WEST);
+						}
+						else {
+							resize(amount, Direction.EAST);
+						}
+						break;
 				}
 			}
 		}
@@ -223,11 +191,8 @@ public class GameInputHandler extends KeyAdapter
 
 		if (reader == null) {
 			for (GameInput inp : GameInput.values()) {
-				for (int key : inp.keyCodes) {
-					if (keysPressed.contains(key)) {
-						gameInputs.add(inp);
-						break;
-					}
+				if (keysPressed.contains(inputMapper.getKeyBind(inp).first)) {
+					gameInputs.add(inp);
 				}
 			}
 		}
@@ -377,23 +342,23 @@ public class GameInputHandler extends KeyAdapter
 		int modifiersWithoutMouse = modifiers & ~mouseMasks;
 
 		for (DirectionSelectorInput inp : DirectionSelectorInput.values()) {
-			if (keyCode == inp.keyCode
-					&& (modifiersWithoutMouse ^ inp.mask) == 0) {
+			Pair<Integer, Integer> keybind = inputMapper.getKeyBind(inp);
+			if (keyCode == keybind.first
+					&& (modifiersWithoutMouse ^ keybind.second) == 0) {
 				switch (inp) {
 					case SELECT_NORTH:
 						isNorthSelected = true;
-						break;
+						return true;
 					case SELECT_SOUTH:
 						isNorthSelected = false;
-						break;
+						return true;
 					case SELECT_WEST:
 						isWestSelected = true;
-						break;
+						return true;
 					case SELECT_EAST:
 						isWestSelected = false;
-						break;
+						return true;
 				}
-				return true;
 			}
 		}
 
