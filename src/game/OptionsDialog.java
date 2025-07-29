@@ -1,7 +1,10 @@
 package game;
 
+import java.awt.CardLayout;
 import java.awt.Dialog;
 import java.awt.Window;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -12,6 +15,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,9 +34,15 @@ public class OptionsDialog extends JDialog
 	private static final String TITLE = "Options";
 	private static final String REBIND_INSTRUCTIONS = "Click to finish";
 
+	private static final String MOVEMENT_CONTROLS_TITLE = "Movement";
+	private static final String RESIZING_CONTROLS_TITLE = "Window Resizing";
+	private static final String META_CONTROLS_TITLE = "Menu Shortcuts";
+
 	private InputMapper inputMapper;
 	private Enum<?> currentlyRebindingInput;
 	private Map<Enum<?>, JButton> inputToButton;
+
+	JPanel controlsPanel;
 
 	/**
 	 * Creates a {@code OptionsDialog} for altering the keybinds in
@@ -51,7 +61,8 @@ public class OptionsDialog extends JDialog
 		setContentPane(contentPanePanel);	   // JPanel so it can have a border
 		contentPanePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		add(createControlsPanel());
+		controlsPanel = createControlsPanel();
+		add(controlsPanel);
 
 		addKeyListener(this);
 		addWindowListener(this);
@@ -65,9 +76,12 @@ public class OptionsDialog extends JDialog
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		panel.add(createMovementControlsPanel());
-		panel.add(createResizingControlsPanel());
-		panel.add(createMetaControlsPanel());
+		Pair<JPanel, JComboBox<String>> cardsPanelComponents = createCardsPanel(
+				new Pair<>(createMovementControlsPanel(),
+						MOVEMENT_CONTROLS_TITLE),
+				new Pair<>(createResizingControlsPanel(),
+						RESIZING_CONTROLS_TITLE),
+				new Pair<>(createMetaControlsPanel(), META_CONTROLS_TITLE));
 
 		JButton resetButton = new JButton("Reset to defaults");
 		resetButton.addActionListener(e -> {
@@ -76,9 +90,48 @@ public class OptionsDialog extends JDialog
 		resetButton.setFocusable(false);
 		resetButton.setAlignmentX(CENTER_ALIGNMENT);
 
+		panel.add(cardsPanelComponents.second);
+		panel.add(cardsPanelComponents.first);
 		panel.add(resetButton);
 
 		return panel;
+	}
+
+	/**
+	 * Creates a {@code JPanel} using {@code CardLayout} and a {@code JComboBox}
+	 * to control it. For each {@code Pair} of a {@code JPanel} and
+	 * {@code String}, the {@code JPanel} will be added as a card to
+	 * {@code CardLayout} and the {@code String} will act as its key in the
+	 * {@code JComboBox}.
+	 * 
+	 * @param panels list of {@code Pair}s of {@code JPanel}s to display and
+	 *               {@code String} to act as keys
+	 * 
+	 * @return {@code Pair} of the {@code JPanel} which holds the cards and the
+	 *         {@code JComboBox} which controls it
+	 */
+	private Pair<JPanel, JComboBox<String>> createCardsPanel(
+			Pair<JPanel, String>... panels) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new CardLayout());
+
+		JComboBox<String> controller = new JComboBox<>();
+		controller.setEditable(false);
+
+		for (Pair<JPanel, String> panelPair : panels) {
+			controller.addItem(panelPair.second);
+			panel.add(panelPair.first, panelPair.second);
+		}
+
+		controller.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				CardLayout cardLayout = (CardLayout) panel.getLayout();
+				cardLayout.show(panel, (String) e.getItem());
+			}
+		});
+
+		return new Pair<>(panel, controller);
 	}
 
 	private JPanel createMovementControlsPanel() {
