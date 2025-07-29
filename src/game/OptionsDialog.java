@@ -76,14 +76,21 @@ public class OptionsDialog extends JDialog
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		Pair<JPanel, JComboBox<String>> cardsPanelComponents = createCardsPanel(
-				new Pair<>(createMovementControlsPanel(),
-						MOVEMENT_CONTROLS_TITLE),
-				new Pair<>(createResizingControlsPanel(),
-						RESIZING_CONTROLS_TITLE),
-				new Pair<>(createMetaControlsPanel(), META_CONTROLS_TITLE));
+		JPanel resizingControlsPanel = new JPanel();
+		resizingControlsPanel.setLayout(
+				new BoxLayout(resizingControlsPanel, BoxLayout.Y_AXIS));
+		resizingControlsPanel
+				.add(createInputsPanel(DirectionSelectorInput.values()));
+		resizingControlsPanel.add(createInputsPanel(ResizingInput.values()));
 
-		JButton resetButton = new JButton("Reset to defaults");
+		Pair<JPanel, JComboBox<String>> cardsPanelComponents = createCardsPanel(
+				new Pair<>(createInputsPanel(MovementInput.values()),
+						MOVEMENT_CONTROLS_TITLE),
+				new Pair<>(resizingControlsPanel, RESIZING_CONTROLS_TITLE),
+				new Pair<>(createInputsPanel(MetaInput.values()),
+						META_CONTROLS_TITLE));
+
+		JButton resetButton = new JButton("Reset all to defaults");
 		resetButton.addActionListener(e -> {
 			inputMapper.setToDefaults();
 		});
@@ -117,6 +124,7 @@ public class OptionsDialog extends JDialog
 
 		JComboBox<String> controller = new JComboBox<>();
 		controller.setEditable(false);
+		controller.setFocusable(false);
 
 		for (Pair<JPanel, String> panelPair : panels) {
 			controller.addItem(panelPair.second);
@@ -134,39 +142,11 @@ public class OptionsDialog extends JDialog
 		return new Pair<>(panel, controller);
 	}
 
-	private JPanel createMovementControlsPanel() {
+	private JPanel createInputsPanel(Enum<?>[] inputs) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		for (MovementInput input : MovementInput.values()) {
-			panel.add(createButtonPanel(input));
-			panel.setAlignmentX(CENTER_ALIGNMENT);
-		}
-
-		return panel;
-	}
-
-	private JPanel createResizingControlsPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		for (DirectionSelectorInput input : DirectionSelectorInput.values()) {
-			panel.add(createButtonPanel(input));
-			panel.setAlignmentX(CENTER_ALIGNMENT);
-		}
-		for (ResizingInput input : ResizingInput.values()) {
-			panel.add(createButtonPanel(input));
-			panel.setAlignmentX(CENTER_ALIGNMENT);
-		}
-
-		return panel;
-	}
-
-	private JPanel createMetaControlsPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		for (MetaInput input : MetaInput.values()) {
+		for (Enum<?> input : inputs) {
 			panel.add(createButtonPanel(input));
 			panel.setAlignmentX(CENTER_ALIGNMENT);
 		}
