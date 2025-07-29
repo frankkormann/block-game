@@ -4,9 +4,13 @@ import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
@@ -24,12 +28,14 @@ import game.MenuBar.MetaInput;
 /**
  * {@code JDialog} for letting the user change settings such as controls.
  */
-public class OptionsDialog extends JDialog implements KeyListener {
+public class OptionsDialog extends JDialog
+		implements KeyListener, KeybindChangeListener, WindowListener {
 
 	private static final String TITLE = "Options";
 
 	private InputMapper inputMapper;
 	private Enum<?> currentlyRebindingInput;
+	private Map<Enum<?>, JButton> inputToButton;
 
 	/**
 	 * Creates a {@code OptionsDialog} for altering the keybinds in
@@ -42,6 +48,7 @@ public class OptionsDialog extends JDialog implements KeyListener {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 		this.inputMapper = inputMapper;
 		currentlyRebindingInput = null;
+		inputToButton = new HashMap<>();
 
 		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
 		setContentPane(contentPanePanel);	   // JPanel so it can have a border
@@ -50,6 +57,8 @@ public class OptionsDialog extends JDialog implements KeyListener {
 		add(createControlsPanel());
 
 		addKeyListener(this);
+		addWindowListener(this);
+		inputMapper.addKeybindListener(this);
 
 		pack();
 		setLocationRelativeTo(null);
@@ -67,7 +76,6 @@ public class OptionsDialog extends JDialog implements KeyListener {
 		JButton resetButton = new JButton("Reset to defaults");
 		resetButton.addActionListener(e -> {
 			inputMapper.setToDefaults();
-			dispose();
 		});
 		resetButton.setFocusable(false);
 		resetButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -101,16 +109,28 @@ public class OptionsDialog extends JDialog implements KeyListener {
 		button.addActionListener(e -> {
 			if (currentlyRebindingInput == null) {
 				currentlyRebindingInput = input;
-				button.setText("Click to finish");
 			}
 			else if (currentlyRebindingInput == input) {
 				currentlyRebindingInput = null;
-				button.setText(inputToString(input));
 			}
+			updateButtonText(input);
 		});
 		button.setFocusable(false);
 
+		inputToButton.put(input, button);
+
 		return button;
+	}
+
+	private void updateButtonText(Enum<?> input) {
+		String newText;
+		if (currentlyRebindingInput != input) {
+			newText = inputToString(input);
+		}
+		else {
+			newText = "Click to finish";
+		}
+		inputToButton.get(input).setText(newText);
 	}
 
 	private String inputToString(Enum<?> input) {
@@ -122,8 +142,7 @@ public class OptionsDialog extends JDialog implements KeyListener {
 		return asString + KeyEvent.getKeyText(keybind.first);
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {}
+	/* KeyListener */
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -134,6 +153,42 @@ public class OptionsDialog extends JDialog implements KeyListener {
 	}
 
 	@Override
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
 	public void keyReleased(KeyEvent e) {}
+
+	/* KeybingChangeListener */
+
+	@Override
+	public void keybindChanged(Enum<?> input, int newKeyCode,
+			int newModifiers) {
+		updateButtonText(input);
+	}
+
+	/* WindowListener */
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		inputMapper.removeKeybindListener(this);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {}
+
+	@Override
+	public void windowOpened(WindowEvent e) {}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {}
+
+	@Override
+	public void windowActivated(WindowEvent e) {}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
 
 }
