@@ -29,7 +29,7 @@ public class OptionsDialog extends JDialog implements KeyListener {
 	private static final String TITLE = "Options";
 
 	private InputMapper inputMapper;
-	private Enum<?> currentlyRebinding;
+	private Enum<?> currentlyRebindingInput;
 
 	/**
 	 * Creates a {@code OptionsDialog} for altering the keybinds in
@@ -41,7 +41,7 @@ public class OptionsDialog extends JDialog implements KeyListener {
 	public OptionsDialog(Window owner, InputMapper inputMapper) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 		this.inputMapper = inputMapper;
-		currentlyRebinding = null;
+		currentlyRebindingInput = null;
 
 		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
 		setContentPane(contentPanePanel);	   // JPanel so it can have a border
@@ -77,24 +77,29 @@ public class OptionsDialog extends JDialog implements KeyListener {
 				Arrays.stream(GameInput.values())).forEach(e -> {
 					JPanel panel = new JPanel();
 					panel.add(new JLabel(e.name()));
-					JButton button = new JButton(inputToString(e));
-					button.setFocusable(false);
-					button.addActionListener(ev -> {
-						if (currentlyRebinding == null) {
-							currentlyRebinding = e;
-							button.setText("Click to finish");
-						}
-						else {
-							currentlyRebinding = null;
-							button.setText(inputToString(e));
-						}
-					});
-					panel.add(button);
+					panel.add(createButtonForInput(e));
 
 					panelsList.add(panel);
 				});
 
 		return panelsList;
+	}
+
+	private JButton createButtonForInput(Enum<?> input) {
+		JButton button = new JButton(inputToString(input));
+		button.addActionListener(e -> {
+			if (currentlyRebindingInput == null) {
+				currentlyRebindingInput = input;
+				button.setText("Click to finish");
+			}
+			else if (currentlyRebindingInput == input) {
+				currentlyRebindingInput = null;
+				button.setText(inputToString(input));
+			}
+		});
+		button.setFocusable(false);
+
+		return button;
 	}
 
 	private String inputToString(Enum<?> input) {
@@ -111,8 +116,8 @@ public class OptionsDialog extends JDialog implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (currentlyRebinding != null) {
-			inputMapper.setKeybind(currentlyRebinding, e.getKeyCode(),
+		if (currentlyRebindingInput != null) {
+			inputMapper.setKeybind(currentlyRebindingInput, e.getKeyCode(),
 					e.getModifiersEx());
 		}
 	}
