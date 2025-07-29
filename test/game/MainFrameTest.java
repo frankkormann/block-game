@@ -33,7 +33,7 @@ class MainFrameTest {
 	void setUp() {
 		assumeFalse(GraphicsEnvironment.isHeadless());
 
-		GameInputHandler inputHandler = new GameInputHandler();
+		GameInputHandler inputHandler = new GameInputHandler(new InputMapper());
 		mainFrame = new MainFrame(inputHandler);
 
 		level = new Level();

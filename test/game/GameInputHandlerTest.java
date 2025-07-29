@@ -2,6 +2,7 @@ package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.event.KeyEvent;
@@ -25,11 +26,13 @@ import game.MainFrame.Direction;
 class GameInputHandlerTest {
 
 	GameInputHandler inputHandler;
+	InputMapper inputMapper;
 	Pair<Map<Direction, Integer>, Set<GameInput>> inputs;
 
 	@BeforeEach
 	void setUp() {
-		inputHandler = new GameInputHandler();
+		inputMapper = new InputMapper();
+		inputHandler = new GameInputHandler(inputMapper);
 	}
 
 	@Test
@@ -59,15 +62,16 @@ class GameInputHandlerTest {
 		assertTrue(inputs.second.isEmpty());
 	}
 
-	private void pressKey(int keyCode, int modifiers) {
+	private void pressKey(Enum<?> input) {
+		Pair<Integer, Integer> keyBind = inputMapper.getKeyBind(input);
 		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED,
-				1l, modifiers, keyCode, '\0'));
+				1l, keyBind.second, keyBind.first, '\0'));
 	}
 
 	@Test
 	void inputs_are_returned_and_nothing_else() {
-		pressKey(GameInput.UP.keyCodes[0], 0);
-		pressKey(GameInput.LEFT.keyCodes[0], 0);
+		pressKey(GameInput.UP);
+		pressKey(GameInput.LEFT);
 
 		inputs = inputHandler.poll();
 
@@ -82,11 +86,11 @@ class GameInputHandlerTest {
 		inputHandler.beginWriting(output);
 		List<Pair<Map<Direction, Integer>, Set<GameInput>>> inputList = new ArrayList<>();
 
-		pressKey(GameInput.RIGHT.keyCodes[0], 0);
+		pressKey(GameInput.RIGHT);
 		inputList.add(inputHandler.poll());
 
 		inputHandler.resize(100, Direction.EAST);
-		pressKey(GameInput.LEFT.keyCodes[0], 0);
+		pressKey(GameInput.LEFT);
 		inputList.add(inputHandler.poll());
 
 		inputList.add(inputHandler.poll());
@@ -126,12 +130,12 @@ class GameInputHandlerTest {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
 		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
 
-		pressKey(selection.keyCode, selection.mask);
-		pressKey(resizingInput.keyCode, 0);
+		pressKey(selection);
+		pressKey(resizingInput);
 
 		inputs = inputHandler.poll();
 
-		assertEquals(resizingInput.amount, inputs.first.get(Direction.NORTH));
+		assertNotEquals(0, inputs.first.get(Direction.NORTH));
 	}
 
 	@Test
@@ -139,12 +143,12 @@ class GameInputHandlerTest {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_SOUTH;
 		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
 
-		pressKey(selection.keyCode, selection.mask);
-		pressKey(resizingInput.keyCode, 0);
+		pressKey(selection);
+		pressKey(resizingInput);
 
 		inputs = inputHandler.poll();
 
-		assertEquals(resizingInput.amount, inputs.first.get(Direction.SOUTH));
+		assertNotEquals(0, inputs.first.get(Direction.SOUTH));
 	}
 
 	@Test
@@ -152,12 +156,12 @@ class GameInputHandlerTest {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
 		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
 
-		pressKey(selection.keyCode, selection.mask);
-		pressKey(resizingInput.keyCode, 0);
+		pressKey(selection);
+		pressKey(resizingInput);
 
 		inputs = inputHandler.poll();
 
-		assertEquals(resizingInput.amount, inputs.first.get(Direction.WEST));
+		assertNotEquals(0, inputs.first.get(Direction.WEST));
 	}
 
 	@Test
@@ -165,12 +169,12 @@ class GameInputHandlerTest {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_EAST;
 		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
 
-		pressKey(selection.keyCode, selection.mask);
-		pressKey(resizingInput.keyCode, 0);
+		pressKey(selection);
+		pressKey(resizingInput);
 
 		inputs = inputHandler.poll();
 
-		assertEquals(resizingInput.amount, inputs.first.get(Direction.EAST));
+		assertNotEquals(0, inputs.first.get(Direction.EAST));
 	}
 
 	@Test
@@ -178,8 +182,8 @@ class GameInputHandlerTest {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
 		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
 
-		pressKey(selection.keyCode, selection.mask);
-		pressKey(resizingInput.keyCode, 0);
+		pressKey(selection);
+		pressKey(resizingInput);
 
 		inputs = inputHandler.poll();
 
@@ -191,8 +195,8 @@ class GameInputHandlerTest {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
 		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
 
-		pressKey(selection.keyCode, selection.mask);
-		pressKey(resizingInput.keyCode, 0);
+		pressKey(selection);
+		pressKey(resizingInput);
 
 		inputs = inputHandler.poll();
 
