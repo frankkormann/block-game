@@ -340,14 +340,9 @@ public class GameInputHandler extends KeyAdapter
 	 * @return {@code true} if a new direction was selected
 	 */
 	private boolean selectDirection(int keyCode, int modifiers) {
-		int mouseMasks = KeyEvent.BUTTON1_DOWN_MASK + KeyEvent.BUTTON2_DOWN_MASK
-				+ KeyEvent.BUTTON3_DOWN_MASK;
-		int modifiersWithoutMouse = modifiers & ~mouseMasks;
 
 		for (DirectionSelectorInput inp : DirectionSelectorInput.values()) {
-			Pair<Integer, Integer> keybind = inputMapper.getKeybind(inp);
-			if (keyCode == keybind.first
-					&& (modifiersWithoutMouse ^ keybind.second) == 0) {
+			if (inputMatches(inp, keyCode, modifiers)) {
 				switch (inp) {
 					case SELECT_NORTH:
 						isNorthSelected = true;
@@ -366,6 +361,27 @@ public class GameInputHandler extends KeyAdapter
 		}
 
 		return false;
+	}
+
+	/**
+	 * Tests whether {@code keyCode} and {@code modifiers} match {@code input}
+	 * according to {@code inputMapper}.
+	 * 
+	 * @param input     enum value to test
+	 * @param keyCode   key code of keyboard input
+	 * @param modifiers modifier mask of keyboard input
+	 * 
+	 * @return {@code true} if the keybind is set for {@code input}
+	 */
+	private boolean inputMatches(Enum<?> input, int keyCode, int modifiers) {
+		int mouseMasks = KeyEvent.BUTTON1_DOWN_MASK + KeyEvent.BUTTON2_DOWN_MASK
+				+ KeyEvent.BUTTON3_DOWN_MASK;
+		int modifiersWithoutMouse = modifiers & ~mouseMasks;
+
+		Pair<Integer, Integer> actualKeybind = inputMapper.getKeybind(input);
+
+		return keyCode == actualKeybind.first
+				&& (modifiersWithoutMouse ^ actualKeybind.second) == 0;
 	}
 
 	/**
