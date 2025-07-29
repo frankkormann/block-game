@@ -21,6 +21,9 @@ import game.GameInputHandler.GameInput;
 import game.GameInputHandler.ResizingInput;
 import game.MenuBar.MetaInput;
 
+/**
+ * {@code JDialog} for letting the user change settings such as controls.
+ */
 public class OptionsDialog extends JDialog implements KeyListener {
 
 	private static final String TITLE = "Options";
@@ -28,6 +31,13 @@ public class OptionsDialog extends JDialog implements KeyListener {
 	private InputMapper inputMapper;
 	private Enum<?> currentlyRebinding;
 
+	/**
+	 * Creates a {@code OptionsDialog} for altering the keybinds in
+	 * {@code inputMapper}.
+	 * 
+	 * @param owner       {@code Window} to display this on
+	 * @param inputMapper {@code InputMapper} to change controls of
+	 */
 	public OptionsDialog(Window owner, InputMapper inputMapper) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 		this.inputMapper = inputMapper;
