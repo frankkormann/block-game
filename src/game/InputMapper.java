@@ -109,4 +109,8 @@ public class InputMapper {
 		changeListeners.add(listener);
 	}
 
+	public void removeKeybindListener(KeybindChangeListener listener) {
+		changeListeners.remove(listener);
+	}
+
 }
