@@ -82,7 +82,7 @@ public class OptionsDialog extends JDialog implements KeyListener {
 					button.addActionListener(ev -> {
 						if (currentlyRebinding == null) {
 							currentlyRebinding = e;
-							button.setText("Press new key, click to finish");
+							button.setText("Click to finish");
 						}
 						else {
 							currentlyRebinding = null;
