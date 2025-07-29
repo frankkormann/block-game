@@ -236,6 +236,11 @@ public class OptionsDialog extends JDialog
 	private String inputToKeybindString(Enum<?> input) {
 		String asString = "";
 		Pair<Integer, Integer> keybind = inputMapper.getKeybind(input);
+
+		if (keybind == null) {
+			return "";
+		}
+
 		if (keybind.second != 0) {
 			asString += KeyEvent.getModifiersExText(keybind.second) + "+";
 		}
@@ -317,8 +322,14 @@ public class OptionsDialog extends JDialog
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (currentlyRebindingInput != null && !isModifierKey(e.getKeyCode())) {
-			inputMapper.setKeybind(currentlyRebindingInput, e.getKeyCode(),
-					e.getModifiersEx());
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				inputMapper.removeKeybind(currentlyRebindingInput);
+			}
+			else {
+				inputMapper.setKeybind(currentlyRebindingInput, e.getKeyCode(),
+						e.getModifiersEx());
+			}
+
 			currentlyRebindingInput = null;
 		}
 	}
@@ -340,6 +351,13 @@ public class OptionsDialog extends JDialog
 	@Override
 	public void keybindChanged(Enum<?> input, int newKeyCode,
 			int newModifiers) {
+		if (inputToButton.containsKey(input)) {
+			updateButtonText(input);
+		}
+	}
+
+	@Override
+	public void keybindRemoved(Enum<?> input) {
 		if (inputToButton.containsKey(input)) {
 			updateButtonText(input);
 		}

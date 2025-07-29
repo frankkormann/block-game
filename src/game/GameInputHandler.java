@@ -147,7 +147,7 @@ public class GameInputHandler extends KeyAdapter
 	private void addResizesFromKeyboard(Map<Direction, Integer> resizes) {
 		for (ResizingInput inp : ResizingInput.values()) {
 			Pair<Integer, Integer> keybind = inputMapper.getKeybind(inp);
-			if (keysPressed.contains(keybind.first)
+			if (keybind != null && keysPressed.contains(keybind.first)
 					&& containsMask(keysPressed, keybind.second)) {
 				int amount = KEYBOARD_RESIZE_AMOUNT;
 
@@ -193,7 +193,7 @@ public class GameInputHandler extends KeyAdapter
 		if (reader == null) {
 			for (MovementInput inp : MovementInput.values()) {
 				Pair<Integer, Integer> keybind = inputMapper.getKeybind(inp);
-				if (keysPressed.contains(keybind.first)
+				if (keybind != null && keysPressed.contains(keybind.first)
 						&& containsMask(keysPressed, keybind.second)) {
 					movementInputs.add(inp);
 				}
@@ -303,7 +303,8 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @param movementInputs {@code Set} of {@code Input}s to write
 	 */
-	private void writeInputs(Set<MovementInput> movementInputs) throws IOException {
+	private void writeInputs(Set<MovementInput> movementInputs)
+			throws IOException {
 		if (!writer.isOpen) {
 			writer = null;
 			return;
@@ -379,6 +380,9 @@ public class GameInputHandler extends KeyAdapter
 		int modifiersWithoutMouse = modifiers & ~mouseMasks;
 
 		Pair<Integer, Integer> actualKeybind = inputMapper.getKeybind(input);
+		if (actualKeybind == null) {
+			return false;
+		}
 
 		return keyCode == actualKeybind.first
 				&& (modifiersWithoutMouse ^ actualKeybind.second) == 0;

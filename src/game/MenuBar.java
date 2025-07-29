@@ -177,7 +177,7 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 
 		Pair<Integer, Integer> keybind = inputMapper.getKeybind(metaInput);
 		menuItem.addActionListener(e -> action.run());
-		if (keybind.first != 0) {
+		if (keybind != null && keybind.first != 0) {
 			menuItem.setAccelerator(
 					KeyStroke.getKeyStroke(keybind.first, keybind.second));
 		}
@@ -282,6 +282,13 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 			inputToMenuItem.get(input)
 					.setAccelerator(
 							KeyStroke.getKeyStroke(newKeyCode, newModifiers));
+		}
+	}
+
+	@Override
+	public void keybindRemoved(Enum<?> input) {
+		if (inputToMenuItem.containsKey(input)) {
+			inputToMenuItem.get(input).setAccelerator(null);
 		}
 	}
 

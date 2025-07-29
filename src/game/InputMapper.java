@@ -88,8 +88,17 @@ public class InputMapper {
 		}
 	}
 
+	public void removeKeybind(Enum<?> input) {
+		inputToKeybind.remove(input);
+
+		for (KeybindChangeListener listener : changeListeners) {
+			listener.keybindRemoved(input);
+		}
+	}
+
 	/**
-	 * Returns the keyboard input associated with {@code input}.
+	 * Returns the keyboard input associated with {@code input}. Returns
+	 * {@code null} if there is no set keybind for {@code input}.
 	 * 
 	 * @param input enum value to get
 	 * 
