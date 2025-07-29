@@ -142,7 +142,7 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 		JMenu button = new JMenu("Options");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				new OptionsDialog(SwingUtilities.getWindowAncestor(button),
 						inputMapper).setVisible(true);
 			}
