@@ -2,6 +2,7 @@ package game;
 
 import java.awt.CardLayout;
 import java.awt.Dialog;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -61,8 +63,17 @@ public class OptionsDialog extends JDialog
 		setContentPane(contentPanePanel);	   // JPanel so it can have a border
 		contentPanePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
 		controlsPanel = createControlsPanel();
+		JButton closeButton = new JButton("OK");
+		closeButton.addActionListener(e -> dispose());
+		closeButton.setFocusable(false);
+		closeButton.setAlignmentX(CENTER_ALIGNMENT);
+
 		add(controlsPanel);
+		add(Box.createVerticalStrut(3));
+		add(closeButton);
 
 		addKeyListener(this);
 		addWindowListener(this);
@@ -99,6 +110,7 @@ public class OptionsDialog extends JDialog
 
 		panel.add(cardsPanelComponents.second);
 		panel.add(cardsPanelComponents.first);
+		panel.add(Box.createVerticalStrut(5));
 		panel.add(resetButton);
 
 		return panel;
@@ -142,11 +154,20 @@ public class OptionsDialog extends JDialog
 		return new Pair<>(panel, controller);
 	}
 
+	/**
+	 * Creates a {@code JPanel} which displays all the inputs in {@code inputs}
+	 * with a {@code JButton} to rebind them.
+	 * 
+	 * @param inputs enum values to display
+	 * 
+	 * @return the {@code JPanel}
+	 */
 	private JPanel createInputsPanel(Enum<?>[] inputs) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		for (Enum<?> input : inputs) {
+			panel.add(Box.createVerticalStrut(3));
 			panel.add(createButtonPanel(input));
 			panel.setAlignmentX(CENTER_ALIGNMENT);
 		}
@@ -154,8 +175,17 @@ public class OptionsDialog extends JDialog
 		return panel;
 	}
 
+	/**
+	 * Creates a {@code JPanel} for {@code input}. It contains a {@code JLabel}
+	 * with {@code input}'s name and a {@code JButton} to rebind it.
+	 * 
+	 * @param input enum value to create a {@code JPanel} for
+	 * 
+	 * @return the {@code JPanel}
+	 */
 	private JPanel createButtonPanel(Enum<?> input) {
 		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1, 2, 10, 10));
 
 		panel.add(new JLabel(inputToName(input)));
 		panel.add(createButtonForInput(input));
@@ -163,6 +193,13 @@ public class OptionsDialog extends JDialog
 		return panel;
 	}
 
+	/**
+	 * Creates a {@code JButton} which will rebind {@code input}.
+	 * 
+	 * @param input enum value to rebind
+	 * 
+	 * @return the {@code JButton}
+	 */
 	private JButton createButtonForInput(Enum<?> input) {
 		JButton button = new JButton(inputToKeybindString(input));
 		button.addActionListener(e -> {
