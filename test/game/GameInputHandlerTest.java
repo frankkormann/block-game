@@ -128,7 +128,7 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized_north() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
-		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
+		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
 
 		pressKey(selection);
 		pressKey(resizingInput);
@@ -141,7 +141,7 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized__south() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_SOUTH;
-		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
+		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
 
 		pressKey(selection);
 		pressKey(resizingInput);
@@ -154,7 +154,7 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized_west() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
-		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
+		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
 
 		pressKey(selection);
 		pressKey(resizingInput);
@@ -167,7 +167,7 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized_east() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_EAST;
-		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
+		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
 
 		pressKey(selection);
 		pressKey(resizingInput);
@@ -180,7 +180,7 @@ class GameInputHandlerTest {
 	@Test
 	void no_vertical_resizing_when_a_horizontal_increase_is_used() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
-		ResizingInput resizingInput = ResizingInput.INCREASE_HORIZONTAL;
+		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
 
 		pressKey(selection);
 		pressKey(resizingInput);
@@ -193,7 +193,7 @@ class GameInputHandlerTest {
 	@Test
 	void no_horizontal_resizing_when_a_vertical_increase_is_used() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
-		ResizingInput resizingInput = ResizingInput.INCREASE_VERTICAL;
+		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
 
 		pressKey(selection);
 		pressKey(resizingInput);

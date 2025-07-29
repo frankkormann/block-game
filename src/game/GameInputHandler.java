@@ -49,8 +49,7 @@ public class GameInputHandler extends KeyAdapter
 	}
 
 	public enum ResizingInput {
-		INCREASE_VERTICAL, INCREASE_HORIZONTAL, DECREASE_VERTICAL,
-		DECREASE_HORIZONTAL
+		MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
 	}
 
 	private static final int KEYBOARD_RESIZE_AMOUNT = 5;
@@ -151,9 +150,9 @@ public class GameInputHandler extends KeyAdapter
 				int amount = KEYBOARD_RESIZE_AMOUNT;
 
 				switch (inp) {
-					case DECREASE_VERTICAL:
+					case MOVE_UP:
 						amount *= -1;
-					case INCREASE_VERTICAL:
+					case MOVE_DOWN:
 						if (isNorthSelected) {
 							resize(amount, Direction.NORTH);
 						}
@@ -161,9 +160,9 @@ public class GameInputHandler extends KeyAdapter
 							resize(amount, Direction.SOUTH);
 						}
 						break;
-					case DECREASE_HORIZONTAL:
+					case MOVE_LEFT:
 						amount *= -1;
-					case INCREASE_HORIZONTAL:
+					case MOVE_RIGHT:
 						if (isWestSelected) {
 							resize(amount, Direction.WEST);
 						}

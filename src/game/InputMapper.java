@@ -51,10 +51,10 @@ public class InputMapper {
 				KeyEvent.SHIFT_DOWN_MASK);
 		setKeybind(DirectionSelectorInput.SELECT_EAST, KeyEvent.VK_L,
 				KeyEvent.SHIFT_DOWN_MASK);
-		setKeybind(ResizingInput.INCREASE_VERTICAL, KeyEvent.VK_K, 0);
-		setKeybind(ResizingInput.INCREASE_HORIZONTAL, KeyEvent.VK_L, 0);
-		setKeybind(ResizingInput.DECREASE_VERTICAL, KeyEvent.VK_I, 0);
-		setKeybind(ResizingInput.DECREASE_HORIZONTAL, KeyEvent.VK_J, 0);
+		setKeybind(ResizingInput.MOVE_DOWN, KeyEvent.VK_K, 0);
+		setKeybind(ResizingInput.MOVE_RIGHT, KeyEvent.VK_L, 0);
+		setKeybind(ResizingInput.MOVE_UP, KeyEvent.VK_I, 0);
+		setKeybind(ResizingInput.MOVE_LEFT, KeyEvent.VK_J, 0);
 
 		setKeybind(MetaInput.PAUSE, KeyEvent.VK_P, 0);
 		setKeybind(MetaInput.FRAME_ADVANCE, KeyEvent.VK_N, 0);
