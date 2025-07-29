@@ -122,6 +122,11 @@ public class OptionsDialog extends JDialog
 		return button;
 	}
 
+	/**
+	 * Sets the text of the button associated with {@code input}.
+	 * 
+	 * @param input enum value for the button
+	 */
 	private void updateButtonText(Enum<?> input) {
 		String newText;
 		if (currentlyRebindingInput != input) {
@@ -158,7 +163,7 @@ public class OptionsDialog extends JDialog
 	@Override
 	public void keyReleased(KeyEvent e) {}
 
-	/* KeybingChangeListener */
+	/* KeybindChangeListener */
 
 	@Override
 	public void keybindChanged(Enum<?> input, int newKeyCode,
