@@ -11,7 +11,8 @@ import game.MenuBar.MetaInput;
 
 /**
  * Maps keyboard inputs to enumerated values. A keyboard input is a
- * {@code KeyEvent.VK_?} key code and a {@ocde KeyEvent.???_MASK} modifier mask.
+ * {@code KeyEvent.VK_?} key code and a {@code KeyEvent.???_MASK} modifier mask,
+ * or {@code 0} if no modifier keys should be held down.
  */
 public class InputMapper {
 
