@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import game.GameInputHandler.DirectionSelectorInput;
-import game.GameInputHandler.GameInput;
+import game.GameInputHandler.MovementInput;
 import game.GameInputHandler.ResizingInput;
 import game.MenuBar.MetaInput;
 
@@ -31,8 +31,8 @@ public class InputMapper {
 
 	/**
 	 * Creates an {@code InputMapper} with default key binds for
-	 * {@code GameInput}, {@code DirectionSelectorInput}, {@code ResizingInput},
-	 * and {@code MetaInput}.
+	 * {@code MovementInput}, {@code DirectionSelectorInput},
+	 * {@code ResizingInput}, and {@code MetaInput}.
 	 */
 	public InputMapper() {
 		inputToKeybind = new HashMap<>();
@@ -46,9 +46,9 @@ public class InputMapper {
 	 */
 	public void setToDefaults() {
 		// TODO Read these from a file instead
-		setKeybind(GameInput.UP, KeyEvent.VK_W, 0);
-		setKeybind(GameInput.LEFT, KeyEvent.VK_A, 0);
-		setKeybind(GameInput.RIGHT, KeyEvent.VK_D, 0);
+		setKeybind(MovementInput.UP, KeyEvent.VK_W, 0);
+		setKeybind(MovementInput.LEFT, KeyEvent.VK_A, 0);
+		setKeybind(MovementInput.RIGHT, KeyEvent.VK_D, 0);
 
 		setKeybind(DirectionSelectorInput.SELECT_NORTH, KeyEvent.VK_I,
 				KeyEvent.SHIFT_DOWN_MASK);

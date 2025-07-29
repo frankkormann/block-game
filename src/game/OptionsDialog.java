@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import game.GameInputHandler.DirectionSelectorInput;
-import game.GameInputHandler.GameInput;
+import game.GameInputHandler.MovementInput;
 import game.GameInputHandler.ResizingInput;
 import game.MenuBar.MetaInput;
 
@@ -85,7 +85,7 @@ public class OptionsDialog extends JDialog
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		for (GameInput input : GameInput.values()) {
+		for (MovementInput input : MovementInput.values()) {
 			panel.add(createButtonPanel(input));
 			panel.setAlignmentX(CENTER_ALIGNMENT);
 		}

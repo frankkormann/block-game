@@ -23,7 +23,7 @@ public class NumberReader {
 	int nextByte;
 
 	/**
-	 * Creates a {@code GameInputReader} which reads from {@code stream}.
+	 * Creates a {@code NumberReader} which reads from {@code stream}.
 	 * 
 	 * @param stream {@code InputStream} to read from
 	 * 

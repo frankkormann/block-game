@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import game.GameInputHandler.GameInput;
+import game.GameInputHandler.MovementInput;
 import game.MainFrame.Direction;
 import game.MovingRectangle.State;
 
@@ -115,17 +115,17 @@ public class PhysicsSimulator {
 	 * friction). Also resolves collision between {@code Rectangles} and apply
 	 * all {@code Areas} that need to be applied.
 	 * 
-	 * @param gameInputs {@code Set} of {@code Input}s from the player this
+	 * @param movementInputs {@code Set} of {@code Input}s from the player this
 	 *                   frame
 	 * @param width      Width of the play area
 	 * @param height     Height of the play area
 	 * @param xOffset    X coordinate of top left corner
 	 * @param yOffset    Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<GameInput> gameInputs, int width,
+	public void updateAndMoveObjects(Set<MovementInput> movementInputs, int width,
 			int height, int xOffset, int yOffset) {
 
-		applyInputsToPlayerRectangles(gameInputs);
+		applyInputsToPlayerRectangles(movementInputs);
 		moveAllMovingRectangles();
 
 		moveAllSides(width, height, xOffset, yOffset);
@@ -136,10 +136,10 @@ public class PhysicsSimulator {
 	 * {@code isControlledByPlayer() == true} according to the player's
 	 * {@code Input}s.
 	 * 
-	 * @param gameInputs {@code Set} of {@code Input}s which are pressed on this
+	 * @param movementInputs {@code Set} of {@code Input}s which are pressed on this
 	 *                   frame
 	 */
-	private void applyInputsToPlayerRectangles(Set<GameInput> gameInputs) {
+	private void applyInputsToPlayerRectangles(Set<MovementInput> movementInputs) {
 		for (MovingRectangle rect : movingRectangles) {
 			if (!rect.isControlledByPlayer()) {
 				continue;
@@ -148,14 +148,14 @@ public class PhysicsSimulator {
 			int newXVelocity = rect.getXVelocity();
 			int newYVelocity = rect.getYVelocity();
 
-			if (gameInputs.contains(GameInput.RIGHT)) {
+			if (movementInputs.contains(MovementInput.RIGHT)) {
 				newXVelocity += PLAYER_X_ACCELERATION;
 			}
-			if (gameInputs.contains(GameInput.LEFT)) {
+			if (movementInputs.contains(MovementInput.LEFT)) {
 				newXVelocity -= PLAYER_X_ACCELERATION;
 			}
 
-			if (gameInputs.contains(GameInput.UP)) {
+			if (movementInputs.contains(MovementInput.UP)) {
 				if (rect.getState() == State.ON_GROUND) {
 					newYVelocity = PLAYER_JUMP_VELOCITY;
 				}

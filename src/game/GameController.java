@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.util.SystemInfo;
 
-import game.GameInputHandler.GameInput;
+import game.GameInputHandler.MovementInput;
 import game.MainFrame.Direction;
 import game.MenuBar.MetaInput;
 
@@ -243,7 +243,7 @@ public class GameController extends WindowAdapter {
 	 * </ul>
 	 */
 	private void nextFrame() {
-		Pair<Map<Direction, Integer>, Set<GameInput>> allInputs = gameInputHandler
+		Pair<Map<Direction, Integer>, Set<MovementInput>> allInputs = gameInputHandler
 				.poll();
 
 		mainFrame.resizeAll(allInputs.first);

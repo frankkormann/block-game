@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import game.GameInputHandler.DirectionSelectorInput;
-import game.GameInputHandler.GameInput;
+import game.GameInputHandler.MovementInput;
 import game.GameInputHandler.ResizingInput;
 import game.MainFrame.Direction;
 
@@ -27,7 +27,7 @@ class GameInputHandlerTest {
 
 	GameInputHandler inputHandler;
 	InputMapper inputMapper;
-	Pair<Map<Direction, Integer>, Set<GameInput>> inputs;
+	Pair<Map<Direction, Integer>, Set<MovementInput>> inputs;
 
 	@BeforeEach
 	void setUp() {
@@ -70,27 +70,27 @@ class GameInputHandlerTest {
 
 	@Test
 	void inputs_are_returned_and_nothing_else() {
-		pressKey(GameInput.UP);
-		pressKey(GameInput.LEFT);
+		pressKey(MovementInput.UP);
+		pressKey(MovementInput.LEFT);
 
 		inputs = inputHandler.poll();
 
 		assertResizes(inputs.first, 0, 0, 0, 0);
-		assertTrue(inputs.second.contains(GameInput.UP));
-		assertTrue(inputs.second.contains(GameInput.LEFT));
+		assertTrue(inputs.second.contains(MovementInput.UP));
+		assertTrue(inputs.second.contains(MovementInput.LEFT));
 	}
 
 	@Test
 	void can_read_back_what_it_wrote() {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		inputHandler.beginWriting(output);
-		List<Pair<Map<Direction, Integer>, Set<GameInput>>> inputList = new ArrayList<>();
+		List<Pair<Map<Direction, Integer>, Set<MovementInput>>> inputList = new ArrayList<>();
 
-		pressKey(GameInput.RIGHT);
+		pressKey(MovementInput.RIGHT);
 		inputList.add(inputHandler.poll());
 
 		inputHandler.resize(100, Direction.EAST);
-		pressKey(GameInput.LEFT);
+		pressKey(MovementInput.LEFT);
 		inputList.add(inputHandler.poll());
 
 		inputList.add(inputHandler.poll());
@@ -104,16 +104,16 @@ class GameInputHandlerTest {
 				output.toByteArray());
 		inputHandler.beginReading(input);
 
-		for (Pair<Map<Direction, Integer>, Set<GameInput>> expectedInputs : inputList) {
+		for (Pair<Map<Direction, Integer>, Set<MovementInput>> expectedInputs : inputList) {
 			inputs = inputHandler.poll();
 
 			Map<Direction, Integer> resizes = expectedInputs.first;
-			Set<GameInput> gameInputs = expectedInputs.second;
+			Set<MovementInput> movementInputs = expectedInputs.second;
 			assertResizes(inputs.first, resizes.get(Direction.NORTH),
 					resizes.get(Direction.SOUTH), resizes.get(Direction.WEST),
 					resizes.get(Direction.EAST));
-			for (GameInput inp : GameInput.values()) {
-				if (gameInputs.contains(inp)) {
+			for (MovementInput inp : MovementInput.values()) {
+				if (movementInputs.contains(inp)) {
 					assertTrue(inputs.second.contains(inp));
 				}
 				else {

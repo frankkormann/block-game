@@ -40,7 +40,7 @@ import game.MainFrame.Direction;
 public class GameInputHandler extends KeyAdapter
 		implements FocusListener, Resizable {
 
-	public enum GameInput {
+	public enum MovementInput {
 		UP, LEFT, RIGHT
 	}
 
@@ -90,7 +90,7 @@ public class GameInputHandler extends KeyAdapter
 	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in
 	 *         each direction and {@code Set<GameInput>} for inputs
 	 */
-	public Pair<Map<Direction, Integer>, Set<GameInput>> poll() {
+	public Pair<Map<Direction, Integer>, Set<MovementInput>> poll() {
 		try {
 			return new Pair<>(getResizes(), getInputs());
 		}
@@ -187,27 +187,27 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @return {@code Set} of {@code Input}s
 	 */
-	private Set<GameInput> getInputs() throws IOException {
-		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
+	private Set<MovementInput> getInputs() throws IOException {
+		Set<MovementInput> movementInputs = EnumSet.noneOf(MovementInput.class);
 
 		if (reader == null) {
-			for (GameInput inp : GameInput.values()) {
+			for (MovementInput inp : MovementInput.values()) {
 				Pair<Integer, Integer> keybind = inputMapper.getKeybind(inp);
 				if (keysPressed.contains(keybind.first)
 						&& containsMask(keysPressed, keybind.second)) {
-					gameInputs.add(inp);
+					movementInputs.add(inp);
 				}
 			}
 		}
 		else {
-			gameInputs = readInputs();
+			movementInputs = readInputs();
 		}
 
 		if (writer != null) {
-			writeInputs(gameInputs);
+			writeInputs(movementInputs);
 		}
 
-		return gameInputs;
+		return movementInputs;
 	}
 
 	/**
@@ -281,36 +281,36 @@ public class GameInputHandler extends KeyAdapter
 	/**
 	 * Returns the {@code Input}s pressed on this frame in the input stream.
 	 */
-	private Set<GameInput> readInputs() throws IOException {
-		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
+	private Set<MovementInput> readInputs() throws IOException {
+		Set<MovementInput> movementInputs = EnumSet.noneOf(MovementInput.class);
 
 		int numberOfInputs = reader.readByte();
 		for (int i = 0; i < numberOfInputs; i++) {
 			int inputOrdinal = reader.readByte();
-			gameInputs.add(GameInput.values()[inputOrdinal]);
+			movementInputs.add(MovementInput.values()[inputOrdinal]);
 		}
 
 		if (!reader.isOpen) {
 			reader = null;
 		}
 
-		return gameInputs;
+		return movementInputs;
 	}
 
 	/**
 	 * First writes the number of {@code Input}s pressed this frame, then each
 	 * {@code Input}'s ordinal in turn.
 	 * 
-	 * @param gameInputs {@code Set} of {@code Input}s to write
+	 * @param movementInputs {@code Set} of {@code Input}s to write
 	 */
-	private void writeInputs(Set<GameInput> gameInputs) throws IOException {
+	private void writeInputs(Set<MovementInput> movementInputs) throws IOException {
 		if (!writer.isOpen) {
 			writer = null;
 			return;
 		}
 
-		writer.writeByte(gameInputs.size());
-		for (GameInput inp : gameInputs) {
+		writer.writeByte(movementInputs.size());
+		for (MovementInput inp : movementInputs) {
 			writer.writeByte(inp.ordinal());
 		}
 	}
