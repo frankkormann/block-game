@@ -133,7 +133,7 @@ public class OptionsDialog extends JDialog
 			newText = inputToString(input);
 		}
 		else {
-			newText = "Click to finish";
+			newText = "Type a new keybind, click to finish";
 		}
 		inputToButton.get(input).setText(newText);
 	}
