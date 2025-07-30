@@ -9,6 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 
 /**
  * {@code JDialog} for letting the user change keyboard bindings and color
@@ -18,8 +20,6 @@ public class OptionsDialog extends JDialog {
 
 	private static final String TITLE = "Options";
 	private static final int VERTICAL_SPACE = 3;
-
-	private ControlsChangerPanel controlsChangerPanel;
 
 	/**
 	 * Creates a {@code OptionsDialog} for altering the keybinds in
@@ -39,15 +39,19 @@ public class OptionsDialog extends JDialog {
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.addTab("Controls",
+				new ControlsChangerPanel(getRootPane(), inputMapper));
+		tabbedPane.addTab("Colors",
+				new ColorChangerPanel(getRootPane(), colorMapper));
+
 		JButton closeButton = new JButton("OK");
 		closeButton.addActionListener(e -> dispose());
 		closeButton.setFocusable(false);
 		closeButton.setAlignmentX(CENTER_ALIGNMENT);
 
-		controlsChangerPanel = new ControlsChangerPanel(getRootPane(),
-				inputMapper);
-
-		add(controlsChangerPanel);
+		add(tabbedPane);
+		add(new JSeparator());
 		add(Box.createVerticalStrut(VERTICAL_SPACE));
 		add(closeButton);
 
