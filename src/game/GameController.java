@@ -46,7 +46,7 @@ public class GameController extends WindowAdapter {
 
 	private static final String FIRST_LEVEL = "/level_1.json";
 
-	private static final int MILLISECONDS_BETWEEN_FRAMES = 19;
+	private static final int MILLISECONDS_BETWEEN_FRAMES = 20;
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
@@ -109,7 +109,7 @@ public class GameController extends WindowAdapter {
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
-		new Timer().schedule(new TimerTask() {
+		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				try {
 					if (!paused && mainFrame.isFocused()) {
