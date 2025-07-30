@@ -50,7 +50,7 @@ public class ControlsChangerPanel extends JPanel
 	private Map<Enum<?>, JButton> inputToButton;
 
 	/**
-	 * Creates a {@code ControlsPanel} which will change the keybinds in
+	 * Creates a {@code ControlsChangerPanel} which will change the keybinds in
 	 * {@code inputMapper}.
 	 * 
 	 * @param rootPane    {@code JRootPane} of {@code Window} this will be added
