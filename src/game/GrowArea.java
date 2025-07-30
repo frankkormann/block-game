@@ -18,12 +18,12 @@ import game.MainFrame.Direction;
  */
 public class GrowArea extends Area {
 
-	public static final Color DEFAULT_COLOR = new Color(22, 245, 41, 128);
+	private static final Color DEFAULT_COLOR = new Color(22, 245, 41, 128);
 
-	public static final int ARROW_INSET = 5;
-	public static final int ARROW_HEAD_WIDTH = 20;
-	public static final int ARROW_HEAD_LENGTH = 10;
-	public static final int ARROW_TAIL_WIDTH = 8;
+	private static final int ARROW_INSET = 5;
+	private static final int ARROW_HEAD_WIDTH = 20;
+	private static final int ARROW_HEAD_LENGTH = 10;
+	private static final int ARROW_TAIL_WIDTH = 8;
 
 	private int xGrowth, yGrowth;
 

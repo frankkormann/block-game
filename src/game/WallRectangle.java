@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WallRectangle extends Rectangle {
 
-	public static final Color STAY_COLOR = new Color(229, 229, 229, 255);
+	private static final Color STAY_COLOR = new Color(229, 229, 229, 255);
 	public static final Color PREVENT_COLOR = new Color(85, 85, 85, 255);
 
 	private static final int TICK_MARK_SIZE = 5;

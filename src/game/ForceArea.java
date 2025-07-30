@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ForceArea extends Area {
 
-	public static final Color DEFAULT_COLOR = new Color(21, 137, 255, 96);
+	private static final Color DEFAULT_COLOR = new Color(21, 137, 255, 96);
 
 	private int xForce, yForce;
 

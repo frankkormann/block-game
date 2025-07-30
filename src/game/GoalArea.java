@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GoalArea extends Area {
 
-	public static final Color DEFAULT_COLOR = new Color(246, 190, 0, 128);
+	private static final Color DEFAULT_COLOR = new Color(246, 190, 0, 128);
 
 	private static final int TIMEOUT = 100;
 
