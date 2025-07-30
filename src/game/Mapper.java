@@ -2,6 +2,7 @@ package game;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +83,14 @@ public abstract class Mapper<T> {
 		EnumValues<T> json = new EnumValues<>();
 		json.values = enumMap;
 		try {
-			mapper.writeValue(SaveManager.writeFile(savePath), json);
+			OutputStream out = SaveManager.writeFile(savePath);
+			mapper.writeValue(out, json);
+			try {
+				out.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
