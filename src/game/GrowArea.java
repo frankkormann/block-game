@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -17,8 +16,6 @@ import game.MainFrame.Direction;
  * @author Frank Kormann
  */
 public class GrowArea extends Area {
-
-	private static final Color DEFAULT_COLOR = new Color(22, 245, 41, 128);
 
 	private static final int ARROW_INSET = 5;
 	private static final int ARROW_HEAD_WIDTH = 20;
@@ -46,7 +43,7 @@ public class GrowArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xGrowth") int xGrowth,
 			@JsonProperty("yGrowth") int yGrowth) {
-		super(x, y, width, height, DEFAULT_COLOR);
+		super(x, y, width, height, TranslucentColors.TRANSLUCENT_GREEN);
 		this.xGrowth = xGrowth;
 		this.yGrowth = yGrowth;
 	}

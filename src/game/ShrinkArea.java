@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,7 +17,6 @@ import game.MainFrame.Direction;
  */
 public class ShrinkArea extends Area {
 
-	private static final Color DEFAULT_COLOR = new Color(246, 34, 23, 128);
 	private static final int MINIMUM_SIZE = 5;
 
 	private static final int ARROW_INSET = 5;
@@ -47,7 +45,7 @@ public class ShrinkArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xShrink") int xShrink,
 			@JsonProperty("yShrink") int yShrink) {
-		super(x, y, width, height, DEFAULT_COLOR);
+		super(x, y, width, height, TranslucentColors.TRANSLUCENT_RED);
 		this.xShrink = xShrink;
 		this.yShrink = yShrink;
 	}

@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,8 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GoalArea extends Area {
 
-	private static final Color DEFAULT_COLOR = new Color(246, 190, 0, 128);
-
 	private static final int TIMEOUT = 100;
 
 	private int timer;
@@ -27,7 +24,7 @@ public class GoalArea extends Area {
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
 			@JsonProperty("nextLevel") String nextLevel) {
-		super(x, y, width, height, DEFAULT_COLOR);
+		super(x, y, width, height, TranslucentColors.TRANSLUCENT_YELLOW);
 		timer = 0;
 		used = false;
 		this.nextLevel = nextLevel;

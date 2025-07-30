@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.Color;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,16 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MovingRectangle extends Rectangle {
 
 	public enum Colors {
-		BLACK(0, 0, 0, 255), BLUE(130, 202, 255, 255),
-		GREEN(100, 250, 100, 255), GRAY(229, 229, 229, 255),
-		ORANGE(255, 174, 66, 255), RED(246, 114, 128, 255),
-		PLAYER(66, 148, 255, 255), PINK(255, 119, 255, 255);
-
-		public final Color color;
-
-		private Colors(int r, int g, int b, int a) {
-			this.color = new Color(r, g, b, a);
-		}
+		BLACK, BLUE, GREEN, GRAY, ORANGE, RED, PLAYER, PINK
 	}
 
 	public enum State {
@@ -57,11 +46,12 @@ public class MovingRectangle extends Rectangle {
 	private State state;
 
 	public MovingRectangle(int x, int y, int width, int height) {
-		this(x, y, width, height, Colors.GRAY.color);
+		this(x, y, width, height, Colors.GRAY);
 	}
 
-	public MovingRectangle(int x, int y, int width, int height, Color color) {
-		this(x, y, width, height, color, true, ResizeBehavior.MOVE);
+	public MovingRectangle(int x, int y, int width, int height,
+			Enum<?> colorEnum) {
+		this(x, y, width, height, colorEnum, true, ResizeBehavior.MOVE);
 	}
 
 	@JsonCreator
@@ -69,12 +59,13 @@ public class MovingRectangle extends Rectangle {
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
 			@JsonProperty("color") Colors color) {
-		this(x, y, width, height, color.color);
+		this(x, y, width, height, color, true, ResizeBehavior.MOVE);
 	}
 
-	public MovingRectangle(int x, int y, int width, int height, Color color,
-			boolean hasGravity, ResizeBehavior resizeBehavior) {
-		super(x, y, width, height, color, resizeBehavior);
+	public MovingRectangle(int x, int y, int width, int height,
+			Enum<?> colorEnum, boolean hasGravity,
+			ResizeBehavior resizeBehavior) {
+		super(x, y, width, height, colorEnum, resizeBehavior);
 		this.hasGravity = hasGravity;
 		xVelocity = 0;
 		yVelocity = 0;

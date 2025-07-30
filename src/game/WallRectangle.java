@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,13 +13,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WallRectangle extends Rectangle {
 
-	private static final Color STAY_COLOR = new Color(229, 229, 229, 255);
-	public static final Color PREVENT_COLOR = new Color(85, 85, 85, 255);
+	public enum WallColors {
+		GRAY, DARK_GRAY
+	}
 
 	private static final int TICK_MARK_SIZE = 5;
 
 	public WallRectangle(int x, int y, int width, int height) {
-		this(x, y, width, height, STAY_COLOR, ResizeBehavior.STAY);
+		this(x, y, width, height, WallColors.GRAY, ResizeBehavior.STAY);
 	}
 
 	@JsonCreator
@@ -28,10 +28,15 @@ public class WallRectangle extends Rectangle {
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
 			@JsonProperty("resizeBehavior") ResizeBehavior resizeBehavior) {
-		this(x, y, width, height, STAY_COLOR, resizeBehavior);
+		this(x, y, width, height, WallColors.GRAY, resizeBehavior);
 
 		addAttachment(new GroundingArea(x, y - 1, width),
 				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
+	}
+
+	public WallRectangle(int x, int y, int width, int height, Enum<?> colorEnum,
+			ResizeBehavior resizeBehavior) {
+		super(x, y, width, height, colorEnum, resizeBehavior);
 	}
 
 	// TODO Fix overlap with other rectangles in the PREVENT_X/PREVENT_Y border
@@ -41,7 +46,7 @@ public class WallRectangle extends Rectangle {
 		super.draw(g);
 		g = g.create();
 
-		g.setColor(PREVENT_COLOR);
+		g.setColor(getColor(WallColors.DARK_GRAY));
 		if (getResizeBehavior() == ResizeBehavior.PREVENT_X) {
 			g.drawLine(getX(), getY(), getX(), getY() + getHeight() - 1);
 			g.drawLine(getX() + getWidth() - 1, getY(), getX() + getWidth() - 1,
@@ -71,11 +76,6 @@ public class WallRectangle extends Rectangle {
 		}
 
 		g.dispose();
-	}
-
-	public WallRectangle(int x, int y, int width, int height, Color color,
-			ResizeBehavior resizeBehavior) {
-		super(x, y, width, height, color, resizeBehavior);
 	}
 
 }

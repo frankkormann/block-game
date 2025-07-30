@@ -103,27 +103,35 @@ public abstract class Rectangle implements Drawable {
 		SAME_HEIGHT
 	}
 
-	private Color color;
+	private static ColorMapper colorMapper;
+
+	private Enum<?> colorEnum;
 
 	private int x, y, width, height;
 	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
 
-	public Rectangle(int x, int y, int width, int height, Color color,
+	public Rectangle(int x, int y, int width, int height, Enum<?> colorEnum,
 			ResizeBehavior resizeBehavior) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.color = color;
+		this.colorEnum = colorEnum;
 		this.resizeBehavior = resizeBehavior;
 		attachedAreas = new ArrayList<>();
+	}
+
+	public static void setColorMapper(ColorMapper colorMapper) {
+		Rectangle.colorMapper = colorMapper;
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		g = g.create();
+
+		Color color = getColor();
 
 		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
 				(int) (color.getGreen() / BORDER_DARKNESS),
@@ -376,12 +384,16 @@ public abstract class Rectangle implements Drawable {
 		return resizeBehavior;
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
+//	public void setColor(Color color) {
+//		this.color = color;
+//	}
 
 	public Color getColor() {
-		return color;
+		return getColor(colorEnum);
+	}
+
+	public Color getColor(Enum<?> colorEnum) {
+		return colorMapper.getColor(colorEnum);
 	}
 
 	public void addAttachment(Area attachment, AttachmentOption... options) {

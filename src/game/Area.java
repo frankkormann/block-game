@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,10 +20,15 @@ import java.util.Set;
  */
 public abstract class Area extends Rectangle {
 
+	public enum TranslucentColors {
+		TRANSLUCENT_BLUE, TRANSLUCENT_GREEN, TRANSLUCENT_PINK, TRANSLUCENT_RED,
+		TRANSPARENT, TRANSLUCENT_YELLOW
+	}
+
 	private Set<MovingRectangle> rectsInside;
 
-	public Area(int x, int y, int width, int height, Color color) {
-		super(x, y, width, height, color, ResizeBehavior.STAY);
+	public Area(int x, int y, int width, int height, Enum<?> colorEnum) {
+		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 		rectsInside = new HashSet<>();
 	}
 

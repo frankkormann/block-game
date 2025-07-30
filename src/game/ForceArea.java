@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.Color;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,8 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ForceArea extends Area {
 
-	private static final Color DEFAULT_COLOR = new Color(21, 137, 255, 96);
-
 	private int xForce, yForce;
 
 	@JsonCreator
@@ -25,7 +21,7 @@ public class ForceArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xForce") int xForce,
 			@JsonProperty("yForce") int yForce) {
-		super(x, y, width, height, DEFAULT_COLOR);
+		super(x, y, width, height, TranslucentColors.TRANSLUCENT_BLUE);
 		this.xForce = xForce;
 		this.yForce = yForce;
 	}
