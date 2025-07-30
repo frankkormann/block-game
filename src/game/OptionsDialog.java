@@ -40,6 +40,7 @@ public class OptionsDialog extends JDialog {
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
 		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.setFocusable(false);
 		tabbedPane.addTab("Controls",
 				new ControlsChangerPanel(getRootPane(), inputMapper));
 		tabbedPane.addTab("Colors",
