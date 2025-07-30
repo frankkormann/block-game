@@ -211,7 +211,10 @@ public class OptionsDialog extends JDialog
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 2, 10, 10));
 
-		panel.add(new JLabel(inputToName(input)));
+		JLabel label = new JLabel(inputToName(input));
+		label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+
+		panel.add(label);
 		panel.add(createButtonForInput(input));
 
 		return panel;
