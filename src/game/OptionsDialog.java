@@ -209,6 +209,10 @@ public class OptionsDialog extends JDialog
 				currentlyRebindingInput = input;
 				button.setText(REBIND_INSTRUCTIONS);
 			}
+			else if (currentlyRebindingInput == input) {
+				currentlyRebindingInput = null;
+				updateButtonText(input);
+			}
 		});
 		button.setFocusable(false);
 
