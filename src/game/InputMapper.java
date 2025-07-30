@@ -96,7 +96,7 @@ public class InputMapper {
 		catch (IOException e) {
 			e.printStackTrace();
 			new ErrorDialog("Error",
-					"Can't read saved keybinds, resetting to defaults", e)
+					"Can't read saved controls, resetting to defaults", e)
 					.setVisible(true);
 			setToDefaults();
 			save();
