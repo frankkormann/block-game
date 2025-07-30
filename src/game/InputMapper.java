@@ -38,21 +38,29 @@ public class InputMapper {
 		inputToKeybind = new HashMap<>();
 		changeListeners = new ArrayList<>();
 
-		loadKeybinds(KEYBIND_PATH);
+		loadKeybindsFromPath(KEYBIND_PATH);
 	}
 
 	/**
 	 * Sets all keybinds to their default values.
 	 */
 	public void setToDefaults() {
-		loadKeybinds(getClass().getResourceAsStream(DEFAULT_KEYBIND_RESOURCE));
+		try {
+			loadKeybinds(
+					getClass().getResourceAsStream(DEFAULT_KEYBIND_RESOURCE));
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Can't read keybind defaults", e)
+					.setVisible(true);
+		}
 	}
 
 	/**
 	 * Reload keybinds without saving changes.
 	 */
 	public void reload() {
-		loadKeybinds(KEYBIND_PATH);
+		loadKeybindsFromPath(KEYBIND_PATH);
 	}
 
 	/**
@@ -72,28 +80,26 @@ public class InputMapper {
 		}
 	}
 
-	private void loadKeybinds(String filePath) {
+	private void loadKeybindsFromPath(String filePath) {
 		try {
 			loadKeybinds(Files.newInputStream(new File(filePath).toPath()));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error",
+					"Can't read saved keybinds, resetting to defaults", e)
+					.setVisible(true);
+			setToDefaults();
+			save();
 		}
 	}
 
-	private void loadKeybinds(InputStream stream) {
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			Keybinds json = mapper.readValue(stream, Keybinds.class);
-			for (Enum<?> input : json.keybinds.keySet()) {
-				Pair<Integer, Integer> keybind = json.keybinds.get(input);
-				setKeybind(input, keybind.first, keybind.second);
-			}
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Can't read keybind defaults", e)
-					.setVisible(true);
+	private void loadKeybinds(InputStream stream) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Keybinds json = mapper.readValue(stream, Keybinds.class);
+		for (Enum<?> input : json.keybinds.keySet()) {
+			Pair<Integer, Integer> keybind = json.keybinds.get(input);
+			setKeybind(input, keybind.first, keybind.second);
 		}
 	}
 
