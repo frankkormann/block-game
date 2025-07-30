@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * {@link #addKeybindListener(KeybindChangeListener)}.
  */
 public class InputMapper {
-
-	public static final int SHIFT_CONTROL_MASK = KeyEvent.CTRL_DOWN_MASK
-			| KeyEvent.SHIFT_DOWN_MASK;
 
 	private Map<Enum<?>, Pair<Integer, Integer>> inputToKeybind;
 	private List<KeybindChangeListener> changeListeners;
