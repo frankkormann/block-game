@@ -11,27 +11,37 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 
 /**
- * Convenience class for writing and reading from a save file directory. On
- * Windows, this directory is in the user's AppData folder. On other operating
- * systems, it is in their home directory. {@link #setUp()} should be called
- * before any other methods to configure the directory.
+ * Convenience class for writing and reading from a save file directory.
+ * <p>
+ * On Windows, the default directory is in the user's AppData folder. On other
+ * operating systems, it is in their home directory. {@link #setUp()} should be
+ * called before any other methods to configure the directory.
  */
 public class SaveManager {
 
 	private static final String DIRECTORY_NAME = "/BlockGame/save";
 	private static final String CURRENT_LEVEL_FILE = "/current_level";
 
-	private static String saveDirectory;
+	private static String saveDirectory = null;
 
 	/**
 	 * Sets the internal directory path to read/write files from.
+	 * 
+	 * @param path {@code String} representation of the directory path, or
+	 *             {@code null} if the default should be used
 	 */
-	public static void setUp() {
-		if (System.getProperty("os.name").startsWith("Windows")) {
-			saveDirectory = System.getenv("APPDATA") + DIRECTORY_NAME;
+	public static void setUp(String path) {
+		if (path == null) {
+			if (System.getProperty("os.name").startsWith("Windows")) {
+				saveDirectory = System.getenv("APPDATA") + DIRECTORY_NAME;
+			}
+			else {
+				saveDirectory = System.getProperty("user.home")
+						+ DIRECTORY_NAME;
+			}
 		}
 		else {
-			saveDirectory = System.getProperty("user.home") + DIRECTORY_NAME;
+			saveDirectory = path;
 		}
 	}
 
@@ -44,6 +54,11 @@ public class SaveManager {
 	 * @return {@code InputStream} to read from
 	 */
 	public static InputStream readFile(String name) {
+		if (saveDirectory == null) {
+			System.err.println("Call SaveManager.setUp() first");
+			return null;
+		}
+
 		File file = new File(saveDirectory + name);
 		if (!file.exists()) {
 			return null;
@@ -69,6 +84,11 @@ public class SaveManager {
 	 * @return {@code OutputStream} to write to
 	 */
 	public static OutputStream writeFile(String name) {
+		if (saveDirectory == null) {
+			System.err.println("Call SaveManager.setUp() first");
+			return null;
+		}
+
 		File file = new File(saveDirectory + name);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
