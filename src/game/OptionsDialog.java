@@ -35,6 +35,8 @@ public class OptionsDialog extends JDialog
 
 	private static final String TITLE = "Options";
 	private static final String REBIND_INSTRUCTIONS = "Type a new key";
+	private static final String UNDO_TEXT = "Undo changes";
+	private static final String RESET_TEXT = "Reset to defaults";
 
 	private static final String MOVEMENT_CONTROLS_TITLE = "Movement";
 	private static final String RESIZING_CONTROLS_TITLE = "Window Resizing";
@@ -103,17 +105,10 @@ public class OptionsDialog extends JDialog
 				new Pair<>(createInputsPanel(MetaInput.values()),
 						META_CONTROLS_TITLE));
 
-		JButton resetButton = new JButton("Reset all to defaults");
-		resetButton.addActionListener(e -> {
-			inputMapper.setToDefaults();
-		});
-		resetButton.setFocusable(false);
-		resetButton.setAlignmentX(CENTER_ALIGNMENT);
-
 		panel.add(cardsPanelComponents.second);
 		panel.add(cardsPanelComponents.first);
 		panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
-		panel.add(resetButton);
+		panel.add(createUndoResetButtonsPanel());
 
 		return panel;
 	}
@@ -154,6 +149,33 @@ public class OptionsDialog extends JDialog
 		});
 
 		return new Pair<>(panel, controller);
+	}
+
+	/**
+	 * Creates a {@code JPanel} with a {@code JButton} to undo temporary keybind
+	 * changes and a {@code JButton} to reset keybinds to defaults.
+	 * 
+	 * @return the {@code JPanel}
+	 */
+	private JPanel createUndoResetButtonsPanel() {
+		JPanel panel = new JPanel();
+
+		JButton undoButton = new JButton(UNDO_TEXT);
+		undoButton.addActionListener(e -> {
+			inputMapper.reload();
+		});
+		undoButton.setFocusable(false);
+
+		JButton resetButton = new JButton(RESET_TEXT);
+		resetButton.addActionListener(e -> {
+			inputMapper.setToDefaults();
+		});
+		resetButton.setFocusable(false);
+
+		panel.add(undoButton);
+		panel.add(resetButton);
+
+		return panel;
 	}
 
 	/**
@@ -249,6 +271,11 @@ public class OptionsDialog extends JDialog
 			asString += KeyEvent.getModifiersExText(keybind.second) + "+";
 		}
 		return asString + KeyEvent.getKeyText(keybind.first);
+	}
+
+	private void cleanUp() {
+		inputMapper.removeKeybindListener(this);
+		inputMapper.save();
 	}
 
 	/**
@@ -371,11 +398,13 @@ public class OptionsDialog extends JDialog
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		inputMapper.removeKeybindListener(this);
+		cleanUp();
 	}
 
 	@Override
-	public void windowClosed(WindowEvent e) {}
+	public void windowClosed(WindowEvent e) {
+		cleanUp();
+	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {}
