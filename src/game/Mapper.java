@@ -93,6 +93,11 @@ public abstract class Mapper<T> {
 			new ErrorDialog("Error", "Can't read default values", e)
 					.setVisible(true);
 		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Default values file does not exist", e)
+					.setVisible(true);
+		}
 	}
 
 	/**
@@ -133,15 +138,6 @@ public abstract class Mapper<T> {
 	}
 
 	/**
-	 * Removes {@code key} and its associated value.
-	 * 
-	 * @param key enum value to remove
-	 */
-	public void remove(Enum<?> key) {
-		enumMap.remove(key);
-	}
-
-	/**
 	 * Returns the value associated with {@code key}. Returns {@code null} if
 	 * there is no set value for {@code key}.
 	 * 
@@ -151,6 +147,15 @@ public abstract class Mapper<T> {
 	 */
 	public T get(Enum<?> key) {
 		return enumMap.get(key);
+	}
+
+	/**
+	 * Removes {@code key} and its associated value.
+	 * 
+	 * @param key enum value to remove
+	 */
+	public void remove(Enum<?> key) {
+		enumMap.remove(key);
 	}
 
 }
