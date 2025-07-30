@@ -35,6 +35,7 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 	}
 
 	private InputMapper inputMapper;
+	private ColorMapper colorMapper;
 	private GameController listener;
 
 	private JFileChooser fileChooser;
@@ -50,11 +51,19 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 	 * Creates a new {@code MenuBar} to handle {@code MetaInput}s. Inputs are
 	 * sent to {@code listener}. {@code MetaInput} keybinds are taken from
 	 * {@code inputMapper}.
+	 * <p>
+	 * Includes an {@code OptionsDialog} to change mappings in
+	 * {@code inputMapper} and {@code colorMapper}.
 	 * 
-	 * @param listener {@code GameController} which will process inputs
+	 * @param inputMapper {@code InputMapper} to take keybinds from and to alter
+	 *                    in {@code OptionsDialog}
+	 * @param colorMapper {@code ColorMapper} to alter in {@code OptionsDialog}
+	 * @param listener    {@code GameController} which will process inputs
 	 */
-	public MenuBar(InputMapper inputMapper, GameController listener) {
+	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
+			GameController listener) {
 		this.inputMapper = inputMapper;
+		this.colorMapper = colorMapper;
 		this.listener = listener;
 		inputToMenuItem = new HashMap<>();
 
@@ -144,7 +153,7 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				new OptionsDialog(SwingUtilities.getWindowAncestor(button),
-						inputMapper).setVisible(true);
+						inputMapper, colorMapper).setVisible(true);
 			}
 		});
 

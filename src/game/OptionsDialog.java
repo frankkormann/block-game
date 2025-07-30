@@ -11,7 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 /**
- * {@code JDialog} for letting the user change settings such as controls.
+ * {@code JDialog} for letting the user change keyboard bindings and color
+ * values.
  */
 public class OptionsDialog extends JDialog {
 
@@ -26,8 +27,10 @@ public class OptionsDialog extends JDialog {
 	 * 
 	 * @param owner       {@code Window} to display this on
 	 * @param inputMapper {@code InputMapper} to change controls of
+	 * @param colorMapper {@code ColorMapper} to change colors of
 	 */
-	public OptionsDialog(Window owner, InputMapper inputMapper) {
+	public OptionsDialog(Window owner, InputMapper inputMapper,
+			ColorMapper colorMapper) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 
 		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
@@ -41,7 +44,8 @@ public class OptionsDialog extends JDialog {
 		closeButton.setFocusable(false);
 		closeButton.setAlignmentX(CENTER_ALIGNMENT);
 
-		controlsChangerPanel = new ControlsChangerPanel(getRootPane(), inputMapper);
+		controlsChangerPanel = new ControlsChangerPanel(getRootPane(),
+				inputMapper);
 
 		add(controlsChangerPanel);
 		add(Box.createVerticalStrut(VERTICAL_SPACE));
