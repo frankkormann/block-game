@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -81,8 +83,15 @@ public class InputMapper {
 	}
 
 	private void loadKeybindsFromPath(String filePath) {
+		File saveFile = new File(filePath);
+		if (!saveFile.exists()) {
+			JOptionPane.showMessageDialog(null, "Creating new save file");
+			setToDefaults();
+			save();
+		}
+
 		try {
-			loadKeybinds(Files.newInputStream(new File(filePath).toPath()));
+			loadKeybinds(Files.newInputStream(saveFile.toPath()));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
