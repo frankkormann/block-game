@@ -36,13 +36,20 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 		super(new File(KEYBIND_PATH), DEFAULT_KEYBIND_RESOURCE);
 	}
 
+	@Override
 	public TypeReference<EnumValues<Pair<Integer, Integer>>> getJsonTypeReference() {
 		return new TypeReference<EnumValues<Pair<Integer, Integer>>>() {};
 	}
 
+	@Override
 	public Class<? extends Enum<?>>[] getEnumClasses() {
 		return new Class[] { MovementInput.class, DirectionSelectorInput.class,
 				ResizingInput.class, MetaInput.class };
+	}
+
+	@Override
+	public Pair<Integer, Integer> getDefaultValue() {
+		return new Pair<Integer, Integer>(0, 0);
 	}
 
 	/**

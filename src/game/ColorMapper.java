@@ -39,6 +39,10 @@ public class ColorMapper extends Mapper<Integer> {
 				WallColors.class };
 	}
 
+	public Integer getDefaultValue() {
+		return new Color(0, 0, 0).getRGB();
+	}
+
 	/**
 	 * Convenience method to set with a {@code Color}.
 	 * 

@@ -72,6 +72,13 @@ public abstract class Mapper<T> {
 	public abstract Class<? extends Enum<?>>[] getEnumClasses();
 
 	/**
+	 * Value to use if the default values file cannot be read.
+	 * 
+	 * @return the ultra-default value
+	 */
+	public abstract T getDefaultValue();
+
+	/**
 	 * Save all values to disk.
 	 */
 	public void save() {
@@ -120,6 +127,12 @@ public abstract class Mapper<T> {
 			e.printStackTrace();
 			new ErrorDialog("Error", "Default values file does not exist", e)
 					.setVisible(true);
+
+			for (Class<? extends Enum> enumClass : getEnumClasses()) {
+				for (Enum<?> key : enumClass.getEnumConstants()) {
+					set(key, getDefaultValue());
+				}
+			}
 		}
 	}
 
