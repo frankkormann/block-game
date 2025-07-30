@@ -131,6 +131,13 @@ current level. Then open an issue on this GitHub page and include:
 - A description of the bug
 - Any other information you think is relevant
 
+### Setting a custom save directory
+
+By default, save data is put in the current user's `AppData` folder on Windows
+and the user's home directory on other systems. You can set the 
+`BLOCKGAME_DIRECTORY` environment variable to change this behavior. If it is
+set, its value will be used as the directory to save data in.
+
 ## Technical details
 
 ### Version information
