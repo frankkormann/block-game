@@ -36,16 +36,17 @@ import game.MenuBar.MetaInput;
  * {@link Level}, so it should have data for each of that class's public
  * attributes.
  * <p>
- * If there are arguments passed to {@code main}, the first argument will be
- * used as the level number of the first level. Otherwise, a default first level
- * will be used.
+ * If the environment variable stored in {@link #DIRECTORY_ENV_VAR} is set, it
+ * will be used as the path to put save files. Otherwise, a default directory is
+ * used.
  * 
  * @author Frank Kormann
  */
 public class GameController extends WindowAdapter {
 
-	private static final String FIRST_LEVEL = "/level_1.json";
+	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
+	private static final String FIRST_LEVEL = "/level_1.json";
 	private static final int MILLISECONDS_BETWEEN_FRAMES = 20;
 
 	private MainFrame mainFrame;
@@ -66,7 +67,7 @@ public class GameController extends WindowAdapter {
 		UIManager.put("TitlePane.embeddedForeground",
 				UIManager.get("TitlePane.foreground"));
 
-		SaveManager.setUp(null);
+		SaveManager.setUp(System.getenv(DIRECTORY_ENV_VAR));
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
 			// enable custom window decorations
