@@ -1,9 +1,13 @@
 package game;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 
 /**
@@ -15,6 +19,7 @@ import java.nio.file.Files;
 public class SaveManager {
 
 	private static final String DIRECTORY_NAME = "/BlockGame/save";
+	private static final String CURRENT_LEVEL_FILE = "/current_level";
 
 	private static String saveDirectory;
 
@@ -77,6 +82,66 @@ public class SaveManager {
 			new ErrorDialog("Error", "Can't write to save file " + name, e)
 					.setVisible(true);
 			return null;
+		}
+	}
+
+	/**
+	 * Gets the most recently saved level resource.
+	 * 
+	 * @param defaultValue resource to use if there is no saved level or it is
+	 *                     not accessible
+	 * 
+	 * @return the most recently saved level
+	 * 
+	 * @see #setCurrentLevel(String)
+	 */
+	public static String getCurrentLevel(String defaultValue) {
+		InputStream stream = readFile(CURRENT_LEVEL_FILE);
+		if (stream == null) {
+			return defaultValue;
+		}
+		else {
+
+			String returnValue;
+			try {
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(stream));
+				returnValue = reader.readLine();
+				reader.close();
+				return returnValue;
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Can't read save data", e)
+						.setVisible(true);
+				return defaultValue;
+			}
+		}
+	}
+
+	/**
+	 * Saves {@code currentLevel} to disk.
+	 * 
+	 * @param currentLevel level resource to save
+	 * 
+	 * @see #getCurrentLevel(String)
+	 */
+	public static void setCurrentLevel(String currentLevel) {
+		BufferedWriter writer = new BufferedWriter(
+				new OutputStreamWriter(writeFile(CURRENT_LEVEL_FILE)));
+		try {
+			writer.write(currentLevel);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Can't write save data", e)
+					.setVisible(true);
+		}
+		try {
+			writer.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -74,8 +74,8 @@ public class GameController extends WindowAdapter {
 			JDialog.setDefaultLookAndFeelDecorated(true);
 		}
 
-		new GameController().startGame(
-				args.length == 0 ? FIRST_LEVEL : "/level_" + args[0] + ".json");
+		new GameController()
+				.startGame(SaveManager.getCurrentLevel(FIRST_LEVEL));
 	}
 
 	/**
@@ -177,6 +177,7 @@ public class GameController extends WindowAdapter {
 		currentSolution = level.solution;
 		currentLevel = levelResource;
 		loadObjectsFromLevel(level);
+		SaveManager.setCurrentLevel(levelResource);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
@@ -394,6 +395,7 @@ public class GameController extends WindowAdapter {
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
+		SaveManager.setCurrentLevel(currentLevel);
 		System.exit(0);
 	}
 
