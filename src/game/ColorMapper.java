@@ -14,6 +14,8 @@ import game.WallRectangle.WallColors;
  * {@code setColor} are provided to interact with this using
  * {@code java.awt.Color} objects instead.
  */
+// Implemented as Integer instead of Color because Jackson serializes Color
+// very verbosely
 public class ColorMapper extends Mapper<Integer> {
 
 	private static final String COLORS_PATH = "./save/colors.json";
