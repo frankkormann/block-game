@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -384,16 +386,19 @@ public abstract class Rectangle implements Drawable {
 		return resizeBehavior;
 	}
 
-//	public void setColor(Color color) {
-//		this.color = color;
-//	}
-
 	public Color getColor() {
 		return getColor(colorEnum);
 	}
 
 	public Color getColor(Enum<?> colorEnum) {
-		return colorMapper.getColor(colorEnum);
+		Color color = colorMapper.getColor(colorEnum);
+		if (color == null) {
+			color = Color.BLACK;
+			colorMapper.setColor(colorEnum, color);
+			JOptionPane.showMessageDialog(null,
+					"Color for " + colorEnum + " is not set, using black");
+		}
+		return color;
 	}
 
 	public void addAttachment(Area attachment, AttachmentOption... options) {

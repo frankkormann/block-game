@@ -54,6 +54,9 @@ public class ColorMapper extends Mapper<Integer> {
 	 * @return the {@code Color} associated with {@code colorEnum}
 	 */
 	public Color getColor(Enum<?> colorEnum) {
+		if (get(colorEnum) == null) {
+			return null;
+		}
 		return new Color(get(colorEnum), true);
 	}
 
