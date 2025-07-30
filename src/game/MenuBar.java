@@ -27,7 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 
  * @author Frank Kormann
  */
-public class MenuBar extends JMenuBar implements KeybindChangeListener {
+public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 	public enum MetaInput {
 		PAUSE, FRAME_ADVANCE, RELOAD_LEVEL, TOGGLE_HINTS, PLAY_SOLUTION,
@@ -74,7 +74,7 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 		fileChooser.setFileFilter(
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 
-		inputMapper.addKeybindListener(this);
+		inputMapper.addListener(this);
 
 		add(createHintMenu());
 		add(createRecordingMenu());
@@ -184,7 +184,7 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 			menuItem = new JMenuItem(text);
 		}
 
-		Pair<Integer, Integer> keybind = inputMapper.getKeybind(metaInput);
+		Pair<Integer, Integer> keybind = inputMapper.get(metaInput);
 		menuItem.addActionListener(e -> action.run());
 		if (keybind != null && keybind.first != 0) {
 			menuItem.setAccelerator(
@@ -285,17 +285,17 @@ public class MenuBar extends JMenuBar implements KeybindChangeListener {
 	}
 
 	@Override
-	public void keybindChanged(Enum<?> input, int newKeyCode,
-			int newModifiers) {
+	public void valueChanged(Enum<?> input, Object newKeybind) {
 		if (inputToMenuItem.containsKey(input)) {
+			Pair<Integer, Integer> keybind = (Pair<Integer, Integer>) newKeybind;
 			inputToMenuItem.get(input)
-					.setAccelerator(
-							KeyStroke.getKeyStroke(newKeyCode, newModifiers));
+					.setAccelerator(KeyStroke.getKeyStroke(keybind.first,
+							keybind.second));
 		}
 	}
 
 	@Override
-	public void keybindRemoved(Enum<?> input) {
+	public void valueRemoved(Enum<?> input) {
 		if (inputToMenuItem.containsKey(input)) {
 			inputToMenuItem.get(input).setAccelerator(null);
 		}

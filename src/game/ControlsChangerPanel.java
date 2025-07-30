@@ -33,7 +33,7 @@ import game.MenuBar.MetaInput;
  * parent window is closed.
  */
 public class ControlsChangerPanel extends JPanel
-		implements KeyListener, KeybindChangeListener {
+		implements KeyListener, ValueChangeListener {
 
 	private static final String REBIND_INSTRUCTIONS = "Type a new key";
 	private static final String UNDO_TEXT = "Undo changes";
@@ -97,7 +97,7 @@ public class ControlsChangerPanel extends JPanel
 				cleanUp();
 			}
 		});
-		inputMapper.addKeybindListener(this);
+		inputMapper.addListener(this);
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class ControlsChangerPanel extends JPanel
 	 */
 	private String inputToKeybindString(Enum<?> input) {
 		String asString = "";
-		Pair<Integer, Integer> keybind = inputMapper.getKeybind(input);
+		Pair<Integer, Integer> keybind = inputMapper.get(input);
 
 		if (keybind == null) {
 			return " ";  // Return a space to prevent the button's height from
@@ -264,7 +264,7 @@ public class ControlsChangerPanel extends JPanel
 	}
 
 	private void cleanUp() {
-		inputMapper.removeKeybindListener(this);
+		inputMapper.removeListener(this);
 		inputMapper.save();
 	}
 
@@ -370,15 +370,14 @@ public class ControlsChangerPanel extends JPanel
 	/* KeybindChangeListener */
 
 	@Override
-	public void keybindChanged(Enum<?> input, int newKeyCode,
-			int newModifiers) {
+	public void valueChanged(Enum<?> input, Object newKeybind) {
 		if (inputToButton.containsKey(input)) {
 			updateButtonText(input);
 		}
 	}
 
 	@Override
-	public void keybindRemoved(Enum<?> input) {
+	public void valueRemoved(Enum<?> input) {
 		if (inputToButton.containsKey(input)) {
 			updateButtonText(input);
 		}

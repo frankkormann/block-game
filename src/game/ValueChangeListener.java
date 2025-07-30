@@ -1,25 +1,24 @@
 package game;
 
 /**
- * Listener interface for receiving keybind change events. An implementing class
- * should register itself with {@code InputMapper}'s {@code addKeybindListener}
- * method to receive events.
+ * Listener interface for receiving valye change events. An implementing class
+ * should register itself with {@code Mapper}'s {@code addChangeListener} method
+ * to receive events.
  */
-public interface KeybindChangeListener {
+public interface ValueChangeListener {
 
 	/**
-	 * Fired when a keybind is changed or added.
+	 * Fired when a value is changed or added.
 	 * 
-	 * @param input        enum value which has changed
-	 * @param newKeyCode   new key code for the keyboard input
-	 * @param newModifiers new modifier mask for the keyboard input
+	 * @param key      enum key which has changed
+	 * @param newValue new value for the enum
 	 */
-	public void keybindChanged(Enum<?> input, int newKeyCode, int newModifiers);
+	public void valueChanged(Enum<?> key, Object newValue);
 
 	/**
-	 * Fired when a keybind is removed.
+	 * Fired when a key is removed.
 	 * 
-	 * @param input enum value which no longer has a keybind
+	 * @param key enum key which no longer has a value
 	 */
-	public void keybindRemoved(Enum<?> input);
+	public void valueRemoved(Enum<?> key);
 }
