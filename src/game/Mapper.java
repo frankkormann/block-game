@@ -51,8 +51,8 @@ public abstract class Mapper<T> {
 	 * An example implementation would be, if {@code T} is {@code Integer}:
 	 * 
 	 * <pre>
-	 * public TypeReference&ltEnumValues&ltT&gt&gt getJsonTypeReference() {
-	 * 	return new TypeReference&ltEnumValues&ltInteger&gt&gt() {};
+	 * public TypeReference&lt;EnumValues&lt;T&gt;&gt; getJsonTypeReference() {
+	 * 	return new TypeReference&lt;EnumValues&lt;Integer&gt;&gt;() {};
 	 * }
 	 * </pre>
 	 * 

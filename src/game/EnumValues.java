@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Container for enum-value map information while reading/writing JSON.
  * 
+ * @param <T> type of value to store
+ * 
  * @author Frank Kormann
  */
 public class EnumValues<T> {

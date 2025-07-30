@@ -67,6 +67,8 @@ public class GameInputHandler extends KeyAdapter
 	/**
 	 * Creates a new {@code GameInputHandler} with no input stream or output
 	 * stream.
+	 * 
+	 * @param inputMapper {@code InputMapper} to take keybinds from
 	 */
 	public GameInputHandler(InputMapper inputMapper) {
 		this.inputMapper = inputMapper;

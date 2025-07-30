@@ -14,8 +14,8 @@ import game.MenuBar.MetaInput;
  * <p>
  * A core part of this is that keybinds can be changed. Any class which is
  * interested in receiving updates on changes to keybinds should implement
- * {@code KeybindChangeListener} and register itself with {link
- * {@link #addKeybindListener(ValueChangeListener)}.
+ * {@code ValueChangeListener} and register itself with {link
+ * {@link Mapper#addListener(ValueChangeListener)}.
  * <p>
  * Mappings will be read from a save file if possible, or a resource if the save
  * file is unavailable.

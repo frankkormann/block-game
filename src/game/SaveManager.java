@@ -14,8 +14,8 @@ import java.nio.file.Files;
  * Convenience class for writing and reading from a save file directory.
  * <p>
  * On Windows, the default directory is in the user's AppData folder. On other
- * operating systems, it is in their home directory. {@link #setUp()} should be
- * called before any other methods to configure the directory.
+ * operating systems, it is in their home directory. {@link #setUp(String)}
+ * should be called before any other methods to configure the directory.
  */
 public class SaveManager {
 

@@ -13,6 +13,10 @@ import game.WallRectangle.WallColors;
  * methods {@code getColor} and {@code setColor} are provided to interact with
  * this using {@code java.awt.Color} objects instead.
  * <p>
+ * Any class which is interested in receiving events about changes to this
+ * mapping should implement {@code ValueChangeListener} and register themselves
+ * with {@link Mapper#addListener(ValueChangeListener)}.
+ * <p>
  * Mappings will be read from a save file if possible, or a resource if the save
  * file is unavailable.
  */
@@ -23,6 +27,10 @@ public class ColorMapper extends Mapper<Integer> {
 	private static final String COLORS_PATH = "/colors.json";
 	private static final String DEFAULT_COLORS_RESOURCE = "/colors_default.json";
 
+	/**
+	 * Creates a {@code ColorMapper} with default keybinds for {@code Colors},
+	 * {@code TranslucentColors}, and {@code WallColors}.
+	 */
 	public ColorMapper() {
 		super(COLORS_PATH, DEFAULT_COLORS_RESOURCE);
 	}
