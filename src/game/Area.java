@@ -22,7 +22,7 @@ public abstract class Area extends Rectangle {
 
 	public enum TranslucentColors {
 		TRANSLUCENT_BLUE, TRANSLUCENT_GREEN, TRANSLUCENT_PINK, TRANSLUCENT_RED,
-		TRANSPARENT, TRANSLUCENT_YELLOW
+		TRANSLUCENT_YELLOW, TRANSPARENT
 	}
 
 	private Set<MovingRectangle> rectsInside;
