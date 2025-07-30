@@ -126,7 +126,7 @@ public abstract class Mapper<T> {
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			new ErrorDialog("Error",
-					"Default values file does not exist, go to Options to set values manually",
+					"Default values file is unavailable, go to Options to set values manually",
 					e).setVisible(true);
 
 			for (Class<? extends Enum> enumClass : getEnumClasses()) {
