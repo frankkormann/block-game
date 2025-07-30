@@ -1,0 +1,156 @@
+package game;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.InjectableValues;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * Maps enumerated values to objects of type {@code T}.
+ * 
+ * @param <T> type to map enum values to
+ */
+public abstract class Mapper<T> {
+
+	private Map<Enum<?>, T> enumMap;
+
+	private File saveFile;
+	private String defaultValuesResource;
+
+	public Mapper(File saveFile, String defaultValuesResource) {
+		enumMap = new HashMap<>();
+		this.saveFile = saveFile;
+		this.defaultValuesResource = defaultValuesResource;
+
+		loadFromFile();
+	}
+
+	/**
+	 * Gets the {@code TypeReference} for the class which is used to read/write
+	 * the JSON save data. This is necessary due to Java type erasure.
+	 * 
+	 * @return a suitable {@code TypeReference}
+	 */
+	public abstract TypeReference<EnumValues<T>> getJsonTypeReference();
+
+	/**
+	 * Gets the {@code Enum} subclasses which will be used to retrieve actual
+	 * enum values when reading JSON.
+	 * 
+	 * @return array of {@code Enum} subclasses
+	 */
+	public abstract Class<? extends Enum<?>>[] getEnumClasses();
+
+	/**
+	 * Save all values to disk.
+	 */
+	public void save() {
+		ObjectMapper mapper = new ObjectMapper();
+		EnumValues<T> json = new EnumValues<>();
+		json.values = enumMap;
+		try {
+			mapper.writeValue(saveFile, json);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Failed to save to " + saveFile.toString(),
+					e).setVisible(true);
+		}
+	}
+
+	/**
+	 * Loads values from {@code stream}.
+	 */
+	public void load(InputStream stream) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setInjectableValues(new InjectableValues.Std()
+				.addValue("enumClasses", getEnumClasses()));
+		EnumValues<T> json = mapper.readValue(stream, getJsonTypeReference());
+
+		for (Enum<?> input : json.values.keySet()) {
+			T keybind = json.values.get(input);
+			set(input, keybind);
+		}
+	}
+
+	/**
+	 * Sets all values to their default values.
+	 */
+	public void setToDefaults() {
+		try {
+			load(getClass().getResourceAsStream(defaultValuesResource));
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Can't read default values", e)
+					.setVisible(true);
+		}
+	}
+
+	/**
+	 * Reload keybinds without saving changes.
+	 */
+	public void reload() {
+		loadFromFile();
+	}
+
+	private void loadFromFile() {
+		if (!saveFile.exists()) {
+			JOptionPane.showMessageDialog(null, "Creating new save file");
+			setToDefaults();
+			save();
+		}
+
+		try {
+			load(Files.newInputStream(saveFile.toPath()));
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error",
+					"Can't read saved values, resetting to defaults", e)
+					.setVisible(true);
+			setToDefaults();
+			save();
+		}
+	}
+
+	/**
+	 * Associates the specified value with {@code key}.
+	 * 
+	 * @param key   enum value to set
+	 * @param value value to set
+	 */
+	public void set(Enum<?> key, T value) {
+		enumMap.put(key, value);
+	}
+
+	/**
+	 * Removes {@code key} and its associated value.
+	 * 
+	 * @param key enum value to remove
+	 */
+	public void remove(Enum<?> key) {
+		enumMap.remove(key);
+	}
+
+	/**
+	 * Returns the value associated with {@code key}. Returns {@code null} if
+	 * there is no set value for {@code key}.
+	 * 
+	 * @param key enum value to get
+	 * 
+	 * @return value of type {@code T}
+	 */
+	public T get(Enum<?> key) {
+		return enumMap.get(key);
+	}
+
+}

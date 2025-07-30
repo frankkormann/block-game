@@ -1,5 +1,5 @@
 {
-	"keybinds": {
+	"values": {
 		"UP": {
 			"first":87,
 			"second":0

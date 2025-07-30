@@ -16,7 +16,7 @@ public class InputMapperTest {
 
 		int keyCode = KeyEvent.VK_A;
 		int modifiers = KeyEvent.SHIFT_DOWN_MASK | KeyEvent.ALT_DOWN_MASK;
-		inputMapper.setKeybind(Direction.NORTH, keyCode, modifiers);
+		inputMapper.set(Direction.NORTH, keyCode, modifiers);
 
 		Pair<Integer, Integer> actual = inputMapper.getKeybind(Direction.NORTH);
 		assertEquals(keyCode, actual.first);

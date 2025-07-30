@@ -354,10 +354,10 @@ public class OptionsDialog extends JDialog
 	public void keyPressed(KeyEvent e) {
 		if (currentlyRebindingInput != null && !isModifierKey(e.getKeyCode())) {
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				inputMapper.removeKeybind(currentlyRebindingInput);
+				inputMapper.remove(currentlyRebindingInput);
 			}
 			else {
-				inputMapper.setKeybind(currentlyRebindingInput, e.getKeyCode(),
+				inputMapper.set(currentlyRebindingInput, e.getKeyCode(),
 						e.getModifiersEx());
 			}
 

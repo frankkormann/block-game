@@ -1,17 +1,15 @@
 package game;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.swing.JOptionPane;
+import com.fasterxml.jackson.core.type.TypeReference;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import game.GameInputHandler.DirectionSelectorInput;
+import game.GameInputHandler.MovementInput;
+import game.GameInputHandler.ResizingInput;
+import game.MenuBar.MetaInput;
 
 /**
  * Maps keyboard inputs to enumerated values. A keyboard input is a
@@ -23,12 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * {@code KeybindChangeListener} and register itself with {link
  * {@link #addKeybindListener(KeybindChangeListener)}.
  */
-public class InputMapper {
+public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 
 	private static final String KEYBIND_PATH = "./save/controls.json";
 	private static final String DEFAULT_KEYBIND_RESOURCE = "/controls_default.json";
 
-	private Map<Enum<?>, Pair<Integer, Integer>> inputToKeybind;
 	private List<KeybindChangeListener> changeListeners;
 
 	/**
@@ -37,79 +34,17 @@ public class InputMapper {
 	 * {@code ResizingInput}, and {@code MetaInput}.
 	 */
 	public InputMapper() {
-		inputToKeybind = new HashMap<>();
+		super(new File(KEYBIND_PATH), DEFAULT_KEYBIND_RESOURCE);
 		changeListeners = new ArrayList<>();
-
-		loadKeybindsFromPath(KEYBIND_PATH);
 	}
 
-	/**
-	 * Sets all keybinds to their default values.
-	 */
-	public void setToDefaults() {
-		try {
-			loadKeybinds(
-					getClass().getResourceAsStream(DEFAULT_KEYBIND_RESOURCE));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Can't read keybind defaults", e)
-					.setVisible(true);
-		}
+	public TypeReference<EnumValues<Pair<Integer, Integer>>> getJsonTypeReference() {
+		return new TypeReference<EnumValues<Pair<Integer, Integer>>>() {};
 	}
 
-	/**
-	 * Reload keybinds without saving changes.
-	 */
-	public void reload() {
-		loadKeybindsFromPath(KEYBIND_PATH);
-	}
-
-	/**
-	 * Save all keybinds to disk.
-	 */
-	public void save() {
-		ObjectMapper mapper = new ObjectMapper();
-		Keybinds json = new Keybinds();
-		json.keybinds = inputToKeybind;
-		try {
-			mapper.writeValue(new File(KEYBIND_PATH), json);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to save to " + KEYBIND_PATH, e)
-					.setVisible(true);
-		}
-	}
-
-	private void loadKeybindsFromPath(String filePath) {
-		File saveFile = new File(filePath);
-		if (!saveFile.exists()) {
-			JOptionPane.showMessageDialog(null, "Creating new save file");
-			setToDefaults();
-			save();
-		}
-
-		try {
-			loadKeybinds(Files.newInputStream(saveFile.toPath()));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Can't read saved controls, resetting to defaults", e)
-					.setVisible(true);
-			setToDefaults();
-			save();
-		}
-	}
-
-	private void loadKeybinds(InputStream stream) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		Keybinds json = mapper.readValue(stream, Keybinds.class);
-		for (Enum<?> input : json.keybinds.keySet()) {
-			Pair<Integer, Integer> keybind = json.keybinds.get(input);
-			setKeybind(input, keybind.first, keybind.second);
-		}
+	public Class<? extends Enum<?>>[] getEnumClasses() {
+		return new Class[] { MovementInput.class, DirectionSelectorInput.class,
+				ResizingInput.class, MetaInput.class };
 	}
 
 	/**
@@ -119,16 +54,25 @@ public class InputMapper {
 	 * @param keyCode   key code of keyboard input
 	 * @param modifiers modifier mask of keyboard input
 	 */
-	public void setKeybind(Enum<?> input, int keyCode, int modifiers) {
-		inputToKeybind.put(input, new Pair<>(keyCode, modifiers));
+	public void set(Enum<?> input, int keyCode, int modifiers) {
+		super.set(input, new Pair<Integer, Integer>(keyCode, modifiers));
 
-		for (KeybindChangeListener listener : changeListeners) {
-			listener.keybindChanged(input, keyCode, modifiers);
+		if (changeListeners != null) {  // Will be null during super() in
+										  // constructor
+			for (KeybindChangeListener listener : changeListeners) {
+				listener.keybindChanged(input, keyCode, modifiers);
+			}
 		}
 	}
 
-	public void removeKeybind(Enum<?> input) {
-		inputToKeybind.remove(input);
+	@Override
+	public void set(Enum<?> input, Pair<Integer, Integer> keybind) {
+		set(input, keybind.first, keybind.second);
+	}
+
+	@Override
+	public void remove(Enum<?> input) {
+		super.remove(input);
 
 		for (KeybindChangeListener listener : changeListeners) {
 			listener.keybindRemoved(input);
@@ -144,8 +88,9 @@ public class InputMapper {
 	 * @return {@code Pair} where first value is the key code and second value
 	 *         is the modifier mask
 	 */
+	// Overridden for more descriptive Javadoc
 	public Pair<Integer, Integer> getKeybind(Enum<?> input) {
-		return inputToKeybind.get(input);
+		return get(input);
 	}
 
 	/**
