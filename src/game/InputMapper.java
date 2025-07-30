@@ -1,8 +1,6 @@
 package game;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -19,7 +17,7 @@ import game.MenuBar.MetaInput;
  * A core part of this is that keybinds can be changed. Any class which is
  * interested in receiving updates on changes to keybinds should implement
  * {@code KeybindChangeListener} and register itself with {link
- * {@link #addKeybindListener(KeybindChangeListener)}.
+ * {@link #addKeybindListener(ValueChangeListener)}.
  * <p>
  * Mappings will be read from a save file if possible, or a resource if the save
  * file is unavailable.
@@ -29,8 +27,6 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	private static final String KEYBIND_PATH = "./save/controls.json";
 	private static final String DEFAULT_KEYBIND_RESOURCE = "/controls_default.json";
 
-	private List<KeybindChangeListener> changeListeners;
-
 	/**
 	 * Creates an {@code InputMapper} with default key binds for
 	 * {@code MovementInput}, {@code DirectionSelectorInput},
@@ -38,7 +34,6 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	 */
 	public InputMapper() {
 		super(new File(KEYBIND_PATH), DEFAULT_KEYBIND_RESOURCE);
-		changeListeners = new ArrayList<>();
 	}
 
 	public TypeReference<EnumValues<Pair<Integer, Integer>>> getJsonTypeReference() {
@@ -59,27 +54,19 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	 */
 	public void set(Enum<?> input, int keyCode, int modifiers) {
 		super.set(input, new Pair<Integer, Integer>(keyCode, modifiers));
-
-		if (changeListeners != null) {  // Will be null during super() in
-										  // constructor
-			for (KeybindChangeListener listener : changeListeners) {
-				listener.keybindChanged(input, keyCode, modifiers);
-			}
-		}
 	}
 
+	/**
+	 * Associates the specified keyboard input with {@code input}.
+	 * 
+	 * @param input   enum value to set
+	 * @param keybind {@code Pair} where the first value is a key code and
+	 *                second value is modifier mask
+	 */
+	// Overridden for more descriptive Javadoc
 	@Override
 	public void set(Enum<?> input, Pair<Integer, Integer> keybind) {
 		set(input, keybind.first, keybind.second);
-	}
-
-	@Override
-	public void remove(Enum<?> input) {
-		super.remove(input);
-
-		for (KeybindChangeListener listener : changeListeners) {
-			listener.keybindRemoved(input);
-		}
 	}
 
 	/**
@@ -92,21 +79,9 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	 *         is the modifier mask
 	 */
 	// Overridden for more descriptive Javadoc
-	public Pair<Integer, Integer> getKeybind(Enum<?> input) {
-		return get(input);
-	}
-
-	/**
-	 * Registers {@code listener} to receive keybind change events.
-	 * 
-	 * @param listener {@code KeybindChangeListener} to add
-	 */
-	public void addKeybindListener(KeybindChangeListener listener) {
-		changeListeners.add(listener);
-	}
-
-	public void removeKeybindListener(KeybindChangeListener listener) {
-		changeListeners.remove(listener);
+	@Override
+	public Pair<Integer, Integer> get(Enum<?> input) {
+		return super.get(input);
 	}
 
 }

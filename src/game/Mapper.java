@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
@@ -27,12 +29,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class Mapper<T> {
 
 	private Map<Enum<?>, T> enumMap;
+	private List<ValueChangeListener> changeListeners;
 
 	private File saveFile;
 	private String defaultValuesResource;
 
 	public Mapper(File saveFile, String defaultValuesResource) {
 		enumMap = new HashMap<>();
+		changeListeners = new ArrayList<>();
 		this.saveFile = saveFile;
 		this.defaultValuesResource = defaultValuesResource;
 
@@ -154,6 +158,10 @@ public abstract class Mapper<T> {
 	 */
 	public void set(Enum<?> key, T value) {
 		enumMap.put(key, value);
+
+		for (ValueChangeListener listener : changeListeners) {
+			listener.valueChanged(key, value);
+		}
 	}
 
 	/**
@@ -175,6 +183,28 @@ public abstract class Mapper<T> {
 	 */
 	public void remove(Enum<?> key) {
 		enumMap.remove(key);
+
+		for (ValueChangeListener listener : changeListeners) {
+			listener.valueRemoved(key);
+		}
+	}
+
+	/**
+	 * Registers {@code listener} to receive value change events.
+	 * 
+	 * @param listener {@code ValueChangeListener} to add
+	 */
+	public void addListener(ValueChangeListener listener) {
+		changeListeners.add(listener);
+	}
+
+	/**
+	 * Unregisters {@code listener} from receiving value change events.
+	 * 
+	 * @param listener {@code ValueChangeListener} to remove
+	 */
+	public void removeListener(ValueChangeListener listener) {
+		changeListeners.remove(listener);
 	}
 
 }
