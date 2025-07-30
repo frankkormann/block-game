@@ -196,12 +196,16 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 
 	@Override
 	public void valueChanged(Enum<?> key, Object newValue) {
-		colorToButton.get(key).setBackground(colorMapper.getColor(key));
+		if (colorToButton.containsKey(key)) {
+			colorToButton.get(key).setBackground(colorMapper.getColor(key));
+		}
 	}
 
 	@Override
 	public void valueRemoved(Enum<?> key) {
-		colorToButton.get(key).setBackground(new Color(0, 0, 0, 0));
+		if (colorToButton.containsKey(key)) {
+			colorToButton.get(key).setBackground(new Color(0, 0, 0, 0));
+		}
 	}
 
 }
