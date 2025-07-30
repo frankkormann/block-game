@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.Color;
-import java.io.File;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -21,11 +20,11 @@ import game.WallRectangle.WallColors;
 // very verbosely
 public class ColorMapper extends Mapper<Integer> {
 
-	private static final String COLORS_PATH = "./save/colors.json";
+	private static final String COLORS_PATH = "/colors.json";
 	private static final String DEFAULT_COLORS_RESOURCE = "/colors_default.json";
 
 	public ColorMapper() {
-		super(new File(COLORS_PATH), DEFAULT_COLORS_RESOURCE);
+		super(COLORS_PATH, DEFAULT_COLORS_RESOURCE);
 	}
 
 	@Override

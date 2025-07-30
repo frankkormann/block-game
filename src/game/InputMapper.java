@@ -1,7 +1,5 @@
 package game;
 
-import java.io.File;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import game.GameInputHandler.DirectionSelectorInput;
@@ -24,7 +22,7 @@ import game.MenuBar.MetaInput;
  */
 public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 
-	private static final String KEYBIND_PATH = "./save/controls.json";
+	private static final String KEYBIND_PATH = "/controls.json";
 	private static final String DEFAULT_KEYBIND_RESOURCE = "/controls_default.json";
 
 	/**
@@ -33,7 +31,7 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	 * {@code ResizingInput}, and {@code MetaInput}.
 	 */
 	public InputMapper() {
-		super(new File(KEYBIND_PATH), DEFAULT_KEYBIND_RESOURCE);
+		super(KEYBIND_PATH, DEFAULT_KEYBIND_RESOURCE);
 	}
 
 	@Override

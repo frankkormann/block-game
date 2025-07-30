@@ -1,15 +1,11 @@
 package game;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.InjectableValues;
@@ -31,13 +27,13 @@ public abstract class Mapper<T> {
 	private Map<Enum<?>, T> enumMap;
 	private List<ValueChangeListener> changeListeners;
 
-	private File saveFile;
+	private String savePath;
 	private String defaultValuesResource;
 
-	public Mapper(File saveFile, String defaultValuesResource) {
+	public Mapper(String savePath, String defaultValuesResource) {
 		enumMap = new HashMap<>();
 		changeListeners = new ArrayList<>();
-		this.saveFile = saveFile;
+		this.savePath = savePath;
 		this.defaultValuesResource = defaultValuesResource;
 
 		loadFromFile();
@@ -86,13 +82,12 @@ public abstract class Mapper<T> {
 		EnumValues<T> json = new EnumValues<>();
 		json.values = enumMap;
 		try {
-			saveFile.getParentFile().mkdirs();
-			mapper.writeValue(saveFile, json);
+			mapper.writeValue(SaveManager.writeFile(savePath), json);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to save to " + saveFile.toString(),
-					e).setVisible(true);
+			new ErrorDialog("Error", "Failed to save to " + savePath, e)
+					.setVisible(true);
 		}
 	}
 
@@ -104,6 +99,7 @@ public abstract class Mapper<T> {
 		mapper.setInjectableValues(new InjectableValues.Std()
 				.addValue("enumClasses", getEnumClasses()));
 		EnumValues<T> json = mapper.readValue(stream, getJsonTypeReference());
+		stream.close();
 
 		for (Enum<?> input : json.values.keySet()) {
 			T keybind = json.values.get(input);
@@ -145,14 +141,15 @@ public abstract class Mapper<T> {
 	}
 
 	private void loadFromFile() {
-		if (!saveFile.exists()) {
-			JOptionPane.showMessageDialog(null, "Creating new save file");
+		InputStream fileStream = SaveManager.readFile(savePath);
+		if (fileStream == null) {
 			setToDefaults();
 			save();
+			fileStream = SaveManager.readFile(savePath);
 		}
 
 		try {
-			load(Files.newInputStream(saveFile.toPath()));
+			load(fileStream);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
