@@ -41,7 +41,7 @@ public class SaveManager {
 			}
 		}
 		else {
-			saveDirectory = path;
+			saveDirectory = path + DIRECTORY_NAME;
 		}
 	}
 
