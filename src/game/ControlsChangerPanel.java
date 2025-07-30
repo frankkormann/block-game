@@ -79,6 +79,7 @@ public class ControlsChangerPanel extends JPanel
 				new Pair<>(createInputsPanel(MetaInput.values()),
 						META_CONTROLS_TITLE));
 
+		add(Box.createVerticalStrut(VERTICAL_SPACE));
 		add(cardsPanelComponents.second);
 		add(cardsPanelComponents.first);
 		add(Box.createVerticalStrut(VERTICAL_SPACE));
