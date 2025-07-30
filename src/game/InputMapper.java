@@ -1,6 +1,9 @@
 package game;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class InputMapper {
 
+	private static final String KEYBIND_PATH = "./save/controls.json";
+	private static final String DEFAULT_KEYBIND_RESOURCE = "/controls_default.json";
+
 	private Map<Enum<?>, Pair<Integer, Integer>> inputToKeybind;
 	private List<KeybindChangeListener> changeListeners;
 
@@ -32,18 +38,53 @@ public class InputMapper {
 		inputToKeybind = new HashMap<>();
 		changeListeners = new ArrayList<>();
 
-		setToDefaults();
+		loadKeybinds(KEYBIND_PATH);
 	}
 
 	/**
 	 * Sets all keybinds to their default values.
 	 */
 	public void setToDefaults() {
+		loadKeybinds(getClass().getResourceAsStream(DEFAULT_KEYBIND_RESOURCE));
+	}
+
+	/**
+	 * Reload keybinds without saving changes.
+	 */
+	public void reload() {
+		loadKeybinds(KEYBIND_PATH);
+	}
+
+	/**
+	 * Save all keybinds to disk.
+	 */
+	public void save() {
+		ObjectMapper mapper = new ObjectMapper();
+		Keybinds json = new Keybinds();
+		json.keybinds = inputToKeybind;
+		try {
+			mapper.writeValue(new File(KEYBIND_PATH), json);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Failed to save to " + KEYBIND_PATH, e)
+					.setVisible(true);
+		}
+	}
+
+	private void loadKeybinds(String filePath) {
+		try {
+			loadKeybinds(Files.newInputStream(new File(filePath).toPath()));
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void loadKeybinds(InputStream stream) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Keybinds json = mapper.readValue(
-					GameController.class.getResourceAsStream("/controls.json"),
-					Keybinds.class);
+			Keybinds json = mapper.readValue(stream, Keybinds.class);
 			for (Enum<?> input : json.keybinds.keySet()) {
 				Pair<Integer, Integer> keybind = json.keybinds.get(input);
 				setKeybind(input, keybind.first, keybind.second);
