@@ -39,7 +39,7 @@ import javax.swing.UIManager;
  */
 public class MainFrame extends JFrame implements Resizable {
 
-	public static final String TASKBAR_ICON = "/taskbar_icon.png";
+	private static final String TASKBAR_ICON = "/taskbar_icon.png";
 
 	private static final String WINDOW_TITLE = "Block Game";
 
@@ -151,7 +151,8 @@ public class MainFrame extends JFrame implements Resizable {
 				+ getTitlePaneHeight();
 		setSize(width, height);
 
-		updateTitleBarText(WINDOW_TITLE + " - " + level.name);
+		updateTitleBarText(
+				"<html><body><b>" + level.name + "</b></body></html>");
 
 		arrangeComponents();
 	}

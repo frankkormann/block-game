@@ -28,7 +28,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>2.94 MB</td>
+		<td>2.98 MB</td>
 	</tr>
 </table>
 
@@ -37,12 +37,15 @@ by interacting with the environment in varied, creative ways.
 Download the latest `jar` file from the
 [releases tab](https://github.com/frankkormann/block-game/releases) and run it.
 
+**Note:** The game uses a `save` folder to store savefile information. It is
+recommended to place the `jar` in a new folder before running.
+
 ### Controls
 
 <table>
 	<tr>
 		<td>Move</td>
-		<td>A/D or arrow keys</td>
+		<td>A and D, or arrow keys</td>
 	</tr>
 	<tr>
 		<td>Jump</td>
@@ -50,7 +53,7 @@ Download the latest `jar` file from the
 	</tr>
 	<tr>
 		<td>Pause</td>
-		<td>K</td>
+		<td>P</td>
 	</tr>
 	<tr>
 		<td>Restart level</td>
@@ -59,6 +62,8 @@ Download the latest `jar` file from the
 </table>
 
 **Hints**
+
+These options are also available from the menu bar.
 
 <table>
 	<tr>
@@ -71,8 +76,29 @@ Download the latest `jar` file from the
 	</tr>
 </table>
 
+**Keyboard resizing**
+
+First, select a direction to resize. Then adjust it.
+
+<table>
+	<tr>
+		<td>Select a direction</td>
+		<td>Control + I, J, K, or L<br>I: Top
+			<br>K: Bottom<br>J: Left<br>L:Right</td>
+	</tr>
+	<tr>
+		<td>Move side up/down</td>
+		<td>I and K</td>
+	</tr>
+	<tr>
+		<td>Move side left/right</td>
+		<td>J and L</td>
+	</tr>
+</table>
 
 **Advanced**
+
+These options are also available from the menu bar.
 
 <table>
 	<tr>
@@ -89,7 +115,7 @@ Download the latest `jar` file from the
 	</tr>
 	<tr>
 		<td>Advance frame while paused</td>
-		<td>L</td>
+		<td>N</td>
 	</tr>
 </table>
 
@@ -105,17 +131,12 @@ current level. Then open an issue on this GitHub page and include:
 - A description of the bug
 - Any other information you think is relevant
 
-### Starting from a specific level
+### Setting a custom save directory
 
-If you want to resume playing from a specific level, start the `jar` file from
-the command line and type the level number you want to play after it like so:
-
-`"block game 0.8-beta" [LEVEL NUMBER HERE]`
-
-For example: `"block game 0.8-beta" 18` will start you on the 18th level.
-
-Remembering which level number you stopped playing at is left as an exercise
-for the user.
+By default, save data is put in the current user's `AppData` folder on Windows
+and the user's home directory on other systems. You can set the 
+`BLOCKGAME_DIRECTORY` environment variable to change this behavior. If it is
+set, its value will be used as the directory to save data in.
 
 ## Technical details
 

@@ -40,33 +40,44 @@ import game.MainFrame.Direction;
 public class GameInputHandler extends KeyAdapter
 		implements FocusListener, Resizable {
 
-	public enum GameInput {
-		UP(KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_SPACE),
-		LEFT(KeyEvent.VK_A, KeyEvent.VK_LEFT),
-		RIGHT(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
-
-		/**
-		 * Key codes which will trigger this
-		 */
-		public final int[] keyCodes;
-
-		private GameInput(int... keyCodes) {
-			this.keyCodes = keyCodes;
-		}
+	public enum MovementInput {
+		UP, LEFT, RIGHT
 	}
+
+	public enum DirectionSelectorInput {
+		SELECT_NORTH, SELECT_SOUTH, SELECT_WEST, SELECT_EAST
+	}
+
+	public enum ResizingInput {
+		MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
+	}
+
+	private static final int KEYBOARD_RESIZE_AMOUNT = 5;
+
+	private InputMapper inputMapper;
 
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
+	private boolean isNorthSelected;
+	private boolean isWestSelected;
+
 	private NumberReader reader;
 	private NumberWriter writer;
 
 	/**
 	 * Creates a new {@code GameInputHandler} with no input stream or output
 	 * stream.
+	 * 
+	 * @param inputMapper {@code InputMapper} to take keybinds from
 	 */
-	public GameInputHandler() {
+	public GameInputHandler(InputMapper inputMapper) {
+		this.inputMapper = inputMapper;
+
 		keysPressed = new HashSet<>();
 		resizesSinceLastFrame = new HashMap<>();
+		isNorthSelected = true;
+		isWestSelected = true;
+
 		zeroAllDirectionsInResizes();
 
 		reader = null;
@@ -81,7 +92,7 @@ public class GameInputHandler extends KeyAdapter
 	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in
 	 *         each direction and {@code Set<GameInput>} for inputs
 	 */
-	public Pair<Map<Direction, Integer>, Set<GameInput>> poll() {
+	public Pair<Map<Direction, Integer>, Set<MovementInput>> poll() {
 		try {
 			return new Pair<>(getResizes(), getInputs());
 		}
@@ -107,6 +118,7 @@ public class GameInputHandler extends KeyAdapter
 	private Map<Direction, Integer> getResizes() throws IOException {
 		Map<Direction, Integer> resizes = new HashMap<>();
 		if (reader == null) {
+			addResizesFromKeyboard(resizes);
 			resizes.putAll(resizesSinceLastFrame);
 		}
 		else {
@@ -123,8 +135,48 @@ public class GameInputHandler extends KeyAdapter
 			writer.writeInt(resizes.get(Direction.WEST));
 			writer.writeInt(resizes.get(Direction.EAST));
 		}
+
 		zeroAllDirectionsInResizes();
 		return resizes;
+
+	}
+
+	/**
+	 * Adds any resizes from the keyboard.
+	 * 
+	 * @param resizes {@code Map} to add resizes to
+	 */
+	private void addResizesFromKeyboard(Map<Direction, Integer> resizes) {
+		for (ResizingInput inp : ResizingInput.values()) {
+			Pair<Integer, Integer> keybind = inputMapper.get(inp);
+			if (keybind != null && keysPressed.contains(keybind.first)
+					&& containsMask(keysPressed, keybind.second)) {
+				int amount = KEYBOARD_RESIZE_AMOUNT;
+
+				switch (inp) {
+					case MOVE_UP:
+						amount *= -1;
+					case MOVE_DOWN:
+						if (isNorthSelected) {
+							resize(amount, Direction.NORTH);
+						}
+						else {
+							resize(amount, Direction.SOUTH);
+						}
+						break;
+					case MOVE_LEFT:
+						amount *= -1;
+					case MOVE_RIGHT:
+						if (isWestSelected) {
+							resize(amount, Direction.WEST);
+						}
+						else {
+							resize(amount, Direction.EAST);
+						}
+						break;
+				}
+			}
+		}
 	}
 
 	/**
@@ -137,33 +189,33 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @return {@code Set} of {@code Input}s
 	 */
-	private Set<GameInput> getInputs() throws IOException {
-		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
+	private Set<MovementInput> getInputs() throws IOException {
+		Set<MovementInput> movementInputs = EnumSet.noneOf(MovementInput.class);
 
 		if (reader == null) {
-			for (GameInput inp : GameInput.values()) {
-				for (int key : inp.keyCodes) {
-					if (keysPressed.contains(key)) {
-						gameInputs.add(inp);
-						break;
-					}
+			for (MovementInput inp : MovementInput.values()) {
+				Pair<Integer, Integer> keybind = inputMapper.get(inp);
+				if (keybind != null && keysPressed.contains(keybind.first)
+						&& containsMask(keysPressed, keybind.second)) {
+					movementInputs.add(inp);
 				}
 			}
 		}
 		else {
-			gameInputs = readInputs();
+			movementInputs = readInputs();
 		}
 
 		if (writer != null) {
-			writeInputs(gameInputs);
+			writeInputs(movementInputs);
 		}
 
-		return gameInputs;
+		return movementInputs;
 	}
 
 	/**
 	 * Takes input from an {@code InputStream}. If this is already reading from
-	 * a different {@code InputStream}, that stream is replaced.
+	 * a different {@code InputStream}, that stream is replaced. Note that this
+	 * does not close the previous stream.
 	 * 
 	 * @param input {@code InputStream} to read from
 	 */
@@ -181,7 +233,7 @@ public class GameInputHandler extends KeyAdapter
 	/**
 	 * Starts writing input to an {@code OutputStream}. If a different
 	 * {@code OutputStream} is already being written to, that stream is
-	 * replaced.
+	 * replaced. Note that this does not close the previous stream.
 	 * 
 	 * @param output {@code OutputStream} to write to
 	 */
@@ -231,36 +283,37 @@ public class GameInputHandler extends KeyAdapter
 	/**
 	 * Returns the {@code Input}s pressed on this frame in the input stream.
 	 */
-	private Set<GameInput> readInputs() throws IOException {
-		Set<GameInput> gameInputs = EnumSet.noneOf(GameInput.class);
+	private Set<MovementInput> readInputs() throws IOException {
+		Set<MovementInput> movementInputs = EnumSet.noneOf(MovementInput.class);
 
 		int numberOfInputs = reader.readByte();
 		for (int i = 0; i < numberOfInputs; i++) {
 			int inputOrdinal = reader.readByte();
-			gameInputs.add(GameInput.values()[inputOrdinal]);
+			movementInputs.add(MovementInput.values()[inputOrdinal]);
 		}
 
 		if (!reader.isOpen) {
 			reader = null;
 		}
 
-		return gameInputs;
+		return movementInputs;
 	}
 
 	/**
 	 * First writes the number of {@code Input}s pressed this frame, then each
 	 * {@code Input}'s ordinal in turn.
 	 * 
-	 * @param gameInputs {@code Set} of {@code Input}s to write
+	 * @param movementInputs {@code Set} of {@code Input}s to write
 	 */
-	private void writeInputs(Set<GameInput> gameInputs) throws IOException {
+	private void writeInputs(Set<MovementInput> movementInputs)
+			throws IOException {
 		if (!writer.isOpen) {
 			writer = null;
 			return;
 		}
 
-		writer.writeByte(gameInputs.size());
-		for (GameInput inp : gameInputs) {
+		writer.writeByte(movementInputs.size());
+		for (MovementInput inp : movementInputs) {
 			writer.writeByte(inp.ordinal());
 		}
 	}
@@ -278,6 +331,99 @@ public class GameInputHandler extends KeyAdapter
 					"Couldn't flush output stream, output file may be corrupted",
 					e).setVisible(true);
 		}
+	}
+
+	/**
+	 * Selects a new direction for {@code selectedDirection} if {@code keyCode}
+	 * and {@code modifiers} match a {@code DirectionSelectorInput}.
+	 * 
+	 * @param keyCode   key code which was pressed
+	 * @param modifiers modifier mask which was held
+	 * 
+	 * @return {@code true} if a new direction was selected
+	 */
+	private boolean selectDirection(int keyCode, int modifiers) {
+
+		for (DirectionSelectorInput inp : DirectionSelectorInput.values()) {
+			if (inputMatches(inp, keyCode, modifiers)) {
+				switch (inp) {
+					case SELECT_NORTH:
+						isNorthSelected = true;
+						return true;
+					case SELECT_SOUTH:
+						isNorthSelected = false;
+						return true;
+					case SELECT_WEST:
+						isWestSelected = true;
+						return true;
+					case SELECT_EAST:
+						isWestSelected = false;
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Tests whether {@code keyCode} and {@code modifiers} match {@code input}
+	 * according to {@code inputMapper}.
+	 * 
+	 * @param input     enum value to test
+	 * @param keyCode   key code of keyboard input
+	 * @param modifiers modifier mask of keyboard input
+	 * 
+	 * @return {@code true} if the keybind is set for {@code input}
+	 */
+	private boolean inputMatches(Enum<?> input, int keyCode, int modifiers) {
+		int mouseMasks = KeyEvent.BUTTON1_DOWN_MASK + KeyEvent.BUTTON2_DOWN_MASK
+				+ KeyEvent.BUTTON3_DOWN_MASK;
+		int modifiersWithoutMouse = modifiers & ~mouseMasks;
+
+		Pair<Integer, Integer> actualKeybind = inputMapper.get(input);
+		if (actualKeybind == null) {
+			return false;
+		}
+
+		return keyCode == actualKeybind.first
+				&& (modifiersWithoutMouse ^ actualKeybind.second) == 0;
+	}
+
+	/**
+	 * Tests whether {@code keys} contains all of the modifier key codes that
+	 * would produce {@code modifierMask} and none of the ones that would not.
+	 * <p>
+	 * For example, if
+	 * {@code modifierMask == KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK},
+	 * this returns {@code true} if {@code keys} contains
+	 * {@code KeyEvent.VK_SHIFT} and {@code KeyEvent.VK_CONTROL} and no other
+	 * modifier keys.
+	 * 
+	 * @param keys         {@code Set} of key codes to test
+	 * @param modifierMask modifier mask to compare against
+	 * 
+	 * @return {@code true} if {@code keys} contains exactly the modifier key
+	 *         codes necessary to produce {@code modifierMask}
+	 */
+	private boolean containsMask(Set<Integer> keys, int modifierMask) {
+		if ((modifierMask & KeyEvent.ALT_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_ALT))
+			return false;
+		if ((modifierMask & KeyEvent.ALT_GRAPH_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_ALT_GRAPH))
+			return false;
+		if ((modifierMask & KeyEvent.CTRL_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_CONTROL))
+			return false;
+		if ((modifierMask & KeyEvent.META_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_META))
+			return false;
+		if ((modifierMask & KeyEvent.SHIFT_DOWN_MASK) != 0
+				^ keys.contains(KeyEvent.VK_SHIFT))
+			return false;
+
+		return true;
 	}
 
 	private void zeroAllDirectionsInResizes() {
@@ -303,6 +449,10 @@ public class GameInputHandler extends KeyAdapter
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (selectDirection(e.getKeyCode(), e.getModifiersEx())) {
+			return;
+		}
+
 		keysPressed.add(e.getKeyCode());
 	}
 

@@ -2,6 +2,7 @@ package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.event.KeyEvent;
@@ -17,17 +18,22 @@ import javax.swing.JLabel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import game.GameInputHandler.GameInput;
+import game.GameInputHandler.DirectionSelectorInput;
+import game.GameInputHandler.MovementInput;
+import game.GameInputHandler.ResizingInput;
 import game.MainFrame.Direction;
 
 class GameInputHandlerTest {
 
 	GameInputHandler inputHandler;
-	Pair<Map<Direction, Integer>, Set<GameInput>> inputs;
+	InputMapper inputMapper;
+	Pair<Map<Direction, Integer>, Set<MovementInput>> inputs;
 
 	@BeforeEach
 	void setUp() {
-		inputHandler = new GameInputHandler();
+		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		inputMapper = new InputMapper();
+		inputHandler = new GameInputHandler(inputMapper);
 	}
 
 	@Test
@@ -57,34 +63,35 @@ class GameInputHandlerTest {
 		assertTrue(inputs.second.isEmpty());
 	}
 
-	private void pressKey(int keyCode) {
+	private void pressKey(Enum<?> input) {
+		Pair<Integer, Integer> keybind = inputMapper.get(input);
 		inputHandler.keyPressed(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED,
-				1l, 0, keyCode, '\0'));
+				1l, keybind.second, keybind.first, '\0'));
 	}
 
 	@Test
 	void inputs_are_returned_and_nothing_else() {
-		pressKey(GameInput.UP.keyCodes[0]);
-		pressKey(GameInput.LEFT.keyCodes[0]);
+		pressKey(MovementInput.UP);
+		pressKey(MovementInput.LEFT);
 
 		inputs = inputHandler.poll();
 
 		assertResizes(inputs.first, 0, 0, 0, 0);
-		assertTrue(inputs.second.contains(GameInput.UP));
-		assertTrue(inputs.second.contains(GameInput.LEFT));
+		assertTrue(inputs.second.contains(MovementInput.UP));
+		assertTrue(inputs.second.contains(MovementInput.LEFT));
 	}
 
 	@Test
 	void can_read_back_what_it_wrote() {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		inputHandler.beginWriting(output);
-		List<Pair<Map<Direction, Integer>, Set<GameInput>>> inputList = new ArrayList<>();
+		List<Pair<Map<Direction, Integer>, Set<MovementInput>>> inputList = new ArrayList<>();
 
-		pressKey(GameInput.RIGHT.keyCodes[0]);
+		pressKey(MovementInput.RIGHT);
 		inputList.add(inputHandler.poll());
 
 		inputHandler.resize(100, Direction.EAST);
-		pressKey(GameInput.LEFT.keyCodes[0]);
+		pressKey(MovementInput.LEFT);
 		inputList.add(inputHandler.poll());
 
 		inputList.add(inputHandler.poll());
@@ -98,16 +105,16 @@ class GameInputHandlerTest {
 				output.toByteArray());
 		inputHandler.beginReading(input);
 
-		for (Pair<Map<Direction, Integer>, Set<GameInput>> expectedInputs : inputList) {
+		for (Pair<Map<Direction, Integer>, Set<MovementInput>> expectedInputs : inputList) {
 			inputs = inputHandler.poll();
 
 			Map<Direction, Integer> resizes = expectedInputs.first;
-			Set<GameInput> gameInputs = expectedInputs.second;
+			Set<MovementInput> movementInputs = expectedInputs.second;
 			assertResizes(inputs.first, resizes.get(Direction.NORTH),
 					resizes.get(Direction.SOUTH), resizes.get(Direction.WEST),
 					resizes.get(Direction.EAST));
-			for (GameInput inp : GameInput.values()) {
-				if (gameInputs.contains(inp)) {
+			for (MovementInput inp : MovementInput.values()) {
+				if (movementInputs.contains(inp)) {
 					assertTrue(inputs.second.contains(inp));
 				}
 				else {
@@ -117,5 +124,83 @@ class GameInputHandlerTest {
 		}
 
 		inputHandler.endReading();
+	}
+
+	@Test
+	void selected_side_is_resized_north() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
+		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
+
+		pressKey(selection);
+		pressKey(resizingInput);
+
+		inputs = inputHandler.poll();
+
+		assertNotEquals(0, inputs.first.get(Direction.NORTH));
+	}
+
+	@Test
+	void selected_side_is_resized__south() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_SOUTH;
+		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
+
+		pressKey(selection);
+		pressKey(resizingInput);
+
+		inputs = inputHandler.poll();
+
+		assertNotEquals(0, inputs.first.get(Direction.SOUTH));
+	}
+
+	@Test
+	void selected_side_is_resized_west() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
+		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
+
+		pressKey(selection);
+		pressKey(resizingInput);
+
+		inputs = inputHandler.poll();
+
+		assertNotEquals(0, inputs.first.get(Direction.WEST));
+	}
+
+	@Test
+	void selected_side_is_resized_east() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_EAST;
+		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
+
+		pressKey(selection);
+		pressKey(resizingInput);
+
+		inputs = inputHandler.poll();
+
+		assertNotEquals(0, inputs.first.get(Direction.EAST));
+	}
+
+	@Test
+	void no_vertical_resizing_when_a_horizontal_increase_is_used() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
+		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
+
+		pressKey(selection);
+		pressKey(resizingInput);
+
+		inputs = inputHandler.poll();
+
+		assertEquals(0, inputs.first.get(Direction.NORTH));
+	}
+
+	@Test
+	void no_horizontal_resizing_when_a_vertical_increase_is_used() {
+		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
+		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
+
+		pressKey(selection);
+		pressKey(resizingInput);
+
+		inputs = inputHandler.poll();
+
+		assertEquals(0, inputs.first.get(Direction.WEST));
 	}
 }

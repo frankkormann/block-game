@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import game.MovingRectangle.Colors;
 import mocks.AccessibleArea;
 
 class AreaTest {
@@ -21,7 +21,9 @@ class AreaTest {
 
 	@BeforeEach
 	void setUp() {
-		area = new AccessibleArea(0, 0, 10, 10, Color.BLACK);
+		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		Rectangle.setColorMapper(new ColorMapper());
+		area = new AccessibleArea(0, 0, 10, 10, Colors.BLACK);
 		bufferedImage = new BufferedImage(area.getWidth(), area.getHeight(),
 				BufferedImage.TYPE_INT_ARGB);
 	}

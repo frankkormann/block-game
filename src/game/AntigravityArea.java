@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.Color;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,13 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AntigravityArea extends Area {
 
-	public static final Color DEFAULT_COLOR = new Color(255, 119, 255, 96);
-
 	@JsonCreator
 	public AntigravityArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height) {
-		super(x, y, width, height, DEFAULT_COLOR);
+		super(x, y, width, height, TranslucentColors.TRANSLUCENT_PINK);
 	}
 
 	/**

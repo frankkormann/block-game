@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -103,33 +105,52 @@ public abstract class Rectangle implements Drawable {
 		SAME_HEIGHT
 	}
 
-	private Color color;
+	private static ColorMapper colorMapper;
+
+	private Enum<?> colorEnum;
 
 	private int x, y, width, height;
 	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
 
-	public Rectangle(int x, int y, int width, int height, Color color,
+	public Rectangle(int x, int y, int width, int height, Enum<?> colorEnum,
 			ResizeBehavior resizeBehavior) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.color = color;
+		this.colorEnum = colorEnum;
 		this.resizeBehavior = resizeBehavior;
 		attachedAreas = new ArrayList<>();
+	}
+
+	public static void setColorMapper(ColorMapper colorMapper) {
+		Rectangle.colorMapper = colorMapper;
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		g = g.create();
 
+		Color color = getColor();
+
 		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
 				(int) (color.getGreen() / BORDER_DARKNESS),
-				(int) (color.getBlue() / BORDER_DARKNESS));
+				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
 		g.setColor(border);
-		g.fillRect(x, y, width, height);
+		if (color.getAlpha() == 255) {
+			g.fillRect(x, y, width, height);
+		}
+		else {
+			g.fillRect(x, y, BORDER_THICKNESS, height);
+			g.fillRect(x + width - BORDER_THICKNESS - 1, y, BORDER_THICKNESS,
+					height);
+			g.fillRect(x + BORDER_THICKNESS, y, width - 2 * BORDER_THICKNESS,
+					BORDER_THICKNESS);
+			g.fillRect(x + BORDER_THICKNESS, y + height - BORDER_THICKNESS,
+					width - 2 * BORDER_THICKNESS, BORDER_THICKNESS);
+		}
 
 		g.setColor(color);
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
@@ -376,11 +397,18 @@ public abstract class Rectangle implements Drawable {
 		return resizeBehavior;
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
+	public Color getColor() {
+		return getColor(colorEnum);
 	}
 
-	public Color getColor() {
+	public Color getColor(Enum<?> colorEnum) {
+		Color color = colorMapper.getColor(colorEnum);
+		if (color == null) {
+			color = Color.BLACK;
+			colorMapper.setColor(colorEnum, color);
+			JOptionPane.showMessageDialog(null,
+					"Color for " + colorEnum + " is not set, using black");
+		}
 		return color;
 	}
 

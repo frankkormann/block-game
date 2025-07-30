@@ -2,11 +2,12 @@ package game;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +15,18 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.util.SystemInfo;
 
-import game.GameInputHandler.GameInput;
+import game.GameInputHandler.MovementInput;
 import game.MainFrame.Direction;
-import game.MetaInputHandler.MetaInput;
+import game.MenuBar.MetaInput;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
@@ -31,52 +36,70 @@ import game.MetaInputHandler.MetaInput;
  * {@link Level}, so it should have data for each of that class's public
  * attributes.
  * <p>
- * If there are arguments passed to {@code main}, the first argument will be
- * used as the level number of the first level. Otherwise, a default first level
- * will be used.
+ * If the environment variable stored in {@link #DIRECTORY_ENV_VAR} is set, it
+ * will be used as the path to put save files. Otherwise, a default directory is
+ * used.
  * 
  * @author Frank Kormann
  */
 public class GameController extends WindowAdapter {
 
-	private static final String FIRST_LEVEL = "/level_1.json";
+	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
-	private static final int MILLISECONDS_BETWEEN_FRAMES = 19;
+	private static final String FIRST_LEVEL = "/level_1.json";
+	private static final int MILLISECONDS_BETWEEN_FRAMES = 20;
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
 	private GameInputHandler gameInputHandler;
-	private MetaInputHandler metaInputHandler;
+	private MenuBar menuBar;
 
 	private String currentLevel;
 	private String currentSolution;
 	private List<HintRectangle> hints;
 
-	private File recording;
+	private ByteArrayOutputStream currentLevelOutputStream;
 
 	private boolean paused;
 
 	public static void main(String[] args) {
 		FlatLightLaf.setup();
-		new GameController().startGame(
-				args.length == 0 ? FIRST_LEVEL : "/level_" + args[0] + ".json");
+		UIManager.put("TitlePane.embeddedForeground",
+				UIManager.get("TitlePane.foreground"));
+
+		SaveManager.setUp(System.getenv(DIRECTORY_ENV_VAR));
+		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
+		if (SystemInfo.isLinux) {
+			// enable custom window decorations
+			JFrame.setDefaultLookAndFeelDecorated(true);
+			JDialog.setDefaultLookAndFeelDecorated(true);
+		}
+
+		new GameController()
+				.startGame(SaveManager.getCurrentLevel(FIRST_LEVEL));
 	}
 
 	/**
 	 * Creates a {@code GameController}.
 	 */
 	public GameController() {
-		gameInputHandler = new GameInputHandler();
-		metaInputHandler = new MetaInputHandler(this);
+		InputMapper inputMapper = new InputMapper();
+		ColorMapper colorMapper = new ColorMapper();
+
+		Rectangle.setColorMapper(colorMapper);
+
+		gameInputHandler = new GameInputHandler(inputMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler);
+		menuBar = new MenuBar(inputMapper, colorMapper, this);
 
 		currentLevel = "";
 		currentSolution = "";
+		currentLevelOutputStream = null;
 		hints = new ArrayList<>();
 
 		mainFrame.addWindowListener(this);
-		mainFrame.addKeyListener(metaInputHandler);
+		mainFrame.setJMenuBar(menuBar);
 
 		paused = false;
 	}
@@ -91,7 +114,7 @@ public class GameController extends WindowAdapter {
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
-		new Timer().schedule(new TimerTask() {
+		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				try {
 					if (!paused && mainFrame.isFocused()) {
@@ -149,11 +172,13 @@ public class GameController extends WindowAdapter {
 
 		physicsSimulator = new PhysicsSimulator();
 		mainFrame.setUpLevel(level);
+		menuBar.reset();
 		hints.clear();
 
 		currentSolution = level.solution;
 		currentLevel = levelResource;
 		loadObjectsFromLevel(level);
+		SaveManager.setCurrentLevel(levelResource);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
@@ -224,7 +249,7 @@ public class GameController extends WindowAdapter {
 	 * </ul>
 	 */
 	private void nextFrame() {
-		Pair<Map<Direction, Integer>, Set<GameInput>> allInputs = gameInputHandler
+		Pair<Map<Direction, Integer>, Set<MovementInput>> allInputs = gameInputHandler
 				.poll();
 
 		mainFrame.resizeAll(allInputs.first);
@@ -247,19 +272,9 @@ public class GameController extends WindowAdapter {
 	 */
 	private void beginTempRecording() {
 		gameInputHandler.endWriting();
-		recording = null;  // In case a new file cannot be created, still stop
-							  // writing to this one
-		try {
-			recording = File.createTempFile("blockgame", null);
-			gameInputHandler
-					.beginWriting(Files.newOutputStream(recording.toPath()));
-			recording.deleteOnExit();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			// Don't pop up an ErrorDialog because the user probably doesn't
-			// care, and it would pop up on every level
-		}
+
+		currentLevelOutputStream = new ByteArrayOutputStream();
+		gameInputHandler.beginWriting(currentLevelOutputStream);
 	}
 
 	/**
@@ -357,8 +372,8 @@ public class GameController extends WindowAdapter {
 				case SAVE_RECORDING:
 					errorWord = "save";
 					gameInputHandler.flushWriter();
-					Files.copy(recording.toPath(), file.toPath(),
-							StandardCopyOption.REPLACE_EXISTING);
+					currentLevelOutputStream
+							.writeTo(new FileOutputStream(file));
 					break;
 				case PLAY_RECORDING:
 					errorWord = "open";
@@ -381,6 +396,7 @@ public class GameController extends WindowAdapter {
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
+		SaveManager.setCurrentLevel(currentLevel);
 		System.exit(0);
 	}
 

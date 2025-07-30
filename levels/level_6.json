@@ -97,9 +97,9 @@
 	"hints": [
 		{
 			"type": ".HintRectangle",
-			"x": 800,
+			"x": 455,
 			"y": 180,
-			"width": 300,
+			"width": 645,
 			"height": 20,
 			"color": "PLAYER"
 		}

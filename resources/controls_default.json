@@ -1,0 +1,80 @@
+{
+	"values": {
+		"UP": {
+			"first":87,
+			"second":0
+		},
+		"LEFT": {
+			"first": 65,
+			"second": 0
+		},
+		"RIGHT": {
+			"first": 68,
+			"second": 0
+		},
+		"SELECT_NORTH": {
+			"first": 73,
+			"second": 64
+		},
+		"SELECT_SOUTH": {
+			"first": 75,
+			"second": 64
+		},
+		"SELECT_WEST": {
+			"first": 74,
+			"second": 64
+		},
+		"SELECT_EAST": {
+			"first": 76,
+			"second": 64
+		},
+		"MOVE_UP": {
+			"first": 73,
+			"second": 0
+		},
+		"MOVE_DOWN": {
+			"first": 75,
+			"second": 0
+		},
+		"MOVE_LEFT": {
+			"first": 74,
+			"second": 0
+		},
+		"MOVE_RIGHT": {
+			"first": 76,
+			"second": 0
+		},
+		"PLAY_RECORDING": {
+			"first": 80,
+			"second": 192
+		},
+		"PLAY_SOLUTION": {
+			"first": 72,
+			"second": 192
+		},
+		"FRAME_ADVANCE": {
+			"first": 78,
+			"second": 0
+		},
+		"RELOAD_LEVEL": {
+			"first": 82,
+			"second": 0
+		},
+		"TOGGLE_HINTS": {
+			"first": 72,
+			"second": 0
+		},
+		"STOP_RECORDING": {
+			"first": 83,
+			"second": 0
+		},
+		"PAUSE": {
+			"first": 80,
+			"second": 0
+		},
+		"SAVE_RECORDING": {
+			"first": 83,
+			"second": 192
+		}
+	}
+}

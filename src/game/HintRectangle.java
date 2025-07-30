@@ -21,16 +21,17 @@ public class HintRectangle extends Rectangle {
 
 	private boolean visible;
 
-	public HintRectangle(int x, int y, int width, int height, Color color) {
-		super(x, y, width, height, color, ResizeBehavior.STAY);
-	}
-
 	@JsonCreator
 	public HintRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
 			@JsonProperty("color") Colors color) {
-		this(x, y, width, height, color.color);
+		this(x, y, width, height, (Enum<?>) color);
+	}
+
+	public HintRectangle(int x, int y, int width, int height,
+			Enum<?> colorEnum) {
+		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 
 		visible = false;
 	}
