@@ -1,6 +1,5 @@
 package mocks;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +13,9 @@ public class AccessibleArea extends Area {
 	public boolean hasExited;
 	public Map<Rectangle, Integer> callsToEveryframe;
 
-	public AccessibleArea(int x, int y, int width, int height, Color color) {
-		super(x, y, width, height, color);
+	public AccessibleArea(int x, int y, int width, int height,
+			Enum<?> colorEnum) {
+		super(x, y, width, height, colorEnum);
 		hasEntered = false;
 		hasExited = false;
 		callsToEveryframe = new HashMap<>();

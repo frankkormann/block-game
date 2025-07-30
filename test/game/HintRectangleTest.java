@@ -19,6 +19,7 @@ class HintRectangleTest {
 
 	@BeforeEach
 	void setUp() {
+		Rectangle.setColorMapper(new ColorMapper());
 		hint = new HintRectangle(0, 0, 10, 10, Colors.BLUE);
 		bufferedImage = new BufferedImage(hint.getWidth(), hint.getHeight(),
 				BufferedImage.TYPE_INT_ARGB);
