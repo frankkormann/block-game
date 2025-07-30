@@ -48,7 +48,10 @@ public class InputMapper {
 			Keybinds json = mapper.readValue(
 					GameController.class.getResourceAsStream("/controls.json"),
 					Keybinds.class);
-			inputToKeybind = json.keybinds;
+			for (Enum<?> input : json.keybinds.keySet()) {
+				Pair<Integer, Integer> keybind = json.keybinds.get(input);
+				setKeybind(input, keybind.first, keybind.second);
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
