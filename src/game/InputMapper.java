@@ -1,15 +1,13 @@
 package game;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import game.GameInputHandler.DirectionSelectorInput;
-import game.GameInputHandler.MovementInput;
-import game.GameInputHandler.ResizingInput;
-import game.MenuBar.MetaInput;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Maps keyboard inputs to enumerated values. A keyboard input is a
@@ -45,32 +43,18 @@ public class InputMapper {
 	 * Sets all keybinds to their default values.
 	 */
 	public void setToDefaults() {
-		// TODO Read these from a file instead
-		setKeybind(MovementInput.UP, KeyEvent.VK_W, 0);
-		setKeybind(MovementInput.LEFT, KeyEvent.VK_A, 0);
-		setKeybind(MovementInput.RIGHT, KeyEvent.VK_D, 0);
-
-		setKeybind(DirectionSelectorInput.SELECT_NORTH, KeyEvent.VK_I,
-				KeyEvent.SHIFT_DOWN_MASK);
-		setKeybind(DirectionSelectorInput.SELECT_SOUTH, KeyEvent.VK_K,
-				KeyEvent.SHIFT_DOWN_MASK);
-		setKeybind(DirectionSelectorInput.SELECT_WEST, KeyEvent.VK_J,
-				KeyEvent.SHIFT_DOWN_MASK);
-		setKeybind(DirectionSelectorInput.SELECT_EAST, KeyEvent.VK_L,
-				KeyEvent.SHIFT_DOWN_MASK);
-		setKeybind(ResizingInput.MOVE_DOWN, KeyEvent.VK_K, 0);
-		setKeybind(ResizingInput.MOVE_RIGHT, KeyEvent.VK_L, 0);
-		setKeybind(ResizingInput.MOVE_UP, KeyEvent.VK_I, 0);
-		setKeybind(ResizingInput.MOVE_LEFT, KeyEvent.VK_J, 0);
-
-		setKeybind(MetaInput.PAUSE, KeyEvent.VK_P, 0);
-		setKeybind(MetaInput.FRAME_ADVANCE, KeyEvent.VK_N, 0);
-		setKeybind(MetaInput.RELOAD_LEVEL, KeyEvent.VK_R, 0);
-		setKeybind(MetaInput.TOGGLE_HINTS, KeyEvent.VK_H, 0);
-		setKeybind(MetaInput.PLAY_SOLUTION, KeyEvent.VK_H, SHIFT_CONTROL_MASK);
-		setKeybind(MetaInput.SAVE_RECORDING, KeyEvent.VK_S, SHIFT_CONTROL_MASK);
-		setKeybind(MetaInput.PLAY_RECORDING, KeyEvent.VK_P, SHIFT_CONTROL_MASK);
-		setKeybind(MetaInput.STOP_RECORDING, KeyEvent.VK_S, 0);
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			Keybinds json = mapper.readValue(
+					GameController.class.getResourceAsStream("/controls.json"),
+					Keybinds.class);
+			inputToKeybind = json.keybinds;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Can't read keybind defaults", e)
+					.setVisible(true);
+		}
 	}
 
 	/**
