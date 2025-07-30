@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -135,7 +136,10 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 2, 10, 10));
 
-		panel.add(new JLabel(colorToName(color)));
+		JLabel label = new JLabel(colorToName(color));
+		label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+
+		panel.add(label);
 		panel.add(createButtonForColor(color));
 
 		return panel;
