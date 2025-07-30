@@ -1,5 +1,6 @@
 package game;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,20 +27,30 @@ public class Keybinds {
 		keybinds = new HashMap<>();
 	}
 
-	public void setKeybinds(Map<String, Pair<Integer, Integer>> keybinds) {
+	public void setKeybinds(Map<String, Pair<Integer, Integer>> keybinds)
+			throws IOException {
 		for (Entry<String, Pair<Integer, Integer>> entry : keybinds
 				.entrySet()) {
-			this.keybinds.put(getEnum(entry.getKey()), entry.getValue());
+			try {
+				this.keybinds.put(getEnum(entry.getKey()), entry.getValue());
+			}
+			catch (IllegalArgumentException e) {
+				throw new IOException(e);
+			}
 		}
 	}
 
-	private Enum<?> getEnum(String name) {
+	private Enum<?> getEnum(String name) throws IllegalArgumentException {
 		Enum<?> result = null;
 		for (Class<? extends Enum> enumClass : ENUM_CLASSES) {
 			try {
 				result = Enum.valueOf(enumClass, name);
 			}
 			catch (IllegalArgumentException ignored) {}
+		}
+
+		if (result == null) {
+			throw new IllegalArgumentException("Unknown enum value");
 		}
 
 		return result;
