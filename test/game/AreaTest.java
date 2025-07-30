@@ -21,6 +21,7 @@ class AreaTest {
 
 	@BeforeEach
 	void setUp() {
+		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
 		Rectangle.setColorMapper(new ColorMapper());
 		area = new AccessibleArea(0, 0, 10, 10, Colors.BLACK);
 		bufferedImage = new BufferedImage(area.getWidth(), area.getHeight(),

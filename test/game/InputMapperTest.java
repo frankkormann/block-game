@@ -12,6 +12,7 @@ public class InputMapperTest {
 
 	@Test
 	void can_get_what_is_set() {
+		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
 		InputMapper inputMapper = new InputMapper();
 
 		int keyCode = KeyEvent.VK_A;

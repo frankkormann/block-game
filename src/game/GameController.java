@@ -66,7 +66,7 @@ public class GameController extends WindowAdapter {
 		UIManager.put("TitlePane.embeddedForeground",
 				UIManager.get("TitlePane.foreground"));
 
-		SaveManager.setUp();
+		SaveManager.setUp(null);
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
 			// enable custom window decorations
