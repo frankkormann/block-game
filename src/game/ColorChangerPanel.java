@@ -32,6 +32,7 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	private static final String RESET_TEXT = "Reset to defaults";
 
 	private static final int VERTICAL_SPACE = 3;
+	private static final Enum<?> DISALLOW_CHANGING = TranslucentColors.TRANSPARENT;
 
 	private ColorMapper colorMapper;
 	private Map<Enum<?>, JButton> colorToButton;
@@ -111,6 +112,9 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		for (Enum<?> color : colors) {
+			if (color == DISALLOW_CHANGING) {
+				continue;
+			}
 			panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
 			panel.add(createButtonPanel(color));
 			panel.setAlignmentX(CENTER_ALIGNMENT);
