@@ -75,6 +75,7 @@ public abstract class Mapper<T> {
 		EnumValues<T> json = new EnumValues<>();
 		json.values = enumMap;
 		try {
+			saveFile.getParentFile().mkdirs();
 			mapper.writeValue(saveFile, json);
 		}
 		catch (IOException e) {
