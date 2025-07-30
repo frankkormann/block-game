@@ -101,6 +101,10 @@ public abstract class Mapper<T> {
 
 	/**
 	 * Loads values from {@code stream}.
+	 * 
+	 * @param stream {@code InputStream} to read from
+	 * 
+	 * @throws IOException if an I/O error occurs
 	 */
 	public void load(InputStream stream) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -122,12 +126,7 @@ public abstract class Mapper<T> {
 		try {
 			load(getClass().getResourceAsStream(defaultValuesResource));
 		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Can't read default values", e)
-					.setVisible(true);
-		}
-		catch (IllegalArgumentException e) {
+		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 			new ErrorDialog("Error",
 					"Default values file is unavailable, go to Options to set values manually",
