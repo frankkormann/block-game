@@ -137,9 +137,20 @@ public abstract class Rectangle implements Drawable {
 
 		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
 				(int) (color.getGreen() / BORDER_DARKNESS),
-				(int) (color.getBlue() / BORDER_DARKNESS));
+				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
 		g.setColor(border);
-		g.fillRect(x, y, width, height);
+		if (color.getAlpha() == 255) {
+			g.fillRect(x, y, width, height);
+		}
+		else {
+			g.fillRect(x, y, BORDER_THICKNESS, height);
+			g.fillRect(x + width - BORDER_THICKNESS - 1, y, BORDER_THICKNESS,
+					height);
+			g.fillRect(x + BORDER_THICKNESS, y, width - 2 * BORDER_THICKNESS,
+					BORDER_THICKNESS);
+			g.fillRect(x + BORDER_THICKNESS, y + height - BORDER_THICKNESS,
+					width - 2 * BORDER_THICKNESS, BORDER_THICKNESS);
+		}
 
 		g.setColor(color);
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
