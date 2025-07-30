@@ -13,6 +13,9 @@ import game.WallRectangle.WallColors;
  * Maps RGBA integers to enumerated values. The methods {@code getColor} and
  * {@code setColor} are provided to interact with this using
  * {@code java.awt.Color} objects instead.
+ * <p>
+ * Mappings will be read from a save file if possible, or a resource if the save
+ * file is unavailable.
  */
 // Implemented as Integer instead of Color because Jackson serializes Color
 // very verbosely

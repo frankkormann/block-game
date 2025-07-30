@@ -20,6 +20,9 @@ import game.MenuBar.MetaInput;
  * interested in receiving updates on changes to keybinds should implement
  * {@code KeybindChangeListener} and register itself with {link
  * {@link #addKeybindListener(KeybindChangeListener)}.
+ * <p>
+ * Mappings will be read from a save file if possible, or a resource if the save
+ * file is unavailable.
  */
 public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 

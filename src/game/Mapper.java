@@ -14,7 +14,13 @@ import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Maps enumerated values to objects of type {@code T}.
+ * Maps enumerated values to objects of type {@code T}. The mapping can be
+ * serialized/deserialized as JSON.
+ * <p>
+ * Mappings can be read from both a {@code File} or a resource, but can only be
+ * written to the {@code File}. The resource acts as a source of default values
+ * for the mapping. The default implementation is to read from the save file if
+ * possible and use the resource as a backup.
  * 
  * @param <T> type to map enum values to
  */
@@ -34,10 +40,22 @@ public abstract class Mapper<T> {
 	}
 
 	/**
-	 * Gets the {@code TypeReference} for the class which is used to read/write
-	 * the JSON save data. This is necessary due to Java type erasure.
+	 * Returns a {@code TypeReference} of type
+	 * {@code TypeReference<EnumValues<T>>}.
+	 * <p>
+	 * This is necessary due to Java type erasure. The {@code Mapper} superclass
+	 * does not know what type {@code T} is, so it cannot construct a suitable
+	 * {@code TypeReference}.
+	 * <p>
+	 * An example implementation would be, if {@code T} is {@code Integer}:
 	 * 
-	 * @return a suitable {@code TypeReference}
+	 * <pre>
+	 * public TypeReference&ltEnumValues&ltT&gt&gt getJsonTypeReference() {
+	 * 	return new TypeReference&ltEnumValues&ltInteger&gt&gt() {};
+	 * }
+	 * </pre>
+	 * 
+	 * @return the {@code TypeReference<EnumValues<T>>}
 	 */
 	public abstract TypeReference<EnumValues<T>> getJsonTypeReference();
 
