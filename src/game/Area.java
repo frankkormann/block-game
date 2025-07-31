@@ -20,11 +20,6 @@ import java.util.Set;
  */
 public abstract class Area extends Rectangle {
 
-	public enum TranslucentColors {
-		TRANSLUCENT_BLUE, TRANSLUCENT_GREEN, TRANSLUCENT_PINK, TRANSLUCENT_RED,
-		TRANSLUCENT_YELLOW, TRANSPARENT
-	}
-
 	private Set<MovingRectangle> rectsInside;
 
 	public Area(int x, int y, int width, int height, Enum<?> colorEnum) {

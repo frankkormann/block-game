@@ -21,7 +21,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MovingRectangle extends Rectangle {
 
 	public enum Colors {
-		BLACK, BLUE, GREEN, ORANGE, RED, PLAYER
+		BLACK, BLUE, GREEN, ORANGE, RED, PLAYER, TRANSLUCENT_BLUE,
+		TRANSLUCENT_GREEN, TRANSLUCENT_PINK, TRANSLUCENT_RED,
+		TRANSLUCENT_YELLOW, TRANSPARENT
 	}
 
 	public enum State {
