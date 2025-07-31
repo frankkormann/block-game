@@ -32,7 +32,7 @@ class MainFrameTest {
 	@BeforeEach
 	void setUp() {
 		assumeFalse(GraphicsEnvironment.isHeadless());
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 
 		GameInputHandler inputHandler = new GameInputHandler(new InputMapper());
 		mainFrame = new MainFrame(inputHandler);

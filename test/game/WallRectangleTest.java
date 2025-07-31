@@ -18,7 +18,7 @@ class WallRectangleTest {
 
 	@BeforeEach
 	void setUp() {
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 		Rectangle.setColorMapper(new ColorMapper());
 		wall = new WallRectangle(0, 0, 10, 10);
 		bufferedImage = new BufferedImage(wall.getWidth(), wall.getHeight(),

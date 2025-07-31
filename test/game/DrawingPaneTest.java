@@ -20,7 +20,7 @@ class DrawingPaneTest {
 
 	@BeforeEach
 	void setUp() {
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 		drawingPane = new DrawingPane();
 		bufferedImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
 		drawable = new DrawableMock(10, 10, 10, 10, Color.GREEN);

@@ -66,8 +66,7 @@ public class GameController extends WindowAdapter {
 		FlatLightLaf.setup();
 		UIManager.put("TitlePane.embeddedForeground",
 				UIManager.get("TitlePane.foreground"));
-
-		SaveManager.setUp(System.getenv(DIRECTORY_ENV_VAR));
+		SaveManager.setDirectory(System.getenv(DIRECTORY_ENV_VAR));
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
 			// enable custom window decorations
