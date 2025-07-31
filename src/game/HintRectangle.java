@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import game.Area.TranslucentColors;
 import game.MovingRectangle.Colors;
 
 /**
@@ -25,8 +26,8 @@ public class HintRectangle extends Rectangle {
 	public HintRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
-			@JsonProperty("color") Colors color) {
-		this(x, y, width, height, (Enum<?>) color);
+			@JsonProperty("color") String color) {
+		this(x, y, width, height, getColorEnum(color));
 	}
 
 	public HintRectangle(int x, int y, int width, int height,
@@ -34,6 +35,28 @@ public class HintRectangle extends Rectangle {
 		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 
 		visible = false;
+	}
+
+	/**
+	 * Return the enum value which corresponds to {@code color}. Searches
+	 * {@code Colors} and {@code TranslucentColors}. Returns {@code null} if no
+	 * value is found.
+	 * 
+	 * @param color name to search for
+	 * 
+	 * @return the enum value
+	 */
+	private static Enum<?> getColorEnum(String color) {
+		try {
+			return Enum.valueOf(Colors.class, color);
+		}
+		catch (IllegalArgumentException ignored) {}
+		try {
+			return Enum.valueOf(TranslucentColors.class, color);
+		}
+		catch (IllegalArgumentException ignored) {}
+
+		return null;
 	}
 
 	@Override
@@ -46,7 +69,8 @@ public class HintRectangle extends Rectangle {
 
 		g.setColor(new Color((int) (getColor().getRed() / BORDER_DARKNESS),
 				(int) (getColor().getGreen() / BORDER_DARKNESS),
-				(int) (getColor().getBlue() / BORDER_DARKNESS)));
+				(int) (getColor().getBlue() / BORDER_DARKNESS),
+				getColor().getAlpha()));
 
 		g.fillRect(getX(), getY(), getWidth(), OUTLINE_THICKNESS);
 		g.fillRect(getX(), getY(), OUTLINE_THICKNESS, getHeight());
@@ -56,7 +80,8 @@ public class HintRectangle extends Rectangle {
 				OUTLINE_THICKNESS, getHeight());
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), (int) (255 * OPACITY)));
+				getColor().getBlue(), (int) (getColor().getAlpha() * OPACITY)));
+
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 
 		g.dispose();
