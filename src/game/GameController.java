@@ -140,9 +140,7 @@ public class GameController extends WindowAdapter {
 	}
 
 	private void loadLevel(String levelResource) {
-
 		paused = true;
-
 		Level level;
 
 		try {
