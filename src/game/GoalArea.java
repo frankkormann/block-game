@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import game.MovingRectangle.Colors;
+
 /**
  * Advances to the next level when a {@code MovingRectangle} controlled by the
  * player has stayed within it for a long enough time.
@@ -24,7 +26,7 @@ public class GoalArea extends Area {
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
 			@JsonProperty("nextLevel") String nextLevel) {
-		super(x, y, width, height, TranslucentColors.TRANSLUCENT_YELLOW);
+		super(x, y, width, height, Colors.TRANSLUCENT_YELLOW);
 		timer = 0;
 		used = false;
 		this.nextLevel = nextLevel;

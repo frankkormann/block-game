@@ -3,6 +3,8 @@ package game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import game.MovingRectangle.Colors;
+
 /**
  * Disables a {@code MovingRectangle}'s gravity on enter and re-enables it on
  * exit.
@@ -15,7 +17,7 @@ public class AntigravityArea extends Area {
 	public AntigravityArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height) {
-		super(x, y, width, height, TranslucentColors.TRANSLUCENT_PINK);
+		super(x, y, width, height, Colors.TRANSLUCENT_PINK);
 	}
 
 	/**

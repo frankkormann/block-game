@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import game.MainFrame.Direction;
+import game.MovingRectangle.Colors;
 
 /**
  * Decreases a {@code MovingRectangle}'s width and/or height to match the
@@ -45,7 +46,7 @@ public class ShrinkArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xShrink") int xShrink,
 			@JsonProperty("yShrink") int yShrink) {
-		super(x, y, width, height, TranslucentColors.TRANSLUCENT_RED);
+		super(x, y, width, height, Colors.TRANSLUCENT_RED);
 		this.xShrink = xShrink;
 		this.yShrink = yShrink;
 	}

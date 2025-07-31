@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import game.Area.TranslucentColors;
 import game.MovingRectangle.Colors;
 
 /**
@@ -26,8 +25,8 @@ public class HintRectangle extends Rectangle {
 	public HintRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
-			@JsonProperty("color") String color) {
-		this(x, y, width, height, getColorEnum(color));
+			@JsonProperty("color") Colors color) {
+		this(x, y, width, height, (Enum<?>) color);
 	}
 
 	public HintRectangle(int x, int y, int width, int height,
@@ -35,28 +34,6 @@ public class HintRectangle extends Rectangle {
 		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 
 		visible = false;
-	}
-
-	/**
-	 * Return the enum value which corresponds to {@code color}. Searches
-	 * {@code Colors} and {@code TranslucentColors}. Returns {@code null} if no
-	 * value is found.
-	 * 
-	 * @param color name to search for
-	 * 
-	 * @return the enum value
-	 */
-	private static Enum<?> getColorEnum(String color) {
-		try {
-			return Enum.valueOf(Colors.class, color);
-		}
-		catch (IllegalArgumentException ignored) {}
-		try {
-			return Enum.valueOf(TranslucentColors.class, color);
-		}
-		catch (IllegalArgumentException ignored) {}
-
-		return null;
 	}
 
 	@Override

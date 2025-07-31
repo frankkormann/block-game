@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import game.MainFrame.Direction;
+import game.MovingRectangle.Colors;
 
 /**
  * Increases a {@code MovingRectangle}'s width and/or height to match the
@@ -43,7 +44,7 @@ public class GrowArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xGrowth") int xGrowth,
 			@JsonProperty("yGrowth") int yGrowth) {
-		super(x, y, width, height, TranslucentColors.TRANSLUCENT_GREEN);
+		super(x, y, width, height, Colors.TRANSLUCENT_GREEN);
 		this.xGrowth = xGrowth;
 		this.yGrowth = yGrowth;
 	}

@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import game.Area.TranslucentColors;
 import game.MovingRectangle.Colors;
 import game.WallRectangle.WallColors;
 
@@ -42,8 +41,7 @@ public class ColorMapper extends Mapper<Integer> {
 
 	@Override
 	public Class<? extends Enum<?>>[] getEnumClasses() {
-		return new Class[] { Colors.class, TranslucentColors.class,
-				WallColors.class };
+		return new Class[] { Colors.class, WallColors.class };
 	}
 
 	public Integer getDefaultValue() {

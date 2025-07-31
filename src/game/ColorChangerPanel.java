@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 
-import game.Area.TranslucentColors;
 import game.MovingRectangle.Colors;
 import game.WallRectangle.WallColors;
 
@@ -33,7 +32,7 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	private static final String RESET_TEXT = "Reset to defaults";
 
 	private static final int VERTICAL_SPACE = 3;
-	private static final Enum<?> DISALLOW_CHANGING = TranslucentColors.TRANSPARENT;
+	private static final Enum<?> DISALLOW_CHANGING = Colors.TRANSPARENT;
 
 	private ColorMapper colorMapper;
 	private Map<Enum<?>, JButton> colorToButton;
@@ -53,9 +52,8 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		add(createColorsPanel(Colors.values()));
 		add(createColorsPanel(WallColors.values()));
-		add(createColorsPanel(TranslucentColors.values()));
+		add(createColorsPanel(Colors.values()));
 		add(createUndoResetButtonsPanel());
 
 		Window window = SwingUtilities.getWindowAncestor(rootPane);
