@@ -139,24 +139,27 @@ public abstract class Rectangle implements Drawable {
 				(int) (color.getGreen() / BORDER_DARKNESS),
 				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
 		g.setColor(border);
-		if (color.getAlpha() == 255) {
-			g.fillRect(x, y, width, height);
-		}
-		else {
-			g.fillRect(x, y, BORDER_THICKNESS, height);
-			g.fillRect(x + width - BORDER_THICKNESS - 1, y, BORDER_THICKNESS,
-					height);
-			g.fillRect(x + BORDER_THICKNESS, y, width - 2 * BORDER_THICKNESS,
-					BORDER_THICKNESS);
-			g.fillRect(x + BORDER_THICKNESS, y + height - BORDER_THICKNESS,
-					width - 2 * BORDER_THICKNESS, BORDER_THICKNESS);
-		}
+		drawRectOutline(g, BORDER_THICKNESS);
 
 		g.setColor(color);
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
 
 		g.dispose();
+	}
+
+	/**
+	 * Draws an outline of this. The outline does not extend past this's bounds.
+	 * 
+	 * @param g         {@code Graphics} to draw with
+	 * @param thickness width of the outline
+	 */
+	protected void drawRectOutline(Graphics g, int thickness) {
+		g.fillRect(x, y, thickness, height);
+		g.fillRect(x + width - thickness, y, thickness, height);
+		g.fillRect(x + thickness, y, width - 2 * thickness, thickness);
+		g.fillRect(x + thickness, y + height - thickness, width - 2 * thickness,
+				thickness);
 	}
 
 	/**

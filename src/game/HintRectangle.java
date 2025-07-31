@@ -72,17 +72,14 @@ public class HintRectangle extends Rectangle {
 				(int) (getColor().getBlue() / BORDER_DARKNESS),
 				getColor().getAlpha()));
 
-		g.fillRect(getX(), getY(), getWidth(), OUTLINE_THICKNESS);
-		g.fillRect(getX(), getY(), OUTLINE_THICKNESS, getHeight());
-		g.fillRect(getX(), getY() + getHeight() - OUTLINE_THICKNESS, getWidth(),
-				OUTLINE_THICKNESS);
-		g.fillRect(getX() + getWidth() - OUTLINE_THICKNESS, getY(),
-				OUTLINE_THICKNESS, getHeight());
+		drawRectOutline(g, OUTLINE_THICKNESS);
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
 				getColor().getBlue(), (int) (getColor().getAlpha() * OPACITY)));
 
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		g.fillRect(getX() + OUTLINE_THICKNESS, getY() + OUTLINE_THICKNESS,
+				getWidth() - 2 * OUTLINE_THICKNESS,
+				getHeight() - 2 * OUTLINE_THICKNESS);
 
 		g.dispose();
 	}
