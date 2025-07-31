@@ -55,11 +55,6 @@ public class SaveManager {
 	 * @return {@code InputStream} to read from
 	 */
 	public static InputStream readFile(String name) {
-		if (saveDirectory == null) {
-			System.err.println("Call SaveManager.setUp() first");
-			return null;
-		}
-
 		File file = new File(saveDirectory + name);
 		if (!file.exists()) {
 			return null;
@@ -85,11 +80,6 @@ public class SaveManager {
 	 * @return {@code OutputStream} to write to
 	 */
 	public static OutputStream writeFile(String name) {
-		if (saveDirectory == null) {
-			System.err.println("Call SaveManager.setUp() first");
-			return null;
-		}
-
 		File file = new File(saveDirectory + name);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
