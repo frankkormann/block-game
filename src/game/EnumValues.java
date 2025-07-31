@@ -1,6 +1,5 @@
 package game;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,13 +29,13 @@ public class EnumValues<T> {
 		values = new HashMap<>();
 	}
 
-	public void setValues(Map<String, T> values) throws IOException {
+	public void setValues(Map<String, T> values) {
 		for (Entry<String, T> entry : values.entrySet()) {
 			try {
 				this.values.put(getEnum(entry.getKey()), entry.getValue());
 			}
 			catch (IllegalArgumentException e) {
-				throw new IOException(e);
+				System.err.println("Unknown enum value " + entry.getKey());
 			}
 		}
 	}
