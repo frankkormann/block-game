@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -105,14 +106,6 @@ public class MainFrame extends JFrame implements Resizable {
 		});
 	}
 
-	private static int getTitlePaneHeight() {
-		return UIManager.getDimension("TitlePane.buttonSize").height;
-	}
-
-	private static int getTitlePaneButtonsWidth() {
-		return 2 * UIManager.getDimension("TitlePane.buttonSize").width;
-	}
-
 	private void createWindow(GameInputHandler gameInputHandler) {
 		try {
 			setIconImage(ImageIO.read(getClass().getResource(TASKBAR_ICON)));
@@ -145,11 +138,9 @@ public class MainFrame extends JFrame implements Resizable {
 		drawingPane.clearDrawables();
 		drawingPane.setOffsets(0, 0);
 
-		pack();  // set insets
-		int width = level.width + getInsets().left + getInsets().right;
-		int height = level.height + getInsets().top + getInsets().bottom
-				+ getTitlePaneHeight();
-		setSize(width, height);
+		getContentPane()
+				.setPreferredSize(new Dimension(level.width, level.height));
+		pack();
 
 		updateTitleBarText(
 				"<html><body><b>" + level.name + "</b></body></html>");
@@ -338,6 +329,15 @@ public class MainFrame extends JFrame implements Resizable {
 	 */
 	public int getNextYOffset() {
 		return drawingPane.getYOffset() + yChange;
+	}
+
+	private int getTitlePaneHeight() {
+		return getHeight() - getContentPane().getHeight() - getInsets().top
+				- getInsets().bottom;
+	}
+
+	private int getTitlePaneButtonsWidth() {
+		return 2 * UIManager.getDimension("TitlePane.buttonSize").width;
 	}
 
 	@Override
