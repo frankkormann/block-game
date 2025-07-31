@@ -14,35 +14,36 @@ import java.nio.file.Files;
  * Convenience class for writing and reading from a save file directory.
  * <p>
  * On Windows, the default directory is in the user's AppData folder. On other
- * operating systems, it is in their home directory. {@link #setUp(String)}
- * should be called before any other methods to configure the directory.
+ * operating systems, it is in their home directory.
+ * {@link #setDirectory(String)} should be called before any other methods to
+ * configure the directory.
  */
 public class SaveManager {
 
 	private static final String DIRECTORY_NAME = "/BlockGame/save";
 	private static final String CURRENT_LEVEL_FILE = "/current_level";
 
-	private static String saveDirectory = null;
-
-	/**
-	 * Sets the internal directory path to read/write files from.
-	 * 
-	 * @param path {@code String} representation of the directory path, or
-	 *             {@code null} if the default should be used
-	 */
-	public static void setUp(String path) {
-		if (path == null) {
-			if (System.getProperty("os.name").startsWith("Windows")) {
-				saveDirectory = System.getenv("APPDATA") + DIRECTORY_NAME;
-			}
-			else {
-				saveDirectory = System.getProperty("user.home")
-						+ DIRECTORY_NAME;
-			}
+	private static String saveDirectory;
+	static {
+		if (System.getProperty("os.name").startsWith("Windows")) {
+			saveDirectory = System.getenv("APPDATA") + DIRECTORY_NAME;
 		}
 		else {
-			saveDirectory = path + DIRECTORY_NAME;
+			saveDirectory = System.getProperty("user.home") + DIRECTORY_NAME;
 		}
+	}
+
+	/**
+	 * Sets the directory path to read/write files from. Makes no change if
+	 * {@code path} is {@code null}.
+	 * 
+	 * @param path {@code String} representation of the directory path
+	 */
+	public static void setDirectory(String path) {
+		if (path == null) {
+			return;
+		}
+		saveDirectory = path + DIRECTORY_NAME;
 	}
 
 	/**
