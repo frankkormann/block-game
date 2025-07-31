@@ -22,15 +22,15 @@ import game.Rectangle.Colors;
 // very verbosely
 public class ColorMapper extends Mapper<Integer> {
 
-	private static final String COLORS_PATH = "/colors.json";
-	private static final String DEFAULT_COLORS_RESOURCE = "/colors_default.json";
+	private static final String SAVE_PATH = "/colors.json";
+	private static final String DEFAULT_RESOURCE = "/colors_default.json";
 
 	/**
 	 * Creates a {@code ColorMapper} with default keybinds for {@code Colors},
 	 * {@code TranslucentColors}, and {@code WallColors}.
 	 */
 	public ColorMapper() {
-		super(COLORS_PATH, DEFAULT_COLORS_RESOURCE);
+		super(SAVE_PATH, DEFAULT_RESOURCE);
 	}
 
 	@Override

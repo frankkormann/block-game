@@ -22,8 +22,8 @@ import game.MenuBar.MetaInput;
  */
 public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 
-	private static final String KEYBIND_PATH = "/controls.json";
-	private static final String DEFAULT_KEYBIND_RESOURCE = "/controls_default.json";
+	private static final String SAVE_PATH = "/controls.json";
+	private static final String DEFAULT_RESOURCE = "/controls_default.json";
 
 	/**
 	 * Creates an {@code InputMapper} with default key binds for
@@ -31,7 +31,7 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	 * {@code ResizingInput}, and {@code MetaInput}.
 	 */
 	public InputMapper() {
-		super(KEYBIND_PATH, DEFAULT_KEYBIND_RESOURCE);
+		super(SAVE_PATH, DEFAULT_RESOURCE);
 	}
 
 	@Override
