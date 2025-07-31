@@ -3,8 +3,6 @@ package game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import game.MovingRectangle.Colors;
-
 /**
  * Applies a constant force every frame.
  * <p>

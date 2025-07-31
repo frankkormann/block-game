@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import game.MovingRectangle.Colors;
+import game.Rectangle.Colors;
 
 class HintRectangleTest {
 

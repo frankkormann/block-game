@@ -105,16 +105,22 @@ public abstract class Rectangle implements Drawable {
 		SAME_HEIGHT
 	}
 
+	public enum Colors {
+		BLACK, BLUE, DARK_GRAY, GRAY, GREEN, ORANGE, RED, PLAYER,
+		TRANSLUCENT_BLUE, TRANSLUCENT_GREEN, TRANSLUCENT_PINK, TRANSLUCENT_RED,
+		TRANSLUCENT_YELLOW, TRANSPARENT
+	}
+
 	private static ColorMapper colorMapper;
 
-	private Enum<?> colorEnum;
+	private Colors colorEnum;
 
 	private int x, y, width, height;
 	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
 
-	public Rectangle(int x, int y, int width, int height, Enum<?> colorEnum,
+	public Rectangle(int x, int y, int width, int height, Colors colorEnum,
 			ResizeBehavior resizeBehavior) {
 		this.x = x;
 		this.y = y;

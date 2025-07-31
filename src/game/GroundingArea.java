@@ -1,6 +1,5 @@
 package game;
 
-import game.MovingRectangle.Colors;
 import game.MovingRectangle.State;
 
 /**

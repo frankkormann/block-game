@@ -13,14 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WallRectangle extends Rectangle {
 
-	public enum WallColors {
-		GRAY, DARK_GRAY
-	}
-
 	private static final int TICK_MARK_SIZE = 5;
 
 	public WallRectangle(int x, int y, int width, int height) {
-		this(x, y, width, height, WallColors.GRAY, ResizeBehavior.STAY);
+		this(x, y, width, height, Colors.GRAY, ResizeBehavior.STAY);
 	}
 
 	@JsonCreator
@@ -28,13 +24,13 @@ public class WallRectangle extends Rectangle {
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
 			@JsonProperty("resizeBehavior") ResizeBehavior resizeBehavior) {
-		this(x, y, width, height, WallColors.GRAY, resizeBehavior);
+		this(x, y, width, height, Colors.GRAY, resizeBehavior);
 
 		addAttachment(new GroundingArea(x, y - 1, width),
 				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 
-	public WallRectangle(int x, int y, int width, int height, Enum<?> colorEnum,
+	public WallRectangle(int x, int y, int width, int height, Colors colorEnum,
 			ResizeBehavior resizeBehavior) {
 		super(x, y, width, height, colorEnum, resizeBehavior);
 	}
@@ -46,7 +42,7 @@ public class WallRectangle extends Rectangle {
 		super.draw(g);
 		g = g.create();
 
-		g.setColor(getColor(WallColors.DARK_GRAY));
+		g.setColor(getColor(Colors.DARK_GRAY));
 		if (getResizeBehavior() == ResizeBehavior.PREVENT_X) {
 			g.drawLine(getX(), getY(), getX(), getY() + getHeight() - 1);
 			g.drawLine(getX() + getWidth() - 1, getY(), getX() + getWidth() - 1,

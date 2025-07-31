@@ -3,8 +3,6 @@ package game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import game.MovingRectangle.Colors;
-
 /**
  * Disables a {@code MovingRectangle}'s gravity on enter and re-enables it on
  * exit.

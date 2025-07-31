@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import game.MovingRectangle.Colors;
-
 /**
  * Advances to the next level when a {@code MovingRectangle} controlled by the
  * player has stayed within it for a long enough time.

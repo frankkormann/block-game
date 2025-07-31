@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import game.MovingRectangle.Colors;
+import game.Rectangle.Colors;
 import mocks.AccessibleArea;
 
 class AreaTest {

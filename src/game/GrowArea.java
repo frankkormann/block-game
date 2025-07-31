@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import game.MainFrame.Direction;
-import game.MovingRectangle.Colors;
 
 /**
  * Increases a {@code MovingRectangle}'s width and/or height to match the

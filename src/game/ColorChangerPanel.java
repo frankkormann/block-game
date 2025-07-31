@@ -18,8 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 
-import game.MovingRectangle.Colors;
-import game.WallRectangle.WallColors;
+import game.Rectangle.Colors;
 
 /**
  * {@code JPanel} which allows the user to change the color values in
@@ -52,7 +51,6 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		add(createColorsPanel(WallColors.values()));
 		add(createColorsPanel(Colors.values()));
 		add(createUndoResetButtonsPanel());
 

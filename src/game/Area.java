@@ -22,7 +22,7 @@ public abstract class Area extends Rectangle {
 
 	private Set<MovingRectangle> rectsInside;
 
-	public Area(int x, int y, int width, int height, Enum<?> colorEnum) {
+	public Area(int x, int y, int width, int height, Colors colorEnum) {
 		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 		rectsInside = new HashSet<>();
 	}
