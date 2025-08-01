@@ -71,8 +71,7 @@ public class ParameterChangerPanel extends JPanel
 		bindSliderSpinner(keyboardingResizingAmount,
 				Parameter.KEYBOARD_RESIZING_AMOUNT);
 
-		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 1000,
-				5);
+		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 200, 5);
 		bindSliderSpinner(resizingAreaWidth, Parameter.RESIZING_AREA_WIDTH);
 
 		add(createSlidersPanel());
