@@ -263,7 +263,7 @@ public class ParameterChangerPanel extends JPanel
 			this.isPercent = isPercent;
 
 			if (isPercent) {
-				spinner.setEditor(new JSpinner.NumberEditor(spinner, "#'%'"));
+				spinner.setEditor(new JSpinner.NumberEditor(spinner, "# '%'"));
 			}
 
 			connectComponents();
