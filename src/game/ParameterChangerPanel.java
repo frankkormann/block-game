@@ -2,6 +2,7 @@ package game;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -147,6 +148,7 @@ public class ParameterChangerPanel extends JPanel
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
+		c.insets = new Insets(VERTICAL_SPACE, 0, 0, 0);
 		c.weighty = 0.5;
 
 		for (Parameter param : paramToSliderSpinner.keySet()) {
