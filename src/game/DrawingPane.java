@@ -70,8 +70,8 @@ public class DrawingPane extends JPanel {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g.create();
 		super.paintComponent(g2d);
-		g2d.translate(-xOffset, -yOffset);
 		g2d.scale(scale, scale);
+		g2d.translate(-xOffset, -yOffset);
 
 		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists
 				.entrySet()) {
