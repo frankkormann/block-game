@@ -31,10 +31,10 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	private static final String RESET_TEXT = "Reset to defaults";
 
 	private static final int VERTICAL_SPACE = 3;
-	private static final Enum<?> DISALLOW_CHANGING = Colors.TRANSPARENT;
+	private static final Colors DISALLOW_CHANGING = Colors.TRANSPARENT;
 
 	private ColorMapper colorMapper;
-	private Map<Enum<?>, JButton> colorToButton;
+	private Map<Colors, JButton> colorToButton;
 
 	/**
 	 * Creates a {@code ColorChangePanel} which will change the color mappings
@@ -102,11 +102,11 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	 * 
 	 * @return the {@code JPanel}
 	 */
-	private JPanel createColorsPanel(Enum<?>[] colors) {
+	private JPanel createColorsPanel(Colors[] colors) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		for (Enum<?> color : colors) {
+		for (Colors color : colors) {
 			if (color == DISALLOW_CHANGING) {
 				continue;
 			}
@@ -126,7 +126,7 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	 * 
 	 * @return the {@code JPanel}
 	 */
-	private JPanel createButtonPanel(Enum<?> color) {
+	private JPanel createButtonPanel(Colors color) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 2, 10, 10));
 
@@ -146,7 +146,7 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	 * 
 	 * @return the {@code JButton}
 	 */
-	private JButton createButtonForColor(Enum<?> color) {
+	private JButton createButtonForColor(Colors color) {
 		JButton button = new JButton();
 		button.setBackground(colorMapper.getColor(color));
 		button.addActionListener(e -> {
@@ -171,7 +171,7 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	 * 
 	 * @return {@code String} that describes {@code color}
 	 */
-	private String colorToName(Enum<?> color) {
+	private String colorToName(Colors color) {
 		String asString = "";
 		String[] words = color.toString().split("_");
 		for (String word : words) {
