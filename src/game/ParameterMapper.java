@@ -71,4 +71,15 @@ public class ParameterMapper extends Mapper<Float> {
 		return 0f;
 	}
 
+	/**
+	 * Gets a parameter value as an {@code int}.
+	 * 
+	 * @param parameter key
+	 * 
+	 * @return value as {@code int}
+	 */
+	public int getInt(Enum<?> parameter) {
+		return (int) (float) get(parameter);
+	}
+
 }
