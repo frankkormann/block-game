@@ -88,6 +88,8 @@ public class MainFrame extends JFrame implements Resizable {
 	 * to this as a {@code KeyListener} and {@code FocusListener}.
 	 * 
 	 * @param gameInputHandler {@code GameInputHandler} to register
+	 * @param paramMapper      {@code ParameterMapper} to take parameter values
+	 *                         from
 	 */
 	public MainFrame(GameInputHandler gameInputHandler,
 			ParameterMapper paramMapper) {
