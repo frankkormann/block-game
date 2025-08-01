@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -58,11 +59,9 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * @param paramMapper {@code ParameterMapper} to alter in
 	 *                    {@code OptionsDialog}
 	 * @param listener    {@code GameController} which will process inputs
-	 * @param mainFrame   {@code MainFrame} which holds GUI elements
 	 */
 	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
-			ParameterMapper paramMapper, GameController listener,
-			MainFrame mainFrame) {
+			ParameterMapper paramMapper, GameController listener) {
 		this.listener = listener;
 		this.inputMapper = inputMapper;
 		inputToMenuItem = new HashMap<>();
@@ -79,7 +78,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		add(createHintMenu());
 		add(createRecordingMenu());
 		add(createPauseRestartMenu());
-		add(createOptionsButton(colorMapper, paramMapper, mainFrame));
+		add(createOptionsButton(colorMapper, paramMapper));
 	}
 
 	/**
@@ -148,13 +147,13 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private JMenu createOptionsButton(ColorMapper colorMapper,
-			ParameterMapper paramMapper, MainFrame mainFrame) {
+			ParameterMapper paramMapper) {
 		JMenu button = new JMenu("Options");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new OptionsDialog(mainFrame, inputMapper, colorMapper,
-						paramMapper).setVisible(true);
+				new OptionsDialog(SwingUtilities.getWindowAncestor(button),
+						inputMapper, colorMapper, paramMapper).setVisible(true);
 			}
 		});
 

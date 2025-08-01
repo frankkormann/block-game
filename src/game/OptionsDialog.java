@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Dialog;
+import java.awt.Window;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -25,12 +26,12 @@ public class OptionsDialog extends JDialog {
 	 * {@code inputMapper}, the colors of {@code colorMapper}, and the values of
 	 * {@code paramMapper}.
 	 * 
-	 * @param owner       {@code GameFrame} to display this on
+	 * @param owner       {@code Window} owner
 	 * @param inputMapper {@code InputMapper} to change controls of
 	 * @param colorMapper {@code ColorMapper} to change colors of
 	 * @param paramMapper {@code ParameterMapper} to change values of
 	 */
-	public OptionsDialog(MainFrame owner, InputMapper inputMapper,
+	public OptionsDialog(Window owner, InputMapper inputMapper,
 			ColorMapper colorMapper, ParameterMapper paramMapper) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 
@@ -42,7 +43,7 @@ public class OptionsDialog extends JDialog {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("General",
-				new ParameterChangerPanel(getRootPane(), owner, paramMapper));
+				new ParameterChangerPanel(getRootPane(), paramMapper));
 		tabbedPane.addTab("Controls",
 				new ControlsChangerPanel(getRootPane(), inputMapper));
 		tabbedPane.addTab("Colors",
