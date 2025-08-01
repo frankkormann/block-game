@@ -142,6 +142,12 @@ public class MainFrame extends JFrame
 		this.scale = scale;
 		int newWidth = (int) (idealWidth * scale);
 		int newHeight = (int) (idealHeight * scale);
+
+		centerX -= (newWidth - getWidth() + getInsets().left
+				+ getInsets().right) / 2;
+		centerY -= (newHeight - getHeight() + getTitlePaneHeight()
+				+ getInsets().top + getInsets().bottom) / 2;
+
 		getContentPane().setPreferredSize(new Dimension(newWidth, newHeight));
 		pack();
 		arrangeComponents();
