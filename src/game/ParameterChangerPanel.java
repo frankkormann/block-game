@@ -299,8 +299,8 @@ public class ParameterChangerPanel extends JPanel
 				intValue = value.intValue();
 			}
 
-			spinner.setValue(intValue);
 			slider.setValue(intValue);
+			spinner.setValue(intValue);
 		}
 
 		public Number getValue() {
