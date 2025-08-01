@@ -43,7 +43,8 @@ import game.ParameterMapper.Parameter;
  * 
  * @author Frank Kormann
  */
-public class GameController extends WindowAdapter {
+public class GameController extends WindowAdapter
+		implements ValueChangeListener {
 
 	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
@@ -59,6 +60,7 @@ public class GameController extends WindowAdapter {
 	private List<HintRectangle> hints;
 
 	private ByteArrayOutputStream currentLevelOutputStream;
+	private TimerTask newFrameTask;
 
 	private boolean paused;
 
@@ -103,6 +105,8 @@ public class GameController extends WindowAdapter {
 
 		paused = false;
 
+		paramMapper.addListener(this);
+
 		startGame(SaveManager.getCurrentLevel(FIRST_LEVEL),
 				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
@@ -118,21 +122,12 @@ public class GameController extends WindowAdapter {
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
-		new Timer().scheduleAtFixedRate(new TimerTask() {
+		newFrameTask = new TimerTask() {
 			public void run() {
-				try {
-					if (!paused && mainFrame.isFocused()) {
-						nextFrame();
-					}
-					mainFrame.repaint();
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-					new ErrorDialog("Error", "Something went wrong", e)
-							.setVisible(true);
-				}
+				newFrameTaskAction();
 			}
-		}, 0, millisBetweenFrames);
+		};
+		new Timer().scheduleAtFixedRate(newFrameTask, 0, millisBetweenFrames);
 	}
 
 	/**
@@ -236,6 +231,20 @@ public class GameController extends WindowAdapter {
 		}
 
 	}
+
+	private void newFrameTaskAction() {
+		try {
+			if (!paused && mainFrame.isFocused()) {
+				nextFrame();
+			}
+			mainFrame.repaint();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Something went wrong", e)
+					.setVisible(true);
+		}
+	};
 
 	/**
 	 * Processes the next frame.
@@ -401,5 +410,22 @@ public class GameController extends WindowAdapter {
 		SaveManager.setCurrentLevel(currentLevel);
 		System.exit(0);
 	}
+
+	@Override
+	public void valueChanged(Enum<?> key, Object newValue) {
+		if (key == Parameter.GAME_SPEED) {
+			newFrameTask.cancel();
+			newFrameTask = new TimerTask() {
+				public void run() {
+					newFrameTaskAction();
+				}
+			};
+			new Timer().scheduleAtFixedRate(newFrameTask, 0,
+					((Number) newValue).intValue());
+		}
+	}
+
+	@Override
+	public void valueRemoved(Enum<?> key) {}
 
 }
