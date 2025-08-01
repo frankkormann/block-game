@@ -22,7 +22,7 @@ import game.Rectangle.Colors;
 
 /**
  * {@code JPanel} which allows the user to change the color values in
- * {@code ColorMapper}. Automatically calls {@code colorMapper.save()} when the
+ * {@code ColorMapper}. Automatically calls {@code ColorMapper.save} when the
  * parent window is closed.
  */
 public class ColorChangerPanel extends JPanel implements ValueChangeListener {
