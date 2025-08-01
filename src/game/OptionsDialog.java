@@ -25,7 +25,7 @@ public class OptionsDialog extends JDialog {
 	 * {@code inputMapper}, the colors of {@code colorMapper}, and the values of
 	 * {@code paramMapper}.
 	 * 
-	 * @param owner       {@code Window} to display this on
+	 * @param owner       {@code GameFrame} to display this on
 	 * @param inputMapper {@code InputMapper} to change controls of
 	 * @param colorMapper {@code ColorMapper} to change colors of
 	 * @param paramMapper {@code ParameterMapper} to change values of
