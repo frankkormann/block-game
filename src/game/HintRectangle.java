@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import game.ParameterMapper.Parameter;
+
 /**
  * Translucent {@code Rectangle} which can be toggled visible or not visible.
  * 
@@ -16,7 +18,7 @@ public class HintRectangle extends Rectangle {
 	private static final int OUTLINE_THICKNESS = 2;
 	private static final float BORDER_DARKNESS = 1.2f;
 
-	private static float opacity;
+	private static ParameterMapper paramMapper;
 
 	private boolean visible;
 
@@ -30,8 +32,8 @@ public class HintRectangle extends Rectangle {
 		visible = false;
 	}
 
-	public static void setOpacity(float opacity) {
-		HintRectangle.opacity = opacity;
+	public static void setParameterMapper(ParameterMapper paramMapper) {
+		HintRectangle.paramMapper = paramMapper;
 	}
 
 	@Override
@@ -50,7 +52,8 @@ public class HintRectangle extends Rectangle {
 		drawRectOutline(g, OUTLINE_THICKNESS);
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), (int) (getColor().getAlpha() * opacity)));
+				getColor().getBlue(), (int) (getColor().getAlpha()
+						* paramMapper.get(Parameter.HINT_OPACITY))));
 
 		g.fillRect(getX() + OUTLINE_THICKNESS, getY() + OUTLINE_THICKNESS,
 				getWidth() - 2 * OUTLINE_THICKNESS,
