@@ -14,8 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HintRectangle extends Rectangle {
 
 	private static final int OUTLINE_THICKNESS = 2;
-	private static final float OPACITY = 0.5f;
 	private static final float BORDER_DARKNESS = 1.2f;
+
+	private static float opacity;
 
 	private boolean visible;
 
@@ -27,6 +28,10 @@ public class HintRectangle extends Rectangle {
 		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 
 		visible = false;
+	}
+
+	public static void setOpacity(float opacity) {
+		HintRectangle.opacity = opacity;
 	}
 
 	@Override
@@ -45,7 +50,7 @@ public class HintRectangle extends Rectangle {
 		drawRectOutline(g, OUTLINE_THICKNESS);
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), (int) (getColor().getAlpha() * OPACITY)));
+				getColor().getBlue(), (int) (getColor().getAlpha() * opacity)));
 
 		g.fillRect(getX() + OUTLINE_THICKNESS, getY() + OUTLINE_THICKNESS,
 				getWidth() - 2 * OUTLINE_THICKNESS,

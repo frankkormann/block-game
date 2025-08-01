@@ -86,6 +86,7 @@ public class GameController extends WindowAdapter {
 		ParameterMapper paramMapper = new ParameterMapper();
 
 		Rectangle.setColorMapper(colorMapper);
+		HintRectangle.setOpacity(paramMapper.get(Parameter.HINT_OPACITY));
 
 		gameInputHandler = new GameInputHandler(inputMapper);
 		// physicsSimulator is instantiated when the first level is loaded
