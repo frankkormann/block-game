@@ -134,6 +134,7 @@ public class MainFrame extends JFrame implements Resizable {
 		FlatLaf.updateUI();
 
 		updateTitleBarText(title);
+		adjustForTitlePaneHeight();
 		arrangeComponents();
 	}
 
@@ -151,7 +152,7 @@ public class MainFrame extends JFrame implements Resizable {
 		setLayout(null);
 		setResizable(false);
 
-		getLayeredPane().add(drawingPane);
+		getContentPane().add(drawingPane);
 
 		for (Direction direction : Direction.values()) {
 			ResizingSide side = new ResizingSide(direction, gameInputHandler);
@@ -263,11 +264,7 @@ public class MainFrame extends JFrame implements Resizable {
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
 
-		if (lastTitlePaneHeight != getTitlePaneHeight()) {
-			heightChange += getTitlePaneHeight() - lastTitlePaneHeight;
-			lastTitlePaneHeight = getTitlePaneHeight();
-		}
-
+		adjustForTitlePaneHeight();
 		setBounds(getX() + xChange, getY() + yChange, getWidth() + widthChange,
 				getHeight() + heightChange);
 
@@ -279,6 +276,19 @@ public class MainFrame extends JFrame implements Resizable {
 		arrangeComponents();
 	}
 
+	/**
+	 * Fixes this's height if the title pane's height changed.
+	 */
+	private void adjustForTitlePaneHeight() {
+		int titlePaneHeight = getTitlePaneHeight();
+		if (lastTitlePaneHeight != titlePaneHeight) {
+			setSize(getWidth(),
+					getHeight() + titlePaneHeight - lastTitlePaneHeight);
+			System.out.println(heightChange + " " + titlePaneHeight);
+			lastTitlePaneHeight = titlePaneHeight;
+		}
+	}
+
 	public void moveToMiddleOfScreen() {
 		setLocationRelativeTo(null);
 	}
@@ -288,10 +298,10 @@ public class MainFrame extends JFrame implements Resizable {
 	 */
 	private void arrangeComponents() {
 
-		for (Component comp : getLayeredPane().getComponents()) {
+		int insetsX = getInsets().left + getInsets().right;
+		int insetsY = getInsets().top + getInsets().bottom;
 
-			int insetsX = getInsets().left + getInsets().right;
-			int insetsY = getInsets().top + getInsets().bottom;
+		for (Component comp : getLayeredPane().getComponents()) {
 
 			if (comp instanceof ResizingSide) {
 
@@ -323,12 +333,12 @@ public class MainFrame extends JFrame implements Resizable {
 				}
 			}
 
-			if (comp instanceof DrawingPane) {
-				comp.setBounds(0, getTitlePaneHeight(), getWidth() - insetsX,
-						getHeight() - insetsY - getTitlePaneHeight());
-			}
+			if (comp instanceof DrawingPane) {}
 
 		}
+		if (drawingPane != null)
+			drawingPane.setBounds(0, 0, getContentPane().getWidth(),
+					getContentPane().getHeight());
 	}
 
 	/**
@@ -373,6 +383,7 @@ public class MainFrame extends JFrame implements Resizable {
 	}
 
 	private int getTitlePaneHeight() {
+		getContentPane().validate();
 		return getHeight() - getContentPane().getHeight() - getInsets().top
 				- getInsets().bottom;
 	}
