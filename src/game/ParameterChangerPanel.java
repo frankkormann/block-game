@@ -159,6 +159,7 @@ public class ParameterChangerPanel extends JPanel
 			}
 
 			JLabel label = new JLabel(paramToName(param));
+			label.setToolTipText(paramToTooltip(param));
 			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
 
 			SliderSpinner sliderSpinner = paramToSliderSpinner.get(param);
@@ -186,7 +187,7 @@ public class ParameterChangerPanel extends JPanel
 	private String paramToName(Parameter param) {
 		switch (param) {
 			case GAME_SPEED:
-				return "Game Speed (FPS)";
+				return "Game Speed";
 			case GAME_SCALING:
 				return "Game Scaling";
 			case GUI_SCALING:
@@ -197,6 +198,33 @@ public class ParameterChangerPanel extends JPanel
 				return "Keyboard Resizing Rate";
 			case RESIZING_AREA_WIDTH:
 				return "Window-edge Resizing Area Size";
+		}
+
+		return param.toString();
+	}
+
+	/**
+	 * Returns tooltip-text which further explains how {@code param} affects the
+	 * game.
+	 * 
+	 * @param param value to explain
+	 * 
+	 * @return tooltip-text for {@code param}
+	 */
+	private String paramToTooltip(Parameter param) {
+		switch (param) {
+			case GAME_SPEED:
+				return "Number of milliseconds between each frame\nLower is faster";
+			case GAME_SCALING:
+				return "Multiplier for size of game objects";
+			case GUI_SCALING:
+				return "Multiplier for size of GUI elements";
+			case HINT_OPACITY:
+				return "Transparency of hint blocks\nLower is more transparent";
+			case KEYBOARD_RESIZING_AMOUNT:
+				return "Amount the window will be resized with each keyboard input";
+			case RESIZING_AREA_WIDTH:
+				return "Width of the window regions that can be click-dragged to resize it";
 		}
 
 		return param.toString();
