@@ -27,6 +27,7 @@ import com.formdev.flatlaf.util.SystemInfo;
 import game.GameInputHandler.MovementInput;
 import game.MainFrame.Direction;
 import game.MenuBar.MetaInput;
+import game.ParameterMapper.Parameter;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
@@ -47,7 +48,6 @@ public class GameController extends WindowAdapter {
 	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
 	private static final String FIRST_LEVEL = "/level_1.json";
-	private static final int MILLISECONDS_BETWEEN_FRAMES = 20;
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
@@ -74,16 +74,16 @@ public class GameController extends WindowAdapter {
 			JDialog.setDefaultLookAndFeelDecorated(true);
 		}
 
-		new GameController()
-				.startGame(SaveManager.getCurrentLevel(FIRST_LEVEL));
+		new GameController();
 	}
 
 	/**
-	 * Creates a {@code GameController}.
+	 * Creates a {@code GameController} and starts the game.
 	 */
 	public GameController() {
 		InputMapper inputMapper = new InputMapper();
 		ColorMapper colorMapper = new ColorMapper();
+		ParameterMapper paramMapper = new ParameterMapper();
 
 		Rectangle.setColorMapper(colorMapper);
 
@@ -101,15 +101,19 @@ public class GameController extends WindowAdapter {
 		mainFrame.setJMenuBar(menuBar);
 
 		paused = false;
+
+		startGame(SaveManager.getCurrentLevel(FIRST_LEVEL),
+				(long) (float) paramMapper.get(Parameter.GAME_SPEED));
 	}
 
 	/**
 	 * Loads {@code firstLevel} and begins a repeating {@code TimerTask} to
 	 * process each frame.
 	 * 
-	 * @param firstLevel resource name of first level to load
+	 * @param firstLevel          resource name of first level to load
+	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
-	public void startGame(String firstLevel) {
+	public void startGame(String firstLevel, long millisBetweenFrames) {
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
@@ -127,7 +131,7 @@ public class GameController extends WindowAdapter {
 							.setVisible(true);
 				}
 			}
-		}, 0, MILLISECONDS_BETWEEN_FRAMES);
+		}, 0, millisBetweenFrames);
 	}
 
 	/**
