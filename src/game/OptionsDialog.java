@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 
@@ -53,7 +54,10 @@ public class OptionsDialog extends JDialog {
 		closeButton.addActionListener(e -> dispose());
 		closeButton.setAlignmentX(CENTER_ALIGNMENT);
 
-		add(tabbedPane);
+		JScrollPane scrollPane = new JScrollPane(tabbedPane);
+		scrollPane.setBorder(null);
+
+		add(scrollPane);
 		add(new JSeparator());
 		add(Box.createVerticalStrut(VERTICAL_SPACE));
 		add(closeButton);
