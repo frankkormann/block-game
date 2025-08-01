@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -94,6 +95,7 @@ public class MainFrame extends JFrame implements Resizable {
 	public MainFrame(GameInputHandler gameInputHandler,
 			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
+		setGuiScale(paramMapper.getFloat(Parameter.GUI_SCALING));
 
 		// width and height are instantiated in setUpLevel()
 		xChange = 0;
@@ -111,6 +113,21 @@ public class MainFrame extends JFrame implements Resizable {
 				createWindow(gameInputHandler);
 			}
 		});
+	}
+
+	/**
+	 * Sets the amount to scale GUI elements by, then updates the UI tree and
+	 * packs this.
+	 * 
+	 * @param scale size multiplier
+	 */
+	public void setGuiScale(float scale) {
+		Font font = UIManager.getFont("defaultFont");
+		UIManager.put("defaultFont", font.deriveFont(font.getSize() * scale));
+		System.setProperty("flatlaf.uiScale", Float.toString(scale));
+
+		SwingUtilities.updateComponentTreeUI(this);
+		pack();
 	}
 
 	private void createWindow(GameInputHandler gameInputHandler) {
