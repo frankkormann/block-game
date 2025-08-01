@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -187,6 +189,13 @@ public class MainFrame extends JFrame
 					}
 					return false;
 				});
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				centerX = getX() - (int) (idealXOffset * scale);
+				centerY = getY() - (int) (idealYOffset * scale);
+			}
+		});
 
 		setLayout(null);
 		setResizable(false);
