@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.formdev.flatlaf.FlatLaf;
+
 import game.ParameterMapper.Parameter;
 
 /**
@@ -53,6 +55,7 @@ public class MainFrame extends JFrame implements Resizable {
 
 	private int xChange, yChange;
 	private int widthChange, heightChange;
+	private String title;
 
 	private boolean interceptPropertyChangeEvent;
 
@@ -103,6 +106,8 @@ public class MainFrame extends JFrame implements Resizable {
 		widthChange = 0;
 		heightChange = 0;
 
+		title = getTitle();
+
 		interceptPropertyChangeEvent = false;
 
 		drawingPane = new DrawingPane();
@@ -123,11 +128,11 @@ public class MainFrame extends JFrame implements Resizable {
 	 */
 	public void setGuiScale(float scale) {
 		Font font = UIManager.getFont("defaultFont");
-		UIManager.put("defaultFont", font.deriveFont(font.getSize() * scale));
-		System.setProperty("flatlaf.uiScale", Float.toString(scale));
+		UIManager.put("defaultFont", font.deriveFont(13 * scale));
+		FlatLaf.updateUI();
 
-		SwingUtilities.updateComponentTreeUI(this);
-		pack();
+		updateTitleBarText(title);
+		arrangeComponents();
 	}
 
 	private void createWindow(GameInputHandler gameInputHandler) {
@@ -166,8 +171,8 @@ public class MainFrame extends JFrame implements Resizable {
 				.setPreferredSize(new Dimension(level.width, level.height));
 		pack();
 
-		updateTitleBarText(
-				"<html><body><b>" + level.name + "</b></body></html>");
+		updateTitleBarText(level.name);
+		title = level.name;
 
 		arrangeComponents();
 	}
@@ -325,7 +330,7 @@ public class MainFrame extends JFrame implements Resizable {
 	 */
 	private void updateTitleBarText(String newText) {
 		String taskbarText = getTitle();
-		setTitle(newText);
+		setTitle("<html><body><b>" + newText + "</b></body></html>");
 		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
 		setTitle(taskbarText);  				// setting its text back
 		interceptPropertyChangeEvent = false;
