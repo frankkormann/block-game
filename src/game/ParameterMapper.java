@@ -35,9 +35,7 @@ public class ParameterMapper extends Mapper<Float> {
 		HINT_OPACITY,
 		/**
 		 * Number of units to move a side by with each keyboard resizing input
-		 * 
-		 * @implNote Not implemented
-		 */ // TODO
+		 */
 		KEYBOARD_RESIZING_AMOUNT,
 		/**
 		 * Amount each {@code ResizingSide} extends into the frame
