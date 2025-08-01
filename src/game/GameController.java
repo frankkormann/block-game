@@ -86,11 +86,11 @@ public class GameController extends WindowAdapter {
 		ParameterMapper paramMapper = new ParameterMapper();
 
 		Rectangle.setColorMapper(colorMapper);
-		HintRectangle.setOpacity(paramMapper.get(Parameter.HINT_OPACITY));
+		HintRectangle.setParameterMapper(paramMapper);
 
 		gameInputHandler = new GameInputHandler(inputMapper);
 		// physicsSimulator is instantiated when the first level is loaded
-		mainFrame = new MainFrame(gameInputHandler);
+		mainFrame = new MainFrame(gameInputHandler, paramMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, this);
 
 		currentLevel = "";
