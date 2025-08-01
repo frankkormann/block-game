@@ -54,24 +54,27 @@ public class ParameterChangerPanel extends JPanel
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 1000, 5);
+		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 1000, 5, false);
 		bindSliderSpinner(gameSpeed, Parameter.GAME_SPEED);
 
-		SliderSpinner gameScaling = new SliderSpinner(0.5f, 2f, 0.5f, 2f, 0.1f);
+		SliderSpinner gameScaling = new SliderSpinner(50, 200, 50, 200, 10,
+				true);
 		bindSliderSpinner(gameScaling, Parameter.GAME_SCALING);
 
-		SliderSpinner guiScaling = new SliderSpinner(0.5f, 2f, 0.5f, 2f, 0.1f);
+		SliderSpinner guiScaling = new SliderSpinner(50, 200, 50, 200, 10,
+				true);
 		bindSliderSpinner(guiScaling, Parameter.GUI_SCALING);
 
-		SliderSpinner hintOpacity = new SliderSpinner(0f, 1f, 0f, 1f, 0.1f);
+		SliderSpinner hintOpacity = new SliderSpinner(0, 100, 0, 100, 10, true);
 		bindSliderSpinner(hintOpacity, Parameter.HINT_OPACITY);
 
 		SliderSpinner keyboardingResizingAmount = new SliderSpinner(1, 10, 1,
-				200, 1);
+				200, 1, false);
 		bindSliderSpinner(keyboardingResizingAmount,
 				Parameter.KEYBOARD_RESIZING_AMOUNT);
 
-		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 200, 5);
+		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 200, 5,
+				false);
 		bindSliderSpinner(resizingAreaWidth, Parameter.RESIZING_AREA_WIDTH);
 
 		add(createSlidersPanel());
@@ -222,43 +225,28 @@ public class ParameterChangerPanel extends JPanel
 
 		private JSlider slider;
 		private JSpinner spinner;
-		private int sliderScaling;
+		private boolean isPercent;
 
 		public SliderSpinner(int sliderMin, int sliderMax, int spinnerMin,
-				int spinnerMax, int spinnerStep) {
-			sliderScaling = 1;
+				int spinnerMax, int spinnerStep, boolean isPercent) {
 			slider = new JSlider(sliderMin, sliderMax);
 			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
 					spinnerMin, spinnerMax, spinnerStep));
+			this.isPercent = isPercent;
 
-			connectComponents();
-		}
-
-		public SliderSpinner(float sliderMin, float sliderMax, float spinnerMin,
-				float spinnerMax, float spinnerStep) {
-			sliderScaling = 100;
-			slider = new JSlider((int) (sliderMin * sliderScaling),
-					(int) (sliderMax * sliderScaling));
-			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
-					Math.nextDown(spinnerMin), Math.nextUp(spinnerMax),
-					spinnerStep));
+			if (isPercent) {
+				spinner.setEditor(new JSpinner.NumberEditor(spinner, "#'%'"));
+			}
 
 			connectComponents();
 		}
 
 		private void connectComponents() {
 			slider.addChangeListener(e -> {
-				if (sliderScaling == 1) {
-					spinner.setValue(slider.getValue());
-				}
-				else {
-					spinner.setValue(slider.getValue() / (float) sliderScaling);
-				}
+				spinner.setValue(slider.getValue());
 			});
 			spinner.addChangeListener(e -> {
-				slider.setValue(
-						(int) (((Number) spinner.getValue()).doubleValue()
-								* sliderScaling));
+				slider.setValue((int) spinner.getValue());
 			});
 		}
 
@@ -271,12 +259,27 @@ public class ParameterChangerPanel extends JPanel
 		}
 
 		public void setValue(Number value) {
-			spinner.setValue(value);
-			slider.setValue((int) (value.doubleValue() * sliderScaling));
+			int intValue;
+			if (isPercent) {
+				if (Math.abs(value.doubleValue() * 100
+						- (int) spinner.getValue()) < 1) {
+					return;
+				}
+				intValue = (int) (value.doubleValue() * 100);
+			}
+			else {
+				intValue = value.intValue();
+			}
+
+			spinner.setValue(intValue);
+			slider.setValue(intValue);
 		}
 
 		public Number getValue() {
-			return (Number) spinner.getValue();
+			if (isPercent) {
+				return (int) spinner.getValue() / 100.0;
+			}
+			return (int) spinner.getValue();
 		}
 
 		public void addChangeListener(ChangeListener listener) {
