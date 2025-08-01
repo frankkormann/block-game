@@ -14,8 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.FlatLaf;
-
 import game.ParameterMapper.Parameter;
 
 /**
@@ -45,7 +43,8 @@ import game.ParameterMapper.Parameter;
  * 
  * @author Frank Kormann
  */
-public class MainFrame extends JFrame implements Resizable {
+public class MainFrame extends JFrame
+		implements Resizable, ValueChangeListener {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";
 
@@ -116,6 +115,7 @@ public class MainFrame extends JFrame implements Resizable {
 
 		drawingPane = new DrawingPane();
 		this.paramMapper = paramMapper;
+		paramMapper.addListener(this);
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -133,7 +133,7 @@ public class MainFrame extends JFrame implements Resizable {
 	public void setGuiScale(float scale) {
 		Font font = UIManager.getFont("defaultFont");
 		UIManager.put("defaultFont", font.deriveFont(13 * scale));
-		FlatLaf.updateUI();
+		SwingUtilities.updateComponentTreeUI(this);
 
 		updateTitleBarText(title);
 		adjustForTitlePaneHeight();
@@ -299,7 +299,6 @@ public class MainFrame extends JFrame implements Resizable {
 		if (lastTitlePaneHeight != titlePaneHeight) {
 			setSize(getWidth(),
 					getHeight() + titlePaneHeight - lastTitlePaneHeight);
-			System.out.println(heightChange + " " + titlePaneHeight);
 			lastTitlePaneHeight = titlePaneHeight;
 		}
 	}
@@ -416,5 +415,15 @@ public class MainFrame extends JFrame implements Resizable {
 
 		super.firePropertyChange(propertyName, oldValue, newValue);
 	}
+
+	@Override
+	public void valueChanged(Enum<?> key, Object newValue) {
+		if (key == Parameter.GUI_SCALING) {
+			setGuiScale(paramMapper.getFloat(Parameter.GUI_SCALING));
+		}
+	}
+
+	@Override
+	public void valueRemoved(Enum<?> key) {}
 
 }
