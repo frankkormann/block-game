@@ -25,9 +25,7 @@ public class ParameterMapper extends Mapper<Number> {
 		GAME_SCALING,
 		/**
 		 * Multiplier for size of GUI elements
-		 * 
-		 * @implNote Not implemented
-		 */ // TODO
+		 */
 		GUI_SCALING,
 		/**
 		 * Opacity to use for the inside of {@code HintRectangle}s
