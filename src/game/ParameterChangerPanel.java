@@ -151,7 +151,11 @@ public class ParameterChangerPanel extends JPanel
 		c.insets = new Insets(VERTICAL_SPACE, 0, 0, 0);
 		c.weighty = 0.5;
 
-		for (Parameter param : paramToSliderSpinner.keySet()) {
+		for (Parameter param : Parameter.values()) {
+			if (!paramToSliderSpinner.containsKey(param)) {
+				continue;
+			}
+
 			JLabel label = new JLabel(paramToName(param));
 			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
 
