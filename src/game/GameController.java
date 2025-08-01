@@ -88,7 +88,7 @@ public class GameController extends WindowAdapter {
 		Rectangle.setColorMapper(colorMapper);
 		HintRectangle.setParameterMapper(paramMapper);
 
-		gameInputHandler = new GameInputHandler(inputMapper);
+		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, this);
@@ -104,7 +104,7 @@ public class GameController extends WindowAdapter {
 		paused = false;
 
 		startGame(SaveManager.getCurrentLevel(FIRST_LEVEL),
-				(long) (float) paramMapper.get(Parameter.GAME_SPEED));
+				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class GameController extends WindowAdapter {
 	 * @param firstLevel          resource name of first level to load
 	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
-	public void startGame(String firstLevel, long millisBetweenFrames) {
+	public void startGame(String firstLevel, int millisBetweenFrames) {
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
