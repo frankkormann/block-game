@@ -271,6 +271,7 @@ public class ParameterChangerPanel extends JPanel
 
 		public void setValue(Number value) {
 			spinner.setValue(value);
+			slider.setValue((int) (value.doubleValue() * sliderScaling));
 		}
 
 		public Number getValue() {
