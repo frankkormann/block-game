@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class DrawingPane extends JPanel {
 	private SortedMap<Integer, List<Drawable>> drawableLists;
 
 	private int xOffset, yOffset;
+	private float scale;
 
 	/**
 	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0}
@@ -34,6 +36,7 @@ public class DrawingPane extends JPanel {
 
 		this.xOffset = 0;
 		this.yOffset = 0;
+		scale = 1;
 
 		setBackground(Color.WHITE);
 
@@ -65,16 +68,21 @@ public class DrawingPane extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		g.translate(-xOffset, -yOffset);
+		Graphics2D g2d = (Graphics2D) g.create();
+		super.paintComponent(g2d);
+		g2d.translate(-xOffset, -yOffset);
+		g2d.scale(scale, scale);
 
 		for (Map.Entry<Integer, List<Drawable>> entry : drawableLists
 				.entrySet()) {
 			for (Drawable drawable : entry.getValue()) {
-				drawable.draw(g);
+				drawable.draw(g2d);
 			}
 		}
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
 	}
 
 	public void setOffsets(int xOffset, int yOffset) {

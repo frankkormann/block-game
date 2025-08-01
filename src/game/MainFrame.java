@@ -54,8 +54,10 @@ public class MainFrame extends JFrame
 	private static final int HEIGHT_MINIMUM = 150;
 	// TODO Figure out how to work around maximum window size
 
+	private float scale;
 	private int xChange, yChange;
 	private int widthChange, heightChange;
+
 	private int lastTitlePaneHeight;
 	private String title;
 
@@ -100,7 +102,6 @@ public class MainFrame extends JFrame
 	public MainFrame(GameInputHandler gameInputHandler,
 			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
-		setGuiScale(paramMapper.getFloat(Parameter.GUI_SCALING));
 
 		// width, height, and lastTitlePaneHeight are instantiated in
 		// setUpLevel()
@@ -117,11 +118,31 @@ public class MainFrame extends JFrame
 		this.paramMapper = paramMapper;
 		paramMapper.addListener(this);
 
+		scale = 1;
+		setGameScale(paramMapper.getFloat(Parameter.GAME_SCALING));
+		setGuiScale(paramMapper.getFloat(Parameter.GUI_SCALING));
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createWindow(gameInputHandler);
 			}
 		});
+	}
+
+	/**
+	 * Sets the amount to scale game elements by, then resizes this to match.
+	 * 
+	 * @param newScale new size multiplier
+	 */
+	private void setGameScale(float newScale) {
+		int newWidth = (int) (getContentPane().getWidth() / scale * newScale);
+		int newHeight = (int) (getContentPane().getHeight() / scale * newScale);
+		getContentPane().setPreferredSize(new Dimension(newWidth, newHeight));
+		pack();
+		repaint();
+
+		drawingPane.setScale(newScale);
+		scale = newScale;
 	}
 
 	/**
@@ -185,8 +206,8 @@ public class MainFrame extends JFrame
 		drawingPane.clearDrawables();
 		drawingPane.setOffsets(0, 0);
 
-		getContentPane()
-				.setPreferredSize(new Dimension(level.width, level.height));
+		getContentPane().setPreferredSize(new Dimension(
+				(int) (level.width * scale), (int) (level.height * scale)));
 		pack();
 		lastTitlePaneHeight = getTitlePaneHeight();
 
@@ -370,31 +391,38 @@ public class MainFrame extends JFrame
 	}
 
 	/**
+	 * @return Amount game elements are scaled by
+	 */
+	public float getScale() {
+		return scale;
+	}
+
+	/**
 	 * @return Current width + pending width changes
 	 */
 	public int getNextWidth() {
-		return drawingPane.getWidth() + widthChange;
+		return (int) (drawingPane.getWidth() / scale) + widthChange;
 	}
 
 	/**
 	 * @return Current height + pending height changes
 	 */
 	public int getNextHeight() {
-		return drawingPane.getHeight() + heightChange;
+		return (int) (drawingPane.getHeight() / scale) + heightChange;
 	}
 
 	/**
 	 * @return Current x offset + pending changes
 	 */
 	public int getNextXOffset() {
-		return drawingPane.getXOffset() + xChange;
+		return (int) (drawingPane.getXOffset() / scale) + xChange;
 	}
 
 	/**
 	 * @return Current y offset + pending changes
 	 */
 	public int getNextYOffset() {
-		return drawingPane.getYOffset() + yChange;
+		return (int) (drawingPane.getYOffset() / scale) + yChange;
 	}
 
 	private int getTitlePaneHeight() {
@@ -420,7 +448,10 @@ public class MainFrame extends JFrame
 	@Override
 	public void valueChanged(Enum<?> key, Object newValue) {
 		if (key == Parameter.GUI_SCALING) {
-			setGuiScale(paramMapper.getFloat(Parameter.GUI_SCALING));
+			setGuiScale(((Number) newValue).floatValue());
+		}
+		if (key == Parameter.GAME_SCALING) {
+			setGameScale(((Number) newValue).floatValue());
 		}
 	}
 
