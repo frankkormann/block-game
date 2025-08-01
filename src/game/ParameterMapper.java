@@ -18,9 +18,32 @@ public class ParameterMapper extends Mapper<Float> {
 		 */
 		GAME_SPEED,
 		/**
+		 * Multiplier for size of game area
 		 * 
+		 * @implNote Not implemented
+		 */ // TODO
+		GAME_SCALING,
+		/**
+		 * Multiplier for size of GUI elements
+		 * 
+		 * @implNote Not implemented
+		 */ // TODO
+		GUI_SCALING,
+		/**
+		 * Opacity to use for the inside of {@code HintRectangle}s
 		 */
-		GAME_SCALING, GUI_SCALING, HINT_OPACITY, KEYBOARD_RESIZING_AMOUNT,
+		HINT_OPACITY,
+		/**
+		 * Number of units to move a side by with each keyboard resizing input
+		 * 
+		 * @implNote Not implemented
+		 */ // TODO
+		KEYBOARD_RESIZING_AMOUNT,
+		/**
+		 * Amount each {@code ResizingSide} extends into the frame
+		 * 
+		 * @implNote Not implemented
+		 */ // TODO
 		RESIZING_AREA_WIDTH
 	}
 
