@@ -55,6 +55,7 @@ public class MainFrame extends JFrame implements Resizable {
 
 	private int xChange, yChange;
 	private int widthChange, heightChange;
+	private int lastTitlePaneHeight;
 	private String title;
 
 	private boolean interceptPropertyChangeEvent;
@@ -100,7 +101,8 @@ public class MainFrame extends JFrame implements Resizable {
 		super(WINDOW_TITLE);
 		setGuiScale(paramMapper.getFloat(Parameter.GUI_SCALING));
 
-		// width and height are instantiated in setUpLevel()
+		// width, height, and lastTitlePaneHeight are instantiated in
+		// setUpLevel()
 		xChange = 0;
 		yChange = 0;
 		widthChange = 0;
@@ -170,6 +172,7 @@ public class MainFrame extends JFrame implements Resizable {
 		getContentPane()
 				.setPreferredSize(new Dimension(level.width, level.height));
 		pack();
+		lastTitlePaneHeight = getTitlePaneHeight();
 
 		updateTitleBarText(level.name);
 		title = level.name;
@@ -259,6 +262,11 @@ public class MainFrame extends JFrame implements Resizable {
 		// Paint before setting bounds to minimize stuttering
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
+
+		if (lastTitlePaneHeight != getTitlePaneHeight()) {
+			heightChange += getTitlePaneHeight() - lastTitlePaneHeight;
+			lastTitlePaneHeight = getTitlePaneHeight();
+		}
 
 		setBounds(getX() + xChange, getY() + yChange, getWidth() + widthChange,
 				getHeight() + heightChange);
