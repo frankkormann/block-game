@@ -240,7 +240,8 @@ public class ParameterChangerPanel extends JPanel
 			slider = new JSlider((int) (sliderMin * sliderScaling),
 					(int) (sliderMax * sliderScaling));
 			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
-					spinnerMin, spinnerMax, spinnerStep));
+					Math.nextDown(spinnerMin), Math.nextUp(spinnerMax),
+					spinnerStep));
 
 			connectComponents();
 		}
