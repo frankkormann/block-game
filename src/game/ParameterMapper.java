@@ -72,7 +72,7 @@ public class ParameterMapper extends Mapper<Float> {
 	/**
 	 * Gets a parameter value as an {@code int}.
 	 * 
-	 * @param parameter key
+	 * @param parameter which to get
 	 * 
 	 * @return value as {@code int}
 	 */
