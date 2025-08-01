@@ -26,7 +26,7 @@ public class ColorMapper extends Mapper<Integer> {
 	private static final String DEFAULT_RESOURCE = "/colors_default.json";
 
 	/**
-	 * Creates a {@code ColorMapper} with default keybinds for {@code Colors},
+	 * Creates a {@code ColorMapper} with default colors for {@code Colors},
 	 * {@code TranslucentColors}, and {@code WallColors}.
 	 */
 	public ColorMapper() {
