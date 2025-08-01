@@ -151,7 +151,7 @@ public class MainFrame extends JFrame
 	 * 
 	 * @param scale size multiplier
 	 */
-	public void setGuiScale(float scale) {
+	private void setGuiScale(float scale) {
 		Font font = UIManager.getFont("defaultFont");
 		UIManager.put("defaultFont", font.deriveFont(13 * scale));
 		SwingUtilities.updateComponentTreeUI(this);
