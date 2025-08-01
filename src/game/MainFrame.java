@@ -265,8 +265,8 @@ public class MainFrame extends JFrame implements Resizable {
 
 			if (comp instanceof ResizingSide) {
 
-				int resizingSideThickness = (int) (float) paramMapper
-						.get(Parameter.RESIZING_AREA_WIDTH);
+				int resizingSideThickness = paramMapper
+						.getInt(Parameter.RESIZING_AREA_WIDTH);
 
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:

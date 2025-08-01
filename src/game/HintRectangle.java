@@ -53,7 +53,7 @@ public class HintRectangle extends Rectangle {
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
 				getColor().getBlue(), (int) (getColor().getAlpha()
-						* paramMapper.get(Parameter.HINT_OPACITY))));
+						* paramMapper.getFloat(Parameter.HINT_OPACITY))));
 
 		g.fillRect(getX() + OUTLINE_THICKNESS, getY() + OUTLINE_THICKNESS,
 				getWidth() - 2 * OUTLINE_THICKNESS,

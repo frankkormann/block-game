@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
  * the user in an {@code OptionsDialog}. A parameter is something like game
  * speed or GUI scaling.
  */
-public class ParameterMapper extends Mapper<Float> {
+public class ParameterMapper extends Mapper<Number> {
 
 	/**
 	 * Keys for values which are held by {@code ParameterMapper}.
@@ -55,8 +55,8 @@ public class ParameterMapper extends Mapper<Float> {
 	}
 
 	@Override
-	public TypeReference<EnumValues<Float>> getJsonTypeReference() {
-		return new TypeReference<EnumValues<Float>>() {};
+	public TypeReference<EnumValues<Number>> getJsonTypeReference() {
+		return new TypeReference<EnumValues<Number>>() {};
 	}
 
 	@Override
@@ -65,8 +65,8 @@ public class ParameterMapper extends Mapper<Float> {
 	}
 
 	@Override
-	public Float getDefaultValue() {
-		return 0f;
+	public Integer getDefaultValue() {
+		return 0;
 	}
 
 	/**
@@ -77,7 +77,18 @@ public class ParameterMapper extends Mapper<Float> {
 	 * @return value as {@code int}
 	 */
 	public int getInt(Enum<?> parameter) {
-		return (int) (float) get(parameter);
+		return get(parameter).intValue();
+	}
+
+	/**
+	 * Gets a parameter value as a {@code float}.
+	 * 
+	 * @param parameter which to get
+	 * 
+	 * @return value as {@code float}
+	 */
+	public float getFloat(Enum<?> parameter) {
+		return get(parameter).floatValue();
 	}
 
 }
