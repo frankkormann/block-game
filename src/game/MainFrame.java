@@ -3,6 +3,8 @@ package game;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -147,8 +149,21 @@ public class MainFrame extends JFrame implements Resizable {
 			new ErrorDialog("Error", "Failed to load resource for taskbar icon",
 					e).setVisible(true);
 		}
+
 		addKeyListener(gameInputHandler);
 		addFocusListener(gameInputHandler);
+		// Always return false so the event also gets dispatched to menu bar
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(e -> {
+					if (e.getID() == KeyEvent.KEY_PRESSED) {
+						gameInputHandler.keyPressed(e);
+					}
+					else if (e.getID() == KeyEvent.KEY_RELEASED) {
+						gameInputHandler.keyReleased(e);
+					}
+					return false;
+				});
+
 		setLayout(null);
 		setResizable(false);
 
