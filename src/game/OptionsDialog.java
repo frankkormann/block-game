@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.Dialog;
-import java.awt.Window;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,7 +28,7 @@ public class OptionsDialog extends JDialog {
 	 * @param inputMapper {@code InputMapper} to change controls of
 	 * @param colorMapper {@code ColorMapper} to change colors of
 	 */
-	public OptionsDialog(Window owner, InputMapper inputMapper,
+	public OptionsDialog(MainFrame owner, InputMapper inputMapper,
 			ColorMapper colorMapper) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 
