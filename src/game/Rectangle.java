@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -414,9 +412,6 @@ public abstract class Rectangle implements Drawable {
 		Color color = colorMapper.getColor(colorEnum);
 		if (color == null) {
 			color = Color.BLACK;
-			colorMapper.setColor(colorEnum, color);
-			JOptionPane.showMessageDialog(null,
-					"Color for " + colorEnum + " is not set, using black");
 		}
 		return color;
 	}
