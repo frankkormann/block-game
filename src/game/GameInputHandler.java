@@ -284,6 +284,13 @@ public class GameInputHandler extends KeyAdapter
 	}
 
 	/**
+	 * @return {@code true} if this is reading from an {@code InputStream}.
+	 */
+	public boolean isReading() {
+		return reader != null;
+	}
+
+	/**
 	 * Returns the {@code Input}s pressed on this frame in the input stream.
 	 */
 	private Set<MovementInput> readInputs() throws IOException {

@@ -263,7 +263,12 @@ public class GameController extends WindowAdapter
 		Pair<Map<Direction, Integer>, Set<MovementInput>> allInputs = gameInputHandler
 				.poll();
 
-		mainFrame.resizeAll(allInputs.first);
+		if (gameInputHandler.isReading()) {
+			mainFrame.resizeAllScaled(allInputs.first);
+		}
+		else {
+			mainFrame.resizeAll(allInputs.first);
+		}
 
 		physicsSimulator.updateAndMoveObjects(allInputs.second,
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
