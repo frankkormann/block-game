@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -7,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -73,10 +74,7 @@ public class ParameterChangerPanel extends JPanel
 				5);
 		bindSliderSpinner(resizingAreaWidth, Parameter.RESIZING_AREA_WIDTH);
 
-		for (Parameter param : Parameter.values()) {
-			add(createSliderSpinnerPanel(param));
-			add(Box.createVerticalStrut(VERTICAL_SPACE));
-		}
+		add(createSlidersPanel());
 		add(createUndoResetButtonPanel());
 
 		Window window = SwingUtilities.getWindowAncestor(rootPane);
@@ -136,25 +134,36 @@ public class ParameterChangerPanel extends JPanel
 	}
 
 	/**
-	 * Creates a {@code JPanel} which holds {@code param}'s name and the
-	 * {@code SliderSpinner} which controls it.
-	 * 
-	 * @param param value to create a {@code JPanel} for
+	 * Creates a {@code JPanel} that contains a {@code JLabel} and the
+	 * {@code SliderSpinner} components for each {@code Parameter} that has been
+	 * bound to a {@code SliderSpinner}.
 	 * 
 	 * @return the {@code JPanel}
 	 */
-	private JPanel createSliderSpinnerPanel(Parameter param) {
+	private JPanel createSlidersPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		panel.setLayout(new GridBagLayout());
 
-		JLabel label = new JLabel(paramToName(param));
-		label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridy = 0;
+		c.weighty = 0.5;
 
-		SliderSpinner sliderSpinner = paramToSliderSpinner.get(param);
+		for (Parameter param : paramToSliderSpinner.keySet()) {
+			JLabel label = new JLabel(paramToName(param));
+			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
 
-		panel.add(label);
-		panel.add(sliderSpinner.getSlider());
-		panel.add(sliderSpinner.getSpinner());
+			SliderSpinner sliderSpinner = paramToSliderSpinner.get(param);
+
+			c.gridx = 0;
+			panel.add(label, c);
+			c.gridx = 1;
+			panel.add(sliderSpinner.getSlider(), c);
+			c.gridx = 2;
+			panel.add(sliderSpinner.getSpinner(), c);
+
+			c.gridy++;
+		}
 
 		return panel;
 	}
@@ -167,6 +176,21 @@ public class ParameterChangerPanel extends JPanel
 	 * @return {@code param}'s name
 	 */
 	private String paramToName(Parameter param) {
+		switch (param) {
+			case GAME_SPEED:
+				return "Game Speed (FPS)";
+			case GAME_SCALING:
+				return "Game Scaling";
+			case GUI_SCALING:
+				return "GUI Scaling";
+			case HINT_OPACITY:
+				return "Hint Opacity";
+			case KEYBOARD_RESIZING_AMOUNT:
+				return "Keyboard resizing rate";
+			case RESIZING_AREA_WIDTH:
+				return "Window-edge resizing area size";
+		}
+
 		return param.toString();
 	}
 
