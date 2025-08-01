@@ -324,9 +324,11 @@ public class MainFrame extends JFrame
 
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
-						comp.setBounds(0, 0, getWidth()
-								- getTitlePaneButtonsWidth() - insetsX,
-								resizingSideThickness / 2);
+						int x = getJMenuBar().getX() + getJMenuBar().getWidth();
+						comp.setBounds(
+								x, 0, getWidth() - x
+										- getTitlePaneButtonsWidth() - insetsX,
+								resizingSideThickness);
 						break;
 					case SOUTH:
 						comp.setBounds(0,
@@ -334,9 +336,9 @@ public class MainFrame extends JFrame
 								getWidth(), resizingSideThickness);
 						break;
 					case WEST:
-						comp.setBounds(0, resizingSideThickness / 2,
-								resizingSideThickness, getHeight()
-										- (int) (1.5 * resizingSideThickness));
+						comp.setBounds(0, resizingSideThickness,
+								resizingSideThickness,
+								getHeight() - resizingSideThickness);
 						break;
 					case EAST:
 						comp.setBounds(
