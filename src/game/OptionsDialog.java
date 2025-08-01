@@ -22,14 +22,16 @@ public class OptionsDialog extends JDialog {
 
 	/**
 	 * Creates a {@code OptionsDialog} for altering the keybinds in
-	 * {@code inputMapper}.
+	 * {@code inputMapper}, the colors of {@code colorMapper}, and the values of
+	 * {@code paramMapper}.
 	 * 
 	 * @param owner       {@code Window} to display this on
 	 * @param inputMapper {@code InputMapper} to change controls of
 	 * @param colorMapper {@code ColorMapper} to change colors of
+	 * @param paramMapper {@code ParameterMapper} to change values of
 	 */
 	public OptionsDialog(MainFrame owner, InputMapper inputMapper,
-			ColorMapper colorMapper) {
+			ColorMapper colorMapper, ParameterMapper paramMapper) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 
 		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
