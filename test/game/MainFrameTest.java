@@ -34,7 +34,8 @@ class MainFrameTest {
 		assumeFalse(GraphicsEnvironment.isHeadless());
 		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 
-		GameInputHandler inputHandler = new GameInputHandler(new InputMapper());
+		GameInputHandler inputHandler = new GameInputHandler(new InputMapper(),
+				new ParameterMapper());
 		mainFrame = new MainFrame(inputHandler, new ParameterMapper());
 
 		level = new Level();
