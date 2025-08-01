@@ -191,9 +191,9 @@ public class ParameterChangerPanel extends JPanel
 			case HINT_OPACITY:
 				return "Hint Opacity";
 			case KEYBOARD_RESIZING_AMOUNT:
-				return "Keyboard resizing rate";
+				return "Keyboard Resizing Rate";
 			case RESIZING_AREA_WIDTH:
-				return "Window-edge resizing area size";
+				return "Window-edge Resizing Area Size";
 		}
 
 		return param.toString();
