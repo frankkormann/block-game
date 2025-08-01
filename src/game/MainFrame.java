@@ -350,8 +350,6 @@ public class MainFrame extends JFrame
 				}
 			}
 
-			if (comp instanceof DrawingPane) {}
-
 		}
 		if (drawingPane != null)
 			drawingPane.setBounds(0, 0, getContentPane().getWidth(),
