@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -37,7 +38,7 @@ public class ParameterChangerPanel extends JPanel
 	/**
 	 * 
 	 */
-	public ParameterChangerPanel(JRootPane rootPane, MainFrame mainFrame,
+	public ParameterChangerPanel(JRootPane rootPane,
 			ParameterMapper paramMapper) {
 		super();
 		this.paramMapper = paramMapper;
@@ -45,10 +46,31 @@ public class ParameterChangerPanel extends JPanel
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 1000, 5);
+		bindSliderSpinner(gameSpeed, Parameter.GAME_SPEED);
+
+		SliderSpinner gameScaling = new SliderSpinner(0.5f, 2f, 0.5f, 2f, 0.1f);
+		bindSliderSpinner(gameScaling, Parameter.GAME_SCALING);
+
+		SliderSpinner guiScaling = new SliderSpinner(0.5f, 2f, 0.5f, 2f, 0.1f);
+		bindSliderSpinner(guiScaling, Parameter.GUI_SCALING);
+
 		SliderSpinner hintOpacity = new SliderSpinner(0f, 1f, 0f, 1f, 0.1f);
 		bindSliderSpinner(hintOpacity, Parameter.HINT_OPACITY);
 
-		add(createSliderSpinnerPanel(Parameter.HINT_OPACITY));
+		SliderSpinner keyboardingResizingAmount = new SliderSpinner(1, 10, 1,
+				200, 1);
+		bindSliderSpinner(keyboardingResizingAmount,
+				Parameter.KEYBOARD_RESIZING_AMOUNT);
+
+		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 1000,
+				5);
+		bindSliderSpinner(resizingAreaWidth, Parameter.RESIZING_AREA_WIDTH);
+
+		for (Parameter param : Parameter.values()) {
+			add(createSliderSpinnerPanel(param));
+			add(Box.createVerticalStrut(VERTICAL_SPACE));
+		}
 		add(createUndoResetButtonPanel());
 
 		Window window = SwingUtilities.getWindowAncestor(rootPane);
@@ -104,7 +126,6 @@ public class ParameterChangerPanel extends JPanel
 
 	/**
 	 * 
-	 * @param sliderSpinner
 	 * @param param
 	 * 
 	 * @return
@@ -163,8 +184,8 @@ public class ParameterChangerPanel extends JPanel
 				int spinnerMax, int spinnerStep) {
 			sliderScaling = 1;
 			slider = new JSlider(sliderMin, sliderMax);
-			spinner = new JSpinner(new SpinnerNumberModel(0, spinnerMin,
-					spinnerMax, spinnerStep));
+			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
+					spinnerMin, spinnerMax, spinnerStep));
 
 			connectComponents();
 		}
@@ -174,8 +195,8 @@ public class ParameterChangerPanel extends JPanel
 			sliderScaling = 100;
 			slider = new JSlider((int) (sliderMin * sliderScaling),
 					(int) (sliderMax * sliderScaling));
-			spinner = new JSpinner(new SpinnerNumberModel(0, spinnerMin,
-					spinnerMax, spinnerStep));
+			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
+					spinnerMin, spinnerMax, spinnerStep));
 
 			connectComponents();
 		}
