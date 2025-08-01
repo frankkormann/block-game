@@ -55,6 +55,8 @@ public class MainFrame extends JFrame
 	// TODO Figure out how to work around maximum window size
 
 	private float scale;
+	private int idealWidth, idealHeight, idealXOffset, idealYOffset;
+	private int centerX, centerY;
 	private int xChange, yChange;
 	private int widthChange, heightChange;
 
@@ -103,7 +105,7 @@ public class MainFrame extends JFrame
 			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
 
-		// width, height, and lastTitlePaneHeight are instantiated in
+		// levelXXX, width, height, and lastTitlePaneHeight are instantiated in
 		// setUpLevel()
 		xChange = 0;
 		yChange = 0;
@@ -132,17 +134,18 @@ public class MainFrame extends JFrame
 	/**
 	 * Sets the amount to scale game elements by, then resizes this to match.
 	 * 
-	 * @param newScale new size multiplier
+	 * @param scale new size multiplier
 	 */
-	private void setGameScale(float newScale) {
-		int newWidth = (int) (getContentPane().getWidth() / scale * newScale);
-		int newHeight = (int) (getContentPane().getHeight() / scale * newScale);
+	private void setGameScale(float scale) {
+		this.scale = scale;
+		int newWidth = (int) (idealWidth * scale);
+		int newHeight = (int) (idealHeight * scale);
 		getContentPane().setPreferredSize(new Dimension(newWidth, newHeight));
 		pack();
+		arrangeComponents();
 		repaint();
 
-		drawingPane.setScale(newScale);
-		scale = newScale;
+		drawingPane.setScale(scale);
 	}
 
 	/**
@@ -206,8 +209,12 @@ public class MainFrame extends JFrame
 		drawingPane.clearDrawables();
 		drawingPane.setOffsets(0, 0);
 
+		idealWidth = level.width;
+		idealHeight = level.height;
+		idealXOffset = 0;
+		idealYOffset = 0;
 		getContentPane().setPreferredSize(new Dimension(
-				(int) (level.width * scale), (int) (level.height * scale)));
+				(int) (idealWidth * scale), (int) (idealHeight * scale)));
 		pack();
 		lastTitlePaneHeight = getTitlePaneHeight();
 
@@ -266,9 +273,23 @@ public class MainFrame extends JFrame
 	 * 
 	 * @see MainFrame#resize(int, Direction)
 	 */
-	public void resizeAll(Map<Direction, Integer> resizes) {
+	public void resizeAllScaled(Map<Direction, Integer> resizes) {
 		for (Direction direction : resizes.keySet()) {
 			resize(resizes.get(direction), direction);
+		}
+	}
+
+	/**
+	 * Resizes this frame's preferred bounds, scaling resizes so the result is
+	 * the same no matter how this is scaled. The amount of each resize is no
+	 * longer equal to a number of pixels. This should generally be used for a
+	 * recording.
+	 * 
+	 * @param resizes Map from {@code Direction} of each resize to change amount
+	 */
+	public void resizeAll(Map<Direction, Integer> resizes) {
+		for (Direction direction : resizes.keySet()) {
+			resize(Math.round(resizes.get(direction) / scale), direction);
 		}
 	}
 
@@ -294,15 +315,17 @@ public class MainFrame extends JFrame
 			}
 		}
 
-		drawingPane.setOffsets(drawingPane.getXOffset() + xChange,
-				drawingPane.getYOffset() + yChange);
+		idealWidth += widthChange;
+		idealHeight += heightChange;
+		idealXOffset += xChange;
+		idealYOffset += yChange;
+
+		drawingPane.setOffsets(idealXOffset, idealYOffset);
 		// Paint before setting bounds to minimize stuttering
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
 
 		adjustForTitlePaneHeight();
-		setBounds(getX() + xChange, getY() + yChange, getWidth() + widthChange,
-				getHeight() + heightChange);
 
 		xChange = 0;
 		yChange = 0;
@@ -326,12 +349,21 @@ public class MainFrame extends JFrame
 
 	public void moveToMiddleOfScreen() {
 		setLocationRelativeTo(null);
+		centerX = getX();
+		centerY = getY();
 	}
 
 	/**
-	 * Lays out all components within this using its current width and height.
+	 * Lays out all components within this and sets its bounds.
 	 */
 	private void arrangeComponents() {
+
+		setSize((int) (idealWidth * scale) + getInsets().left
+				+ getInsets().bottom,
+				getTitlePaneHeight() + getInsets().top + getInsets().bottom
+						+ (int) (idealHeight * scale));
+		setLocation((int) (centerX + idealXOffset * scale),
+				(int) (centerY + idealYOffset * scale));
 
 		int insetsX = getInsets().left + getInsets().right;
 		int insetsY = getInsets().top + getInsets().bottom;
@@ -394,28 +426,28 @@ public class MainFrame extends JFrame
 	 * @return Current width + pending width changes
 	 */
 	public int getNextWidth() {
-		return (int) (drawingPane.getWidth() / scale) + widthChange;
+		return idealWidth + widthChange;
 	}
 
 	/**
 	 * @return Current height + pending height changes
 	 */
 	public int getNextHeight() {
-		return (int) (drawingPane.getHeight() / scale) + heightChange;
+		return idealHeight + heightChange;
 	}
 
 	/**
 	 * @return Current x offset + pending changes
 	 */
 	public int getNextXOffset() {
-		return (int) (drawingPane.getXOffset() / scale) + xChange;
+		return idealXOffset + xChange;
 	}
 
 	/**
 	 * @return Current y offset + pending changes
 	 */
 	public int getNextYOffset() {
-		return (int) (drawingPane.getYOffset() / scale) + yChange;
+		return idealYOffset + yChange;
 	}
 
 	private int getTitlePaneHeight() {
