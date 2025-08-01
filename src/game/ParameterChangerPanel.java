@@ -22,7 +22,9 @@ import javax.swing.event.ChangeListener;
 import game.ParameterMapper.Parameter;
 
 /**
- * 
+ * {@code JPanel} which allows the user to remap values in
+ * {@code ParameterMapper}, such as GUI scaling. Automatically calls
+ * {@code ParameterMapper.save} the parent window is closed.
  */
 public class ParameterChangerPanel extends JPanel
 		implements ValueChangeListener {
@@ -36,7 +38,11 @@ public class ParameterChangerPanel extends JPanel
 	private Map<Parameter, SliderSpinner> paramToSliderSpinner;
 
 	/**
+	 * Creates a {@code ParameterChangerPanel} which will alter
+	 * {@code paramMapper}.
 	 * 
+	 * @param rootPane    {@code JRootPane} of parent window
+	 * @param paramMapper {@code ParameterMapper} to alter
 	 */
 	public ParameterChangerPanel(JRootPane rootPane,
 			ParameterMapper paramMapper) {
@@ -89,7 +95,10 @@ public class ParameterChangerPanel extends JPanel
 	}
 
 	/**
-	 *
+	 * Creates a {@code JPanel} with a {@code JButton} to undo unsaved changes
+	 * and a {@code JButton} to reset values back to defaults.
+	 * 
+	 * @return the {@code JPanel}
 	 */
 	private JPanel createUndoResetButtonPanel() {
 		JPanel panel = new JPanel();
@@ -111,9 +120,11 @@ public class ParameterChangerPanel extends JPanel
 	}
 
 	/**
+	 * Sets {@code sliderSpinner} to stick to and change the value of
+	 * {@code param}.
 	 * 
-	 * @param sliderSpinner
-	 * @param param
+	 * @param sliderSpinner {@code SliderSpinner} to bind
+	 * @param param         value to bind to in {@code ParameterMapper}
 	 */
 	private void bindSliderSpinner(SliderSpinner sliderSpinner,
 			Parameter param) {
@@ -125,10 +136,12 @@ public class ParameterChangerPanel extends JPanel
 	}
 
 	/**
+	 * Creates a {@code JPanel} which holds {@code param}'s name and the
+	 * {@code SliderSpinner} which controls it.
 	 * 
-	 * @param param
+	 * @param param value to create a {@code JPanel} for
 	 * 
-	 * @return
+	 * @return the {@code JPanel}
 	 */
 	private JPanel createSliderSpinnerPanel(Parameter param) {
 		JPanel panel = new JPanel();
@@ -147,10 +160,11 @@ public class ParameterChangerPanel extends JPanel
 	}
 
 	/**
+	 * Returns a user-understandable for {@code param}.
 	 * 
-	 * @param param
+	 * @param param value to create a name for
 	 * 
-	 * @return
+	 * @return {@code param}'s name
 	 */
 	private String paramToName(Parameter param) {
 		return param.toString();
@@ -172,7 +186,8 @@ public class ParameterChangerPanel extends JPanel
 	public void valueRemoved(Enum<?> key) {}
 
 	/**
-	 * 
+	 * Unifies a {@code JSlider} and {@code JSpinner} to coordinate their
+	 * values.
 	 */
 	private class SliderSpinner {
 
