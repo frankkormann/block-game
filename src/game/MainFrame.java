@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import game.ParameterMapper.Parameter;
+
 /**
  * JFrame that displays each level. Buffers changes to width/height between each
  * frame.
@@ -54,6 +56,7 @@ public class MainFrame extends JFrame implements Resizable {
 	private boolean interceptPropertyChangeEvent;
 
 	private DrawingPane drawingPane;
+	private ParameterMapper paramMapper;
 
 	public enum Direction {
 		NORTH, SOUTH, WEST, EAST;
@@ -86,7 +89,8 @@ public class MainFrame extends JFrame implements Resizable {
 	 * 
 	 * @param gameInputHandler {@code GameInputHandler} to register
 	 */
-	public MainFrame(GameInputHandler gameInputHandler) {
+	public MainFrame(GameInputHandler gameInputHandler,
+			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
 
 		// width and height are instantiated in setUpLevel()
@@ -98,6 +102,7 @@ public class MainFrame extends JFrame implements Resizable {
 		interceptPropertyChangeEvent = false;
 
 		drawingPane = new DrawingPane();
+		this.paramMapper = paramMapper;
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -257,27 +262,31 @@ public class MainFrame extends JFrame implements Resizable {
 			int insetsY = getInsets().top + getInsets().bottom;
 
 			if (comp instanceof ResizingSide) {
+
+				int resizingSideThickness = (int) (float) paramMapper
+						.get(Parameter.RESIZING_AREA_WIDTH);
+
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
 						comp.setBounds(0, 0, getWidth()
 								- getTitlePaneButtonsWidth() - insetsX,
-								ResizingSide.THICKNESS / 2);
+								resizingSideThickness / 2);
 						break;
 					case SOUTH:
 						comp.setBounds(0,
-								getHeight() - ResizingSide.THICKNESS - insetsY,
-								getWidth(), ResizingSide.THICKNESS);
+								getHeight() - resizingSideThickness - insetsY,
+								getWidth(), resizingSideThickness);
 						break;
 					case WEST:
-						comp.setBounds(0, ResizingSide.THICKNESS / 2,
-								ResizingSide.THICKNESS, getHeight()
-										- (int) (1.5 * ResizingSide.THICKNESS));
+						comp.setBounds(0, resizingSideThickness / 2,
+								resizingSideThickness, getHeight()
+										- (int) (1.5 * resizingSideThickness));
 						break;
 					case EAST:
 						comp.setBounds(
-								getWidth() - ResizingSide.THICKNESS - insetsX,
-								getTitlePaneHeight(), ResizingSide.THICKNESS,
-								getHeight() - ResizingSide.THICKNESS
+								getWidth() - resizingSideThickness - insetsX,
+								getTitlePaneHeight(), resizingSideThickness,
+								getHeight() - resizingSideThickness
 										- getTitlePaneHeight());
 				}
 			}
