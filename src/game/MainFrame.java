@@ -391,13 +391,6 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * @return Amount game elements are scaled by
-	 */
-	public float getScale() {
-		return scale;
-	}
-
-	/**
 	 * @return Current width + pending width changes
 	 */
 	public int getNextWidth() {
