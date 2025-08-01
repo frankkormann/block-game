@@ -82,13 +82,11 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 		undoButton.addActionListener(e -> {
 			colorMapper.reload();
 		});
-		undoButton.setFocusable(false);
 
 		JButton resetButton = new JButton(RESET_TEXT);
 		resetButton.addActionListener(e -> {
 			colorMapper.setToDefaults();
 		});
-		resetButton.setFocusable(false);
 
 		panel.add(undoButton);
 		panel.add(resetButton);

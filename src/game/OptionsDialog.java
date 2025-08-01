@@ -41,7 +41,8 @@ public class OptionsDialog extends JDialog {
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
 		JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.setFocusable(false);
+		tabbedPane.addTab("General",
+				new ParameterChangerPanel(getRootPane(), owner, paramMapper));
 		tabbedPane.addTab("Controls",
 				new ControlsChangerPanel(getRootPane(), inputMapper));
 		tabbedPane.addTab("Colors",
@@ -49,7 +50,6 @@ public class OptionsDialog extends JDialog {
 
 		JButton closeButton = new JButton("OK");
 		closeButton.addActionListener(e -> dispose());
-		closeButton.setFocusable(false);
 		closeButton.setAlignmentX(CENTER_ALIGNMENT);
 
 		add(tabbedPane);
