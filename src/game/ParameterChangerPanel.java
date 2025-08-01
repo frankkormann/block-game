@@ -262,14 +262,12 @@ public class ParameterChangerPanel extends JPanel
 					spinnerMin, spinnerMax, spinnerStep));
 			this.isPercent = isPercent;
 
+			slider.setValue((int) spinner.getValue());
+
 			if (isPercent) {
 				spinner.setEditor(new JSpinner.NumberEditor(spinner, "# '%'"));
 			}
 
-			connectComponents();
-		}
-
-		private void connectComponents() {
 			slider.addChangeListener(e -> {
 				spinner.setValue(slider.getValue());
 			});
@@ -289,8 +287,8 @@ public class ParameterChangerPanel extends JPanel
 		public void setValue(Number value) {
 			int intValue;
 			if (isPercent) {
-				if (Math.abs(value.doubleValue() * 100
-						- (int) spinner.getValue()) < 1) {
+				if (Math.abs(value.doubleValue()
+						- getValue().doubleValue()) < 0.01) {
 					return;
 				}
 				intValue = (int) (value.doubleValue() * 100);
