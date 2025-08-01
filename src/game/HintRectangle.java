@@ -10,6 +10,9 @@ import game.ParameterMapper.Parameter;
 
 /**
  * Translucent {@code Rectangle} which can be toggled visible or not visible.
+ * <p>
+ * A {@code ParameterMapper} with a value for {@code Parameter.HINT_OPACITY}
+ * needs to be set with {@code setParameterMapper} before this can be drawn.
  * 
  * @author Frank Kormann
  */

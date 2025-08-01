@@ -36,6 +36,9 @@ import game.MainFrame.Direction;
  * Subclasses which can move should override
  * {@link#getLastX()}, {@link#getLastY()}, {@link#getLastWidth()}, and
  * {@link#getLastHeight()}.
+ * <p>
+ * A {@code ColorMapper} with values for each {@code Colors} should be set with
+ * {@code setColorMapper} before this can be drawn.
  *
  * @author Frank Kormann
  */
