@@ -41,9 +41,7 @@ public class ParameterMapper extends Mapper<Float> {
 		KEYBOARD_RESIZING_AMOUNT,
 		/**
 		 * Amount each {@code ResizingSide} extends into the frame
-		 * 
-		 * @implNote Not implemented
-		 */ // TODO
+		 */
 		RESIZING_AREA_WIDTH
 	}
 
