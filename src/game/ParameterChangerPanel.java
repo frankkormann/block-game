@@ -77,15 +77,15 @@ public class ParameterChangerPanel extends JPanel
 	 * Creates a {@code SliderSpinner} for each parameter.
 	 */
 	private void createSliderSpinners() {
-		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 1000, 5, false,
+		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 60000, 5, false,
 				"ms");
 		bindSliderSpinner(gameSpeed, Parameter.GAME_SPEED);
 
-		SliderSpinner gameScaling = new SliderSpinner(50, 200, 50, 200, 10,
+		SliderSpinner gameScaling = new SliderSpinner(50, 200, 20, 500, 10,
 				true, "%");
 		bindSliderSpinner(gameScaling, Parameter.GAME_SCALING);
 
-		SliderSpinner guiScaling = new SliderSpinner(50, 200, 50, 200, 10, true,
+		SliderSpinner guiScaling = new SliderSpinner(50, 200, 20, 500, 10, true,
 				"%");
 		bindSliderSpinner(guiScaling, Parameter.GUI_SCALING);
 		guiScaling.setValueIsAdjustingListener(() -> {
