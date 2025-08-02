@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -334,8 +335,14 @@ public class MainFrame extends JFrame
 
 		drawingPane.setOffsets(idealXOffset, idealYOffset);
 		// Paint before setting bounds to minimize stuttering
-		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
-				drawingPane.getHeight());
+		boolean existsVisibleDialog = Arrays.stream(getOwnedWindows())
+				.anyMatch(w -> w.isVisible());  // Makes sure paintImmediately()
+												  // doesn't paint over any
+												  // dialogs
+		if (!existsVisibleDialog) {
+			drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
+					drawingPane.getHeight());
+		}
 
 		xChange = 0;
 		yChange = 0;
