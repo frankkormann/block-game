@@ -107,7 +107,7 @@ public class GameController extends WindowAdapter
 
 		paramMapper.addListener(this);
 
-		startGame(SaveManager.getCurrentLevel(FIRST_LEVEL),
+		startGame(SaveManager.getValue("CURRENT_LEVEL", FIRST_LEVEL),
 				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
 
@@ -175,7 +175,7 @@ public class GameController extends WindowAdapter
 		currentSolution = level.solution;
 		currentLevel = levelResource;
 		loadObjectsFromLevel(level);
-		SaveManager.setCurrentLevel(levelResource);
+		SaveManager.putValue("CURRENT_LEVEL", levelResource);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
@@ -406,7 +406,7 @@ public class GameController extends WindowAdapter
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
-		SaveManager.setCurrentLevel(currentLevel);
+		SaveManager.putValue("CURRENT_LEVEL", currentLevel);
 		System.exit(0);
 	}
 
