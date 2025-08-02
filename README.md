@@ -42,14 +42,16 @@ recommended to place the `jar` in a new folder before running.
 
 ### Controls
 
+You can change these in the Options menu.
+
 <table>
 	<tr>
 		<td>Move</td>
-		<td>A and D, or arrow keys</td>
+		<td>A and D</td>
 	</tr>
 	<tr>
 		<td>Jump</td>
-		<td>W, space, or up arrow</td>
+		<td>W</td>
 	</tr>
 	<tr>
 		<td>Pause</td>
@@ -78,13 +80,14 @@ These options are also available from the menu bar.
 
 **Keyboard resizing**
 
-First, select a direction to resize. Then adjust it.
+First, select a direction to resize. Then adjust it. You can change these
+controls in the Options menu.
 
 <table>
 	<tr>
 		<td>Select a direction</td>
-		<td>Control + I, J, K, or L<br>I: Top
-			<br>K: Bottom<br>J: Left<br>L:Right</td>
+		<td>Shift + I, J, K, or L<br>I: Top
+			<br>K: Bottom<br>J: Left<br>L: Right</td>
 	</tr>
 	<tr>
 		<td>Move side up/down</td>
