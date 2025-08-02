@@ -340,7 +340,7 @@ public class MainFrame extends JFrame
 		boolean existsVisibleDialog = Arrays.stream(Window.getWindows())
 				.anyMatch(w -> (w instanceof Dialog && w.isVisible()));
 		if (!existsVisibleDialog) {
-			// Paint before setting bounds to minimize stuttering
+			// Paint before arranging components to minimize stuttering
 			drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 					drawingPane.getHeight());
 		}
