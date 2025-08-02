@@ -80,8 +80,7 @@ These options are also available from the menu bar.
 
 **Keyboard resizing**
 
-First, select a direction to resize. Then adjust it. You can change these
-controls in the Options menu.
+First, select a direction to resize. Then adjust it.
 
 <table>
 	<tr>
