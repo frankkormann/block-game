@@ -131,6 +131,7 @@ much as you can:
 - The full copied text of any error message you received, if there was an error
   message. Make sure to click "Details" for the full text
 - The recording file
+- Your options settings, particularly Game Scaling
 - The level you encountered the bug
 - A description of the bug
 - Any other information you think is relevant
