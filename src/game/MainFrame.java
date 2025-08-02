@@ -149,6 +149,12 @@ public class MainFrame extends JFrame
 				+ getInsets().right) / 2;
 		centerY -= (newHeight - getHeight() + getTitlePaneHeight()
 				+ getInsets().top + getInsets().bottom) / 2;
+		if (getPreferredY() < 0) {
+			centerY = -(int) (idealYOffset * scale);
+		}
+		if (getPreferredX() < 0) {
+			centerX = -(int) (idealXOffset * scale);
+		}
 
 		getContentPane().setPreferredSize(new Dimension(newWidth, newHeight));
 		pack();
