@@ -464,11 +464,13 @@ public class PhysicsSimulator {
 		}
 
 		if (Math.abs(xChange) > Math.abs(pushedAmount[0])
-				|| !rect.intersectsY(other)) {
+				|| (!other.intersectsY(rect)
+						&& !other.usedToIntersectY(other))) {
 			xChange = -pushedAmount[0];
 		}
 		if (Math.abs(yChange) > Math.abs(pushedAmount[1])
-				|| !rect.intersectsX(other)) {
+				|| (!other.intersectsX(rect)
+						&& !other.usedToIntersectX(rect))) {
 			yChange = -pushedAmount[1];
 		}
 		other.moveCollision(xChange, yChange);
