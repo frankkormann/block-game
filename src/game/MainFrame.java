@@ -62,7 +62,6 @@ public class MainFrame extends JFrame
 	private int xChange, yChange;
 	private int widthChange, heightChange;
 
-	private int lastTitlePaneHeight;
 	private String title;
 
 	private boolean interceptPropertyChangeEvent;
@@ -107,7 +106,7 @@ public class MainFrame extends JFrame
 			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
 
-		// levelXXX, width, height, and lastTitlePaneHeight are instantiated in
+		// levelXXX, width, height are instantiated in
 		// setUpLevel()
 		xChange = 0;
 		yChange = 0;
@@ -168,7 +167,6 @@ public class MainFrame extends JFrame
 		SwingUtilities.updateComponentTreeUI(this);
 
 		updateTitleBarText(title);
-		adjustForTitlePaneHeight();
 		arrangeComponents();
 	}
 
@@ -231,7 +229,6 @@ public class MainFrame extends JFrame
 		getContentPane().setPreferredSize(new Dimension(
 				(int) (idealWidth * scale), (int) (idealHeight * scale)));
 		pack();
-		lastTitlePaneHeight = getTitlePaneHeight();
 
 		updateTitleBarText(level.name);
 		title = level.name;
@@ -340,26 +337,12 @@ public class MainFrame extends JFrame
 		drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 				drawingPane.getHeight());
 
-		adjustForTitlePaneHeight();
-
 		xChange = 0;
 		yChange = 0;
 		widthChange = 0;
 		heightChange = 0;
 
 		arrangeComponents();
-	}
-
-	/**
-	 * Fixes this's height if the title pane's height changed.
-	 */
-	private void adjustForTitlePaneHeight() {
-		int titlePaneHeight = getTitlePaneHeight();
-		if (lastTitlePaneHeight != titlePaneHeight) {
-			setSize(getWidth(),
-					getHeight() + titlePaneHeight - lastTitlePaneHeight);
-			lastTitlePaneHeight = titlePaneHeight;
-		}
 	}
 
 	public void moveToMiddleOfScreen() {
