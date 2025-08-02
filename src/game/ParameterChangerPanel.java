@@ -54,27 +54,29 @@ public class ParameterChangerPanel extends JPanel
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 1000, 5, false);
+		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 1000, 5, false,
+				"ms");
 		bindSliderSpinner(gameSpeed, Parameter.GAME_SPEED);
 
 		SliderSpinner gameScaling = new SliderSpinner(50, 200, 50, 200, 10,
-				true);
+				true, "%");
 		bindSliderSpinner(gameScaling, Parameter.GAME_SCALING);
 
-		SliderSpinner guiScaling = new SliderSpinner(50, 200, 50, 200, 10,
-				true);
+		SliderSpinner guiScaling = new SliderSpinner(50, 200, 50, 200, 10, true,
+				"%");
 		bindSliderSpinner(guiScaling, Parameter.GUI_SCALING);
 
-		SliderSpinner hintOpacity = new SliderSpinner(0, 100, 0, 100, 10, true);
+		SliderSpinner hintOpacity = new SliderSpinner(0, 100, 0, 100, 10, true,
+				"%");
 		bindSliderSpinner(hintOpacity, Parameter.HINT_OPACITY);
 
 		SliderSpinner keyboardingResizingAmount = new SliderSpinner(1, 10, 1,
-				200, 1, false);
+				200, 1, false, "px");
 		bindSliderSpinner(keyboardingResizingAmount,
 				Parameter.KEYBOARD_RESIZING_AMOUNT);
 
 		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 200, 5,
-				false);
+				false, "px");
 		bindSliderSpinner(resizingAreaWidth, Parameter.RESIZING_AREA_WIDTH);
 
 		add(createSlidersPanel());
@@ -256,17 +258,16 @@ public class ParameterChangerPanel extends JPanel
 		private boolean isPercent;
 
 		public SliderSpinner(int sliderMin, int sliderMax, int spinnerMin,
-				int spinnerMax, int spinnerStep, boolean isPercent) {
+				int spinnerMax, int spinnerStep, boolean isPercent,
+				String suffix) {
 			slider = new JSlider(sliderMin, sliderMax);
 			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
 					spinnerMin, spinnerMax, spinnerStep));
 			this.isPercent = isPercent;
 
 			slider.setValue((int) spinner.getValue());
-
-			if (isPercent) {
-				spinner.setEditor(new JSpinner.NumberEditor(spinner, "# '%'"));
-			}
+			spinner.setEditor(
+					new JSpinner.NumberEditor(spinner, "# '" + suffix + "'"));
 
 			slider.addChangeListener(e -> {
 				spinner.setValue(slider.getValue());
