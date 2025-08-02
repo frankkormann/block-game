@@ -429,7 +429,6 @@ public class PhysicsSimulator {
 		// this
 		for (MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).first == rect) {
-
 				pullback(rect, c, collisionMap);
 			}
 		}
@@ -441,6 +440,9 @@ public class PhysicsSimulator {
 	 * Called by {@link#propagateCollision} to traverse through
 	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull
 	 * the rectangles associated with {@code other} back to {@code other}.
+	 * <p>
+	 * Undoes the collision between {@code rect} and {@code other} if they
+	 * should not have collided.
 	 * 
 	 * @param rect         {@code Rectangle} to align with
 	 * @param other        {@code Rectangle} to pull back
@@ -461,10 +463,12 @@ public class PhysicsSimulator {
 			yChange = pullToY(rect, other);
 		}
 
-		if (Math.abs(xChange) > Math.abs(pushedAmount[0])) {
+		if (Math.abs(xChange) > Math.abs(pushedAmount[0])
+				|| !rect.intersectsY(other)) {
 			xChange = -pushedAmount[0];
 		}
-		if (Math.abs(yChange) > Math.abs(pushedAmount[1])) {
+		if (Math.abs(yChange) > Math.abs(pushedAmount[1])
+				|| !rect.intersectsX(other)) {
 			yChange = -pushedAmount[1];
 		}
 		other.moveCollision(xChange, yChange);
