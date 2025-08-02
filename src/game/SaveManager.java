@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -131,10 +132,15 @@ public class SaveManager {
 	}
 
 	/**
-	 * Reads values from disk into {@code cachedValues}.
+	 * Reads values from disk into {@code cachedValues}. If there is no save,
+	 * initialize {@code cachedValues} with no values.
 	 */
 	private static void readValuesFromSave() {
 		InputStream stream = readFile(SAVE_FILE_NAME);
+		if (stream == null) {
+			cachedValues = new HashMap<>();
+			return;
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			cachedValues = mapper.readValue(stream,
@@ -145,6 +151,7 @@ public class SaveManager {
 			e.printStackTrace();
 			new ErrorDialog("Error", "Can't read save data", e)
 					.setVisible(true);
+			cachedValues = new HashMap<>();
 			return;
 		}
 	}
