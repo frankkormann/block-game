@@ -52,8 +52,8 @@ public class MainFrame extends JFrame
 		implements Resizable, ValueChangeListener {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";
-
 	private static final String WINDOW_TITLE = "Block Game";
+	private static final int DEFAULT_FONT_SIZE = 13;
 
 	private static final int WIDTH_MINIMUM = 150;
 	private static final int HEIGHT_MINIMUM = 150;
@@ -166,7 +166,8 @@ public class MainFrame extends JFrame
 	 */
 	private void setGuiScale(float scale) {
 		Font font = UIManager.getFont("defaultFont");
-		UIManager.put("defaultFont", font.deriveFont(13 * scale));
+		UIManager.put("defaultFont",
+				font.deriveFont(DEFAULT_FONT_SIZE * scale));
 		SwingUtilities.updateComponentTreeUI(this);
 
 		updateTitleBarText(title);
