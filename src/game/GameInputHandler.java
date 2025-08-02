@@ -11,6 +11,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import game.MainFrame.Direction;
@@ -121,7 +122,11 @@ public class GameInputHandler extends KeyAdapter
 		Map<Direction, Integer> resizes = new HashMap<>();
 		if (reader == null) {
 			addResizesFromKeyboard(resizes);
-			resizes.putAll(resizesSinceLastFrame);
+			float scale = paramMapper.getFloat(Parameter.GAME_SCALING);
+			for (Entry<Direction, Integer> entry : resizesSinceLastFrame
+					.entrySet()) {
+				resizes.put(entry.getKey(), (int) (entry.getValue() / scale));
+			}
 		}
 		else {
 			// Make sure values are read in the correct order
@@ -281,13 +286,6 @@ public class GameInputHandler extends KeyAdapter
 			// Don't pop up an ErrorDialog because the user probably doesn't
 			// care
 		}
-	}
-
-	/**
-	 * @return {@code true} if this is reading from an {@code InputStream}.
-	 */
-	public boolean isReading() {
-		return reader != null;
 	}
 
 	/**

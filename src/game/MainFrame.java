@@ -294,30 +294,15 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Resizes this frame's preferred bounds. Respects minimum bounds as defined
-	 * by {@code WIDTH_MINIMUM} and {@code HEIGHT_MINIMUM}.
-	 * 
-	 * @param resizes Map from {@code Direction} of each resize to change amount
-	 * 
-	 * @see MainFrame#resize(int, Direction)
-	 */
-	public void resizeAllScaled(Map<Direction, Integer> resizes) {
-		for (Direction direction : resizes.keySet()) {
-			resize(resizes.get(direction), direction);
-		}
-	}
-
-	/**
 	 * Resizes this frame's preferred bounds, scaling resizes so the result is
-	 * the same no matter how this is scaled. The amount of each resize is no
-	 * longer equal to a number of pixels. This should generally be used for a
-	 * recording.
+	 * the same no matter how this is scaled. The amount of each resize is
+	 * applied to the ideal size of this frame, not taking into account scaling.
 	 * 
 	 * @param resizes Map from {@code Direction} of each resize to change amount
 	 */
 	public void resizeAll(Map<Direction, Integer> resizes) {
 		for (Direction direction : resizes.keySet()) {
-			resize(Math.round(resizes.get(direction) / scale), direction);
+			resize(resizes.get(direction), direction);
 		}
 	}
 
