@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -14,6 +15,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.MenuKeyListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -149,11 +152,31 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	private JMenu createOptionsButton(ColorMapper colorMapper,
 			ParameterMapper paramMapper) {
 		JMenu button = new JMenu("Options");
+		Runnable openDialog = () -> {
+			new OptionsDialog(SwingUtilities.getWindowAncestor(button),
+					inputMapper, colorMapper, paramMapper).setVisible(true);
+		};
+
+		button.addMenuKeyListener(new MenuKeyListener() {
+			@Override
+			public void menuKeyPressed(MenuKeyEvent e) {
+				if ((e.getKeyCode() == KeyEvent.VK_ENTER
+						|| e.getKeyCode() == KeyEvent.VK_SPACE)
+						&& button.isSelected()) {
+					openDialog.run();
+				}
+			}
+
+			@Override
+			public void menuKeyTyped(MenuKeyEvent e) {}
+
+			@Override
+			public void menuKeyReleased(MenuKeyEvent e) {}
+		});
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new OptionsDialog(SwingUtilities.getWindowAncestor(button),
-						inputMapper, colorMapper, paramMapper).setVisible(true);
+				openDialog.run();
 			}
 		});
 
