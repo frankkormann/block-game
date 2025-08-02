@@ -418,11 +418,11 @@ public class MainFrame extends JFrame
 	}
 
 	private int getPreferredX() {
-		return centerX + (int) (centerX + idealXOffset * scale);
+		return centerX + (int) (idealXOffset * scale);
 	}
 
 	private int getPreferredY() {
-		return (int) (centerY + idealYOffset * scale);
+		return centerY + (int) (idealYOffset * scale);
 	}
 
 	private int getPreferredWidth() {
