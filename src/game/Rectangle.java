@@ -443,4 +443,10 @@ public abstract class Rectangle implements Drawable {
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[x=" + x + ",y=" + y + ",width="
+				+ width + ",height=" + height + ",color=" + colorEnum + "]";
+	}
+
 }
