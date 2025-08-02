@@ -88,6 +88,13 @@ public class ParameterChangerPanel extends JPanel
 		SliderSpinner guiScaling = new SliderSpinner(50, 200, 50, 200, 10, true,
 				"%");
 		bindSliderSpinner(guiScaling, Parameter.GUI_SCALING);
+		guiScaling.setValueIsAdjustingListener(() -> {
+			SwingUtilities.invokeLater(() -> {
+				Window window = SwingUtilities.getWindowAncestor(this);
+				SwingUtilities.updateComponentTreeUI(window);
+				window.pack();
+			});
+		});
 
 		SliderSpinner hintOpacity = new SliderSpinner(0, 100, 0, 100, 10, true,
 				"%");
@@ -263,6 +270,8 @@ public class ParameterChangerPanel extends JPanel
 		private JSpinner spinner;
 		private boolean isPercent;
 
+		private Runnable valueIsAdjustingListener;
+
 		public SliderSpinner(int sliderMin, int sliderMax, int spinnerMin,
 				int spinnerMax, int spinnerStep, boolean isPercent,
 				String suffix) {
@@ -270,6 +279,7 @@ public class ParameterChangerPanel extends JPanel
 			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
 					spinnerMin, spinnerMax, spinnerStep));
 			this.isPercent = isPercent;
+			valueIsAdjustingListener = null;
 
 			slider.setValue((int) spinner.getValue());
 			spinner.setEditor(
@@ -277,6 +287,10 @@ public class ParameterChangerPanel extends JPanel
 
 			slider.addChangeListener(e -> {
 				spinner.setValue(slider.getValue());
+				if (!slider.getValueIsAdjusting()
+						&& valueIsAdjustingListener != null) {
+					valueIsAdjustingListener.run();
+				}
 			});
 			spinner.addChangeListener(e -> {
 				slider.setValue((int) spinner.getValue());
@@ -317,6 +331,10 @@ public class ParameterChangerPanel extends JPanel
 
 		public void addChangeListener(ChangeListener listener) {
 			spinner.addChangeListener(listener);
+		}
+
+		public void setValueIsAdjustingListener(Runnable runnable) {
+			valueIsAdjustingListener = runnable;
 		}
 
 	}
