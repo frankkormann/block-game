@@ -55,7 +55,7 @@ public class OptionsDialog extends JDialog {
 		closeButton.setAlignmentX(CENTER_ALIGNMENT);
 
 		JScrollPane scrollPane = new JScrollPane(tabbedPane);
-		scrollPane.setBorder(null);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		add(scrollPane);
 		add(new JSeparator());
