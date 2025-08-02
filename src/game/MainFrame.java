@@ -1,9 +1,11 @@
 package game;
 
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
+import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -334,12 +336,11 @@ public class MainFrame extends JFrame
 		idealYOffset += yChange;
 
 		drawingPane.setOffsets(idealXOffset, idealYOffset);
-		// Paint before setting bounds to minimize stuttering
-		boolean existsVisibleDialog = Arrays.stream(getOwnedWindows())
-				.anyMatch(w -> w.isVisible());  // Makes sure paintImmediately()
-												  // doesn't paint over any
-												  // dialogs
+		// Makes sure paintImmediately() doesn't interact badly with any Dialogs
+		boolean existsVisibleDialog = Arrays.stream(Window.getWindows())
+				.anyMatch(w -> (w instanceof Dialog && w.isVisible()));
 		if (!existsVisibleDialog) {
+			// Paint before setting bounds to minimize stuttering
 			drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
 					drawingPane.getHeight());
 		}
