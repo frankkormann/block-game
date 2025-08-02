@@ -122,11 +122,11 @@ public class GameController extends WindowAdapter
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
-		if (SaveManager.getValue("NEW_SAVE", "false").equals("false")) {
+		if (SaveManager.getValue("NEW_SAVE", "true").equals("true")) {
 			JOptionPane.showMessageDialog(mainFrame,
 					"You can change colors and controls in the Options menu at any time.",
 					"Message", JOptionPane.INFORMATION_MESSAGE);
-			SaveManager.putValue("NEW_SAVE", "true");
+			SaveManager.putValue("NEW_SAVE", "false");
 		}
 
 		newFrameTask = new TimerTask() {
