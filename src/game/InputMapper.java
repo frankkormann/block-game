@@ -19,6 +19,8 @@ import game.MenuBar.MetaInput;
  * <p>
  * Mappings will be read from a save file if possible, or a resource if the save
  * file is unavailable.
+ * 
+ * @author Frank Kormann
  */
 public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 

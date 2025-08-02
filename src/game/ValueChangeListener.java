@@ -4,6 +4,8 @@ package game;
  * Listener interface for receiving valye change events. An implementing class
  * should register itself with {@code Mapper}'s {@code addChangeListener} method
  * to receive events.
+ * 
+ * @author Frank Kormann
  */
 public interface ValueChangeListener {
 

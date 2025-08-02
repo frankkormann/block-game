@@ -17,6 +17,8 @@ import game.Rectangle.Colors;
  * <p>
  * Mappings will be read from a save file if possible, or a resource if the save
  * file is unavailable.
+ * 
+ * @author Frank Kormann
  */
 // Implemented as Integer instead of Color because Jackson serializes Color
 // very verbosely

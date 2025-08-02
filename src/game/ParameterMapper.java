@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
  * {@code Mapper} for semi-constant parameters which should only be changed by
  * the user in an {@code OptionsDialog}. A parameter is something like game
  * speed or GUI scaling.
+ * 
+ * @author Frank Kormann
  */
 public class ParameterMapper extends Mapper<Number> {
 

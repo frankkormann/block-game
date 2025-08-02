@@ -33,6 +33,8 @@ import game.MenuBar.MetaInput;
  * {@code JPanel} which allows the user to rebind keyboard inputs in
  * {@code InputMapper}. Automatically calls {@code InputMapper.save} when the
  * parent window is closed.
+ * 
+ * @author Frank Kormann
  */
 public class ControlsChangerPanel extends JPanel
 		implements KeyEventDispatcher, KeyListener, ValueChangeListener {

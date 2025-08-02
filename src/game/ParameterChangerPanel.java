@@ -27,6 +27,8 @@ import game.ParameterMapper.Parameter;
  * {@code JPanel} which allows the user to remap values in
  * {@code ParameterMapper}, such as GUI scaling. Automatically calls
  * {@code ParameterMapper.save} the parent window is closed.
+ * 
+ * @author Frank Kormann
  */
 public class ParameterChangerPanel extends JPanel
 		implements ValueChangeListener {

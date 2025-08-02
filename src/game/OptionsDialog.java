@@ -16,6 +16,8 @@ import javax.swing.JTabbedPane;
 /**
  * {@code JDialog} for letting the user change keyboard bindings and color
  * values.
+ * 
+ * @author Frank Kormann
  */
 public class OptionsDialog extends JDialog {
 

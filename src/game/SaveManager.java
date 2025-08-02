@@ -20,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * configure the directory.
  * <p>
  * All file names should be prefixed with "/".
+ * 
+ * @author Frank Kormann
  */
 public class SaveManager {
 
