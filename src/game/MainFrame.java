@@ -199,10 +199,11 @@ public class MainFrame extends JFrame
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				if (getX() != (int) (centerX + idealXOffset * scale)) {
+				// Move centerX|Y such that getPreferredX|Y() is getX|Y()
+				if (getX() != getPreferredX()) {
 					centerX = getX() - (int) (idealXOffset * scale);
 				}
-				if (getY() != (int) (centerY + idealYOffset * scale)) {
+				if (getY() != getPreferredY()) {
 					centerY = getY() - (int) (idealYOffset * scale);
 				}
 			}
@@ -369,14 +370,8 @@ public class MainFrame extends JFrame
 	 */
 	private void arrangeComponents() {
 
-		setSize((int) (idealWidth * scale) + getInsets().left
-				+ getInsets().bottom,
-				getTitlePaneHeight() + getInsets().top + getInsets().bottom
-						+ (int) (idealHeight * scale));
-		setLocation((int) (centerX + idealXOffset * scale),
-				(int) (centerY + idealYOffset * scale));
-		System.out.println(idealXOffset + " " + idealYOffset + " " + idealWidth
-				+ " " + idealHeight);
+		setBounds(getPreferredX(), getPreferredY(), getPreferredWidth(),
+				getPreferredHeight());
 
 		int insetsX = getInsets().left + getInsets().right;
 		int insetsY = getInsets().top + getInsets().bottom;
@@ -420,6 +415,24 @@ public class MainFrame extends JFrame
 		if (drawingPane != null)
 			drawingPane.setBounds(0, 0, getContentPane().getWidth(),
 					getContentPane().getHeight());
+	}
+
+	private int getPreferredX() {
+		return centerX + (int) (centerX + idealXOffset * scale);
+	}
+
+	private int getPreferredY() {
+		return (int) (centerY + idealYOffset * scale);
+	}
+
+	private int getPreferredWidth() {
+		return (int) (idealWidth * scale) + getInsets().left
+				+ getInsets().bottom;
+	}
+
+	private int getPreferredHeight() {
+		return (int) (idealHeight * scale) + getTitlePaneHeight()
+				+ getInsets().top + getInsets().bottom;
 	}
 
 	/**
