@@ -19,9 +19,7 @@ public class ParameterMapper extends Mapper<Number> {
 		GAME_SPEED,
 		/**
 		 * Multiplier for size of game area
-		 * 
-		 * @implNote Not implemented
-		 */ // TODO
+		 */
 		GAME_SCALING,
 		/**
 		 * Multiplier for size of GUI elements
