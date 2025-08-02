@@ -199,8 +199,12 @@ public class MainFrame extends JFrame
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				centerX = getX() - (int) (idealXOffset * scale);
-				centerY = getY() - (int) (idealYOffset * scale);
+				if (getX() != (int) (centerX + idealXOffset * scale)) {
+					centerX = getX() - (int) (idealXOffset * scale);
+				}
+				if (getY() != (int) (centerY + idealYOffset * scale)) {
+					centerY = getY() - (int) (idealYOffset * scale);
+				}
 			}
 		});
 
@@ -252,6 +256,7 @@ public class MainFrame extends JFrame
 		drawingPane.add(drawable, index);
 	}
 
+	@Override
 	public void resize(int change, Direction direction) {
 		if (direction == Direction.NORTH || direction == Direction.WEST) {
 			change *= -1;
@@ -370,6 +375,8 @@ public class MainFrame extends JFrame
 						+ (int) (idealHeight * scale));
 		setLocation((int) (centerX + idealXOffset * scale),
 				(int) (centerY + idealYOffset * scale));
+		System.out.println(idealXOffset + " " + idealYOffset + " " + idealWidth
+				+ " " + idealHeight);
 
 		int insetsX = getInsets().left + getInsets().right;
 		int insetsY = getInsets().top + getInsets().bottom;
