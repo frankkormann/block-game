@@ -1,0 +1,10 @@
+{
+	"values": {
+		"GAME_SPEED": 20,
+		"GAME_SCALING": 1,
+		"GUI_SCALING": 1,
+		"HINT_OPACITY": 0.5,
+		"KEYBOARD_RESIZING_AMOUNT": 5,
+		"RESIZING_AREA_WIDTH": 30
+	}
+}

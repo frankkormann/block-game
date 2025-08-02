@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import game.MovingRectangle.Colors;
+import game.Rectangle.Colors;
 import mocks.AccessibleArea;
 
 class AreaTest {
@@ -21,7 +21,7 @@ class AreaTest {
 
 	@BeforeEach
 	void setUp() {
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 		Rectangle.setColorMapper(new ColorMapper());
 		area = new AccessibleArea(0, 0, 10, 10, Colors.BLACK);
 		bufferedImage = new BufferedImage(area.getWidth(), area.getHeight(),

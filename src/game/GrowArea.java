@@ -43,7 +43,7 @@ public class GrowArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xGrowth") int xGrowth,
 			@JsonProperty("yGrowth") int yGrowth) {
-		super(x, y, width, height, TranslucentColors.TRANSLUCENT_GREEN);
+		super(x, y, width, height, Colors.TRANSLUCENT_GREEN);
 		this.xGrowth = xGrowth;
 		this.yGrowth = yGrowth;
 	}

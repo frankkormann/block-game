@@ -106,7 +106,7 @@
 			"y": 320,
 			"width": 100,
 			"height": 60,
-			"color": "PINK"
+			"color": "TRANSLUCENT_PINK"
 		},
 		{
 			"type": ".HintRectangle",

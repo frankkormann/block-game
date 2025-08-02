@@ -11,9 +11,11 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import game.MainFrame.Direction;
+import game.ParameterMapper.Parameter;
 
 /**
  * Get inputs from the user or a stream. Optionally write inputs to a stream.
@@ -52,9 +54,8 @@ public class GameInputHandler extends KeyAdapter
 		MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
 	}
 
-	private static final int KEYBOARD_RESIZE_AMOUNT = 5;
-
 	private InputMapper inputMapper;
+	private ParameterMapper paramMapper;
 
 	private Set<Integer> keysPressed;
 	private Map<Direction, Integer> resizesSinceLastFrame;
@@ -70,8 +71,10 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @param inputMapper {@code InputMapper} to take keybinds from
 	 */
-	public GameInputHandler(InputMapper inputMapper) {
+	public GameInputHandler(InputMapper inputMapper,
+			ParameterMapper paramMapper) {
 		this.inputMapper = inputMapper;
+		this.paramMapper = paramMapper;
 
 		keysPressed = new HashSet<>();
 		resizesSinceLastFrame = new HashMap<>();
@@ -119,7 +122,11 @@ public class GameInputHandler extends KeyAdapter
 		Map<Direction, Integer> resizes = new HashMap<>();
 		if (reader == null) {
 			addResizesFromKeyboard(resizes);
-			resizes.putAll(resizesSinceLastFrame);
+			float scale = paramMapper.getFloat(Parameter.GAME_SCALING);
+			for (Entry<Direction, Integer> entry : resizesSinceLastFrame
+					.entrySet()) {
+				resizes.put(entry.getKey(), (int) (entry.getValue() / scale));
+			}
 		}
 		else {
 			// Make sure values are read in the correct order
@@ -151,7 +158,8 @@ public class GameInputHandler extends KeyAdapter
 			Pair<Integer, Integer> keybind = inputMapper.get(inp);
 			if (keybind != null && keysPressed.contains(keybind.first)
 					&& containsMask(keysPressed, keybind.second)) {
-				int amount = KEYBOARD_RESIZE_AMOUNT;
+				int amount = paramMapper
+						.getInt(Parameter.KEYBOARD_RESIZING_AMOUNT);
 
 				switch (inp) {
 					case MOVE_UP:

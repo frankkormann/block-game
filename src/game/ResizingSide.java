@@ -25,8 +25,6 @@ import game.MainFrame.Direction;
 public class ResizingSide extends JPanel
 		implements MouseListener, MouseMotionListener {
 
-	public static final int THICKNESS = 20;
-
 	private int mouseX, mouseY;
 
 	private Direction direction;

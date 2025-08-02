@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import game.MovingRectangle.Colors;
+import game.Rectangle.Colors;
 
 class HintRectangleTest {
 
@@ -19,8 +19,9 @@ class HintRectangleTest {
 
 	@BeforeEach
 	void setUp() {
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 		Rectangle.setColorMapper(new ColorMapper());
+		HintRectangle.setParameterMapper(new ParameterMapper());
 		hint = new HintRectangle(0, 0, 10, 10, Colors.BLUE);
 		bufferedImage = new BufferedImage(hint.getWidth(), hint.getHeight(),
 				BufferedImage.TYPE_INT_ARGB);

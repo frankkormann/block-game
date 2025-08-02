@@ -128,7 +128,7 @@
 			"y": 180,
 			"width": 80,
 			"height": 40,
-			"color": "GREEN"
+			"color": "TRANSLUCENT_GREEN"
 		},
 		{
 			"type": ".HintRectangle",
@@ -136,7 +136,7 @@
 			"y": 180,
 			"width": 20,
 			"height": 40,
-			"color": "RED"
+			"color": "TRANSLUCENT_RED"
 		}
 	]
 }

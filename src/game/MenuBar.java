@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -14,6 +15,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.MenuKeyListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -34,12 +37,10 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		SAVE_RECORDING, PLAY_RECORDING, STOP_RECORDING
 	}
 
-	private InputMapper inputMapper;
-	private ColorMapper colorMapper;
 	private GameController listener;
+	private InputMapper inputMapper;
 
 	private JFileChooser fileChooser;
-
 	private Map<Enum<?>, JMenuItem> inputToMenuItem;
 
 	private JMenuItem showHintItem;
@@ -53,18 +54,19 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * {@code inputMapper}.
 	 * <p>
 	 * Includes an {@code OptionsDialog} to change mappings in
-	 * {@code inputMapper} and {@code colorMapper}.
+	 * {@code inputMapper}, {@code colorMapper}, and {@code paramMaper}.
 	 * 
 	 * @param inputMapper {@code InputMapper} to take keybinds from and to alter
 	 *                    in {@code OptionsDialog}
 	 * @param colorMapper {@code ColorMapper} to alter in {@code OptionsDialog}
+	 * @param paramMapper {@code ParameterMapper} to alter in
+	 *                    {@code OptionsDialog}
 	 * @param listener    {@code GameController} which will process inputs
 	 */
 	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
-			GameController listener) {
-		this.inputMapper = inputMapper;
-		this.colorMapper = colorMapper;
+			ParameterMapper paramMapper, GameController listener) {
 		this.listener = listener;
+		this.inputMapper = inputMapper;
 		inputToMenuItem = new HashMap<>();
 
 		fileChooser = new JFileChooser();  // global file chooser so it
@@ -79,7 +81,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		add(createHintMenu());
 		add(createRecordingMenu());
 		add(createPauseRestartMenu());
-		add(createOptionsButton());
+		add(createOptionsButton(colorMapper, paramMapper));
 	}
 
 	/**
@@ -147,13 +149,34 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		return menu;
 	}
 
-	private JMenu createOptionsButton() {
+	private JMenu createOptionsButton(ColorMapper colorMapper,
+			ParameterMapper paramMapper) {
 		JMenu button = new JMenu("Options");
+		Runnable openDialog = () -> {
+			new OptionsDialog(SwingUtilities.getWindowAncestor(button),
+					inputMapper, colorMapper, paramMapper).setVisible(true);
+		};
+
+		button.addMenuKeyListener(new MenuKeyListener() {
+			@Override
+			public void menuKeyPressed(MenuKeyEvent e) {
+				if ((e.getKeyCode() == KeyEvent.VK_ENTER
+						|| e.getKeyCode() == KeyEvent.VK_SPACE)
+						&& button.isSelected()) {
+					openDialog.run();
+				}
+			}
+
+			@Override
+			public void menuKeyTyped(MenuKeyEvent e) {}
+
+			@Override
+			public void menuKeyReleased(MenuKeyEvent e) {}
+		});
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new OptionsDialog(SwingUtilities.getWindowAncestor(button),
-						inputMapper, colorMapper).setVisible(true);
+				openDialog.run();
 			}
 		});
 
@@ -166,7 +189,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * {@code metaInput} is pressed.
 	 * 
 	 * @param text       to display on the menu item
-	 * @param metaInput  {@code MetaInput} to pull keyboard shortcut information
+	 * @param metaInput  {@code MetaInput} to pass to pull keybind information
 	 *                   from
 	 * @param action     {@code Runnable} which will run when this is activated
 	 * @param isCheckBox whether to use a {@code JCheckBoxMenuItem} or not
@@ -207,7 +230,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 			fileChooser.setSelectedFile(new File("Untitled.rec"));
 
-			fileChooserResult = fileChooser.showSaveDialog(null);
+			fileChooserResult = fileChooser
+					.showSaveDialog(SwingUtilities.getWindowAncestor(this));
 			saveFile = fileChooser.getSelectedFile();
 
 			if (!saveFile.getName().matches("^.*\\..*$")) {
@@ -232,7 +256,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private File promptFileOpenLocation() {
-		int result = fileChooser.showOpenDialog(null);
+		int result = fileChooser
+				.showOpenDialog(SwingUtilities.getWindowAncestor(this));
 		File openFile = fileChooser.getSelectedFile();
 
 		if (result == JFileChooser.APPROVE_OPTION) {

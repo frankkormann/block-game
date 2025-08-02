@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import game.Rectangle.Colors;
 import game.Rectangle.ResizeBehavior;
-import game.WallRectangle.WallColors;
 
 class WallRectangleTest {
 
@@ -18,7 +18,7 @@ class WallRectangleTest {
 
 	@BeforeEach
 	void setUp() {
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 		Rectangle.setColorMapper(new ColorMapper());
 		wall = new WallRectangle(0, 0, 10, 10);
 		bufferedImage = new BufferedImage(wall.getWidth(), wall.getHeight(),
@@ -45,9 +45,9 @@ class WallRectangleTest {
 
 		for (int y = wall.getY(); y < wall.getY() + wall.getHeight(); y++) {
 			assertPixelColor(wall.getX(), y,
-					wall.getColor(WallColors.DARK_GRAY).getRGB());
+					wall.getColor(Colors.DARK_GRAY).getRGB());
 			assertPixelColor(wall.getX() + wall.getWidth() - 1, y,
-					wall.getColor(WallColors.DARK_GRAY).getRGB());
+					wall.getColor(Colors.DARK_GRAY).getRGB());
 		}
 	}
 
@@ -60,9 +60,9 @@ class WallRectangleTest {
 
 		for (int x = wall.getX(); x < wall.getX() + wall.getWidth(); x++) {
 			assertPixelColor(x, wall.getY(),
-					wall.getColor(WallColors.DARK_GRAY).getRGB());
+					wall.getColor(Colors.DARK_GRAY).getRGB());
 			assertPixelColor(x, wall.getY() + wall.getHeight() - 1,
-					wall.getColor(WallColors.DARK_GRAY).getRGB());
+					wall.getColor(Colors.DARK_GRAY).getRGB());
 		}
 	}
 }

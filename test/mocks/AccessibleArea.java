@@ -14,7 +14,7 @@ public class AccessibleArea extends Area {
 	public Map<Rectangle, Integer> callsToEveryframe;
 
 	public AccessibleArea(int x, int y, int width, int height,
-			Enum<?> colorEnum) {
+			Colors colorEnum) {
 		super(x, y, width, height, colorEnum);
 		hasEntered = false;
 		hasExited = false;

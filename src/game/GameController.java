@@ -27,6 +27,7 @@ import com.formdev.flatlaf.util.SystemInfo;
 import game.GameInputHandler.MovementInput;
 import game.MainFrame.Direction;
 import game.MenuBar.MetaInput;
+import game.ParameterMapper.Parameter;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
@@ -42,12 +43,12 @@ import game.MenuBar.MetaInput;
  * 
  * @author Frank Kormann
  */
-public class GameController extends WindowAdapter {
+public class GameController extends WindowAdapter
+		implements ValueChangeListener {
 
 	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
 	private static final String FIRST_LEVEL = "/level_1.json";
-	private static final int MILLISECONDS_BETWEEN_FRAMES = 20;
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
@@ -59,6 +60,7 @@ public class GameController extends WindowAdapter {
 	private List<HintRectangle> hints;
 
 	private ByteArrayOutputStream currentLevelOutputStream;
+	private TimerTask newFrameTask;
 
 	private boolean paused;
 
@@ -66,8 +68,7 @@ public class GameController extends WindowAdapter {
 		FlatLightLaf.setup();
 		UIManager.put("TitlePane.embeddedForeground",
 				UIManager.get("TitlePane.foreground"));
-
-		SaveManager.setUp(System.getenv(DIRECTORY_ENV_VAR));
+		SaveManager.setDirectory(System.getenv(DIRECTORY_ENV_VAR));
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
 			// enable custom window decorations
@@ -75,23 +76,24 @@ public class GameController extends WindowAdapter {
 			JDialog.setDefaultLookAndFeelDecorated(true);
 		}
 
-		new GameController()
-				.startGame(SaveManager.getCurrentLevel(FIRST_LEVEL));
+		new GameController();
 	}
 
 	/**
-	 * Creates a {@code GameController}.
+	 * Creates a {@code GameController} and starts the game.
 	 */
 	public GameController() {
 		InputMapper inputMapper = new InputMapper();
 		ColorMapper colorMapper = new ColorMapper();
+		ParameterMapper paramMapper = new ParameterMapper();
 
 		Rectangle.setColorMapper(colorMapper);
+		HintRectangle.setParameterMapper(paramMapper);
 
-		gameInputHandler = new GameInputHandler(inputMapper);
+		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
-		mainFrame = new MainFrame(gameInputHandler);
-		menuBar = new MenuBar(inputMapper, colorMapper, this);
+		mainFrame = new MainFrame(gameInputHandler, paramMapper);
+		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper, this);
 
 		currentLevel = "";
 		currentSolution = "";
@@ -102,33 +104,37 @@ public class GameController extends WindowAdapter {
 		mainFrame.setJMenuBar(menuBar);
 
 		paused = false;
+
+		paramMapper.addListener(this);
+
+		startGame(SaveManager.getValue("CURRENT_LEVEL", FIRST_LEVEL),
+				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
 
 	/**
 	 * Loads {@code firstLevel} and begins a repeating {@code TimerTask} to
 	 * process each frame.
 	 * 
-	 * @param firstLevel resource name of first level to load
+	 * @param firstLevel          resource name of first level to load
+	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
-	public void startGame(String firstLevel) {
+	public void startGame(String firstLevel, int millisBetweenFrames) {
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
-		new Timer().scheduleAtFixedRate(new TimerTask() {
+		if (SaveManager.getValue("NEW_SAVE", "true").equals("true")) {
+			JOptionPane.showMessageDialog(mainFrame,
+					"You can change colors and controls in the Options menu at any time.",
+					"Message", JOptionPane.INFORMATION_MESSAGE);
+			SaveManager.putValue("NEW_SAVE", "false");
+		}
+
+		newFrameTask = new TimerTask() {
 			public void run() {
-				try {
-					if (!paused && mainFrame.isFocused()) {
-						nextFrame();
-					}
-					mainFrame.repaint();
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-					new ErrorDialog("Error", "Something went wrong", e)
-							.setVisible(true);
-				}
+				newFrameTaskAction();
 			}
-		}, 0, MILLISECONDS_BETWEEN_FRAMES);
+		};
+		new Timer().scheduleAtFixedRate(newFrameTask, 0, millisBetweenFrames);
 	}
 
 	/**
@@ -141,9 +147,7 @@ public class GameController extends WindowAdapter {
 	}
 
 	private void loadLevel(String levelResource) {
-
 		paused = true;
-
 		Level level;
 
 		try {
@@ -178,7 +182,7 @@ public class GameController extends WindowAdapter {
 		currentSolution = level.solution;
 		currentLevel = levelResource;
 		loadObjectsFromLevel(level);
-		SaveManager.setCurrentLevel(levelResource);
+		SaveManager.putValue("CURRENT_LEVEL", levelResource);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
@@ -235,6 +239,20 @@ public class GameController extends WindowAdapter {
 
 	}
 
+	private void newFrameTaskAction() {
+		try {
+			if (!paused && mainFrame.isFocused()) {
+				nextFrame();
+			}
+			mainFrame.repaint();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Something went wrong", e)
+					.setVisible(true);
+		}
+	};
+
 	/**
 	 * Processes the next frame.
 	 * <p>
@@ -253,7 +271,6 @@ public class GameController extends WindowAdapter {
 				.poll();
 
 		mainFrame.resizeAll(allInputs.first);
-
 		physicsSimulator.updateAndMoveObjects(allInputs.second,
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
@@ -339,8 +356,8 @@ public class GameController extends WindowAdapter {
 
 		reloadLevel();
 		JOptionPane.showMessageDialog(mainFrame,
-				"Press S to stop playback at any time.", "Seen Enough?",
-				JOptionPane.INFORMATION_MESSAGE);
+				"Stop playback at any time in the title bar: Recordings > Stop.",
+				"Seen Enough?", JOptionPane.INFORMATION_MESSAGE);
 
 		gameInputHandler
 				.beginReading(getClass().getResourceAsStream(currentSolution));
@@ -396,8 +413,25 @@ public class GameController extends WindowAdapter {
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
-		SaveManager.setCurrentLevel(currentLevel);
+		SaveManager.putValue("CURRENT_LEVEL", currentLevel);
 		System.exit(0);
 	}
+
+	@Override
+	public void valueChanged(Enum<?> key, Object newValue) {
+		if (key == Parameter.GAME_SPEED) {
+			newFrameTask.cancel();
+			newFrameTask = new TimerTask() {
+				public void run() {
+					newFrameTaskAction();
+				}
+			};
+			new Timer().scheduleAtFixedRate(newFrameTask, 0,
+					((Number) newValue).intValue());
+		}
+	}
+
+	@Override
+	public void valueRemoved(Enum<?> key) {}
 
 }

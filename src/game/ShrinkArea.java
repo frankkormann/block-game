@@ -45,7 +45,7 @@ public class ShrinkArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xShrink") int xShrink,
 			@JsonProperty("yShrink") int yShrink) {
-		super(x, y, width, height, TranslucentColors.TRANSLUCENT_RED);
+		super(x, y, width, height, Colors.TRANSLUCENT_RED);
 		this.xShrink = xShrink;
 		this.yShrink = yShrink;
 	}

@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -38,6 +36,9 @@ import game.MainFrame.Direction;
  * Subclasses which can move should override
  * {@link#getLastX()}, {@link#getLastY()}, {@link#getLastWidth()}, and
  * {@link#getLastHeight()}.
+ * <p>
+ * A {@code ColorMapper} with values for each {@code Colors} should be set with
+ * {@code setColorMapper} before this can be drawn.
  *
  * @author Frank Kormann
  */
@@ -105,16 +106,22 @@ public abstract class Rectangle implements Drawable {
 		SAME_HEIGHT
 	}
 
+	public enum Colors {
+		BLACK, BLUE, DARK_GRAY, GRAY, GREEN, ORANGE, RED, PLAYER,
+		TRANSLUCENT_BLUE, TRANSLUCENT_GREEN, TRANSLUCENT_PINK, TRANSLUCENT_RED,
+		TRANSLUCENT_YELLOW, TRANSPARENT
+	}
+
 	private static ColorMapper colorMapper;
 
-	private Enum<?> colorEnum;
+	private Colors colorEnum;
 
 	private int x, y, width, height;
 	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	private ResizeBehavior resizeBehavior;
 
-	public Rectangle(int x, int y, int width, int height, Enum<?> colorEnum,
+	public Rectangle(int x, int y, int width, int height, Colors colorEnum,
 			ResizeBehavior resizeBehavior) {
 		this.x = x;
 		this.y = y;
@@ -139,24 +146,27 @@ public abstract class Rectangle implements Drawable {
 				(int) (color.getGreen() / BORDER_DARKNESS),
 				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
 		g.setColor(border);
-		if (color.getAlpha() == 255) {
-			g.fillRect(x, y, width, height);
-		}
-		else {
-			g.fillRect(x, y, BORDER_THICKNESS, height);
-			g.fillRect(x + width - BORDER_THICKNESS - 1, y, BORDER_THICKNESS,
-					height);
-			g.fillRect(x + BORDER_THICKNESS, y, width - 2 * BORDER_THICKNESS,
-					BORDER_THICKNESS);
-			g.fillRect(x + BORDER_THICKNESS, y + height - BORDER_THICKNESS,
-					width - 2 * BORDER_THICKNESS, BORDER_THICKNESS);
-		}
+		drawRectOutline(g, BORDER_THICKNESS);
 
 		g.setColor(color);
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
 
 		g.dispose();
+	}
+
+	/**
+	 * Draws an outline of this. The outline does not extend past this's bounds.
+	 * 
+	 * @param g         {@code Graphics} to draw with
+	 * @param thickness width of the outline
+	 */
+	protected void drawRectOutline(Graphics g, int thickness) {
+		g.fillRect(x, y, thickness, height);
+		g.fillRect(x + width - thickness, y, thickness, height);
+		g.fillRect(x + thickness, y, width - 2 * thickness, thickness);
+		g.fillRect(x + thickness, y + height - thickness, width - 2 * thickness,
+				thickness);
 	}
 
 	/**
@@ -405,9 +415,6 @@ public abstract class Rectangle implements Drawable {
 		Color color = colorMapper.getColor(colorEnum);
 		if (color == null) {
 			color = Color.BLACK;
-			colorMapper.setColor(colorEnum, color);
-			JOptionPane.showMessageDialog(null,
-					"Color for " + colorEnum + " is not set, using black");
 		}
 		return color;
 	}
@@ -434,6 +441,12 @@ public abstract class Rectangle implements Drawable {
 		}
 
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[x=" + x + ",y=" + y + ",width="
+				+ width + ",height=" + height + ",color=" + colorEnum + "]";
 	}
 
 }

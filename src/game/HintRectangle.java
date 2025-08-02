@@ -6,18 +6,22 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import game.MovingRectangle.Colors;
+import game.ParameterMapper.Parameter;
 
 /**
  * Translucent {@code Rectangle} which can be toggled visible or not visible.
+ * <p>
+ * A {@code ParameterMapper} with a value for {@code Parameter.HINT_OPACITY}
+ * needs to be set with {@code setParameterMapper} before this can be drawn.
  * 
  * @author Frank Kormann
  */
 public class HintRectangle extends Rectangle {
 
 	private static final int OUTLINE_THICKNESS = 2;
-	private static final float OPACITY = 0.5f;
 	private static final float BORDER_DARKNESS = 1.2f;
+
+	private static ParameterMapper paramMapper;
 
 	private boolean visible;
 
@@ -25,15 +29,14 @@ public class HintRectangle extends Rectangle {
 	public HintRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
-			@JsonProperty("color") Colors color) {
-		this(x, y, width, height, (Enum<?>) color);
-	}
-
-	public HintRectangle(int x, int y, int width, int height,
-			Enum<?> colorEnum) {
+			@JsonProperty("color") Colors colorEnum) {
 		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 
 		visible = false;
+	}
+
+	public static void setParameterMapper(ParameterMapper paramMapper) {
+		HintRectangle.paramMapper = paramMapper;
 	}
 
 	@Override
@@ -46,18 +49,18 @@ public class HintRectangle extends Rectangle {
 
 		g.setColor(new Color((int) (getColor().getRed() / BORDER_DARKNESS),
 				(int) (getColor().getGreen() / BORDER_DARKNESS),
-				(int) (getColor().getBlue() / BORDER_DARKNESS)));
+				(int) (getColor().getBlue() / BORDER_DARKNESS),
+				getColor().getAlpha()));
 
-		g.fillRect(getX(), getY(), getWidth(), OUTLINE_THICKNESS);
-		g.fillRect(getX(), getY(), OUTLINE_THICKNESS, getHeight());
-		g.fillRect(getX(), getY() + getHeight() - OUTLINE_THICKNESS, getWidth(),
-				OUTLINE_THICKNESS);
-		g.fillRect(getX() + getWidth() - OUTLINE_THICKNESS, getY(),
-				OUTLINE_THICKNESS, getHeight());
+		drawRectOutline(g, OUTLINE_THICKNESS);
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), (int) (255 * OPACITY)));
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
+				getColor().getBlue(), (int) (getColor().getAlpha()
+						* paramMapper.getFloat(Parameter.HINT_OPACITY))));
+
+		g.fillRect(getX() + OUTLINE_THICKNESS, getY() + OUTLINE_THICKNESS,
+				getWidth() - 2 * OUTLINE_THICKNESS,
+				getHeight() - 2 * OUTLINE_THICKNESS);
 
 		g.dispose();
 	}

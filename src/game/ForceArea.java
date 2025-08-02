@@ -21,7 +21,7 @@ public class ForceArea extends Area {
 			@JsonProperty("height") int height,
 			@JsonProperty("xForce") int xForce,
 			@JsonProperty("yForce") int yForce) {
-		super(x, y, width, height, TranslucentColors.TRANSLUCENT_BLUE);
+		super(x, y, width, height, Colors.TRANSLUCENT_BLUE);
 		this.xForce = xForce;
 		this.yForce = yForce;
 	}

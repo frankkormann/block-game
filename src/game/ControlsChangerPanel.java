@@ -2,6 +2,8 @@ package game;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -29,11 +31,11 @@ import game.MenuBar.MetaInput;
 
 /**
  * {@code JPanel} which allows the user to rebind keyboard inputs in
- * {@code InputMapper}. Automatically calls {@code inputMapper.save()} when the
+ * {@code InputMapper}. Automatically calls {@code InputMapper.save} when the
  * parent window is closed.
  */
 public class ControlsChangerPanel extends JPanel
-		implements KeyListener, ValueChangeListener {
+		implements KeyEventDispatcher, KeyListener, ValueChangeListener {
 
 	private static final String REBIND_INSTRUCTIONS = "Type a new key";
 	private static final String UNDO_TEXT = "Undo changes";
@@ -99,6 +101,9 @@ public class ControlsChangerPanel extends JPanel
 			}
 		});
 		inputMapper.addListener(this);
+
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(this);
 	}
 
 	/**
@@ -121,7 +126,6 @@ public class ControlsChangerPanel extends JPanel
 
 		JComboBox<String> controller = new JComboBox<>();
 		controller.setEditable(false);
-		controller.setFocusable(false);
 
 		for (Pair<JPanel, String> panelPair : panels) {
 			controller.addItem(panelPair.second);
@@ -152,13 +156,11 @@ public class ControlsChangerPanel extends JPanel
 		undoButton.addActionListener(e -> {
 			inputMapper.reload();
 		});
-		undoButton.setFocusable(false);
 
 		JButton resetButton = new JButton(RESET_TEXT);
 		resetButton.addActionListener(e -> {
 			inputMapper.setToDefaults();
 		});
-		resetButton.setFocusable(false);
 
 		panel.add(undoButton);
 		panel.add(resetButton);
@@ -227,7 +229,6 @@ public class ControlsChangerPanel extends JPanel
 				updateButtonText(input);
 			}
 		});
-		button.setFocusable(false);
 
 		inputToButton.put(input, button);
 
@@ -337,6 +338,17 @@ public class ControlsChangerPanel extends JPanel
 		}
 
 		return input.toString();
+	}
+
+	/* KeyEventDispatcher */
+
+	public boolean dispatchKeyEvent(KeyEvent e) {
+		if (currentlyRebindingInput != null
+				&& e.getID() == KeyEvent.KEY_PRESSED) {
+			keyPressed(e);
+			return true;
+		}
+		return false;
 	}
 
 	/* KeyListener */

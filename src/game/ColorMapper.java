@@ -4,9 +4,7 @@ import java.awt.Color;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import game.Area.TranslucentColors;
-import game.MovingRectangle.Colors;
-import game.WallRectangle.WallColors;
+import game.Rectangle.Colors;
 
 /**
  * {@code Mapper} for {@code Color}s represented as RGB {@code Integer}s. The
@@ -24,15 +22,15 @@ import game.WallRectangle.WallColors;
 // very verbosely
 public class ColorMapper extends Mapper<Integer> {
 
-	private static final String COLORS_PATH = "/colors.json";
-	private static final String DEFAULT_COLORS_RESOURCE = "/colors_default.json";
+	private static final String SAVE_PATH = "/colors.json";
+	private static final String DEFAULT_RESOURCE = "/colors_default.json";
 
 	/**
-	 * Creates a {@code ColorMapper} with default keybinds for {@code Colors},
+	 * Creates a {@code ColorMapper} with default colors for {@code Colors},
 	 * {@code TranslucentColors}, and {@code WallColors}.
 	 */
 	public ColorMapper() {
-		super(COLORS_PATH, DEFAULT_COLORS_RESOURCE);
+		super(SAVE_PATH, DEFAULT_RESOURCE);
 	}
 
 	@Override
@@ -42,8 +40,7 @@ public class ColorMapper extends Mapper<Integer> {
 
 	@Override
 	public Class<? extends Enum<?>>[] getEnumClasses() {
-		return new Class[] { Colors.class, TranslucentColors.class,
-				WallColors.class };
+		return new Class[] { Colors.class };
 	}
 
 	public Integer getDefaultValue() {

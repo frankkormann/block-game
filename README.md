@@ -28,7 +28,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>2.98 MB</td>
+		<td>2.99 MB</td>
 	</tr>
 </table>
 
@@ -42,14 +42,16 @@ recommended to place the `jar` in a new folder before running.
 
 ### Controls
 
+You can change these in the Options menu.
+
 <table>
 	<tr>
 		<td>Move</td>
-		<td>A and D, or arrow keys</td>
+		<td>A and D</td>
 	</tr>
 	<tr>
 		<td>Jump</td>
-		<td>W, space, or up arrow</td>
+		<td>W</td>
 	</tr>
 	<tr>
 		<td>Pause</td>
@@ -78,13 +80,14 @@ These options are also available from the menu bar.
 
 **Keyboard resizing**
 
-First, select a direction to resize. Then adjust it.
+First, select a direction to resize. Then adjust it. You can change these
+controls in the Options menu.
 
 <table>
 	<tr>
 		<td>Select a direction</td>
-		<td>Control + I, J, K, or L<br>I: Top
-			<br>K: Bottom<br>J: Left<br>L:Right</td>
+		<td>Shift + I, J, K, or L<br>I: Top
+			<br>K: Bottom<br>J: Left<br>L: Right</td>
 	</tr>
 	<tr>
 		<td>Move side up/down</td>
@@ -122,7 +125,8 @@ These options are also available from the menu bar.
 ### Reporting a bug
 
 If you encounter a bug, press `Control + Shift + S` to save a recording of the
-current level. Then open an issue on this GitHub page and include:
+current level. Then open an issue on this GitHub page and include as much as
+much as you can:
 
 - The full copied text of any error message you received, if there was an error
   message. Make sure to click "Details" for the full text

@@ -20,7 +20,7 @@ class DrawingPaneTest {
 
 	@BeforeEach
 	void setUp() {
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 		drawingPane = new DrawingPane();
 		bufferedImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
 		drawable = new DrawableMock(10, 10, 10, 10, Color.GREEN);
@@ -75,18 +75,17 @@ class DrawingPaneTest {
 
 	@Test
 	void drawables_which_overlap_are_drawn_in_correct_order() {
-		Rectangle other = new WallRectangle(15, 15, 10, 10);
+		DrawableMock other = new DrawableMock(15, 15, 10, 10, Color.BLACK);
 		drawingPane.add(other, 1);
 		draw();
 
 		int rectRGB = bufferedImage.getRGB(drawable.x, drawable.y);
-		int otherRGB = bufferedImage.getRGB(other.getX() + other.getWidth() - 1,
-				other.getY() + other.getHeight() - 1);
+		int otherRGB = bufferedImage.getRGB(other.x + other.width - 1,
+				other.y + other.height - 1);
 
 		assertNotEquals(rectRGB,
 				bufferedImage.getRGB(drawable.x + drawable.width - 1,
 						drawable.y + drawable.height - 1));
-		assertEquals(otherRGB,
-				bufferedImage.getRGB(other.getX(), other.getY()));
+		assertEquals(otherRGB, bufferedImage.getRGB(other.x, other.y));
 	}
 }

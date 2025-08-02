@@ -32,10 +32,11 @@ class MainFrameTest {
 	@BeforeEach
 	void setUp() {
 		assumeFalse(GraphicsEnvironment.isHeadless());
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 
-		GameInputHandler inputHandler = new GameInputHandler(new InputMapper());
-		mainFrame = new MainFrame(inputHandler);
+		GameInputHandler inputHandler = new GameInputHandler(new InputMapper(),
+				new ParameterMapper());
+		mainFrame = new MainFrame(inputHandler, new ParameterMapper());
 
 		level = new Level();
 		level.width = 800;
@@ -47,19 +48,15 @@ class MainFrameTest {
 	void has_correct_width_and_height_from_level() {
 		assumeFalse(GraphicsEnvironment.isHeadless());
 
-		assertEquals(level.width, mainFrame.getWidth(), 100);   // +/- 100 to
-																   // allow for
-		assertEquals(level.height, mainFrame.getHeight(), 100); // insets,
-																 // non-level
-																 // components,
-																 // etc.
+		assertEquals(level.width, mainFrame.getNextWidth());
+		assertEquals(level.height, mainFrame.getNextHeight());
 	}
 
 	private void setInitialValues() {
-		initialWidth = mainFrame.getWidth();
-		initialHeight = mainFrame.getHeight();
-		initialX = mainFrame.getX();
-		initialY = mainFrame.getY();
+		initialWidth = mainFrame.getNextWidth();
+		initialHeight = mainFrame.getNextHeight();
+		initialX = mainFrame.getNextXOffset();
+		initialY = mainFrame.getNextYOffset();
 	}
 
 	@Test
@@ -74,8 +71,8 @@ class MainFrameTest {
 		mainFrame.resize(southChange, Direction.SOUTH);
 		mainFrame.incorporateChanges();
 
-		assertEquals(initialWidth + eastChange, mainFrame.getWidth());
-		assertEquals(initialHeight + southChange, mainFrame.getHeight());
+		assertEquals(initialWidth + eastChange, mainFrame.getNextWidth());
+		assertEquals(initialHeight + southChange, mainFrame.getNextHeight());
 	}
 
 	@Test
@@ -90,10 +87,10 @@ class MainFrameTest {
 		mainFrame.resize(-westChange, Direction.WEST);
 		mainFrame.incorporateChanges();
 
-		assertEquals(initialWidth + westChange, mainFrame.getWidth());
-		assertEquals(initialHeight + northChange, mainFrame.getHeight());
-		assertEquals(initialX - westChange, mainFrame.getX());
-		assertEquals(initialY - northChange, mainFrame.getY());
+		assertEquals(initialWidth + westChange, mainFrame.getNextWidth());
+		assertEquals(initialHeight + northChange, mainFrame.getNextHeight());
+		assertEquals(initialX - westChange, mainFrame.getNextXOffset());
+		assertEquals(initialY - northChange, mainFrame.getNextYOffset());
 	}
 
 	@Test

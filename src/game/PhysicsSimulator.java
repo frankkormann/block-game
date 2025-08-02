@@ -116,14 +116,14 @@ public class PhysicsSimulator {
 	 * all {@code Areas} that need to be applied.
 	 * 
 	 * @param movementInputs {@code Set} of {@code Input}s from the player this
-	 *                   frame
-	 * @param width      Width of the play area
-	 * @param height     Height of the play area
-	 * @param xOffset    X coordinate of top left corner
-	 * @param yOffset    Y coordinate of top left corner
+	 *                       frame
+	 * @param width          Width of the play area
+	 * @param height         Height of the play area
+	 * @param xOffset        X coordinate of top left corner
+	 * @param yOffset        Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<MovementInput> movementInputs, int width,
-			int height, int xOffset, int yOffset) {
+	public void updateAndMoveObjects(Set<MovementInput> movementInputs,
+			int width, int height, int xOffset, int yOffset) {
 
 		applyInputsToPlayerRectangles(movementInputs);
 		moveAllMovingRectangles();
@@ -136,10 +136,11 @@ public class PhysicsSimulator {
 	 * {@code isControlledByPlayer() == true} according to the player's
 	 * {@code Input}s.
 	 * 
-	 * @param movementInputs {@code Set} of {@code Input}s which are pressed on this
-	 *                   frame
+	 * @param movementInputs {@code Set} of {@code Input}s which are pressed on
+	 *                       this frame
 	 */
-	private void applyInputsToPlayerRectangles(Set<MovementInput> movementInputs) {
+	private void applyInputsToPlayerRectangles(
+			Set<MovementInput> movementInputs) {
 		for (MovingRectangle rect : movingRectangles) {
 			if (!rect.isControlledByPlayer()) {
 				continue;
@@ -413,8 +414,7 @@ public class PhysicsSimulator {
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
 			if (collisionData[0] != 0) {  // rect should only be pushed back in
-										  // the
-										  // direction it pushed other
+										  // the direction it pushed other
 				rect.moveCollision(pushback[0], 0);
 				pushedAmount[0] += pushback[0];
 			}
@@ -434,6 +434,50 @@ public class PhysicsSimulator {
 		}
 
 		return pushedAmount;
+	}
+
+	/**
+	 * Called by {@link#propagateCollision} to traverse through
+	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull
+	 * the rectangles associated with {@code other} back to {@code other}.
+	 * <p>
+	 * Undoes the collision between {@code rect} and {@code other} if they
+	 * should not have collided.
+	 * 
+	 * @param rect         {@code Rectangle} to align with
+	 * @param other        {@code Rectangle} to pull back
+	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how
+	 *                     much it was pushed in each direction
+	 */
+	private void pullback(Rectangle rect, MovingRectangle other,
+			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
+		int xChange = 0;
+		int yChange = 0;
+
+		int[] pushedAmount = collisionMap.get(other).second;
+
+		if (pushedAmount[1] == 0) {  // not pushed in y direction -> x collision
+			xChange = pullToX(rect, other);
+		}
+		else {
+			yChange = pullToY(rect, other);
+		}
+
+		if (Math.abs(xChange) > Math.abs(pushedAmount[0])
+				|| !rect.intersectsY(other)) {
+			xChange = -pushedAmount[0];
+		}
+		if (Math.abs(yChange) > Math.abs(pushedAmount[1])
+				|| !rect.intersectsX(other)) {
+			yChange = -pushedAmount[1];
+		}
+		other.moveCollision(xChange, yChange);
+
+		for (MovingRectangle c : collisionMap.keySet()) {
+			if (collisionMap.get(c).first == other) {
+				pullback(other, c, collisionMap);
+			}
+		}
 	}
 
 	/**
@@ -709,47 +753,6 @@ public class PhysicsSimulator {
 		}
 
 		return movement;
-	}
-
-	/**
-	 * Called by {@link#propagateCollision} to traverse through
-	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull
-	 * the rectangles associated with {@code other} back to {@code other}.
-	 * 
-	 * @param rect         {@code Rectangle} to align with
-	 * @param other        {@code Rectangle} to pull back
-	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how
-	 *                     much it was pushed by in each direction
-	 * @param direction    boolean representing direction; {@code true} for x
-	 *                     and {@code false} for y
-	 */
-	private void pullback(Rectangle rect, MovingRectangle other,
-			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
-		int xChange = 0;
-		int yChange = 0;
-
-		int[] pushedAmount = collisionMap.get(other).second;
-
-		if (pushedAmount[1] == 0) {  // not pushed in y direction -> x collision
-			xChange = pullToX(rect, other);
-		}
-		else {
-			yChange = pullToY(rect, other);
-		}
-
-		if (Math.abs(xChange) > Math.abs(pushedAmount[0])) {
-			xChange = -pushedAmount[0];
-		}
-		if (Math.abs(yChange) > Math.abs(pushedAmount[1])) {
-			yChange = -pushedAmount[1];
-		}
-		other.moveCollision(xChange, yChange);
-
-		for (MovingRectangle c : collisionMap.keySet()) {
-			if (collisionMap.get(c).first == other) {
-				pullback(other, c, collisionMap);
-			}
-		}
 	}
 
 	/**

@@ -31,9 +31,9 @@ class GameInputHandlerTest {
 
 	@BeforeEach
 	void setUp() {
-		SaveManager.setUp(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
 		inputMapper = new InputMapper();
-		inputHandler = new GameInputHandler(inputMapper);
+		inputHandler = new GameInputHandler(inputMapper, new ParameterMapper());
 	}
 
 	@Test

@@ -20,10 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MovingRectangle extends Rectangle {
 
-	public enum Colors {
-		BLACK, BLUE, GREEN, ORANGE, RED, PLAYER, PINK
-	}
-
 	public enum State {
 		ON_GROUND, IN_AIR
 	}
@@ -49,11 +45,6 @@ public class MovingRectangle extends Rectangle {
 		this(x, y, width, height, Colors.BLACK);
 	}
 
-	public MovingRectangle(int x, int y, int width, int height,
-			Enum<?> colorEnum) {
-		this(x, y, width, height, colorEnum, true, ResizeBehavior.MOVE);
-	}
-
 	@JsonCreator
 	public MovingRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
@@ -63,7 +54,7 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	public MovingRectangle(int x, int y, int width, int height,
-			Enum<?> colorEnum, boolean hasGravity,
+			Colors colorEnum, boolean hasGravity,
 			ResizeBehavior resizeBehavior) {
 		super(x, y, width, height, colorEnum, resizeBehavior);
 		this.hasGravity = hasGravity;

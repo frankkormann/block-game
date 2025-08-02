@@ -18,7 +18,7 @@ public class GroundingArea extends Area {
 									 // hovering a few pixels above the floor
 
 	public GroundingArea(int x, int y, int width) {
-		super(x, y, width, HEIGHT, TranslucentColors.TRANSPARENT);
+		super(x, y, width, HEIGHT, Colors.TRANSPARENT);
 	}
 
 	/**
