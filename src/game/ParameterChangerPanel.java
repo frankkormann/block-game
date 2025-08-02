@@ -101,7 +101,7 @@ public class ParameterChangerPanel extends JPanel
 		bindSliderSpinner(hintOpacity, Parameter.HINT_OPACITY);
 
 		SliderSpinner keyboardingResizingAmount = new SliderSpinner(1, 10, 1,
-				200, 1, false, "px");
+				50, 1, false, "px");
 		bindSliderSpinner(keyboardingResizingAmount,
 				Parameter.KEYBOARD_RESIZING_AMOUNT);
 
