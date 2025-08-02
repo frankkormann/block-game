@@ -207,7 +207,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 			fileChooser.setSelectedFile(new File("Untitled.rec"));
 
-			fileChooserResult = fileChooser.showSaveDialog(null);
+			fileChooserResult = fileChooser
+					.showSaveDialog(SwingUtilities.getWindowAncestor(this));
 			saveFile = fileChooser.getSelectedFile();
 
 			if (!saveFile.getName().matches("^.*\\..*$")) {
@@ -232,7 +233,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private File promptFileOpenLocation() {
-		int result = fileChooser.showOpenDialog(null);
+		int result = fileChooser
+				.showOpenDialog(SwingUtilities.getWindowAncestor(this));
 		File openFile = fileChooser.getSelectedFile();
 
 		if (result == JFileChooser.APPROVE_OPTION) {
