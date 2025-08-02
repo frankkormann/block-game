@@ -429,15 +429,51 @@ public class PhysicsSimulator {
 		// this
 		for (MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).first == rect) {
-//				int[] checkCollision = calculateCollision(rect, c);
-//				if (checkCollision[0] == 0 && checkCollision[1] == 0) {
-//					continue;
-//				}
+
 				pullback(rect, c, collisionMap);
 			}
 		}
 
 		return pushedAmount;
+	}
+
+	/**
+	 * Called by {@link#propagateCollision} to traverse through
+	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull
+	 * the rectangles associated with {@code other} back to {@code other}.
+	 * 
+	 * @param rect         {@code Rectangle} to align with
+	 * @param other        {@code Rectangle} to pull back
+	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how
+	 *                     much it was pushed in each direction
+	 */
+	private void pullback(Rectangle rect, MovingRectangle other,
+			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
+		int xChange = 0;
+		int yChange = 0;
+
+		int[] pushedAmount = collisionMap.get(other).second;
+
+		if (pushedAmount[1] == 0) {  // not pushed in y direction -> x collision
+			xChange = pullToX(rect, other);
+		}
+		else {
+			yChange = pullToY(rect, other);
+		}
+
+		if (Math.abs(xChange) > Math.abs(pushedAmount[0])) {
+			xChange = -pushedAmount[0];
+		}
+		if (Math.abs(yChange) > Math.abs(pushedAmount[1])) {
+			yChange = -pushedAmount[1];
+		}
+		other.moveCollision(xChange, yChange);
+
+		for (MovingRectangle c : collisionMap.keySet()) {
+			if (collisionMap.get(c).first == other) {
+				pullback(other, c, collisionMap);
+			}
+		}
 	}
 
 	/**
@@ -713,45 +749,6 @@ public class PhysicsSimulator {
 		}
 
 		return movement;
-	}
-
-	/**
-	 * Called by {@link#propagateCollision} to traverse through
-	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull
-	 * the rectangles associated with {@code other} back to {@code other}.
-	 * 
-	 * @param rect         {@code Rectangle} to align with
-	 * @param other        {@code Rectangle} to pull back
-	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how
-	 *                     much it was pushed in each direction
-	 */
-	private void pullback(Rectangle rect, MovingRectangle other,
-			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
-		int xChange = 0;
-		int yChange = 0;
-
-		int[] pushedAmount = collisionMap.get(other).second;
-
-		if (pushedAmount[1] == 0) {  // not pushed in y direction -> x collision
-			xChange = pullToX(rect, other);
-		}
-		else {
-			yChange = pullToY(rect, other);
-		}
-
-		if (Math.abs(xChange) > Math.abs(pushedAmount[0])) {
-			xChange = -pushedAmount[0];
-		}
-		if (Math.abs(yChange) > Math.abs(pushedAmount[1])) {
-			yChange = -pushedAmount[1];
-		}
-		other.moveCollision(xChange, yChange);
-
-		for (MovingRectangle c : collisionMap.keySet()) {
-			if (collisionMap.get(c).first == other) {
-				pullback(other, c, collisionMap);
-			}
-		}
 	}
 
 	/**
