@@ -294,8 +294,7 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Resizes this frame's preferred bounds, scaling resizes so the result is
-	 * the same no matter how this is scaled. The amount of each resize is
+	 * Resizes this frame's preferred bounds. The amount of each resize is
 	 * applied to the ideal size of this frame, not taking into account scaling.
 	 * 
 	 * @param resizes Map from {@code Direction} of each resize to change amount
