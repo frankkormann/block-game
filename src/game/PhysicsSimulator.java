@@ -429,6 +429,10 @@ public class PhysicsSimulator {
 		// this
 		for (MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).first == rect) {
+//				int[] checkCollision = calculateCollision(rect, c);
+//				if (checkCollision[0] == 0 && checkCollision[1] == 0) {
+//					continue;
+//				}
 				pullback(rect, c, collisionMap);
 			}
 		}
@@ -719,9 +723,7 @@ public class PhysicsSimulator {
 	 * @param rect         {@code Rectangle} to align with
 	 * @param other        {@code Rectangle} to pull back
 	 * @param collisionMap {@code Map} of each {@code MovingRectangle} to how
-	 *                     much it was pushed by in each direction
-	 * @param direction    boolean representing direction; {@code true} for x
-	 *                     and {@code false} for y
+	 *                     much it was pushed in each direction
 	 */
 	private void pullback(Rectangle rect, MovingRectangle other,
 			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
