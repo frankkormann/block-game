@@ -116,14 +116,14 @@ public class PhysicsSimulator {
 	 * all {@code Areas} that need to be applied.
 	 * 
 	 * @param movementInputs {@code Set} of {@code Input}s from the player this
-	 *                   frame
-	 * @param width      Width of the play area
-	 * @param height     Height of the play area
-	 * @param xOffset    X coordinate of top left corner
-	 * @param yOffset    Y coordinate of top left corner
+	 *                       frame
+	 * @param width          Width of the play area
+	 * @param height         Height of the play area
+	 * @param xOffset        X coordinate of top left corner
+	 * @param yOffset        Y coordinate of top left corner
 	 */
-	public void updateAndMoveObjects(Set<MovementInput> movementInputs, int width,
-			int height, int xOffset, int yOffset) {
+	public void updateAndMoveObjects(Set<MovementInput> movementInputs,
+			int width, int height, int xOffset, int yOffset) {
 
 		applyInputsToPlayerRectangles(movementInputs);
 		moveAllMovingRectangles();
@@ -136,10 +136,11 @@ public class PhysicsSimulator {
 	 * {@code isControlledByPlayer() == true} according to the player's
 	 * {@code Input}s.
 	 * 
-	 * @param movementInputs {@code Set} of {@code Input}s which are pressed on this
-	 *                   frame
+	 * @param movementInputs {@code Set} of {@code Input}s which are pressed on
+	 *                       this frame
 	 */
-	private void applyInputsToPlayerRectangles(Set<MovementInput> movementInputs) {
+	private void applyInputsToPlayerRectangles(
+			Set<MovementInput> movementInputs) {
 		for (MovingRectangle rect : movingRectangles) {
 			if (!rect.isControlledByPlayer()) {
 				continue;
@@ -413,8 +414,7 @@ public class PhysicsSimulator {
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
 			if (collisionData[0] != 0) {  // rect should only be pushed back in
-										  // the
-										  // direction it pushed other
+										  // the direction it pushed other
 				rect.moveCollision(pushback[0], 0);
 				pushedAmount[0] += pushback[0];
 			}
