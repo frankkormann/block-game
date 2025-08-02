@@ -54,6 +54,29 @@ public class ParameterChangerPanel extends JPanel
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		createSliderSpinners();
+		add(createSlidersPanel());
+		add(createUndoResetButtonPanel());
+
+		Window window = SwingUtilities.getWindowAncestor(rootPane);
+		window.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				cleanUp();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				cleanUp();
+			}
+		});
+		paramMapper.addListener(this);
+	}
+
+	/**
+	 * Creates a {@code SliderSpinner} for each parameter.
+	 */
+	private void createSliderSpinners() {
 		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 1000, 5, false,
 				"ms");
 		bindSliderSpinner(gameSpeed, Parameter.GAME_SPEED);
@@ -78,23 +101,6 @@ public class ParameterChangerPanel extends JPanel
 		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 200, 5,
 				false, "px");
 		bindSliderSpinner(resizingAreaWidth, Parameter.RESIZING_AREA_WIDTH);
-
-		add(createSlidersPanel());
-		add(createUndoResetButtonPanel());
-
-		Window window = SwingUtilities.getWindowAncestor(rootPane);
-		window.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				cleanUp();
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				cleanUp();
-			}
-		});
-		paramMapper.addListener(this);
 	}
 
 	/**
