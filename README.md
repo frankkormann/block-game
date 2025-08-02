@@ -125,7 +125,8 @@ These options are also available from the menu bar.
 ### Reporting a bug
 
 If you encounter a bug, press `Control + Shift + S` to save a recording of the
-current level. Then open an issue on this GitHub page and include:
+current level. Then open an issue on this GitHub page and include as much as
+much as you can:
 
 - The full copied text of any error message you received, if there was an error
   message. Make sure to click "Details" for the full text
