@@ -23,7 +23,7 @@ public class SwitchRectangle extends MovingRectangle {
 			@JsonProperty("key") String key) {
 		super(x, y, width, height, color);
 		this.key = key;
-		isActive = true;
+		isActive = false;
 	}
 
 	@Override
@@ -50,10 +50,23 @@ public class SwitchRectangle extends MovingRectangle {
 		return key;
 	}
 
+	/**
+	 * Returns whether this is "active" or not.
+	 * 
+	 * @return activity status
+	 * 
+	 * @see #setActive(boolean)
+	 */
 	public boolean isActive() {
 		return isActive;
 	}
 
+	/**
+	 * Sets whether this is "active" or not. When this is not "active", it
+	 * cannot interact with other {@code Rectangle}s or move.
+	 * 
+	 * @param active whether it should be "active"
+	 */
 	public void setActive(boolean active) {
 		isActive = active;
 		getAttachments().forEach(a -> a.setActive(active));
