@@ -56,6 +56,7 @@ public class SwitchRectangle extends MovingRectangle {
 
 	public void setActive(boolean active) {
 		isActive = active;
+		getAttachments().forEach(a -> a.setActive(active));
 	}
 
 }

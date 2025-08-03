@@ -21,10 +21,12 @@ import java.util.Set;
 public abstract class Area extends Rectangle {
 
 	private Set<MovingRectangle> rectsInside;
+	private boolean isActive;
 
 	public Area(int x, int y, int width, int height, Colors colorEnum) {
 		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 		rectsInside = new HashSet<>();
+		isActive = true;
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public abstract class Area extends Rectangle {
 		boolean alreadyInside = rectsInside.contains(rect);
 		boolean intersects = intersectsX(rect) && intersectsY(rect);
 
-		if (alreadyInside && !intersects) {
+		if (!isActive || (alreadyInside && !intersects)) {
 			rectsInside.remove(rect);
 			onExit(rect);
 		}
@@ -85,6 +87,17 @@ public abstract class Area extends Rectangle {
 		if (rectsInside.contains(rect)) {
 			everyFrame(rect);
 		}
+	}
+
+	/**
+	 * Sets whether this affects {@code MovingRectangle}s or not. If a
+	 * {@code MovingRectangle} is already inside this when it becomes inactive,
+	 * {@code onExit} is called on it on the next frame.
+	 * 
+	 * @param active {@code true} if this should affect {@code MovingRectangle}s
+	 */
+	public void setActive(boolean active) {
+		isActive = active;
 	}
 
 }
