@@ -14,6 +14,7 @@ public class SwitchRectangle extends MovingRectangle {
 
 	private String key;
 	private boolean isActive;
+	private boolean wasActive;
 
 	@JsonCreator
 	public SwitchRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
@@ -70,6 +71,13 @@ public class SwitchRectangle extends MovingRectangle {
 	public void setActive(boolean active) {
 		isActive = active;
 		getAttachments().forEach(a -> a.setActive(active));
+	}
+
+	@Override
+	public boolean hasMoved() {
+		boolean becameActive = (!wasActive && isActive);
+		wasActive = isActive;
+		return super.hasMoved() || becameActive;
 	}
 
 }
