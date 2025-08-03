@@ -28,6 +28,12 @@ public class SwitchRectangle extends MovingRectangle {
 	}
 
 	@Override
+	public void updateLastPosition() {
+		super.updateLastPosition();
+		wasActive = isActive;
+	}
+
+	@Override
 	public boolean canInteract(Rectangle other) {
 		return isActive;
 	}
@@ -74,9 +80,7 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean hasMoved() {
-		boolean becameActive = (!wasActive && isActive);
-		wasActive = isActive;
-		return super.hasMoved() || becameActive;
+		return super.hasMoved() || (!wasActive && isActive);
 	}
 
 }
