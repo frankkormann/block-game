@@ -117,6 +117,16 @@ public class SwitchRectangle extends MovingRectangle {
 	}
 
 	@Override
+	public boolean intersectsX(Rectangle other) {
+		return isActive && super.intersectsX(other);
+	}
+
+	@Override
+	public boolean intersectsY(Rectangle other) {
+		return isActive && super.intersectsY(other);
+	}
+
+	@Override
 	public boolean usedToIntersectX(Rectangle other) {
 		return wasActive && super.usedToIntersectX(other);
 	}
