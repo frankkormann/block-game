@@ -91,7 +91,9 @@ public abstract class ValueChangerPanel<T> extends JPanel
 	 * @param enumValue value to bind to in {@code Mapper}
 	 */
 	private void bindComponent(GetterSetter<T> component, Enum<?> enumValue) {
-		component.set(mapper.get(enumValue));
+		if (mapper.get(enumValue) != null) {
+			component.set(mapper.get(enumValue));
+		}
 		component.addChangeListener(
 				() -> mapper.set(enumValue, component.get()));
 		enumToGetterSetter.put(enumValue, component);

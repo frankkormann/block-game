@@ -30,7 +30,7 @@ public class ParameterMapper extends Mapper<Number> {
 		/**
 		 * Opacity to use for the inside of {@code HintRectangle}s
 		 */
-		HINT_OPACITY,
+		OPACITY_MULTIPLIER,
 		/**
 		 * Number of units to move a side by with each keyboard resizing input
 		 */
@@ -75,7 +75,7 @@ public class ParameterMapper extends Mapper<Number> {
 	 * @return value as {@code int}
 	 */
 	public int getInt(Enum<?> parameter) {
-		return get(parameter).intValue();
+		return get(parameter) == null ? 0 : get(parameter).intValue();
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class ParameterMapper extends Mapper<Number> {
 	 * @return value as {@code float}
 	 */
 	public float getFloat(Enum<?> parameter) {
-		return get(parameter).floatValue();
+		return get(parameter) == null ? 0 : get(parameter).floatValue();
 	}
 
 }
