@@ -1,22 +1,17 @@
 package game;
 
 import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.HashMap;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
 
 import game.Rectangle.Colors;
 
@@ -27,16 +22,10 @@ import game.Rectangle.Colors;
  * 
  * @author Frank Kormann
  */
-public class ColorChangerPanel extends JPanel implements ValueChangeListener {
-
-	private static final String UNDO_TEXT = "Undo changes";
-	private static final String RESET_TEXT = "Reset to defaults";
+public class ColorChangerPanel extends ValueChangerPanel<Integer> {
 
 	private static final int VERTICAL_SPACE = 3;
 	private static final Colors DISALLOW_CHANGING = Colors.TRANSPARENT;
-
-	private ColorMapper colorMapper;
-	private Map<Colors, JButton> colorToButton;
 
 	/**
 	 * Creates a {@code ColorChangePanel} which will change the color mappings
@@ -47,122 +36,45 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 	 * @param colorMapper {@code ColorMapper} to alter
 	 */
 	public ColorChangerPanel(JRootPane rootPane, ColorMapper colorMapper) {
-		super();
-		this.colorMapper = colorMapper;
-		colorToButton = new HashMap<>();
-
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		add(createColorsPanel(Colors.values()));
-		add(createUndoResetButtonsPanel());
-
-		Window window = SwingUtilities.getWindowAncestor(rootPane);
-		window.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				cleanUp();
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				cleanUp();
-			}
-		});
-		colorMapper.addListener(this);
+		super(rootPane, colorMapper);
 	}
 
-	/**
-	 * Creates a {@code JPanel} with a {@code JButton} to undo temporary color
-	 * changes and a {@code JButton} to reset colors to defaults.
-	 * 
-	 * @return the {@code JPanel}
-	 */
-	private JPanel createUndoResetButtonsPanel() {
-		JPanel panel = new JPanel();
-
-		JButton undoButton = new JButton(UNDO_TEXT);
-		undoButton.addActionListener(e -> {
-			colorMapper.reload();
-		});
-
-		JButton resetButton = new JButton(RESET_TEXT);
-		resetButton.addActionListener(e -> {
-			colorMapper.setToDefaults();
-		});
-
-		panel.add(undoButton);
-		panel.add(resetButton);
-
-		return panel;
+	@Override
+	protected GetterSetter<Integer> createGetterSetter(Enum<?> enumValue) {
+		return new ColorButton();
 	}
 
-	/**
-	 * Creates a {@code JPanel} which displays all the colors in {@code colors}
-	 * with a {@code JButton} to rebind them.
-	 * 
-	 * @param colors enum values to display
-	 * 
-	 * @return the {@code JPanel}
-	 */
-	private JPanel createColorsPanel(Colors[] colors) {
+	@Override
+	protected JPanel createGetterSetterPanel(
+			Map<Enum<?>, GetterSetter<Integer>> getterSetters) {
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setLayout(new GridBagLayout());
 
-		for (Colors color : colors) {
-			if (color == DISALLOW_CHANGING) {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridy = 0;
+		c.insets = new Insets(VERTICAL_SPACE, 0, 0, 0);
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+
+		for (Colors color : Colors.values()) {
+			if (!getterSetters.containsKey(color)
+					|| color == DISALLOW_CHANGING) {
 				continue;
 			}
-			panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
-			panel.add(createButtonPanel(color));
-			panel.setAlignmentX(CENTER_ALIGNMENT);
+
+			JLabel label = new JLabel(colorToName(color));
+			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+
+			c.gridx = 0;
+			panel.add(label, c);
+			c.gridx = 1;
+			panel.add((ColorButton) getterSetters.get(color), c);
+
+			c.gridy++;
 		}
 
 		return panel;
-	}
-
-	/**
-	 * Creates a {@code JPanel} for {@code color}. It contains a {@code JLabel}
-	 * with {@code color}'s name and a {@code JButton} to rebind it.
-	 * 
-	 * @param color enum value to create a {@code JPanel} for
-	 * 
-	 * @return the {@code JPanel}
-	 */
-	private JPanel createButtonPanel(Colors color) {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 2, 10, 10));
-
-		JLabel label = new JLabel(colorToName(color));
-		label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
-
-		panel.add(label);
-		panel.add(createButtonForColor(color));
-
-		return panel;
-	}
-
-	/**
-	 * Creates a {@code JButton} which will rebind {@code color}.
-	 * 
-	 * @param color enum value to rebind
-	 * 
-	 * @return the {@code JButton}
-	 */
-	private JButton createButtonForColor(Colors color) {
-		JButton button = new JButton();
-		button.setBackground(colorMapper.getColor(color));
-		button.addActionListener(e -> {
-			Color newColor = JColorChooser.showDialog(this, "Choose New Color",
-					colorMapper.getColor(color));
-			if (newColor != null) {
-				colorMapper.setColor(color, newColor);
-				button.setBackground(newColor);
-			}
-		});
-
-		colorToButton.put(color, button);
-
-		return button;
 	}
 
 	/**
@@ -185,23 +97,38 @@ public class ColorChangerPanel extends JPanel implements ValueChangeListener {
 		return asString.substring(1);  // Remove leading space
 	}
 
-	private void cleanUp() {
-		colorMapper.removeListener(this);
-		colorMapper.save();
-	}
+	/**
+	 * {@code JButton} that pops up a {@code JColorChooser} when it is activated
+	 * and sets its background color to the result.
+	 */
+	private class ColorButton extends JButton implements GetterSetter<Integer> {
 
-	@Override
-	public void valueChanged(Enum<?> key, Object newValue) {
-		if (colorToButton.containsKey(key)) {
-			colorToButton.get(key).setBackground(colorMapper.getColor(key));
+		private ColorButton() {
+			super();
+			addActionListener(e -> {
+				Color newColor = JColorChooser.showDialog(this,
+						"Choose New Color", getBackground());
+				if (newColor != null) {
+					setBackground(newColor);
+				}
+			});
 		}
-	}
 
-	@Override
-	public void valueRemoved(Enum<?> key) {
-		if (colorToButton.containsKey(key)) {
-			colorToButton.get(key).setBackground(new Color(0, 0, 0, 0));
+		@Override
+		public Integer get() {
+			return getBackground().getRGB();
 		}
+
+		@Override
+		public void set(Integer value) {
+			setBackground(new Color(value, true));
+		}
+
+		@Override
+		public void addChangeListener(Runnable runnable) {
+			addPropertyChangeListener("background", e -> runnable.run());
+		}
+
 	}
 
 }

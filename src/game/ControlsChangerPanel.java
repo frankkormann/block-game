@@ -4,14 +4,10 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -22,7 +18,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
 
 import game.GameInputHandler.DirectionSelectorInput;
 import game.GameInputHandler.MovementInput;
@@ -36,12 +31,11 @@ import game.MenuBar.MetaInput;
  * 
  * @author Frank Kormann
  */
-public class ControlsChangerPanel extends JPanel
-		implements KeyEventDispatcher, KeyListener, ValueChangeListener {
+public class ControlsChangerPanel
+		extends ValueChangerPanel<Pair<Integer, Integer>>
+		implements KeyEventDispatcher, KeyListener {
 
 	private static final String REBIND_INSTRUCTIONS = "Type a new key";
-	private static final String UNDO_TEXT = "Undo changes";
-	private static final String RESET_TEXT = "Reset to defaults";
 
 	private static final String MOVEMENT_CONTROLS_TITLE = "Movement";
 	private static final String RESIZING_CONTROLS_TITLE = "Window Resizing";
@@ -51,7 +45,6 @@ public class ControlsChangerPanel extends JPanel
 
 	private InputMapper inputMapper;
 	private Enum<?> currentlyRebindingInput;
-	private Map<Enum<?>, JButton> inputToButton;
 
 	/**
 	 * Creates a {@code ControlsChangerPanel} which will change the keybinds in
@@ -62,50 +55,45 @@ public class ControlsChangerPanel extends JPanel
 	 * @param inputMapper {@code InputMapper} to alter
 	 */
 	public ControlsChangerPanel(JRootPane rootPane, InputMapper inputMapper) {
-		super();
+		super(rootPane, inputMapper);
 		this.inputMapper = inputMapper;
 		currentlyRebindingInput = null;
-		inputToButton = new HashMap<>();
 
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(this);
+	}
 
-		JPanel resizingControlsPanel = new JPanel();
-		resizingControlsPanel.setLayout(
-				new BoxLayout(resizingControlsPanel, BoxLayout.Y_AXIS));
-		resizingControlsPanel
-				.add(createInputsPanel(DirectionSelectorInput.values()));
-		resizingControlsPanel.add(createInputsPanel(ResizingInput.values()));
+	@Override
+	protected GetterSetter<Pair<Integer, Integer>> createGetterSetter(
+			Enum<?> enumValue) {
+		return new InputButton(enumValue);
+	}
+
+	@Override
+	protected JPanel createGetterSetterPanel(
+			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> getterSetters) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		Pair<JPanel, JComboBox<String>> cardsPanelComponents = createCardsPanel(
-				new Pair<>(createInputsPanel(MovementInput.values()),
+				new Pair<>(
+						createInputsPanel(getterSetters,
+								MovementInput.values()),
 						MOVEMENT_CONTROLS_TITLE),
-				new Pair<>(resizingControlsPanel, RESIZING_CONTROLS_TITLE),
-				new Pair<>(createInputsPanel(MetaInput.values()),
+				new Pair<>(
+						createInputsPanel(getterSetters,
+								DirectionSelectorInput.values(),
+								ResizingInput.values()),
+						RESIZING_CONTROLS_TITLE),
+				new Pair<>(createInputsPanel(getterSetters, MetaInput.values()),
 						META_CONTROLS_TITLE));
 
 		add(Box.createVerticalStrut(VERTICAL_SPACE));
 		add(cardsPanelComponents.second);
 		add(cardsPanelComponents.first);
 		add(Box.createVerticalStrut(VERTICAL_SPACE));
-		add(createUndoResetButtonsPanel());
 
-		Window window = SwingUtilities.getWindowAncestor(rootPane);
-		window.addKeyListener(this);
-		window.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				cleanUp();
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				cleanUp();
-			}
-		});
-		inputMapper.addListener(this);
-
-		KeyboardFocusManager.getCurrentKeyboardFocusManager()
-				.addKeyEventDispatcher(this);
+		return panel;
 	}
 
 	/**
@@ -146,130 +134,42 @@ public class ControlsChangerPanel extends JPanel
 	}
 
 	/**
-	 * Creates a {@code JPanel} with a {@code JButton} to undo temporary keybind
-	 * changes and a {@code JButton} to reset keybinds to defaults.
+	 * Creates a {@code JPanel} which displays all the inputs in
+	 * {@code inputsList} with a {@code InputButton} to rebind them.
+	 * 
+	 * @param inputButtons {@code Map} of enum values to their
+	 *                     {@code InputButton}
+	 * @param inputsList   enum values to display
 	 * 
 	 * @return the {@code JPanel}
 	 */
-	private JPanel createUndoResetButtonsPanel() {
-		JPanel panel = new JPanel();
-
-		JButton undoButton = new JButton(UNDO_TEXT);
-		undoButton.addActionListener(e -> {
-			inputMapper.reload();
-		});
-
-		JButton resetButton = new JButton(RESET_TEXT);
-		resetButton.addActionListener(e -> {
-			inputMapper.setToDefaults();
-		});
-
-		panel.add(undoButton);
-		panel.add(resetButton);
-
-		return panel;
-	}
-
-	/**
-	 * Creates a {@code JPanel} which displays all the inputs in {@code inputs}
-	 * with a {@code JButton} to rebind them.
-	 * 
-	 * @param inputs enum values to display
-	 * 
-	 * @return the {@code JPanel}
-	 */
-	private JPanel createInputsPanel(Enum<?>[] inputs) {
+	private JPanel createInputsPanel(
+			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> inputButtons,
+			Enum<?>[]... inputsList) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		for (Enum<?> input : inputs) {
-			panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
-			panel.add(createButtonPanel(input));
-			panel.setAlignmentX(CENTER_ALIGNMENT);
+		for (Enum<?>[] inputs : inputsList) {
+			for (Enum<?> input : inputs) {
+				if (!inputButtons.containsKey(input)) {
+					continue;
+				}
+
+				JPanel inputPanel = new JPanel();
+				inputPanel.setLayout(new GridLayout());
+
+				JLabel label = new JLabel(inputToName(input));
+				label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+
+				inputPanel.add(label);
+				inputPanel.add((InputButton) inputButtons.get(input));
+
+				panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
+				panel.add(inputPanel);
+			}
 		}
 
 		return panel;
-	}
-
-	/**
-	 * Creates a {@code JPanel} for {@code input}. It contains a {@code JLabel}
-	 * with {@code input}'s name and a {@code JButton} to rebind it.
-	 * 
-	 * @param input enum value to create a {@code JPanel} for
-	 * 
-	 * @return the {@code JPanel}
-	 */
-	private JPanel createButtonPanel(Enum<?> input) {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 2, 10, 10));
-
-		JLabel label = new JLabel(inputToName(input));
-		label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
-
-		panel.add(label);
-		panel.add(createButtonForInput(input));
-
-		return panel;
-	}
-
-	/**
-	 * Creates a {@code JButton} which will rebind {@code input}.
-	 * 
-	 * @param input enum value to rebind
-	 * 
-	 * @return the {@code JButton}
-	 */
-	private JButton createButtonForInput(Enum<?> input) {
-		JButton button = new JButton(inputToKeybindString(input));
-		button.addActionListener(e -> {
-			if (currentlyRebindingInput == null) {
-				currentlyRebindingInput = input;
-				button.setText(REBIND_INSTRUCTIONS);
-			}
-			else if (currentlyRebindingInput == input) {
-				currentlyRebindingInput = null;
-				updateButtonText(input);
-			}
-		});
-
-		inputToButton.put(input, button);
-
-		return button;
-	}
-
-	/**
-	 * Sets the text of the button associated with {@code input}.
-	 * 
-	 * @param input enum value for the button
-	 */
-	private void updateButtonText(Enum<?> input) {
-		inputToButton.get(input).setText(inputToKeybindString(input));
-	}
-
-	/**
-	 * Converts {@code input} into a {@code String} that represents its keybind.
-	 * 
-	 * @param input enum value to convert
-	 * 
-	 * @return {@code String} representation of the key presses to trigger it
-	 */
-	private String inputToKeybindString(Enum<?> input) {
-		String asString = "";
-		Pair<Integer, Integer> keybind = inputMapper.get(input);
-
-		if (keybind == null) {
-			return " ";  // Return a space to prevent the button's height from
-		}				 // decreasing
-
-		if (keybind.second != 0) {
-			asString += KeyEvent.getModifiersExText(keybind.second) + "+";
-		}
-		return asString + KeyEvent.getKeyText(keybind.first);
-	}
-
-	private void cleanUp() {
-		inputMapper.removeListener(this);
-		inputMapper.save();
 	}
 
 	/**
@@ -382,20 +282,53 @@ public class ControlsChangerPanel extends JPanel
 	@Override
 	public void keyReleased(KeyEvent e) {}
 
-	/* KeybindChangeListener */
+	/**
+	 * {@code JButton} that displays a keybind.
+	 */
+	private class InputButton extends JButton
+			implements GetterSetter<Pair<Integer, Integer>> {
 
-	@Override
-	public void valueChanged(Enum<?> input, Object newKeybind) {
-		if (inputToButton.containsKey(input)) {
-			updateButtonText(input);
-		}
-	}
+		private Enum<?> input;
+		private Pair<Integer, Integer> keybind;
 
-	@Override
-	public void valueRemoved(Enum<?> input) {
-		if (inputToButton.containsKey(input)) {
-			updateButtonText(input);
+		public InputButton(Enum<?> input) {
+			super();
+			keybind = new Pair<>(0, 0);
+			addActionListener(e -> {
+				if (currentlyRebindingInput == null) {
+					currentlyRebindingInput = input;
+					setText(REBIND_INSTRUCTIONS);
+				}
+				else if (currentlyRebindingInput == input) {
+					currentlyRebindingInput = null;
+					set(get());  // Reset text
+				}
+			});
 		}
+
+		@Override
+		public Pair<Integer, Integer> get() {
+			return keybind;
+		}
+
+		@Override
+		public void set(Pair<Integer, Integer> value) {
+			if (value == null) {
+				setText(" ");
+			}
+			else {
+				setText("");
+				if (value.second != 0) {
+					setText(KeyEvent.getModifiersExText(value.second) + "+");
+				}
+				setText(getText() + KeyEvent.getKeyText(value.first));
+			}
+			keybind = value;
+		}
+
+		@Override
+		public void addChangeListener(Runnable runnable) {}
+
 	}
 
 }

@@ -4,14 +4,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -19,7 +14,6 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeListener;
 
 import game.ParameterMapper.Parameter;
 
@@ -30,16 +24,9 @@ import game.ParameterMapper.Parameter;
  * 
  * @author Frank Kormann
  */
-public class ParameterChangerPanel extends JPanel
-		implements ValueChangeListener {
-
-	private static final String UNDO_TEXT = "Undo changes";
-	private static final String RESET_TEXT = "Reset to defaults";
+public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 
 	private static final int VERTICAL_SPACE = 3;
-
-	private ParameterMapper paramMapper;
-	private Map<Parameter, SliderSpinner> paramToSliderSpinner;
 
 	/**
 	 * Creates a {@code ParameterChangerPanel} which will alter
@@ -50,117 +37,45 @@ public class ParameterChangerPanel extends JPanel
 	 */
 	public ParameterChangerPanel(JRootPane rootPane,
 			ParameterMapper paramMapper) {
-		super();
-		this.paramMapper = paramMapper;
-		paramToSliderSpinner = new HashMap<>();
-
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		createSliderSpinners();
-		add(createSlidersPanel());
-		add(createUndoResetButtonPanel());
-
-		Window window = SwingUtilities.getWindowAncestor(rootPane);
-		window.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				cleanUp();
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				cleanUp();
-			}
-		});
-		paramMapper.addListener(this);
+		super(rootPane, paramMapper);
 	}
 
-	/**
-	 * Creates a {@code SliderSpinner} for each parameter.
-	 */
-	private void createSliderSpinners() {
-		SliderSpinner gameSpeed = new SliderSpinner(1, 100, 1, 60000, 5, false,
-				"ms");
-		bindSliderSpinner(gameSpeed, Parameter.GAME_SPEED);
-
-		SliderSpinner gameScaling = new SliderSpinner(50, 200, 20, 500, 10,
-				true, "%");
-		bindSliderSpinner(gameScaling, Parameter.GAME_SCALING);
-
-		SliderSpinner guiScaling = new SliderSpinner(50, 200, 20, 500, 10, true,
-				"%");
-		bindSliderSpinner(guiScaling, Parameter.GUI_SCALING);
-		guiScaling.setValueIsAdjustingListener(() -> {
-			SwingUtilities.invokeLater(() -> {
-				Window window = SwingUtilities.getWindowAncestor(this);
-				SwingUtilities.updateComponentTreeUI(window);
-				window.pack();
+	@Override
+	protected GetterSetter<Number> createGetterSetter(Enum<?> enumValue) {
+		if (enumValue == Parameter.GAME_SPEED) {
+			return new SliderSpinner(1, 100, 1, 60000, 5, false, "ms");
+		}
+		if (enumValue == Parameter.GAME_SCALING) {
+			return new SliderSpinner(50, 200, 20, 500, 10, true, "%");
+		}
+		if (enumValue == Parameter.GUI_SCALING) {
+			SliderSpinner guiScaling = new SliderSpinner(50, 200, 20, 500, 10,
+					true, "%");
+			guiScaling.setValueIsAdjustingListener(() -> {
+				SwingUtilities.invokeLater(() -> {
+					Window window = SwingUtilities.getWindowAncestor(this);
+					SwingUtilities.updateComponentTreeUI(window);
+					window.pack();
+				});
 			});
-		});
+			return guiScaling;
+		}
+		if (enumValue == Parameter.HINT_OPACITY) {
+			return new SliderSpinner(0, 100, 0, 100, 10, true, "%");
+		}
+		if (enumValue == Parameter.KEYBOARD_RESIZING_AMOUNT) {
+			return new SliderSpinner(1, 10, 1, 50, 1, false, "px");
+		}
+		if (enumValue == Parameter.RESIZING_AREA_WIDTH) {
+			return new SliderSpinner(10, 100, 0, 200, 5, false, "px");
+		}
 
-		SliderSpinner hintOpacity = new SliderSpinner(0, 100, 0, 100, 10, true,
-				"%");
-		bindSliderSpinner(hintOpacity, Parameter.HINT_OPACITY);
-
-		SliderSpinner keyboardingResizingAmount = new SliderSpinner(1, 10, 1,
-				50, 1, false, "px");
-		bindSliderSpinner(keyboardingResizingAmount,
-				Parameter.KEYBOARD_RESIZING_AMOUNT);
-
-		SliderSpinner resizingAreaWidth = new SliderSpinner(10, 100, 0, 200, 5,
-				false, "px");
-		bindSliderSpinner(resizingAreaWidth, Parameter.RESIZING_AREA_WIDTH);
+		return null;
 	}
 
-	/**
-	 * Creates a {@code JPanel} with a {@code JButton} to undo unsaved changes
-	 * and a {@code JButton} to reset values back to defaults.
-	 * 
-	 * @return the {@code JPanel}
-	 */
-	private JPanel createUndoResetButtonPanel() {
-		JPanel panel = new JPanel();
-
-		JButton undoButton = new JButton(UNDO_TEXT);
-		undoButton.addActionListener(e -> {
-			paramMapper.reload();
-		});
-
-		JButton resetButton = new JButton(RESET_TEXT);
-		resetButton.addActionListener(e -> {
-			paramMapper.setToDefaults();
-		});
-
-		panel.add(undoButton);
-		panel.add(resetButton);
-
-		return panel;
-	}
-
-	/**
-	 * Sets {@code sliderSpinner} to stick to and change the value of
-	 * {@code param}.
-	 * 
-	 * @param sliderSpinner {@code SliderSpinner} to bind
-	 * @param param         value to bind to in {@code ParameterMapper}
-	 */
-	private void bindSliderSpinner(SliderSpinner sliderSpinner,
-			Parameter param) {
-		sliderSpinner.setValue(paramMapper.get(param));
-		sliderSpinner.addChangeListener(e -> {
-			paramMapper.set(param, sliderSpinner.getValue());
-		});
-		paramToSliderSpinner.put(param, sliderSpinner);
-	}
-
-	/**
-	 * Creates a {@code JPanel} that contains a {@code JLabel} and the
-	 * {@code SliderSpinner} components for each {@code Parameter} that has been
-	 * bound to a {@code SliderSpinner}.
-	 * 
-	 * @return the {@code JPanel}
-	 */
-	private JPanel createSlidersPanel() {
+	@Override
+	protected JPanel createGetterSetterPanel(
+			Map<Enum<?>, GetterSetter<Number>> getterSetters) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 
@@ -171,7 +86,7 @@ public class ParameterChangerPanel extends JPanel
 		c.weighty = 0.5;
 
 		for (Parameter param : Parameter.values()) {
-			if (!paramToSliderSpinner.containsKey(param)) {
+			if (!getterSetters.containsKey(param)) {
 				continue;
 			}
 
@@ -179,7 +94,8 @@ public class ParameterChangerPanel extends JPanel
 			label.setToolTipText(paramToTooltip(param));
 			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
 
-			SliderSpinner sliderSpinner = paramToSliderSpinner.get(param);
+			SliderSpinner sliderSpinner = (SliderSpinner) getterSetters
+					.get(param);
 
 			c.gridx = 0;
 			panel.add(label, c);
@@ -247,26 +163,11 @@ public class ParameterChangerPanel extends JPanel
 		return param.toString();
 	}
 
-	private void cleanUp() {
-		paramMapper.removeListener(this);
-		paramMapper.save();
-	}
-
-	@Override
-	public void valueChanged(Enum<?> key, Object newValue) {
-		if (paramToSliderSpinner.containsKey(key)) {
-			paramToSliderSpinner.get(key).setValue(paramMapper.get(key));
-		}
-	}
-
-	@Override
-	public void valueRemoved(Enum<?> key) {}
-
 	/**
 	 * Unifies a {@code JSlider} and {@code JSpinner} to coordinate their
 	 * values.
 	 */
-	private class SliderSpinner {
+	private class SliderSpinner implements GetterSetter<Number> {
 
 		private JSlider slider;
 		private JSpinner spinner;
@@ -307,11 +208,11 @@ public class ParameterChangerPanel extends JPanel
 			return spinner;
 		}
 
-		public void setValue(Number value) {
+		public void set(Number value) {
 			int intValue;
 			if (isPercent) {
-				if (Math.abs(value.doubleValue()
-						- getValue().doubleValue()) < 0.01) {
+				if (Math.abs(
+						value.doubleValue() - get().doubleValue()) < 0.01) {
 					return;
 				}
 				intValue = (int) (value.doubleValue() * 100);
@@ -324,15 +225,15 @@ public class ParameterChangerPanel extends JPanel
 			spinner.setValue(intValue);
 		}
 
-		public Number getValue() {
+		public Number get() {
 			if (isPercent) {
 				return (int) spinner.getValue() / 100.0;
 			}
 			return (int) spinner.getValue();
 		}
 
-		public void addChangeListener(ChangeListener listener) {
-			spinner.addChangeListener(listener);
+		public void addChangeListener(Runnable listener) {
+			spinner.addChangeListener(e -> listener.run());
 		}
 
 		public void setValueIsAdjustingListener(Runnable runnable) {
@@ -340,4 +241,5 @@ public class ParameterChangerPanel extends JPanel
 		}
 
 	}
+
 }
