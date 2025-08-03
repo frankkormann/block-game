@@ -51,15 +51,14 @@ public class SwitchRectangle extends MovingRectangle {
 		return key;
 	}
 
-	/**
-	 * Returns whether this is "active" or not.
-	 * 
-	 * @return activity status
-	 * 
-	 * @see #setActive(boolean)
-	 */
-	public boolean isActive() {
-		return isActive;
+	@Override
+	public boolean usedToIntersectX(Rectangle other) {
+		return wasActive && super.usedToIntersectX(other);
+	}
+
+	@Override
+	public boolean usedToIntersectY(Rectangle other) {
+		return wasActive && super.usedToIntersectY(other);
 	}
 
 	/**
