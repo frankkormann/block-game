@@ -90,22 +90,19 @@ public class PhysicsSimulator {
 		}
 	}
 
-	public void addMovingRectangle(MovingRectangle rect) {
+	public void add(MovingRectangle rect) {
 		movingRectangles.add(rect);
 	}
 
-	public void addWall(WallRectangle wall) {
+	public void add(WallRectangle wall) {
 		walls.add(wall);
 	}
 
-	/**
-	 * Note: use {@link#addGoalArea(GoalArea)} for {@code GoalArea}s
-	 */
-	public void addArea(Area area) {
+	public void add(Area area) {
 		areas.add(area);
 	}
 
-	public void addGoalArea(GoalArea goal) {
+	public void add(GoalArea goal) {
 		goals.add(goal);
 	}
 

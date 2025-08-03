@@ -217,25 +217,23 @@ public class GameController extends WindowAdapter
 			else {
 				mainFrame.add(rect, 2);
 			}
-			physicsSimulator.addMovingRectangle(rect);
+			physicsSimulator.add(rect);
 			for (Area attached : rect.getAttachments()) {
-				physicsSimulator.addArea(attached);
+				physicsSimulator.add(attached);
 				mainFrame.add(attached, 0);
 			}
 		}
 
 		for (WallRectangle wall : level.walls) {
-			physicsSimulator.addWall(wall);
+			physicsSimulator.add(wall);
 			mainFrame.add(wall, 3);
 			for (Area attached : wall.getAttachments()) {
-				physicsSimulator.addArea(attached);
+				physicsSimulator.add(attached);
 				mainFrame.add(attached, 0);
 			}
 		}
 
 		for (Area area : level.areas) {
-			physicsSimulator.addArea(area);
-			mainFrame.add(area, 0);
 			if (area instanceof SwitchArea) {
 				SwitchArea switchArea = (SwitchArea) area;
 				for (Entry<SwitchRectangle, String> entry : switchRects
@@ -244,11 +242,16 @@ public class GameController extends WindowAdapter
 						switchArea.addChild(entry.getKey());
 					}
 				}
+				physicsSimulator.add(switchArea);
 			}
+			else {
+				physicsSimulator.add(area);
+			}
+			mainFrame.add(area, 0);
 		}
 
 		for (GoalArea goal : level.goals) {
-			physicsSimulator.addGoalArea(goal);
+			physicsSimulator.add(goal);
 			mainFrame.add(goal, 0);
 		}
 
