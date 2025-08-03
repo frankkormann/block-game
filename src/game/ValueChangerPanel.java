@@ -14,7 +14,11 @@ import javax.swing.SwingUtilities;
 
 /**
  * {@code JPanel} that allows the user to change mappings in a {@code Mapper}.
- * Automatically calls {@code Mapper.save} the parent window is closed.
+ * <p>
+ * This implements the functionality of binding {@code GetterSetter}s to the
+ * {@code Mapper}, creating {@code JButton}s to undo or reset mappings, and
+ * saving mappings once the parent window is closed. Subclasses must define how
+ * to create a {@code GetterSetter} and how to lay out {@code GetterSetter}s.
  * 
  * @author Frank Kormann
  */
