@@ -183,7 +183,6 @@ public class PhysicsSimulator {
 				- r1.getHeight());
 
 		for (MovingRectangle rect : movingRectangles) {
-
 			applyAreas(rect);
 			applyNaturalForces(rect);
 
@@ -653,8 +652,7 @@ public class PhysicsSimulator {
 		boolean inBoundsX = other.intersectsX(rect);
 		boolean inBoundsY = other.intersectsY(rect);
 		// "Used to be" values so Rectangles can tell whether they should be
-		// moved in x
-		// or y direction
+		// moved in x or y direction
 		boolean usedToBeInBoundsX = other.usedToIntersectX(rect);
 		boolean usedToBeInBoundsY = other.usedToIntersectY(rect);
 
@@ -680,8 +678,7 @@ public class PhysicsSimulator {
 		}
 		else {
 			// If other started on one side of this and ended up on the opposite
-			// side,
-			// it must have collided between frames
+			// side, it must have collided between frames
 			int xSign = (int) Math.signum(rect.getX() - other.getX());
 			int ySign = (int) Math.signum(rect.getY() - other.getY());
 			int xOldSign = (int) Math
