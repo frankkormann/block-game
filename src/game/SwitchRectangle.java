@@ -1,9 +1,12 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import game.ParameterMapper.Parameter;
 
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
@@ -121,6 +124,14 @@ public class SwitchRectangle extends MovingRectangle {
 	@Override
 	public boolean usedToIntersectY(Rectangle other) {
 		return wasActive && super.usedToIntersectY(other);
+	}
+
+	@Override
+	public Color getColor() {
+		Color color = super.getColor();
+		return new Color(color.getRed(), color.getGreen(), color.getBlue(),
+				(int) (color.getAlpha() * (isActive ? 1
+						: paramMapper.getFloat(Parameter.OPACITY_MULTIPLIER))));
 	}
 
 	/**
