@@ -39,6 +39,7 @@ public class PhysicsSimulator {
 	private List<MovingRectangle> movingRectangles;
 	private List<WallRectangle> walls;
 	private List<Area> areas;
+	private List<SwitchArea> switchAreas;
 	private List<GoalArea> goals;
 	private Map<Direction, SideRectangle> sideRectangles;
 
@@ -55,6 +56,7 @@ public class PhysicsSimulator {
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
+		switchAreas = new ArrayList<>();
 		goals = new ArrayList<>();
 		sideRectangles = new HashMap<>();
 
@@ -107,6 +109,10 @@ public class PhysicsSimulator {
 		goals.add(goal);
 	}
 
+	public void add(SwitchArea switchArea) {
+		switchAreas.add(switchArea);
+	}
+
 	/**
 	 * This should be called every frame to calculate the next frame.
 	 * <p>
@@ -129,6 +135,14 @@ public class PhysicsSimulator {
 		moveAllMovingRectangles();
 
 		moveAllSides(width, height, xOffset, yOffset);
+	}
+
+	public void applySwitchAreas() {
+		for (SwitchArea area : switchAreas) {
+			for (MovingRectangle rect : movingRectangles) {
+				area.handle(rect);
+			}
+		}
 	}
 
 	/**
@@ -177,6 +191,7 @@ public class PhysicsSimulator {
 	private void moveAllMovingRectangles() {
 
 		movingRectangles.forEach(r -> r.updateLastPosition());
+		applySwitchAreas();
 
 		// sort by distance from bottom of screen for consistency
 		movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight() - r1.getY()
