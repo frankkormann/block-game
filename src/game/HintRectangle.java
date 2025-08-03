@@ -21,8 +21,6 @@ public class HintRectangle extends Rectangle {
 	private static final int OUTLINE_THICKNESS = 2;
 	private static final float BORDER_DARKNESS = 1.2f;
 
-	private static ParameterMapper paramMapper;
-
 	private boolean visible;
 
 	@JsonCreator
@@ -33,10 +31,6 @@ public class HintRectangle extends Rectangle {
 		super(x, y, width, height, colorEnum, ResizeBehavior.STAY);
 
 		visible = false;
-	}
-
-	public static void setParameterMapper(ParameterMapper paramMapper) {
-		HintRectangle.paramMapper = paramMapper;
 	}
 
 	@Override
@@ -56,7 +50,7 @@ public class HintRectangle extends Rectangle {
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
 				getColor().getBlue(), (int) (getColor().getAlpha()
-						* paramMapper.getFloat(Parameter.HINT_OPACITY))));
+						* paramMapper.getFloat(Parameter.OPACITY_MULTIPLIER))));
 
 		g.fillRect(getX() + OUTLINE_THICKNESS, getY() + OUTLINE_THICKNESS,
 				getWidth() - 2 * OUTLINE_THICKNESS,

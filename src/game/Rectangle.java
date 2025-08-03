@@ -112,7 +112,8 @@ public abstract class Rectangle implements Drawable {
 		TRANSLUCENT_YELLOW, TRANSPARENT
 	}
 
-	private static ColorMapper colorMapper;
+	protected static ColorMapper colorMapper;
+	protected static ParameterMapper paramMapper;
 
 	private Colors colorEnum;
 
@@ -134,6 +135,10 @@ public abstract class Rectangle implements Drawable {
 
 	public static void setColorMapper(ColorMapper colorMapper) {
 		Rectangle.colorMapper = colorMapper;
+	}
+
+	public static void setParameterMapper(ParameterMapper paramMapper) {
+		Rectangle.paramMapper = paramMapper;
 	}
 
 	@Override
