@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -204,9 +206,18 @@ public class GameController extends WindowAdapter
 	 */
 	private void loadObjectsFromLevel(Level level) {
 
+		Map<SwitchRectangle, String> switchRects = new HashMap<>();
+
 		for (MovingRectangle rect : level.movingRectangles) {
+			if (rect instanceof SwitchRectangle) {
+				SwitchRectangle switchRect = (SwitchRectangle) rect;
+				switchRects.put(switchRect, switchRect.getKey());
+				mainFrame.add(rect, 1);
+			}
+			else {
+				mainFrame.add(rect, 2);
+			}
 			physicsSimulator.addMovingRectangle(rect);
-			mainFrame.add(rect, 1);
 			for (Area attached : rect.getAttachments()) {
 				physicsSimulator.addArea(attached);
 				mainFrame.add(attached, 0);
@@ -215,7 +226,7 @@ public class GameController extends WindowAdapter
 
 		for (WallRectangle wall : level.walls) {
 			physicsSimulator.addWall(wall);
-			mainFrame.add(wall, 2);
+			mainFrame.add(wall, 3);
 			for (Area attached : wall.getAttachments()) {
 				physicsSimulator.addArea(attached);
 				mainFrame.add(attached, 0);
@@ -225,6 +236,15 @@ public class GameController extends WindowAdapter
 		for (Area area : level.areas) {
 			physicsSimulator.addArea(area);
 			mainFrame.add(area, 0);
+			if (area instanceof SwitchArea) {
+				SwitchArea switchArea = (SwitchArea) area;
+				for (Entry<SwitchRectangle, String> entry : switchRects
+						.entrySet()) {
+					if (entry.getValue().equals(switchArea.getKey())) {
+						switchArea.addChild(entry.getKey());
+					}
+				}
+			}
 		}
 
 		for (GoalArea goal : level.goals) {
