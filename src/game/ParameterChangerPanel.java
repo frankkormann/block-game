@@ -60,7 +60,7 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 			});
 			return guiScaling;
 		}
-		if (enumValue == Parameter.HINT_OPACITY) {
+		if (enumValue == Parameter.OPACITY_MULTIPLIER) {
 			return new SliderSpinner(0, 100, 0, 100, 10, true, "%");
 		}
 		if (enumValue == Parameter.KEYBOARD_RESIZING_AMOUNT) {
@@ -125,8 +125,8 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 				return "Game Scaling";
 			case GUI_SCALING:
 				return "GUI Scaling";
-			case HINT_OPACITY:
-				return "Hint Opacity";
+			case OPACITY_MULTIPLIER:
+				return "Opacity of Transparent Blocks";
 			case KEYBOARD_RESIZING_AMOUNT:
 				return "Keyboard Resizing Rate";
 			case RESIZING_AREA_WIDTH:
@@ -152,8 +152,8 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 				return "Multiplier for size of game objects";
 			case GUI_SCALING:
 				return "Multiplier for size of GUI elements";
-			case HINT_OPACITY:
-				return "Transparency of hint blocks\nLower is more transparent";
+			case OPACITY_MULTIPLIER:
+				return "Alpha multiplier for blocks with transparent parts\nLower is more transparent";
 			case KEYBOARD_RESIZING_AMOUNT:
 				return "Amount the window will be resized with each keyboard input";
 			case RESIZING_AREA_WIDTH:
