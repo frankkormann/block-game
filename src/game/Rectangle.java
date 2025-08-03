@@ -116,19 +116,17 @@ public abstract class Rectangle implements Drawable {
 	protected static ParameterMapper paramMapper;
 
 	private Colors colorEnum;
-
 	private int x, y, width, height;
-	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
-
 	private ResizeBehavior resizeBehavior;
+	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
 
 	public Rectangle(int x, int y, int width, int height, Colors colorEnum,
 			ResizeBehavior resizeBehavior) {
+		this.colorEnum = colorEnum;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.colorEnum = colorEnum;
 		this.resizeBehavior = resizeBehavior;
 		attachedAreas = new ArrayList<>();
 	}
@@ -228,7 +226,7 @@ public abstract class Rectangle implements Drawable {
 	 * Moves and resizes all attached {@code Area}s to conform with their
 	 * attachment options.
 	 */
-	private void updateAttachmentBounds() {
+	private void updateAttachments() {
 
 		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
 			Area attached = areaPair.first;
@@ -347,7 +345,7 @@ public abstract class Rectangle implements Drawable {
 
 	public void setX(int x) {
 		this.x = x;
-		updateAttachmentBounds();
+		updateAttachments();
 	}
 
 	public int getY() {
@@ -365,7 +363,7 @@ public abstract class Rectangle implements Drawable {
 
 	public void setY(int y) {
 		this.y = y;
-		updateAttachmentBounds();
+		updateAttachments();
 	}
 
 	public int getWidth() {
@@ -383,7 +381,7 @@ public abstract class Rectangle implements Drawable {
 
 	public void setWidth(int width) {
 		this.width = width;
-		updateAttachmentBounds();
+		updateAttachments();
 	}
 
 	public int getHeight() {
@@ -401,7 +399,7 @@ public abstract class Rectangle implements Drawable {
 
 	public void setHeight(int height) {
 		this.height = height;
-		updateAttachmentBounds();
+		updateAttachments();
 	}
 
 	public void setResizeBehavior(ResizeBehavior resizeBehavior) {
@@ -429,14 +427,14 @@ public abstract class Rectangle implements Drawable {
 				Arrays.asList(options));
 		attachedAreas.add(
 				new Pair<Area, Set<AttachmentOption>>(attachment, optionsSet));
-		updateAttachmentBounds();
+		updateAttachments();
 	}
 
 	@JsonProperty("attachments")
 	public void addAllAttachments(
 			List<Pair<Area, Set<AttachmentOption>>> attachments) {
 		attachedAreas.addAll(attachments);
-		updateAttachmentBounds();
+		updateAttachments();
 	}
 
 	public List<Area> getAttachments() {
