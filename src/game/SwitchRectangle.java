@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SwitchRectangle extends MovingRectangle {
 
-	private String key;
 	private boolean isActive;
 	private boolean wasActive;
+	private String key;
 
 	@JsonCreator
 	public SwitchRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
