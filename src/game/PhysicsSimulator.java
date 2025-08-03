@@ -134,14 +134,6 @@ public class PhysicsSimulator {
 		moveAllSides(width, height, xOffset, yOffset);
 	}
 
-	public void applySwitchAreas() {
-		for (SwitchArea area : switchAreas) {
-			for (MovingRectangle rect : movingRectangles) {
-				area.handle(rect);
-			}
-		}
-	}
-
 	/**
 	 * Sets the velocities of all {@code MovingRectangle}s with
 	 * {@code isControlledByPlayer() == true} according to the player's
@@ -188,9 +180,9 @@ public class PhysicsSimulator {
 	private void moveAllMovingRectangles() {
 
 		movingRectangles.forEach(r -> r.updateLastPosition());
-		applySwitchAreas();
+		applySwitchAreas();  // Make sure activity doesn't change mid-frame
 
-		// sort by distance from bottom of screen for consistency
+		// Sort by distance from bottom of screen for consistency
 		movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight() - r1.getY()
 				- r1.getHeight());
 
@@ -208,6 +200,14 @@ public class PhysicsSimulator {
 			propagateCollision(rect, movingRectangles, null);
 		}
 
+	}
+
+	public void applySwitchAreas() {
+		for (SwitchArea area : switchAreas) {
+			for (MovingRectangle rect : movingRectangles) {
+				area.handle(rect);
+			}
+		}
 	}
 
 	/**
