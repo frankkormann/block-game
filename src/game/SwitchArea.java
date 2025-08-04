@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +20,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SwitchArea extends Area {
 
+	private static final int TICK_SIZE = 10;
+	private static final int TICK_THICKNESS = 3;
+	private static final float INNER_RECT_DARKNESS = 1.2f;
+
 	private Set<SwitchRectangle> children;
 	private int numberInside;
 	private String key;
@@ -31,6 +37,27 @@ public class SwitchArea extends Area {
 		super(x, y, width, height, colorEnum);
 		this.key = key;
 		children = new HashSet<>();
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		super.draw(g);
+		g = g.create();
+
+		Color inenrRectColor = new Color(
+				(int) (getColor().getRed() / INNER_RECT_DARKNESS),
+				(int) (getColor().getGreen() / INNER_RECT_DARKNESS),
+				(int) (getColor().getBlue() / INNER_RECT_DARKNESS),
+				getColor().getAlpha());
+		g.setColor(inenrRectColor);
+		int innerRectX = getX() + getWidth() * 1 / 4;
+		int innerRectY = getY() + getHeight() * 1 / 4;
+		int innerRectWidth = getWidth() / 2;
+		int innerRectHeight = getHeight() / 2;
+		drawTickedRectangle(g, TICK_SIZE, TICK_THICKNESS, innerRectX,
+				innerRectY, innerRectWidth, innerRectHeight);
+
+		g.dispose();
 	}
 
 	@Override
