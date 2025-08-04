@@ -186,27 +186,35 @@ public abstract class Rectangle implements Drawable {
 	 */
 	protected void drawTickedRectangle(Graphics g, Color emptyColor,
 			int tickSize, int thickness, int x, int y, int width, int height) {
+		g = g.create();
+		g.setClip(x, y, width, height);
 		Color tickColor = g.getColor();
 
 		boolean isEmptyTick = false;
 		for (int tickX = x; tickX < x + width; tickX += tickSize) {
+			g.setColor(isEmptyTick ? emptyColor : tickColor);
+
 			tickX = Math.min(tickX, x + width - tickSize);
 			g.fillRect(tickX, y, tickSize, thickness);
-			g.fillRect(tickX, y + height - thickness, tickSize, thickness);
+			g.fillRect(tickX + tickSize / 2, y + height - thickness, tickSize,
+					thickness);
 
 			isEmptyTick = !isEmptyTick;
-			g.setColor(isEmptyTick ? emptyColor : tickColor);
 		}
 
 		isEmptyTick = false;
 		for (int tickY = y; tickY < y + height; tickY += tickSize) {
+			g.setColor(isEmptyTick ? emptyColor : tickColor);
+
 			tickY = Math.min(tickY, y + height - tickSize);
 			g.fillRect(x, tickY, thickness, tickSize);
-			g.fillRect(x + width - thickness, tickY, thickness, tickSize);
+			g.fillRect(x + width - thickness, tickY + tickSize / 2, thickness,
+					tickSize);
 
 			isEmptyTick = !isEmptyTick;
-			g.setColor(isEmptyTick ? emptyColor : tickColor);
 		}
+
+		g.dispose();
 	}
 
 	/**
