@@ -47,7 +47,8 @@ public class SwitchRectangle extends MovingRectangle {
 				(int) (color.getGreen() / BORDER_DARKNESS),
 				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
 		g.setColor(border);
-		drawTickedOutline(g, BORDER_THICKNESS);
+		drawTickedRectangle(g, TICK_SIZE, BORDER_THICKNESS, getX(), getY(),
+				getWidth(), getHeight());
 
 		g.setColor(color);
 		g.fillRect(getX() + BORDER_THICKNESS, getY() + BORDER_THICKNESS,
@@ -55,36 +56,6 @@ public class SwitchRectangle extends MovingRectangle {
 				getHeight() - 2 * BORDER_THICKNESS);
 
 		g.dispose();
-	}
-
-	private void drawTickedOutline(Graphics g, int thickness) {
-		Graphics innerColor = g.create();
-		innerColor.setColor(getColor());
-		for (int x = getX(); x + TICK_SIZE <= getX() + getWidth(); x += 2
-				* TICK_SIZE) {
-			g.fillRect(x, getY(), TICK_SIZE, thickness);
-			g.fillRect(x, getY() + getHeight() - thickness, TICK_SIZE,
-					thickness);
-			if (x + 2 * TICK_SIZE <= getX() + getWidth()) {
-				innerColor.fillRect(x + TICK_SIZE, getY(), TICK_SIZE,
-						thickness);
-				innerColor.fillRect(x + TICK_SIZE,
-						getY() + getHeight() - thickness, TICK_SIZE, thickness);
-			}
-		}
-		for (int y = getY(); y + TICK_SIZE < getY() + getHeight(); y += 2
-				* TICK_SIZE) {
-			g.fillRect(getX(), y, thickness, TICK_SIZE);
-			g.fillRect(getX() + getWidth() - thickness, y, thickness,
-					TICK_SIZE);
-			if (y + 2 * TICK_SIZE <= getY() + getHeight()) {
-				innerColor.fillRect(getX(), y + TICK_SIZE, thickness,
-						TICK_SIZE);
-				innerColor.fillRect(getX() + getWidth() - thickness,
-						y + TICK_SIZE, thickness, TICK_SIZE);
-			}
-		}
-		innerColor.dispose();
 	}
 
 	@Override

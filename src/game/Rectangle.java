@@ -173,6 +173,45 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
+	 * Draws a ticked outline (looks like - - - - -) of a rectangle.
+	 * 
+	 * @param g         {@code Graphics} to draw with
+	 * @param tickSize  length of each tick mark
+	 * @param thickness width of the outline
+	 * @param x         position of bounding rectangle
+	 * @param y         position of bounding rectangle
+	 * @param width     size of bounding rectangle
+	 * @param height    size of bounding rectangle
+	 */
+	protected void drawTickedRectangle(Graphics g, int tickSize, int thickness,
+			int x, int y, int width, int height) {
+		Graphics innerColor = g.create();
+		innerColor.setColor(getColor());
+		for (int tickX = x; tickX + tickSize <= x + width; tickX += 2
+				* tickSize) {
+			g.fillRect(tickX, y, tickSize, thickness);
+			g.fillRect(tickX, y + height - thickness, tickSize, thickness);
+			if (tickX + 2 * tickSize <= x + width) {
+				innerColor.fillRect(tickX + tickSize, y, tickSize, thickness);
+				innerColor.fillRect(tickX + tickSize, y + height - thickness,
+						tickSize, thickness);
+			}
+		}
+		for (int tickY = y; tickY + tickSize < y + height; tickY += 2
+				* tickSize) {
+			g.fillRect(x, tickY, thickness, tickSize);
+			g.fillRect(x + width - thickness, tickY, thickness, tickSize);
+			if (tickY + 2 * tickSize <= y + height) {
+				innerColor.fillRect(x, tickY + tickSize, thickness, tickSize);
+				innerColor.fillRect(x + width - thickness, tickY + tickSize,
+						thickness, tickSize);
+			}
+		}
+
+		innerColor.dispose();
+	}
+
+	/**
 	 * Draws an arrow pointing at ({@code tipX}, {@code tipY}) in
 	 * {@code direction}.
 	 * <p>
