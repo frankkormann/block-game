@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import game.ParameterMapper.Parameter;
-
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
  * then it cannot interact with other {@code Rectangle}s (except
@@ -41,13 +39,14 @@ public class SwitchRectangle extends MovingRectangle {
 	public void draw(Graphics g) {
 		g = g.create();
 
-		Color color = getColor();
+		Color color = new Color(getColor().getRed(), getColor().getGreen(),
+				getColor().getBlue(), isActive ? 255 : 0);
 
 		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
 				(int) (color.getGreen() / BORDER_DARKNESS),
-				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
+				(int) (color.getBlue() / BORDER_DARKNESS));
 		g.setColor(border);
-		drawTickedRectangle(g, getColor(), TICK_SIZE, BORDER_THICKNESS, getX(),
+		drawTickedRectangle(g, color, TICK_SIZE, BORDER_THICKNESS, getX(),
 				getY(), getWidth(), getHeight());
 
 		g.setColor(color);
@@ -108,14 +107,6 @@ public class SwitchRectangle extends MovingRectangle {
 	public boolean usedToIntersectY(Rectangle other) {
 		return (wasActive || other instanceof SideRectangle)
 				&& super.usedToIntersectY(other);
-	}
-
-	@Override
-	public Color getColor() {
-		Color color = super.getColor();
-		return new Color(color.getRed(), color.getGreen(), color.getBlue(),
-				(int) (color.getAlpha() * (isActive ? 1
-						: paramMapper.getFloat(Parameter.OPACITY_MULTIPLIER))));
 	}
 
 	/**
