@@ -372,8 +372,7 @@ public class PhysicsSimulator {
 	 * @return { Δx, Δy } amount {@code rect} was pushed back
 	 */
 	// parameter collisionMap is used to track which Rectangles pushed each
-	// other
-	// and how much
+	// other and how much
 	private int[] propagateCollision(MovingRectangle rect,
 			List<MovingRectangle> colliders,
 			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
@@ -569,8 +568,7 @@ public class PhysicsSimulator {
 
 		// This does not check whether the fudged collision would push another
 		// MovingRectangle into a wall, but any examples I could think of where
-		// that
-		// would cause a problem are too contrived to worry about
+		// that would cause a problem are too contrived to worry about
 		// Also, implementing that check would be much more difficult
 		if (wouldIntersectAWall(rect, collisionData[0], collisionData[1])) {
 			collisionData = originalMovement;
