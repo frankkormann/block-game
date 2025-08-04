@@ -10,8 +10,9 @@ import game.ParameterMapper.Parameter;
 
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
- * then it cannot interact with other {@code Rectangle}s and it cannot move due
- * to gravity. The key exists to pair it with a {@code SwitchArea}.
+ * then it cannot interact with other {@code Rectangle}s (except
+ * {@code SideRectangle}s) and it cannot move due to gravity. The key exists to
+ * pair it with a {@code SwitchArea}.
  * 
  * @author Frank Kormann
  */
@@ -94,7 +95,7 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean canInteract(Rectangle other) {
-		return isActive;
+		return isActive || other instanceof SideRectangle;
 	}
 
 	@Override
@@ -118,22 +119,24 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean intersectsX(Rectangle other) {
-		return isActive && super.intersectsX(other);
+		return canInteract(other) && super.intersectsX(other);
 	}
 
 	@Override
 	public boolean intersectsY(Rectangle other) {
-		return isActive && super.intersectsY(other);
+		return canInteract(other) && super.intersectsY(other);
 	}
 
 	@Override
 	public boolean usedToIntersectX(Rectangle other) {
-		return wasActive && super.usedToIntersectX(other);
+		return (wasActive || other instanceof SideRectangle)
+				&& super.usedToIntersectX(other);
 	}
 
 	@Override
 	public boolean usedToIntersectY(Rectangle other) {
-		return wasActive && super.usedToIntersectY(other);
+		return (wasActive || other instanceof SideRectangle)
+				&& super.usedToIntersectY(other);
 	}
 
 	@Override
@@ -146,7 +149,8 @@ public class SwitchRectangle extends MovingRectangle {
 
 	/**
 	 * Sets whether this is "active" or not. When this is not "active", it
-	 * cannot interact with other {@code Rectangle}s or move.
+	 * cannot interact with other {@code Rectangle}s (except
+	 * {@code SideRectangle}s) or move.
 	 * 
 	 * @param active whether it should be "active"
 	 */
