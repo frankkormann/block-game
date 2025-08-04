@@ -54,8 +54,8 @@ public class SwitchArea extends Area {
 		int innerRectY = getY() + getHeight() * 1 / 4;
 		int innerRectWidth = getWidth() / 2;
 		int innerRectHeight = getHeight() / 2;
-		drawTickedRectangle(g, TICK_SIZE, TICK_THICKNESS, innerRectX,
-				innerRectY, innerRectWidth, innerRectHeight);
+		drawTickedRectangle(g, new Color(0, 0, 0, 0), TICK_SIZE, TICK_THICKNESS,
+				innerRectX, innerRectY, innerRectWidth, innerRectHeight);
 
 		g.dispose();
 	}

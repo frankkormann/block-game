@@ -47,8 +47,8 @@ public class SwitchRectangle extends MovingRectangle {
 				(int) (color.getGreen() / BORDER_DARKNESS),
 				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
 		g.setColor(border);
-		drawTickedRectangle(g, TICK_SIZE, BORDER_THICKNESS, getX(), getY(),
-				getWidth(), getHeight());
+		drawTickedRectangle(g, getColor(), TICK_SIZE, BORDER_THICKNESS, getX(),
+				getY(), getWidth(), getHeight());
 
 		g.setColor(color);
 		g.fillRect(getX() + BORDER_THICKNESS, getY() + BORDER_THICKNESS,
