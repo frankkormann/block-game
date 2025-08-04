@@ -197,7 +197,7 @@ public abstract class Rectangle implements Drawable {
 						tickSize, thickness);
 			}
 		}
-		for (int tickY = y; tickY + tickSize < y + height; tickY += 2
+		for (int tickY = y; tickY + tickSize <= y + height; tickY += 2
 				* tickSize) {
 			g.fillRect(x, tickY, thickness, tickSize);
 			g.fillRect(x + width - thickness, tickY, thickness, tickSize);
