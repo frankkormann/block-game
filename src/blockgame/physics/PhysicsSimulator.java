@@ -182,6 +182,18 @@ public class PhysicsSimulator {
 		movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight() - r1.getY()
 				- r1.getHeight());
 
+		// TODO Clean this up
+		for (MovingRectangle rect : movingRectangles) {
+			if (rect instanceof SwitchRectangle
+					&& ((SwitchRectangle) rect).becameActive()) {
+				applyAreas(rect);
+				applyNaturalForces(rect);
+
+				new CollisionPropagator(rect, movingRectangles, walls,
+						sides.values()).propagateCollision();
+			}
+		}
+
 		for (MovingRectangle rect : movingRectangles) {
 			applyAreas(rect);
 			applyNaturalForces(rect);
