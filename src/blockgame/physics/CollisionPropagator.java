@@ -360,12 +360,14 @@ public class CollisionPropagator {
 
 		int xChange = 0;
 		int yChange = 0;
-		boolean inBoundsX = rect.intersectsX(other);
-		boolean inBoundsY = rect.intersectsY(other);
+		boolean inBoundsX = rect.intersectsX(other) && other.intersectsX(rect);
+		boolean inBoundsY = rect.intersectsY(other) && other.intersectsY(rect);
 		// "Used to be" values so Rectangles can tell whether they should be
 		// moved in x or y direction
-		boolean usedToBeInBoundsX = rect.usedToIntersectX(other);
-		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
+		boolean usedToBeInBoundsX = rect.usedToIntersectX(other)
+				&& other.usedToIntersectX(rect);
+		boolean usedToBeInBoundsY = rect.usedToIntersectY(other)
+				&& other.usedToIntersectY(rect);
 
 		if (inBoundsX && inBoundsY) {
 			if (usedToBeInBoundsX) {
