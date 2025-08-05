@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import blockgame.gui.MenuBar.MetaInput;
-import blockgame.input.InputMapper;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.GameInputHandler.ResizingInput;

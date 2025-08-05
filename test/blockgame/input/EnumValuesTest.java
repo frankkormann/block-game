@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import blockgame.input.EnumValues;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.physics.Rectangle.Colors;
 

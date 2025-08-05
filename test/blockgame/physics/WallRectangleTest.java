@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import blockgame.input.ColorMapper;
-import blockgame.physics.Rectangle;
-import blockgame.physics.WallRectangle;
 import blockgame.physics.Rectangle.Colors;
 import blockgame.physics.Rectangle.ResizeBehavior;
 import blockgame.util.SaveManager;

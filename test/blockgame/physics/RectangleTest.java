@@ -8,10 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.AntigravityArea;
-import blockgame.physics.Area;
-import blockgame.physics.Rectangle;
-import blockgame.physics.WallRectangle;
 import blockgame.physics.Rectangle.AttachmentOption;
 
 class RectangleTest {

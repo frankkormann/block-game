@@ -9,9 +9,6 @@ import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
-import blockgame.input.NumberReader;
-import blockgame.input.NumberWriter;
-
 class NumberReaderTest {
 
 	private InputStream fromWriter(byte[] bytes) throws IOException {

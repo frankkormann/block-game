@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import blockgame.gui.DrawingPane;
 import blockgame.util.SaveManager;
 import mocks.DrawableMock;
 

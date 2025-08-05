@@ -10,9 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.Area;
-import blockgame.physics.GroundingArea;
-import blockgame.physics.MovingRectangle;
 import blockgame.physics.MovingRectangle.State;
 
 class MovingRectangleTest {

@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.MovingRectangle;
-import blockgame.physics.ShrinkArea;
-
 class ShrinkAreaTest {
 
 	private static int X_SHRINK = 1;

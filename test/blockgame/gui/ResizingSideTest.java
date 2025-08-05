@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import blockgame.gui.ResizingSide;
 import blockgame.gui.MainFrame.Direction;
 import mocks.ResizableMock;
 

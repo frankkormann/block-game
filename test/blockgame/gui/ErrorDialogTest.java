@@ -22,8 +22,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import blockgame.gui.ErrorDialog;
-
 // These tests will skip if in a headless environment (an environment that doesn't
 // support keyboard, display, etc.)
 class ErrorDialogTest {

@@ -6,9 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.GrowArea;
-import blockgame.physics.MovingRectangle;
-
 class GrowAreaTest {
 
 	private static int X_GROWTH = 1;

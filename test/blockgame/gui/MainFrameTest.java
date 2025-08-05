@@ -16,8 +16,6 @@ import org.junit.jupiter.api.io.TempDir;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import blockgame.Level;
-import blockgame.gui.MainFrame;
-import blockgame.gui.ResizingSide;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.GameInputHandler;
 import blockgame.input.InputMapper;

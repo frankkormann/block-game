@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import blockgame.gui.HintRectangle;
 import blockgame.input.ColorMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.physics.Rectangle;

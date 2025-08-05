@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.GroundingArea;
-import blockgame.physics.MovingRectangle;
 import blockgame.physics.MovingRectangle.State;
 
 class GroundingAreaTest {

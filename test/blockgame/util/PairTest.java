@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 import blockgame.physics.Rectangle;
-import blockgame.util.Pair;
 
 class PairTest {
 

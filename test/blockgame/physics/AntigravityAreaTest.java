@@ -7,9 +7,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.AntigravityArea;
-import blockgame.physics.MovingRectangle;
-
 class AntigravityAreaTest {
 
 	AntigravityArea area;

@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import blockgame.gui.MainFrame.Direction;
-import blockgame.physics.Rectangle;
-import blockgame.physics.SideRectangle;
-import blockgame.physics.WallRectangle;
 import blockgame.physics.Rectangle.ResizeBehavior;
 
 class SideRectangleTest {
