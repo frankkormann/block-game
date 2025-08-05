@@ -72,7 +72,7 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean hasGravity() {
-		return super.hasGravity() && isActive;
+		return isActive && super.hasGravity();
 	}
 
 	@Override
