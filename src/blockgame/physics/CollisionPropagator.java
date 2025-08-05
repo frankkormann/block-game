@@ -3,7 +3,6 @@ package blockgame.physics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -13,26 +12,46 @@ import blockgame.util.Pair;
  * Calculates how to move all other {@code MovingRectangle}s when a
  * {@code MovingRectangle} moves. Takes into account {@code WallRectangle}s and
  * {@code SideRectangle}s which are acting like a wall.
+ * <p>
+ * The intended use of this class is to populate it with {@code Rectangle}s,
+ * call {@link #propagateCollision()} to compute the collision, then throw this
+ * instance away. Calling {@code propagateCollision} multiple times is not
+ * supported and will result in an {@code IllegalStateException}.
  */
 public class CollisionPropagator {
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
 	private static int WALL_COLLISION_LEEWAY_Y = 5;
 
+	private MovingRectangle initialRect;
+	private boolean completed;
+
+	private Collection<MovingRectangle> colliders;
 	private Collection<WallRectangle> walls;
 	private Collection<SideRectangle> sides;
 
 	/**
 	 * Creates a {@code CollisionCalculator} with the given {@code walls} and
 	 * {@code sides}.
+	 * <p>
+	 * {@code colliders}, {@code walls}, and {@code sides} will be unaltered,
+	 * although the {@code MovingRectangle}s within {@code colliders} may be
+	 * moved.
 	 * 
-	 * @param walls {@code WallRectangle}s for {@code MovingRectangle}s to
-	 *              interact with
-	 * @param sides {@code SideRectangle}s for {@code MovingRectangle}s to
-	 *              interact with
+	 * @param thatMoved {@code MovingRectangle} which collision should be
+	 *                  propagated from
+	 * @param colliders {@code MovingRectangle}s for {@code thatMoved} to push
+	 * @param walls     {@code WallRectangle}s for {@code MovingRectangle}s to
+	 *                  interact with
+	 * @param sides     {@code SideRectangle}s for {@code MovingRectangle}s to
+	 *                  interact with
 	 */
-	public CollisionPropagator(Collection<WallRectangle> walls,
-			Collection<SideRectangle> sides) {
+	public CollisionPropagator(MovingRectangle thatMoved,
+			Collection<MovingRectangle> colliders,
+			Collection<WallRectangle> walls, Collection<SideRectangle> sides) {
+		initialRect = thatMoved;
+		completed = false;
+		this.colliders = new ArrayList<>(colliders);
 		this.walls = walls;
 		this.sides = sides;
 	}
@@ -43,34 +62,36 @@ public class CollisionPropagator {
 	 * do not intersect {@code rect}. Acts recursively on each
 	 * {@code MovingRectangle} moved by {@code rect}.
 	 * <p>
-	 * {@code WallRectangle} collisions are calculated before
-	 * {@code MovingRectangle} collisions. If {@code rect} collides with two or
-	 * more {@code MovingRectangles}, an extra alignment step is performed to
-	 * make sure nothing was moved that should not have been.
-	 * <p>
-	 * Note: WallRectangles are read from global
-	 * {@code List<WallRectangle> walls}
+	 * This is intended to be called only once. Repeated calls will result in an
+	 * {@code IllegalStateException}.
 	 * 
-	 * @param rect         {@code MovingRectangle} to propagate collision from
-	 * @param colliders    {@code List} of {@code MovingRectangles} to calculate
-	 *                     collision with
-	 * @param collisionMap Set to {@code null}
+	 * @param rect {@code MovingRectangle} to propagate collision from
 	 * 
 	 * @return { Δx, Δy } amount {@code rect} was pushed back
 	 */
-	// parameter collisionMap is used to track which Rectangles pushed each
-	// other and how much
-	public int[] propagateCollision(MovingRectangle rect,
-			List<MovingRectangle> colliders,
-			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
-
-		if (collisionMap == null) {
-			collisionMap = new HashMap<>();
+	public int[] propagateCollision() {
+		if (completed) {
+			throw new IllegalStateException("Already propagated collision");
 		}
+		completed = true;
+		return propagateCollision(initialRect, colliders, new HashMap<>());
+	}
+
+	/*
+	 * WallRectangle collisions are calculated before MovingRectangle
+	 * collisions. If rect collides with two or more MovingRectangles, an extra
+	 * alignment step is performed to make sure nothing was moved that should
+	 * not have been.
+	 * 
+	 * collisionMap is used to track which MovingRectangles pushed each other
+	 * and how much
+	 */
+	private int[] propagateCollision(MovingRectangle rect,
+			Collection<MovingRectangle> colliders,
+			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
 
 		int[] collisionData;
 		int[] pushedAmount = { 0, 0 };
-		// Copy before removing rect
 		colliders = new ArrayList<>(colliders);
 		colliders.remove(rect);
 
@@ -134,7 +155,7 @@ public class CollisionPropagator {
 	}
 
 	/**
-	 * Called by {@link#propagateCollision} to traverse through
+	 * Called by {@link #propagateCollision} to traverse through
 	 * {@code collisionMap}. Pull {@code other} back to {@code rect} and pull
 	 * the rectangles associated with {@code other} back to {@code other}.
 	 * <p>
