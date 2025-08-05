@@ -3,9 +3,9 @@ package mocks;
 import java.util.HashMap;
 import java.util.Map;
 
-import game.Area;
-import game.MovingRectangle;
-import game.Rectangle;
+import blockgame.physics.Area;
+import blockgame.physics.MovingRectangle;
+import blockgame.physics.Rectangle;
 
 public class AccessibleArea extends Area {
 

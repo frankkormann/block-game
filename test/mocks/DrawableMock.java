@@ -3,7 +3,7 @@ package mocks;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import game.Drawable;
+import blockgame.gui.Drawable;
 
 public class DrawableMock implements Drawable {
 

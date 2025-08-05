@@ -6,9 +6,9 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import game.GetterSetter;
-import game.Mapper;
-import game.ValueChangerPanel;
+import blockgame.input.GetterSetter;
+import blockgame.input.Mapper;
+import blockgame.input.ValueChangerPanel;
 
 public class ValueChangerPanelMock extends ValueChangerPanel<Integer> {
 

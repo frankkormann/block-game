@@ -3,8 +3,8 @@ package mocks;
 import java.util.HashMap;
 import java.util.Map;
 
-import game.MainFrame.Direction;
-import game.Resizable;
+import blockgame.gui.MainFrame.Direction;
+import blockgame.input.Resizable;
 
 public class ResizableMock implements Resizable {
 

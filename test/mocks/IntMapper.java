@@ -2,9 +2,9 @@ package mocks;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import game.EnumValues;
-import game.Mapper;
-import game.Rectangle.Colors;
+import blockgame.input.EnumValues;
+import blockgame.input.Mapper;
+import blockgame.physics.Rectangle.Colors;
 
 public class IntMapper extends Mapper<Integer> {
 

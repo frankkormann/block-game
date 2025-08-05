@@ -1,7 +1,7 @@
 package mocks;
 
-import game.Pair;
-import game.ValueChangeListener;
+import blockgame.Pair;
+import blockgame.input.ValueChangeListener;
 
 public class IntChangeListener implements ValueChangeListener {
 
