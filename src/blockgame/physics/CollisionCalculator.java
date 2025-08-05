@@ -9,6 +9,11 @@ import java.util.stream.Stream;
 
 import blockgame.util.Pair;
 
+/**
+ * Calculates how to move all other {@code MovingRectangle}s when a
+ * {@code MovingRectangle} moves. Takes into account {@code WallRectangle}s and
+ * {@code SideRectangle}s which are acting like a wall.
+ */
 public class CollisionCalculator {
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
@@ -17,6 +22,15 @@ public class CollisionCalculator {
 	private Collection<WallRectangle> walls;
 	private Collection<SideRectangle> sides;
 
+	/**
+	 * Creates a {@code CollisionCalculator} with the given {@code walls} and
+	 * {@code sides}.
+	 * 
+	 * @param walls {@code WallRectangle}s for {@code MovingRectangle}s to
+	 *              interact with
+	 * @param sides {@code SideRectangle}s for {@code MovingRectangle}s to
+	 *              interact with
+	 */
 	public CollisionCalculator(Collection<WallRectangle> walls,
 			Collection<SideRectangle> sides) {
 		this.walls = walls;
