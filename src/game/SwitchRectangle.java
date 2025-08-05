@@ -69,32 +69,8 @@ public class SwitchRectangle extends MovingRectangle {
 	}
 
 	@Override
-	public boolean canPushX() {
-		return isActive;
-	}
-
-	@Override
-	public boolean canPushY() {
-		return isActive;
-	}
-
-	@Override
 	public boolean hasGravity() {
 		return super.hasGravity() && isActive;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	@Override
-	public boolean intersectsX(Rectangle other) {
-		return canInteract(other) && super.intersectsX(other);
-	}
-
-	@Override
-	public boolean intersectsY(Rectangle other) {
-		return canInteract(other) && super.intersectsY(other);
 	}
 
 	@Override
@@ -119,11 +95,19 @@ public class SwitchRectangle extends MovingRectangle {
 	public void setActive(boolean active) {
 		isActive = active;
 		getAttachments().forEach(a -> a.setActive(active));
+		if (!isActive) {
+			setXVelocity(0);
+			setYVelocity(0);
+		}
 	}
 
 	@Override
 	public boolean hasMoved() {
 		return super.hasMoved() || (!wasActive && isActive);
+	}
+
+	public String getKey() {
+		return key;
 	}
 
 }
