@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import game.MainFrame.Direction;
+import game.ParameterMapper.Parameter;
 
 // These tests will skip if in a headless environment (an environment that doesn't
 // support keyboard, display, etc.)
@@ -21,6 +22,7 @@ class MainFrameTest {
 
 	MainFrame mainFrame;
 	Level level;
+	ParameterMapper paramMapper;
 
 	int initialX, initialY, initialWidth, initialHeight;
 
@@ -33,10 +35,11 @@ class MainFrameTest {
 	void setUp() {
 		assumeFalse(GraphicsEnvironment.isHeadless());
 		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
+		paramMapper = new ParameterMapper();
 
 		GameInputHandler inputHandler = new GameInputHandler(new InputMapper(),
-				new ParameterMapper());
-		mainFrame = new MainFrame(inputHandler, new ParameterMapper());
+				paramMapper);
+		mainFrame = new MainFrame(inputHandler, paramMapper);
 
 		level = new Level();
 		level.width = 800;
@@ -118,5 +121,13 @@ class MainFrameTest {
 				}
 			}
 		}
+	}
+
+	@Test
+	void size_changes_correctly_when_scale_changes() {
+		initialWidth = mainFrame.getWidth();
+		paramMapper.set(Parameter.GAME_SCALING, 0.5);
+
+		assertEquals(initialWidth / 2, mainFrame.getWidth(), 50);
 	}
 }
