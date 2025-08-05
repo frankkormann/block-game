@@ -1,4 +1,4 @@
-package mocks;
+package blockgame.mocks;
 
 import java.awt.Color;
 import java.awt.Graphics;

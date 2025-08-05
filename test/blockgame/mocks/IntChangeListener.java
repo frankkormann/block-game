@@ -1,4 +1,4 @@
-package mocks;
+package blockgame.mocks;
 
 import blockgame.input.ValueChangeListener;
 import blockgame.util.Pair;

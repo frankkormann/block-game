@@ -1,4 +1,4 @@
-package mocks;
+package blockgame.mocks;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 

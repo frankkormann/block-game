@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import blockgame.gui.MainFrame.Direction;
-import mocks.ResizableMock;
+import blockgame.mocks.ResizableMock;
 
 class ResizingSideTest {
 

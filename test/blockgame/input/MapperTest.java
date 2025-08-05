@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import blockgame.input.ParameterMapper.Parameter;
+import blockgame.mocks.IntChangeListener;
+import blockgame.mocks.IntMapper;
 import blockgame.physics.Rectangle.Colors;
 import blockgame.util.SaveManager;
-import mocks.IntChangeListener;
-import mocks.IntMapper;
 
 public class MapperTest {
 

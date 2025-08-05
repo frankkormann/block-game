@@ -1,4 +1,4 @@
-package mocks;
+package blockgame.mocks;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import blockgame.mocks.IntMapper;
+import blockgame.mocks.ValueChangerPanelMock;
 import blockgame.physics.Rectangle.Colors;
 import blockgame.util.SaveManager;
-import mocks.IntMapper;
-import mocks.ValueChangerPanelMock;
 
 //These tests will skip if in a headless environment (an environment that doesn't
 //support keyboard, display, etc.)
