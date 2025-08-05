@@ -22,13 +22,12 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": ".MovingRectangle",
 			"x": 110,
 			"y": 430,
 			"width": 30,
 			"height": 60,
-			"color": "RED",
-			"key": "red"
+			"color": "RED"
 		}
 	],
 	"walls": [
@@ -79,17 +78,6 @@
 			"width": 270,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		}
-	],
-	"areas": [
-		{
-			"type": ".SwitchArea",
-			"x": 100,
-			"y": 400,
-			"width": 200,
-			"height": 90,
-			"color": "TRANSLUCENT_RED",
-			"key": "red"
 		}
 	],
 	"goals": [
