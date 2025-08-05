@@ -6,10 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import game.Rectangle.Colors;
 import mocks.AccessibleArea;
@@ -20,8 +22,8 @@ class AreaTest {
 	AccessibleArea area;
 
 	@BeforeEach
-	void setUp() {
-		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
+	void setUp(@TempDir Path dir) {
+		SaveManager.setDirectory(dir.toString());
 		Rectangle.setColorMapper(new ColorMapper());
 		area = new AccessibleArea(0, 0, 10, 10, Colors.BLACK);
 		bufferedImage = new BufferedImage(area.getWidth(), area.getHeight(),

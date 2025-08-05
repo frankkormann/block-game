@@ -6,9 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import game.Rectangle.Colors;
 
@@ -18,8 +20,8 @@ class HintRectangleTest {
 	HintRectangle hint;
 
 	@BeforeEach
-	void setUp() {
-		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
+	void setUp(@TempDir Path dir) {
+		SaveManager.setDirectory(dir.toString());
 		Rectangle.setColorMapper(new ColorMapper());
 		HintRectangle.setParameterMapper(new ParameterMapper());
 		hint = new HintRectangle(0, 0, 10, 10, Colors.BLUE);

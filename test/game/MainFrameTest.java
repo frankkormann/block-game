@@ -6,10 +6,12 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -32,9 +34,9 @@ class MainFrameTest {
 	}
 
 	@BeforeEach
-	void setUp() {
+	void setUp(@TempDir Path dir) {
 		assumeFalse(GraphicsEnvironment.isHeadless());
-		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
+		SaveManager.setDirectory(dir.toString());
 		paramMapper = new ParameterMapper();
 
 		GameInputHandler inputHandler = new GameInputHandler(new InputMapper(),
