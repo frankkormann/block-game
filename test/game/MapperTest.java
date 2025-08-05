@@ -2,13 +2,14 @@ package game;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Path;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,24 +27,35 @@ public class MapperTest {
 
 	Mapper<Integer> mapper;
 
-	@BeforeAll
-	static void setUpFiles(@TempDir Path dir) throws IOException {
+	@BeforeEach
+	void setUp(@TempDir Path dir) {
 		SaveManager.setDirectory(dir.toString());
+		mapper = new IntMapper(SAVE_PATH, DEFAULT_RESOURCE);
+	}
+
+	@Test
+	void creates_new_save_file_if_none_exists() {
+		InputStream saveFile = SaveManager.readFile(SAVE_PATH);
+		assertNotNull(saveFile);
+		try {
+			saveFile.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void reads_from_save_file_when_instantiated() throws IOException {
 		// Create fake savedata
 		BufferedWriter saveWriter = new BufferedWriter(
 				new OutputStreamWriter(SaveManager.writeFile(SAVE_PATH)));
 		saveWriter.write(
 				"{\"values\":{\"TRANSPARENT\": 0,\"DARK_GRAY\": 1,\"GREEN\": 2,\"BLUE\": 3,\"BLACK\": 4,\"GRAY\": 5,\"TRANSLUCENT_BLUE\": 6,\"PLAYER\": 7,\"TRANSLUCENT_RED\": 8,\"GRAY\": 9,\"ORANGE\": 10,\"TRANSLUCENT_GREEN\": 11,\"TRANSLUCENT_YELLOW\": 12,\"TRANSLUCENT_PINK\": 13,\"RED\": 14}}");
 		saveWriter.close();
-	}
 
-	@BeforeEach
-	void setUp() {
 		mapper = new IntMapper(SAVE_PATH, DEFAULT_RESOURCE);
-	}
 
-	@Test
-	void reads_from_save_file_when_instantiated() {
 		assertEquals(3, (int) mapper.get(Colors.BLUE));
 	}
 
@@ -75,17 +87,18 @@ public class MapperTest {
 
 	@Test
 	void doesnt_save_with_reload() {
+		int originalValue = mapper.get(Colors.GREEN);
 		mapper.set(Colors.GREEN, 200);
 		mapper.reload();
 
-		assertEquals(2, (int) mapper.get(Colors.GREEN));
+		assertEquals(originalValue, (int) mapper.get(Colors.GREEN));
 	}
 
 	@Test
 	void can_save() {
 		mapper.set(Colors.BLACK, 74);
 		mapper.save();
-		setUp();
+		mapper = new IntMapper(SAVE_PATH, DEFAULT_RESOURCE);
 
 		assertEquals(74, (int) mapper.get(Colors.BLACK));
 	}
@@ -94,7 +107,8 @@ public class MapperTest {
 	void reads_from_resource_even_after_saving() {
 		mapper.set(Colors.BLACK, 74);
 		mapper.save();
-		setUp();
+
+		mapper = new IntMapper(SAVE_PATH, DEFAULT_RESOURCE);
 		mapper.setToDefaults();
 
 		assertEquals(-16777216, (int) mapper.get(Colors.BLACK));
