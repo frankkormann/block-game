@@ -104,9 +104,14 @@ public class SwitchRectangle extends MovingRectangle {
 		}
 	}
 
-	@Override
-	public boolean hasMoved() {
-		return super.hasMoved() || (!wasActive && isActive);
+	/**
+	 * Returns if this just became active.
+	 * 
+	 * @return {@code true} if this was inactive on the previous frame and is
+	 *         now active
+	 */
+	public boolean becameActive() {
+		return !wasActive && isActive;
 	}
 
 	public String getKey() {
