@@ -2,25 +2,53 @@ package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.event.KeyEvent;
+import java.nio.file.Path;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import game.MainFrame.Direction;
+import game.GameInputHandler.DirectionSelectorInput;
+import game.GameInputHandler.MovementInput;
+import game.GameInputHandler.ResizingInput;
+import game.MenuBar.MetaInput;
 
 public class InputMapperTest {
 
+	InputMapper mapper;
+
+	@BeforeAll
+	static void createSave(@TempDir Path dir) {
+		SaveManager.setDirectory(dir.toString());
+		new InputMapper();
+	}
+
+	@BeforeEach
+	void setUp() {
+		mapper = new InputMapper();
+	}
+
 	@Test
-	void can_get_what_is_set() {
-		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
-		InputMapper inputMapper = new InputMapper();
+	void has_correct_enum_class() {
+		assertEquals(4, mapper.getEnumClasses().length);
+		assertEquals(MovementInput.class, mapper.getEnumClasses()[0]);
+		assertEquals(DirectionSelectorInput.class, mapper.getEnumClasses()[1]);
+		assertEquals(ResizingInput.class, mapper.getEnumClasses()[2]);
+		assertEquals(MetaInput.class, mapper.getEnumClasses()[3]);
+	}
 
-		int keyCode = KeyEvent.VK_A;
-		int modifiers = KeyEvent.SHIFT_DOWN_MASK | KeyEvent.ALT_DOWN_MASK;
-		inputMapper.set(Direction.NORTH, keyCode, modifiers);
+	@Test
+	void has_0_0_for_default_value() {
+		assertEquals(new Pair<Integer, Integer>(0, 0),
+				mapper.getDefaultValue());
+	}
 
-		Pair<Integer, Integer> actual = inputMapper.get(Direction.NORTH);
-		assertEquals(keyCode, actual.first);
-		assertEquals(modifiers, actual.second);
+	@Test
+	void can_set_by_keybind() {
+		Pair<Integer, Integer> testKeybind = new Pair<>(5, 10);
+		mapper.set(MovementInput.UP, testKeybind.first, testKeybind.second);
+
+		assertEquals(testKeybind, mapper.get(MovementInput.UP));
 	}
 }

@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import game.Rectangle.Colors;
 import game.Rectangle.ResizeBehavior;
@@ -17,8 +19,8 @@ class WallRectangleTest {
 	WallRectangle wall;
 
 	@BeforeEach
-	void setUp() {
-		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
+	void setUp(@TempDir Path dir) {
+		SaveManager.setDirectory(dir.toString());
 		Rectangle.setColorMapper(new ColorMapper());
 		wall = new WallRectangle(0, 0, 10, 10);
 		bufferedImage = new BufferedImage(wall.getWidth(), wall.getHeight(),

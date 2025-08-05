@@ -26,4 +26,13 @@ public class Pair<F, S> {
 		this.second = second;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Pair)) {
+			return false;
+		}
+		return first.equals(((Pair) other).first)
+				&& second.equals(((Pair) other).second);
+	}
+
 }

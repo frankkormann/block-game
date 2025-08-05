@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import javax.swing.JLabel;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import game.GameInputHandler.DirectionSelectorInput;
 import game.GameInputHandler.MovementInput;
@@ -30,8 +32,8 @@ class GameInputHandlerTest {
 	Pair<Map<Direction, Integer>, Set<MovementInput>> inputs;
 
 	@BeforeEach
-	void setUp() {
-		SaveManager.setDirectory(System.getProperty("java.io.tmpdir"));
+	void setUp(@TempDir Path dir) {
+		SaveManager.setDirectory(dir.toString());
 		inputMapper = new InputMapper();
 		inputHandler = new GameInputHandler(inputMapper, new ParameterMapper());
 	}
