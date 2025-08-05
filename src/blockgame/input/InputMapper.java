@@ -2,12 +2,12 @@ package blockgame.input;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import blockgame.Pair;
 import blockgame.gui.MenuBar;
 import blockgame.gui.MenuBar.MetaInput;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.GameInputHandler.ResizingInput;
+import blockgame.util.Pair;
 
 /**
  * {@code Mapper} for keyboard inputs. A keyboard input is a

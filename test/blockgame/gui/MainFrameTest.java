@@ -16,7 +16,6 @@ import org.junit.jupiter.api.io.TempDir;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import blockgame.Level;
-import blockgame.SaveManager;
 import blockgame.gui.MainFrame;
 import blockgame.gui.ResizingSide;
 import blockgame.gui.MainFrame.Direction;
@@ -24,6 +23,7 @@ import blockgame.input.GameInputHandler;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
+import blockgame.util.SaveManager;
 
 // These tests will skip if in a headless environment (an environment that doesn't
 // support keyboard, display, etc.)

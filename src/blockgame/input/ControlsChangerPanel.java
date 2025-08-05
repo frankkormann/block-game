@@ -19,12 +19,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import blockgame.Pair;
 import blockgame.gui.MenuBar;
 import blockgame.gui.MenuBar.MetaInput;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.GameInputHandler.ResizingInput;
+import blockgame.util.Pair;
 
 /**
  * {@code JPanel} which allows the user to rebind keyboard inputs in

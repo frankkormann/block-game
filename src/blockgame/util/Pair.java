@@ -1,4 +1,4 @@
-package blockgame;
+package blockgame.util;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;

@@ -1,4 +1,4 @@
-package blockgame;
+package blockgame.util;
 
 import java.io.File;
 import java.io.IOException;

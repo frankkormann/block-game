@@ -12,11 +12,11 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import blockgame.Pair;
 import blockgame.gui.Drawable;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.ColorMapper;
 import blockgame.input.ParameterMapper;
+import blockgame.util.Pair;
 
 /**
  * Holds data for drawing and collisions. Knows how to draw itself and calculate

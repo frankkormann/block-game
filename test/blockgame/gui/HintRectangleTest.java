@@ -12,12 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import blockgame.SaveManager;
 import blockgame.gui.HintRectangle;
 import blockgame.input.ColorMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.physics.Rectangle;
 import blockgame.physics.Rectangle.Colors;
+import blockgame.util.SaveManager;
 
 class HintRectangleTest {
 

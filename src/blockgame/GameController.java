@@ -47,6 +47,8 @@ import blockgame.physics.Rectangle;
 import blockgame.physics.SwitchArea;
 import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
+import blockgame.util.Pair;
+import blockgame.util.SaveManager;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and

@@ -20,8 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import blockgame.Pair;
-import blockgame.SaveManager;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.GameInputHandler;
 import blockgame.input.InputMapper;
@@ -29,6 +27,8 @@ import blockgame.input.ParameterMapper;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.GameInputHandler.ResizingInput;
+import blockgame.util.Pair;
+import blockgame.util.SaveManager;
 
 class GameInputHandlerTest {
 

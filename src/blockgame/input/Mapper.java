@@ -12,8 +12,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import blockgame.SaveManager;
 import blockgame.gui.ErrorDialog;
+import blockgame.util.SaveManager;
 
 /**
  * Maps enumerated values to objects of type {@code T}. The mapping can be

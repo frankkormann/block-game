@@ -1,4 +1,4 @@
-package blockgame;
+package blockgame.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import blockgame.Pair;
 import blockgame.physics.Rectangle;
+import blockgame.util.Pair;
 
 class PairTest {
 

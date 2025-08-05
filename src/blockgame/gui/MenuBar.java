@@ -20,11 +20,11 @@ import javax.swing.event.MenuKeyListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import blockgame.GameController;
-import blockgame.Pair;
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ValueChangeListener;
+import blockgame.util.Pair;
 
 /**
  * {@code JMenuBar} to handle inputs which are not directly related to playing

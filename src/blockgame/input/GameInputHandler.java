@@ -13,10 +13,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import blockgame.Pair;
 import blockgame.gui.ErrorDialog;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.ParameterMapper.Parameter;
+import blockgame.util.Pair;
 
 import java.util.Set;
 

@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import blockgame.Pair;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.physics.MovingRectangle.State;
+import blockgame.util.Pair;
 
 /**
  * Calculate the next position for all {@code Rectangles} every frame.

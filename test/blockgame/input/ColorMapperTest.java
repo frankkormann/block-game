@@ -10,9 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import blockgame.SaveManager;
 import blockgame.input.ColorMapper;
 import blockgame.physics.Rectangle.Colors;
+import blockgame.util.SaveManager;
 
 public class ColorMapperTest {
 
