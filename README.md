@@ -37,9 +37,6 @@ by interacting with the environment in varied, creative ways.
 Download the latest `jar` file from the
 [releases tab](https://github.com/frankkormann/block-game/releases) and run it.
 
-**Note:** The game uses a `save` folder to store savefile information. It is
-recommended to place the `jar` in a new folder before running.
-
 ### Controls
 
 You can change these in the Options menu.
