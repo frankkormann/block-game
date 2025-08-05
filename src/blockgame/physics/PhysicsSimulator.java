@@ -193,7 +193,7 @@ public class PhysicsSimulator {
 
 			rect.moveVelocity();
 
-			new CollisionCalculator(walls, sides.values())
+			new CollisionPropagator(walls, sides.values())
 					.propagateCollision(rect, movingRectangles, null);
 		}
 
@@ -334,7 +334,7 @@ public class PhysicsSimulator {
 
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(true);
 
-		int[] pushedBack = new CollisionCalculator(walls, sides.values())
+		int[] pushedBack = new CollisionPropagator(walls, sides.values())
 				.propagateCollision(side, movingRectangles, null);
 
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(false);

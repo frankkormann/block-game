@@ -14,7 +14,7 @@ import blockgame.util.Pair;
  * {@code MovingRectangle} moves. Takes into account {@code WallRectangle}s and
  * {@code SideRectangle}s which are acting like a wall.
  */
-public class CollisionCalculator {
+public class CollisionPropagator {
 
 	private static int WALL_COLLISION_LEEWAY_X = 4;
 	private static int WALL_COLLISION_LEEWAY_Y = 5;
@@ -31,7 +31,7 @@ public class CollisionCalculator {
 	 * @param sides {@code SideRectangle}s for {@code MovingRectangle}s to
 	 *              interact with
 	 */
-	public CollisionCalculator(Collection<WallRectangle> walls,
+	public CollisionPropagator(Collection<WallRectangle> walls,
 			Collection<SideRectangle> sides) {
 		this.walls = walls;
 		this.sides = sides;
