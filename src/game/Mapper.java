@@ -106,7 +106,7 @@ public abstract class Mapper<T> {
 	 * 
 	 * @throws IOException if an I/O error occurs
 	 */
-	public void load(InputStream stream) throws IOException {
+	private void load(InputStream stream) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setInjectableValues(new InjectableValues.Std()
 				.addValue("enumClasses", getEnumClasses()));
