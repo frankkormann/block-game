@@ -90,4 +90,13 @@ class DrawingPaneTest {
 						drawable.y + drawable.height - 1));
 		assertEquals(otherRGB, bufferedImage.getRGB(other.x, other.y));
 	}
+
+	@Test
+	void scaling_is_applied_properly() {
+		drawingPane.setScale(0.5f);
+		draw();
+
+		assertCornersAreColored(drawable.x / 2, drawable.y / 2,
+				drawable.width / 2, drawable.height / 2);
+	}
 }
