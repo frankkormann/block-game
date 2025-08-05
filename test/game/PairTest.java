@@ -1,6 +1,7 @@
 package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 
@@ -17,5 +18,23 @@ class PairTest {
 
 		assertEquals(first, pair.first);
 		assertEquals(second, pair.second);
+	}
+
+	@Test
+	void are_equal_if_both_values_are_equal() {
+		Pair<Integer, Integer> first = new Pair<>(1, 2);
+		Pair<Integer, Integer> second = new Pair<>(1, 2);
+
+		assertEquals(first, second);
+	}
+
+	@Test
+	void are_not_equal_if_either_value_is_different() {
+		Pair<Integer, Integer> oneTwo = new Pair<>(1, 2);
+		Pair<Integer, Integer> oneThree = new Pair<>(1, 3);
+		Pair<Integer, Integer> twoTwo = new Pair<>(2, 2);
+
+		assertNotEquals(oneTwo, oneThree);
+		assertNotEquals(oneTwo, twoTwo);
 	}
 }
