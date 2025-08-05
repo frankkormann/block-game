@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
- * then it cannot interact with other {@code Rectangle}s (except
+ * then it cannot interact with other {@code MovingRectangle}s (except
  * {@code SideRectangle}s) and it cannot move due to gravity. The key exists to
  * pair it with a {@code SwitchArea}.
  * 
@@ -65,9 +65,7 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean canInteract(Rectangle other) {
-		return isActive || other instanceof SideRectangle
-				|| (other instanceof SwitchArea
-						&& ((SwitchArea) other).getKey().equals(key));
+		return isActive || alwaysInteractsWithType(other);
 	}
 
 	@Override
@@ -77,19 +75,24 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean usedToIntersectX(Rectangle other) {
-		return (wasActive || other instanceof SideRectangle)
+		return (wasActive || alwaysInteractsWithType(other))
 				&& super.usedToIntersectX(other);
 	}
 
 	@Override
 	public boolean usedToIntersectY(Rectangle other) {
-		return (wasActive || other instanceof SideRectangle)
+		return (wasActive || alwaysInteractsWithType(other))
 				&& super.usedToIntersectY(other);
+	}
+
+	private boolean alwaysInteractsWithType(Rectangle other) {
+		return !(other instanceof MovingRectangle)
+				|| other instanceof SideRectangle;
 	}
 
 	/**
 	 * Sets whether this is "active" or not. When this is not "active", it
-	 * cannot interact with other {@code Rectangle}s (except
+	 * cannot interact with other {@code MovingRectangle}s (except
 	 * {@code SideRectangle}s) or move due to gravity. This loses all velocity
 	 * when set inactive.
 	 * 
