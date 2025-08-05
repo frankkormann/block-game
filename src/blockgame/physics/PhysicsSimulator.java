@@ -95,15 +95,15 @@ public class PhysicsSimulator {
 	}
 
 	public void add(Area area) {
-		areas.add(area);
-	}
-
-	public void add(GoalArea goal) {
-		goals.add(goal);
-	}
-
-	public void add(SwitchArea switchArea) {
-		switchAreas.add(switchArea);
+		if (area instanceof SwitchArea) {
+			switchAreas.add((SwitchArea) area);
+		}
+		else if (area instanceof GoalArea) {
+			goals.add((GoalArea) area);
+		}
+		else {
+			areas.add(area);
+		}
 	}
 
 	/**
@@ -199,6 +199,10 @@ public class PhysicsSimulator {
 
 	}
 
+	/**
+	 * Tests if any {@code MovingRectangle}s intersect any {@code SwitchArea}s
+	 * to update the activity of {@code SwitchRectangle}s if necessary.
+	 */
 	public void applySwitchAreas() {
 		for (SwitchArea area : switchAreas) {
 			for (MovingRectangle rect : movingRectangles) {

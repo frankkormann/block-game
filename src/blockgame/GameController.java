@@ -29,16 +29,16 @@ import com.formdev.flatlaf.util.SystemInfo;
 import blockgame.gui.ErrorDialog;
 import blockgame.gui.HintRectangle;
 import blockgame.gui.MainFrame;
-import blockgame.gui.MenuBar;
 import blockgame.gui.MainFrame.Direction;
+import blockgame.gui.MenuBar;
 import blockgame.gui.MenuBar.MetaInput;
 import blockgame.input.ColorMapper;
 import blockgame.input.GameInputHandler;
+import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
-import blockgame.input.ValueChangeListener;
-import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.ParameterMapper.Parameter;
+import blockgame.input.ValueChangeListener;
 import blockgame.physics.Area;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
@@ -261,11 +261,8 @@ public class GameController extends WindowAdapter
 						switchArea.addChild(entry.getKey());
 					}
 				}
-				physicsSimulator.add(switchArea);
 			}
-			else {
-				physicsSimulator.add(area);
-			}
+			physicsSimulator.add(area);
 			mainFrame.add(area, 0);
 		}
 
