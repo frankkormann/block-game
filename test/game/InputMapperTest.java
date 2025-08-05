@@ -39,7 +39,7 @@ public class InputMapperTest {
 	}
 
 	@Test
-	void has_0_0_for_default_values() {
+	void has_0_0_for_default_value() {
 		assertEquals(new Pair<Integer, Integer>(0, 0),
 				mapper.getDefaultValue());
 	}
