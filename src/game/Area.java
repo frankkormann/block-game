@@ -64,10 +64,11 @@ public abstract class Area extends Rectangle {
 	protected abstract void everyFrame(MovingRectangle rect);
 
 	/**
-	 * Adds or removes {@code rect} from the list of {@code Rectangles} in this
-	 * {@code Area}. Calls {@code onEnter} or {@code onExit} if necessary.
+	 * Adds or removes {@code rect} from the list of {@code MovingRectangles} in
+	 * this {@code Area}. Calls {@code onEnter} or {@code onExit} if necessary.
 	 * <p>
-	 * This method should be called on every frame for every {@code Rectangle}.
+	 * This method should be called on every frame for every
+	 * {@code MovingRectangle}.
 	 * 
 	 * @param rect {@code MovingRectangle} to handle
 	 */
