@@ -139,9 +139,7 @@ public class CollisionPropagator {
 
 		// Pull back Rectangles that collided to be aligned with the edge of
 		// this
-		for (
-
-		MovingRectangle c : collisionMap.keySet()) {
+		for (MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).first == rect) {
 				pullback(rect, c, collisionMap);
 			}
