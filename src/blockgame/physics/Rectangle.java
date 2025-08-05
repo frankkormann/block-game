@@ -191,7 +191,7 @@ public abstract class Rectangle implements Drawable {
 	protected void drawTickedRectangle(Graphics g, Color emptyColor,
 			int tickSize, int thickness, int x, int y, int width, int height) {
 		g = g.create();
-		g.setClip(x, y, width, height);
+		g.clipRect(x, y, width, height);
 		Color tickColor = g.getColor();
 
 		boolean isEmptyTick = false;
