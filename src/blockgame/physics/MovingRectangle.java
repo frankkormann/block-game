@@ -130,13 +130,14 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Calculate whether this intersected with other in the x direction on the
-	 * previous frame.
+	 * Calculate whether this intersected with {@code other} in the x direction
+	 * on the previous frame.
 	 * 
-	 * @param other Other Rectangle
+	 * @param other other {@code Rectangle}
 	 * 
 	 * @return true if they used to intersect in the x direction
 	 */
+	@Override
 	public boolean usedToIntersectX(Rectangle other) {
 		boolean usedToBeInBoundsX = (lastX <= other.getLastX()
 				&& other.getLastX() < lastX + lastWidth)
@@ -150,13 +151,14 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Calculate whether this intersected with other in the y direction on the
-	 * previous frame.
+	 * Calculate whether this intersected with {@code other} in the y direction
+	 * on the previous frame.
 	 * 
-	 * @param other Other Rectangle
+	 * @param other other {@code Rectangle}
 	 * 
 	 * @return true if they used to intersect in the y direction
 	 */
+	@Override
 	public boolean usedToIntersectY(Rectangle other) {
 		boolean usedToBeInBoundsY = (lastY <= other.getLastY()
 				&& other.getLastY() < lastY + lastHeight)
