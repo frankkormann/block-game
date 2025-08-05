@@ -17,6 +17,8 @@ import blockgame.physics.Rectangle;
  * 
  * @author Frank Kormann
  */
+// Extends Rectangle to imitate the look of a Rectangle, should never be used
+// as a physics object
 public class HintRectangle extends Rectangle {
 
 	private static final int OUTLINE_THICKNESS = 2;
