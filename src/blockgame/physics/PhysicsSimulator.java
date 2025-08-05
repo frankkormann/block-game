@@ -292,11 +292,10 @@ public class PhysicsSimulator {
 			int difference = 0;
 			switch (direction) {
 				// Width/height are super high to prevent bug where
-				// MovingRectangles
-				// could phase through the floor because the floor was not wide
-				// enough
+				// MovingRectangles could phase through the floor because the
+				// floor was not wide enough
 				case NORTH:
-					movingRectangles.sort((r1, r2) -> r2.getY() - r1.getY());
+					movingRectangles.sort((r1, r2) -> r1.getY() - r2.getY());
 					difference = calculateCollisionForSide(side,
 							xOffset - 50 * width, yOffset - side.getHeight(),
 							101 * width, side.getHeight());
