@@ -65,7 +65,9 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean canInteract(Rectangle other) {
-		return isActive || other instanceof SideRectangle;
+		return isActive || other instanceof SideRectangle
+				|| (other instanceof SwitchArea
+						&& ((SwitchArea) other).getKey().equals(key));
 	}
 
 	@Override
