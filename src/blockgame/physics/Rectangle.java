@@ -350,9 +350,9 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
-	 * Calculate whether this intersects with other in the x direction.
+	 * Calculate whether this intersects with {@code other} in the x direction.
 	 * 
-	 * @param other Other Rectangle
+	 * @param other other {@code Rectangle}
 	 * 
 	 * @return true if they intersect in the x direction
 	 */
@@ -365,9 +365,9 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
-	 * Calculate whether this intersects with other in the y direction.
+	 * Calculate whether this intersects with {@code other} in the y direction.
 	 * 
-	 * @param other Other Rectangle
+	 * @param other other {@code Rectangle}
 	 * 
 	 * @return true if they intersect in the y direction
 	 */
@@ -377,6 +377,28 @@ public abstract class Rectangle implements Drawable {
 						&& other.getY() + other.getHeight() <= y + height)
 				|| (other.getY() <= y && y < other.getY() + other.getHeight());
 		return canInteract(other) && other.canInteract(this) && inBoundsY;
+	}
+
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @param other other {@code Rectangle}
+	 * 
+	 * @return true if they used to intersect in the x direction
+	 */
+	public boolean usedToIntersectX(Rectangle other) {
+		return intersectsX(other);
+	}
+
+	/**
+	 * This method should be overridden in subclasses that can move.
+	 * 
+	 * @param other other {@code Rectangle}
+	 * 
+	 * @return true if they used to intersect in the y direction
+	 */
+	public boolean usedToIntersectY(Rectangle other) {
+		return intersectsY(other);
 	}
 
 	public int getX() {
