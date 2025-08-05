@@ -1,4 +1,4 @@
-package blockgame.input;
+package blockgame.gui;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;
@@ -19,8 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import blockgame.gui.MenuBar;
 import blockgame.gui.MenuBar.MetaInput;
+import blockgame.input.GameInputHandler;
+import blockgame.input.GetterSetter;
+import blockgame.input.InputMapper;
+import blockgame.input.ValueChangerPanel;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.GameInputHandler.ResizingInput;

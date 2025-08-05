@@ -1,4 +1,4 @@
-package blockgame.input;
+package blockgame.gui;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -13,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
+import blockgame.input.ColorMapper;
+import blockgame.input.GetterSetter;
+import blockgame.input.ValueChangerPanel;
 import blockgame.physics.Rectangle.Colors;
 
 /**

@@ -13,11 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 
-import blockgame.input.ColorChangerPanel;
 import blockgame.input.ColorMapper;
-import blockgame.input.ControlsChangerPanel;
 import blockgame.input.InputMapper;
-import blockgame.input.ParameterChangerPanel;
 import blockgame.input.ParameterMapper;
 
 /**

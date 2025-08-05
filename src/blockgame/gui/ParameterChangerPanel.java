@@ -1,4 +1,4 @@
-package blockgame.input;
+package blockgame.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +15,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
+import blockgame.input.GetterSetter;
+import blockgame.input.ParameterMapper;
+import blockgame.input.ValueChangerPanel;
 import blockgame.input.ParameterMapper.Parameter;
 
 /**
