@@ -33,6 +33,8 @@ public class PhysicsSimulator {
 	private static int PLAYER_JUMP_CAP = -10;
 
 	private List<MovingRectangle> movingRectangles;
+	// SwitchRectangles should also be put in movingRectangles
+	private List<SwitchRectangle> switchRectangles;
 	private List<WallRectangle> walls;
 	private List<Area> areas;
 	private List<SwitchArea> switchAreas;
@@ -50,6 +52,7 @@ public class PhysicsSimulator {
 		super();
 
 		movingRectangles = new ArrayList<>();
+		switchRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
 		switchAreas = new ArrayList<>();
@@ -88,6 +91,9 @@ public class PhysicsSimulator {
 
 	public void add(MovingRectangle rect) {
 		movingRectangles.add(rect);
+		if (rect instanceof SwitchRectangle) {
+			switchRectangles.add((SwitchRectangle) rect);
+		}
 	}
 
 	public void add(WallRectangle wall) {
@@ -182,13 +188,8 @@ public class PhysicsSimulator {
 		movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight() - r1.getY()
 				- r1.getHeight());
 
-		// TODO Clean this up
-		for (MovingRectangle rect : movingRectangles) {
-			if (rect instanceof SwitchRectangle
-					&& ((SwitchRectangle) rect).becameActive()) {
-				applyAreas(rect);
-				applyNaturalForces(rect);
-
+		for (SwitchRectangle rect : switchRectangles) {
+			if (rect.becameActive()) {
 				new CollisionPropagator(rect, movingRectangles, walls,
 						sides.values()).propagateCollision();
 			}
