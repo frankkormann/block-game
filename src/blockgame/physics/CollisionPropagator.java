@@ -106,12 +106,7 @@ public class CollisionPropagator {
 			}
 
 			if (collisionData[0] != 0 && collisionData[1] != 0) {
-				if (collisionData[1] < 0) {
-					collisionData[1] = 0;
-				}
-				else {
-					collisionData[0] = 0;
-				}
+				collisionData[1] = 0;
 			}
 
 			collisionData[0] = -correctGrowthForCollision(rect,
@@ -144,7 +139,9 @@ public class CollisionPropagator {
 
 		// Pull back Rectangles that collided to be aligned with the edge of
 		// this
-		for (MovingRectangle c : collisionMap.keySet()) {
+		for (
+
+		MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).first == rect) {
 				pullback(rect, c, collisionMap);
 			}
@@ -365,12 +362,12 @@ public class CollisionPropagator {
 
 		int xChange = 0;
 		int yChange = 0;
-		boolean inBoundsX = other.intersectsX(rect);
-		boolean inBoundsY = other.intersectsY(rect);
+		boolean inBoundsX = rect.intersectsX(other);
+		boolean inBoundsY = rect.intersectsY(other);
 		// "Used to be" values so Rectangles can tell whether they should be
 		// moved in x or y direction
-		boolean usedToBeInBoundsX = other.usedToIntersectX(rect);
-		boolean usedToBeInBoundsY = other.usedToIntersectY(rect);
+		boolean usedToBeInBoundsX = rect.usedToIntersectX(other);
+		boolean usedToBeInBoundsY = rect.usedToIntersectY(other);
 
 		if (inBoundsX && inBoundsY) {
 			if (usedToBeInBoundsX) {
