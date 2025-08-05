@@ -40,7 +40,6 @@ import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
 import blockgame.physics.Area;
-import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.PhysicsSimulator;
 import blockgame.physics.Rectangle;
@@ -264,11 +263,6 @@ public class GameController extends WindowAdapter
 			}
 			physicsSimulator.add(area);
 			mainFrame.add(area, 0);
-		}
-
-		for (GoalArea goal : level.goals) {
-			physicsSimulator.add(goal);
-			mainFrame.add(goal, 0);
 		}
 
 		for (HintRectangle hint : level.hints) {

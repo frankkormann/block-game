@@ -18,7 +18,6 @@ class LevelTest {
 		assertTrue(level.movingRectangles.isEmpty());
 		assertTrue(level.walls.isEmpty());
 		assertTrue(level.areas.isEmpty());
-		assertTrue(level.goals.isEmpty());
 		assertTrue(level.hints.isEmpty());
 	}
 }

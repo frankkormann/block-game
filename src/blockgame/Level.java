@@ -5,7 +5,6 @@ import java.util.List;
 
 import blockgame.gui.HintRectangle;
 import blockgame.physics.Area;
-import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.WallRectangle;
 
@@ -23,7 +22,6 @@ public class Level {
 	public List<MovingRectangle> movingRectangles;
 	public List<WallRectangle> walls;
 	public List<Area> areas;
-	public List<GoalArea> goals;
 	public List<HintRectangle> hints;
 
 	public Level() {
@@ -33,7 +31,6 @@ public class Level {
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
-		goals = new ArrayList<>();
 		hints = new ArrayList<>();
 	}
 
