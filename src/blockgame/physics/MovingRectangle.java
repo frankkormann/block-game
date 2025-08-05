@@ -31,8 +31,7 @@ public class MovingRectangle extends Rectangle {
 
 	private int lastX, lastY, lastWidth, lastHeight;
 	// These are used in collision to determine how much width/height to remove
-	// if
-	// this is colliding because it increased in width/height
+	// if this is colliding because it increased in width/height
 	private int leftWidthChange, topHeightChange;
 
 	private boolean hasGravity;
