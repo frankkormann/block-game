@@ -51,8 +51,6 @@ class MainFrameTest {
 
 	@Test
 	void has_correct_width_and_height_from_level() {
-		assumeFalse(GraphicsEnvironment.isHeadless());
-
 		assertEquals(level.width, mainFrame.getNextWidth());
 		assertEquals(level.height, mainFrame.getNextHeight());
 	}
@@ -66,8 +64,6 @@ class MainFrameTest {
 
 	@Test
 	void width_and_height_are_as_expected_after_resize() {
-		assumeFalse(GraphicsEnvironment.isHeadless());
-
 		setInitialValues();
 		int eastChange = 100;
 		int southChange = 50;
@@ -82,8 +78,6 @@ class MainFrameTest {
 
 	@Test
 	void changes_to_north_or_east_also_change_position() {
-		assumeFalse(GraphicsEnvironment.isHeadless());
-
 		setInitialValues();
 		int northChange = 100;
 		int westChange = 50;
@@ -100,8 +94,6 @@ class MainFrameTest {
 
 	@Test
 	void resizingSides_are_on_correct_sides() {
-		assumeFalse(GraphicsEnvironment.isHeadless());
-
 		int middleX = mainFrame.getX() + mainFrame.getWidth() / 2;
 		int middleY = mainFrame.getY() + mainFrame.getHeight() / 2;
 
@@ -131,5 +123,25 @@ class MainFrameTest {
 		paramMapper.set(Parameter.GAME_SCALING, 0.5);
 
 		assertEquals(initialWidth / 2, mainFrame.getWidth(), 50);
+	}
+
+	@Test
+	void next_values_dont_change_with_scale() {
+		setInitialValues();
+		paramMapper.set(Parameter.GAME_SCALING, 0.5);
+
+		assertEquals(initialX, mainFrame.getNextXOffset());
+		assertEquals(initialY, mainFrame.getNextYOffset());
+		assertEquals(initialWidth, mainFrame.getNextWidth());
+		assertEquals(initialHeight, mainFrame.getNextHeight());
+	}
+
+	@Test
+	void offset_values_dont_change_when_moved() {
+		setInitialValues();
+		mainFrame.setLocation(mainFrame.getX() + 50, mainFrame.getY() + 100);
+
+		assertEquals(initialX, mainFrame.getNextXOffset());
+		assertEquals(initialY, mainFrame.getNextYOffset());
 	}
 }
