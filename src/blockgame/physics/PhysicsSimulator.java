@@ -8,9 +8,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import blockgame.Pair;
-import blockgame.gui.MainFrame;
 import blockgame.gui.MainFrame.Direction;
-import blockgame.input.GameInputHandler;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.physics.MovingRectangle.State;
 

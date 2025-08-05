@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.physics.Rectangle;
-import blockgame.physics.Rectangle.Colors;
-import blockgame.physics.Rectangle.ResizeBehavior;
 
 /**
  * Translucent {@code Rectangle} which can be toggled visible or not visible.

@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import blockgame.Pair;
 import blockgame.gui.Drawable;
-import blockgame.gui.MainFrame;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.ColorMapper;
 import blockgame.input.ParameterMapper;

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import blockgame.gui.MainFrame;
 import blockgame.gui.MainFrame.Direction;
 
 /**

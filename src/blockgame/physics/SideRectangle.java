@@ -1,6 +1,5 @@
 package blockgame.physics;
 
-import blockgame.gui.MainFrame;
 import blockgame.gui.MainFrame.Direction;
 
 /**
