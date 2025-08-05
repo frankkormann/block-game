@@ -90,7 +90,8 @@ public class SwitchRectangle extends MovingRectangle {
 	/**
 	 * Sets whether this is "active" or not. When this is not "active", it
 	 * cannot interact with other {@code Rectangle}s (except
-	 * {@code SideRectangle}s) or move.
+	 * {@code SideRectangle}s) or move due to gravity. This loses all velocity
+	 * when set inactive.
 	 * 
 	 * @param active whether it should be "active"
 	 */
