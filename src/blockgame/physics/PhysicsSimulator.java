@@ -184,9 +184,10 @@ public class PhysicsSimulator {
 		movingRectangles.forEach(r -> r.updateLastPosition());
 		applySwitchAreas();  // Make sure activity doesn't change mid-frame
 
-		// Sort by distance from bottom of screen for consistency
-		movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight() - r1.getY()
-				- r1.getHeight());
+		// Sort by distance from top (tiebreak distance from left) of screen for
+		// consistency
+		movingRectangles.sort((r1, r2) -> r1.getX() - r2.getX());
+		movingRectangles.sort((r1, r2) -> r1.getY() - r2.getY());
 
 		for (SwitchRectangle rect : switchRectangles) {
 			if (rect.becameActive()) {
