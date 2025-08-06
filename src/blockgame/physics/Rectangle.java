@@ -380,25 +380,46 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
-	 * This method should be overridden in subclasses that can move.
+	 * Calculate whether this intersected with {@code other} in the x direction
+	 * on the previous frame.
 	 * 
 	 * @param other other {@code Rectangle}
 	 * 
 	 * @return true if they used to intersect in the x direction
 	 */
 	public boolean usedToIntersectX(Rectangle other) {
-		return intersectsX(other);
+		boolean usedToBeInBoundsX = (getLastX() <= other.getLastX()
+				&& other.getLastX() < getLastX() + getLastWidth())
+				|| (getLastX() < other.getLastX() + other.getLastWidth()
+						&& other.getLastX() + other.getLastWidth() <= getLastX()
+								+ getLastWidth())
+				|| (other.getLastX() < getLastX()
+						&& getLastX() < other.getLastX()
+								+ other.getLastWidth());
+		return canInteract(other) && other.canInteract(this)
+				&& usedToBeInBoundsX;
 	}
 
 	/**
-	 * This method should be overridden in subclasses that can move.
+	 * Calculate whether this intersected with {@code other} in the y direction
+	 * on the previous frame.
 	 * 
 	 * @param other other {@code Rectangle}
 	 * 
 	 * @return true if they used to intersect in the y direction
 	 */
 	public boolean usedToIntersectY(Rectangle other) {
-		return intersectsY(other);
+		boolean usedToBeInBoundsY = (getLastY() <= other.getLastY()
+				&& other.getLastY() < getLastY() + getLastHeight())
+				|| (getLastY() < other.getLastY() + other.getLastHeight()
+						&& other.getLastY()
+								+ other.getLastHeight() <= getLastY()
+										+ getLastHeight())
+				|| (other.getLastY() < getLastY()
+						&& getLastY() < other.getLastY()
+								+ other.getLastHeight());
+		return canInteract(other) && other.canInteract(this)
+				&& usedToBeInBoundsY;
 	}
 
 	public int getX() {
