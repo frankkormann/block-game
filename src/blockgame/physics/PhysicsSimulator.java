@@ -333,7 +333,7 @@ public class PhysicsSimulator {
 	 * {@code movingRectangles} must be sorted by ascending distance from the
 	 * side.
 	 * 
-	 * @param side      Side to move
+	 * @param side      {@code SideRectangle} to move
 	 * @param newX      New x position
 	 * @param newY      New y position
 	 * @param newWidth  New width
@@ -356,8 +356,7 @@ public class PhysicsSimulator {
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(false);
 
 		if (pushedBack[0] != 0) {  // Infer side's direction based on how it
-									  // collided
-			return pushedBack[0];
+			return pushedBack[0];  // collided
 		}
 		return pushedBack[1];
 	}
