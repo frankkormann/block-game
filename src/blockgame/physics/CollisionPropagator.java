@@ -398,10 +398,12 @@ public class CollisionPropagator {
 					.signum(rect.getLastX() - other.getLastX());
 			int yOldSign = (int) Math
 					.signum(rect.getLastY() - other.getLastY());
-			if ((xSign != xOldSign) && (inBoundsY || usedToBeInBoundsY)) {
+			if ((xSign != xOldSign) && (inBoundsY || usedToBeInBoundsY)
+					&& xOldSign != 0) {
 				xChange = pullToX(rect, other);
 			}
-			if ((ySign != yOldSign) && (inBoundsX || usedToBeInBoundsX)) {
+			if ((ySign != yOldSign) && (inBoundsX || usedToBeInBoundsX)
+					&& yOldSign != 0) {
 				yChange = pullToY(rect, other);
 			}
 
