@@ -75,7 +75,7 @@ public class CollisionPropagator {
 			throw new IllegalStateException("Already propagated collision");
 		}
 		completed = true;
-		return propagateCollision(initialRect, new HashMap<>());
+		return propagateCollision(initialRect, colliders, new HashMap<>());
 	}
 
 	/*
@@ -88,18 +88,19 @@ public class CollisionPropagator {
 	 * and how much
 	 */
 	private int[] propagateCollision(MovingRectangle rect,
+			List<MovingRectangle> colliders,
 			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
 
 		int[] collisionData;
 		int[] pushedAmount = { 0, 0 };
+		colliders = new ArrayList<>(colliders);
 		colliders.remove(rect);
 
 		int[] wallPushback = handleCollisionWithWalls(rect);
 		pushedAmount[0] += wallPushback[0];
 		pushedAmount[1] += wallPushback[1];
 
-		for (MovingRectangle other : new ArrayList<MovingRectangle>(
-				colliders)) {
+		for (MovingRectangle other : colliders) {
 
 			collisionData = calculateCollision(rect, other);
 			if (collisionData[0] == 0 && collisionData[1] == 0) {
@@ -124,7 +125,7 @@ public class CollisionPropagator {
 			collisionMap.put(other,
 					new Pair<MovingRectangle, int[]>(rect, collisionData));
 
-			int[] pushback = propagateCollision(other, collisionMap);
+			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
 			if (collisionData[0] != 0) {  // rect should only be pushed back in
 										  // the direction it pushed other
