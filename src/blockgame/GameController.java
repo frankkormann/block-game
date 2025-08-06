@@ -207,7 +207,6 @@ public class GameController extends WindowAdapter
 			}
 
 			paused = false;
-
 			return;
 		}
 
