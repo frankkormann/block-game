@@ -1,8 +1,8 @@
 {
-	"name": "Width Before Height",
+	"name": "Width Before Height [2-3]",
 	"width": 800,
 	"height": 500,
-	"solution": "/level_8.rec",
+	"solution": "/level_2-3.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -113,7 +113,7 @@
 			"y": 150,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_9.json"
+			"nextLevel": "/level_2-4.json"
 		}
 	],
 	"hints": [

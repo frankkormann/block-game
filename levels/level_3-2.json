@@ -1,8 +1,8 @@
 {
-	"name": "Don't Trap Yourself",
+	"name": "Don't Trap Yourself [3-2]",
 	"width": 900,
 	"height": 400,
-	"solution": "/level_12.rec",
+	"solution": "/level_3-2.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -112,7 +112,7 @@
 			"y": 340,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_13.json"
+			"nextLevel": "/level_3-3.json"
 		}
 	],
 	"hints": [

@@ -1,8 +1,8 @@
 {
-	"name": "The Beanstalk",
+	"name": "The Beanstalk [2-2]",
 	"width": 500,
 	"height": 700,
-	"solution": "/level_7.rec",
+	"solution": "/level_2-2.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -72,7 +72,7 @@
 			"y": 200,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_8.json"
+			"nextLevel": "/level_2-3.json"
 		}
 	],
 	"hints": [

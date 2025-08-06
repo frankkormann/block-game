@@ -1,8 +1,8 @@
 {
-	"name": "Pull Into Form",
+	"name": "Pull Into Form [3-5]",
 	"width": 600,
 	"height": 600,
-	"solution": "/level_15.rec",
+	"solution": "/level_3-5.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -113,7 +113,7 @@
 			"y": 120,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_16.json"
+			"nextLevel": "/level_4-1.json"
 		}
 	],
 	"hints": [

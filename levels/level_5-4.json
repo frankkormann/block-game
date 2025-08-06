@@ -1,8 +1,8 @@
 {
-	"name": "Pick Up and Put Down",
+	"name": "Pick Up and Put Down [5-4]",
 	"width": 700,
 	"height": 400,
-	"solution": "/level_24.rec",
+	"solution": "/level_5-4.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -88,7 +88,7 @@
 			"y": 150,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_25.json"
+			"nextLevel": "/level_5-5.json"
 		}
 	],
 	"hints": [

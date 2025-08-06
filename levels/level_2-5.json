@@ -1,8 +1,8 @@
 {
-	"name": "Blocked Off",
+	"name": "Blocked Off [2-5]",
 	"width": 500,
 	"height": 600,
-	"solution": "/level_10.rec",
+	"solution": "/level_2-5.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -184,7 +184,7 @@
 			"y": 270,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_11.json"
+			"nextLevel": "/level_3-1.json"
 		}
 	],
 	"hints": [

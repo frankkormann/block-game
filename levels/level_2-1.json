@@ -1,8 +1,8 @@
 {
-	"name": "The Embiggening",
+	"name": "The Embiggening [2-1]",
 	"width": 1100,
 	"height": 400,
-	"solution": "/level_6.rec",
+	"solution": "/level_2-1.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -89,7 +89,7 @@
 			"y": 80,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_7.json"
+			"nextLevel": "/level_2-2.json"
 		}
 	],
 	"hints": [

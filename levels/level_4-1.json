@@ -1,8 +1,8 @@
 {
-	"name": "Move",
+	"name": "Move [4-1]",
 	"width": 800,
 	"height": 500,
-	"solution": "/level_16.rec",
+	"solution": "/level_4-1.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -82,7 +82,7 @@
 			"y": 340,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_17.json"
+			"nextLevel": "/level_4-2.json"
 		}
 	],
 	"hints": [

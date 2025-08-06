@@ -1,8 +1,8 @@
 {
-	"name": "Small, Medium, Large",
+	"name": "Small, Medium, Large [2-4]",
 	"width": 560,
 	"height": 500,
-	"solution": "/level_9.rec",
+	"solution": "/level_2-4.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -200,7 +200,7 @@
 			"y": 100,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_10.json"
+			"nextLevel": "/level_2-5.json"
 		}
 	],
 	"hints": [

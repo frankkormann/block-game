@@ -1,8 +1,8 @@
 {
-	"name": "Extension",
+	"name": "Extension [4-2]",
 	"width": 800,
 	"height": 400,
-	"solution": "/level_17.rec",
+	"solution": "/level_4-2.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -74,7 +74,7 @@
 			"y": 215,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_18.json"
+			"nextLevel": "/level_4-3.json"
 		}
 	],
 	"hints": [

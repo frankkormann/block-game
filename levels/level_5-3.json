@@ -1,8 +1,8 @@
 {
-	"name": "Floating Platform",
+	"name": "Floating Platform [5-3]",
 	"width": 800,
 	"height": 500,
-	"solution": "/level_23.rec",
+	"solution": "/level_5-3.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -109,7 +109,7 @@
 			"y": 150,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_24.json"
+			"nextLevel": "/level_5-4.json"
 		}
 	],
 	"hints": [

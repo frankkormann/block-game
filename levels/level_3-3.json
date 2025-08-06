@@ -1,8 +1,8 @@
 {
-	"name": "Cave In",
+	"name": "Cave In [3-3]",
 	"width": 700,
 	"height": 450,
-	"solution": "/level_13.rec",
+	"solution": "/level_3-3.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -121,7 +121,7 @@
 			"y": 210,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_14.json"
+			"nextLevel": "/level_3-4.json"
 		}
 	],
 	"hints": [

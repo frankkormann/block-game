@@ -1,8 +1,8 @@
 {
-	"name": "Reverse Order",
+	"name": "Reverse Order [1-4]",
 	"width": 800,
 	"height": 500,
-	"solution": "/level_4.rec",
+	"solution": "/level_1-4.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -87,7 +87,7 @@
 			"y": 170,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_5.json"
+			"nextLevel": "/level_1-5.json"
 		}
 	],
 	"hints": [

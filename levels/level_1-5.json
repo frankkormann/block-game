@@ -1,8 +1,8 @@
 {
-	"name": "Skewer Mover",
+	"name": "Skewer Mover [1-5]",
 	"width": 500,
 	"height": 500,
-	"solution": "/level_5.rec",
+	"solution": "/level_1-5.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -95,7 +95,7 @@
 			"y": 210,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_6.json"
+			"nextLevel": "/level_2-1.json"
 		}
 	],
 	"hints": [

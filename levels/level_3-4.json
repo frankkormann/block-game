@@ -1,8 +1,8 @@
 {
-	"name": "Smooth Over",
+	"name": "Smooth Over [3-4]",
 	"width": 800,
 	"height": 420,
-	"solution": "/level_14.rec",
+	"solution": "/level_3-4.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -185,7 +185,7 @@
 			"y": 110,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_15.json"
+			"nextLevel": "/level_3-5.json"
 		}
 	],
 	"hints": [

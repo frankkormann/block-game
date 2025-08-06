@@ -1,8 +1,8 @@
 {
-	"name": "Revisiting",
+	"name": "Revisiting [4-3]",
 	"width": 700,
 	"height": 450,
-	"solution": "/level_18.rec",
+	"solution": "/level_4-3.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -115,7 +115,7 @@
 			"y": 210,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_19.json"
+			"nextLevel": "/level_4-4.json"
 		}
 	],
 	"hints": [
