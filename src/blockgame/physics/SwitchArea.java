@@ -50,12 +50,14 @@ public class SwitchArea extends Area {
 				(int) (getColor().getBlue() / INNER_RECT_DARKNESS),
 				getColor().getAlpha());
 		g.setColor(inenrRectColor);
-		int innerRectX = getX() + getWidth() * 1 / 4;
-		int innerRectY = getY() + getHeight() * 1 / 4;
-		int innerRectWidth = getWidth() / 2;
-		int innerRectHeight = getHeight() / 2;
+		int quarterWidth = getWidth() / 4;
+		int quarterHeight = getHeight() / 4;
+		// Calculate the width/height by subtracting 2 quarters so that there is
+		// equal distance from each side of the inner rectangle to the side of
+		// the outer rectangle, taking into account float rounding
 		drawTickedRectangle(g, new Color(0, 0, 0, 0), TICK_SIZE, TICK_THICKNESS,
-				innerRectX, innerRectY, innerRectWidth, innerRectHeight);
+				getX() + quarterWidth, getY() + quarterHeight,
+				getWidth() - 2 * quarterWidth, getHeight() - 2 * quarterHeight);
 
 		g.dispose();
 	}
