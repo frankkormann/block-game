@@ -23,7 +23,7 @@ public class SideRectangle extends MovingRectangle {
 			Direction direction) {
 		super(x, y, width, height);
 		this.direction = direction;
-		actingLikeWall = false;
+		actingLikeWall = true;
 	}
 
 	@Override
