@@ -68,6 +68,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	private int xChange, yChange;
 	private int widthChange, heightChange;
 
+	private int titlePaneHeight;
 	private String title;
 
 	private boolean interceptPropertyChangeEvent;
@@ -247,6 +248,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		getContentPane().setPreferredSize(new Dimension(
 				(int) (idealWidth * scale), (int) (idealHeight * scale)));
 		pack();
+		titlePaneHeight = getTitlePaneHeight();
 
 		updateTitleBarText(level.name);
 		title = level.name;
@@ -362,6 +364,10 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * Lays out all components within this and sets its bounds.
 	 */
 	private void arrangeComponents() {
+		if (titlePaneHeight != getTitlePaneHeight()) {
+			centerY += titlePaneHeight - getTitlePaneHeight();
+			titlePaneHeight = getTitlePaneHeight();
+		}
 
 		setBounds(getPreferredX(), getPreferredY(), getPreferredWidth(),
 				getPreferredHeight());
