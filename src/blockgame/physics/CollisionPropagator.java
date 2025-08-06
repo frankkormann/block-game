@@ -58,15 +58,13 @@ public class CollisionPropagator {
 	}
 
 	/**
-	 * Moves {@code rect} so that it does not intersect any
-	 * {@code WallRectangles}. Moves other {@code MovingRectangles} so that they
-	 * do not intersect {@code rect}. Acts recursively on each
-	 * {@code MovingRectangle} moved by {@code rect}.
+	 * Moves the initial rect {@code thatMoved} (from constructor) so that it
+	 * does not intersect any {@code WallRectangles}. Moves other
+	 * {@code MovingRectangles} so that they do not intersect {@code rect}. Acts
+	 * recursively on each {@code MovingRectangle} moved by {@code rect}.
 	 * <p>
 	 * This is intended to be called only once. Repeated calls will result in an
 	 * {@code IllegalStateException}.
-	 * 
-	 * @param rect {@code MovingRectangle} to propagate collision from
 	 * 
 	 * @return { Δx, Δy } amount {@code rect} was pushed back
 	 */
