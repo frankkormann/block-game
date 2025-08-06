@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,6 +18,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 /**
  * Dialog to display an error message and stack trace information.
@@ -61,6 +65,8 @@ public class ErrorDialog extends JDialog {
 		add(Box.createVerticalGlue());
 		add(buttonPanel);
 		add(scrollPane);
+
+		registerDisposeOnKeypress(KeyEvent.VK_ESCAPE);
 
 		messageArea.setSize(messageArea.getPreferredSize());  // Fix issue where
 		pack();												  // wrapped line
@@ -208,6 +214,25 @@ public class ErrorDialog extends JDialog {
 		for (JComponent comp : components) {
 			comp.setAlignmentX(alignment);
 		}
+	}
+
+	/**
+	 * Sets this to close when the key corresponding to {@code keyCode} is
+	 * pressed.
+	 * 
+	 * @param keyCode which key should be pressed
+	 */
+	private void registerDisposeOnKeypress(int keyCode) {
+		AbstractAction dispose = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		};
+
+		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(keyCode, 0), "close");
+		getRootPane().getActionMap().put("close", dispose);
 	}
 
 }

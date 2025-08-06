@@ -2,16 +2,21 @@ package blockgame.gui;
 
 import java.awt.Dialog;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
@@ -68,8 +73,29 @@ public class OptionsDialog extends JDialog {
 		add(Box.createVerticalStrut(VERTICAL_SPACE));
 		add(closeButton);
 
+		registerDisposeOnKeypress(KeyEvent.VK_ESCAPE);
+
 		pack();
 		setLocationRelativeTo(null);
+	}
+
+	/**
+	 * Sets this to close when the key corresponding to {@code keyCode} is
+	 * pressed.
+	 * 
+	 * @param keyCode which key should be pressed
+	 */
+	private void registerDisposeOnKeypress(int keyCode) {
+		AbstractAction dispose = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		};
+
+		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(keyCode, 0), "close");
+		getRootPane().getActionMap().put("close", dispose);
 	}
 
 }
