@@ -116,6 +116,10 @@ public class MovingRectangle extends Rectangle {
 	 * @param yChange amount to move in y direction
 	 */
 	public void moveCollision(int xChange, int yChange) {
+		if (xChange == 0 && yChange == 0) {
+			return;
+		}
+
 		if (xChange != 0 && Math.signum(xChange) != Math.signum(xVelocity)) {
 			xVelocity = 0;
 		}
