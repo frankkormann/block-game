@@ -122,48 +122,6 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	/**
-	 * Calculate whether this intersected with {@code other} in the x direction
-	 * on the previous frame.
-	 * 
-	 * @param other other {@code Rectangle}
-	 * 
-	 * @return true if they used to intersect in the x direction
-	 */
-	@Override
-	public boolean usedToIntersectX(Rectangle other) {
-		boolean usedToBeInBoundsX = (lastX <= other.getLastX()
-				&& other.getLastX() < lastX + lastWidth)
-				|| (lastX < other.getLastX() + other.getLastWidth()
-						&& other.getLastX() + other.getLastWidth() <= lastX
-								+ lastWidth)
-				|| (other.getLastX() < lastX
-						&& lastX < other.getLastX() + other.getLastWidth());
-		return canInteract(other) && other.canInteract(this)
-				&& usedToBeInBoundsX;
-	}
-
-	/**
-	 * Calculate whether this intersected with {@code other} in the y direction
-	 * on the previous frame.
-	 * 
-	 * @param other other {@code Rectangle}
-	 * 
-	 * @return true if they used to intersect in the y direction
-	 */
-	@Override
-	public boolean usedToIntersectY(Rectangle other) {
-		boolean usedToBeInBoundsY = (lastY <= other.getLastY()
-				&& other.getLastY() < lastY + lastHeight)
-				|| (lastY < other.getLastY() + other.getLastHeight()
-						&& other.getLastY() + other.getLastHeight() <= lastY
-								+ lastHeight)
-				|| (other.getLastY() < lastY
-						&& lastY < other.getLastY() + other.getLastHeight());
-		return canInteract(other) && other.canInteract(this)
-				&& usedToBeInBoundsY;
-	}
-
-	/**
 	 * Change the width by {@code change}.
 	 * <p>
 	 * If {@code addToLeft} is {@code true}, the left edge of this will move and
