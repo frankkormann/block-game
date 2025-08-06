@@ -60,9 +60,9 @@
 		{
 			"type": ".GrowArea",
 			"x": 120,
-			"y": 580,
+			"y": 640,
 			"width": 60,
-			"height": 120,
+			"height": 60,
 			"xGrowth": 0,
 			"yGrowth": 1
 		},
