@@ -114,9 +114,7 @@
 			"height": 40,
 			"xGrowth": 1,
 			"yGrowth": 0
-		}
-	],
-	"goals": [
+		},
 		{
 			"type": ".GoalArea",
 			"x": 480,

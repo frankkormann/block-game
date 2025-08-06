@@ -102,9 +102,7 @@
 			"y": 220,
 			"width": 100,
 			"height": 200
-		}
-	],
-	"goals": [
+		},
 		{
 			"type": ".GoalArea",
 			"x": 675,

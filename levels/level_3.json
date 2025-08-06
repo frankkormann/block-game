@@ -72,7 +72,7 @@
 			"resizeBehavior": "STAY"
 		}
 	],
-	"goals": [
+	"areas": [
 		{
 			"type": ".GoalArea",
 			"x": 390,

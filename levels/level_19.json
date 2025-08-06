@@ -196,9 +196,7 @@
 			"height": 100,
 			"xShrink": 1,
 			"yShrink": 0
-		}
-	],
-	"goals": [
+		},
 		{
 			"type": ".GoalArea",
 			"x": 265,

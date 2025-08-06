@@ -195,7 +195,7 @@
 			"yGrowth": 0
 		}
 	],
-	"goals": [
+	"areas": [
 		{
 			"type": ".GoalArea",
 			"x": 135,

@@ -81,7 +81,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		}
 	],
-	"goals": [
+	"areas": [
 		{
 			"type": ".GoalArea",
 			"x": 335,
