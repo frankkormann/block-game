@@ -88,21 +88,9 @@ public class MovingRectangle extends Rectangle {
 	 * Applies one frame's worth of velocity and clamps to max speeds.
 	 */
 	public void moveVelocity() {
-		// Speed limits
-		if (xVelocity > MAX_X_SPEED) {
-			xVelocity = MAX_X_SPEED;
-		}
-		else if (xVelocity < MAX_X_SPEED * -1) {
-			xVelocity = MAX_X_SPEED * -1;
-		}
-
-		if (yVelocity > MAX_Y_SPEED) {
-			yVelocity = MAX_Y_SPEED;
-		}
-		else if (yVelocity < MAX_Y_SPEED * -1) {
-			yVelocity = MAX_Y_SPEED * -1;
-		}
-
+		// Taken from the implementation of Math.clamp
+		xVelocity = Math.min(MAX_X_SPEED, Math.max(xVelocity, -MAX_X_SPEED));
+		yVelocity = Math.min(MAX_Y_SPEED, Math.max(yVelocity, -MAX_Y_SPEED));
 		setX(getX() + xVelocity);
 		setY(getY() + yVelocity);
 	}
