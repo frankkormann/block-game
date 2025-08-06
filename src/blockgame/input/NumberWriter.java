@@ -16,10 +16,10 @@ import java.io.OutputStream;
  */
 public class NumberWriter {
 
-	OutputStream stream;
+	private OutputStream stream;
 
-	boolean isOpen;
-	int zerosInARow;
+	private boolean isOpen;
+	private int zerosInARow;
 
 	public NumberWriter(OutputStream stream) {
 		this.stream = stream;

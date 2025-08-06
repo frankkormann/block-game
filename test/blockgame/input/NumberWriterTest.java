@@ -23,14 +23,14 @@ class NumberWriterTest {
 
 	@Test
 	void is_open_initially() {
-		assertTrue(writer.isOpen);
+		assertTrue(writer.isOpen());
 	}
 
 	@Test
 	void is_not_open_after_being_closed() throws IOException {
 		writer.close();
 
-		assertFalse(writer.isOpen);
+		assertFalse(writer.isOpen());
 	}
 
 	@Test

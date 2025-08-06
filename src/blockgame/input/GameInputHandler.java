@@ -12,13 +12,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import blockgame.gui.ErrorDialog;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.util.Pair;
-
-import java.util.Set;
 
 /**
  * Get inputs from the user or a stream. Optionally write inputs to a stream.
@@ -303,7 +302,7 @@ public class GameInputHandler extends KeyAdapter
 			movementInputs.add(MovementInput.values()[inputOrdinal]);
 		}
 
-		if (!reader.isOpen) {
+		if (!reader.isOpen()) {
 			reader = null;
 		}
 
@@ -318,7 +317,7 @@ public class GameInputHandler extends KeyAdapter
 	 */
 	private void writeInputs(Set<MovementInput> movementInputs)
 			throws IOException {
-		if (!writer.isOpen) {
+		if (!writer.isOpen()) {
 			writer = null;
 			return;
 		}

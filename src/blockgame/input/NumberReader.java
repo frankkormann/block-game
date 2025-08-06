@@ -16,11 +16,11 @@ import java.io.InputStream;
  */
 public class NumberReader {
 
-	InputStream stream;
+	private InputStream stream;
 
-	boolean isOpen;
-	int zerosInARow;
-	int nextByte;
+	private boolean isOpen;
+	private int zerosInARow;
+	private int nextByte;
 
 	/**
 	 * Creates a {@code NumberReader} which reads from {@code stream}.
