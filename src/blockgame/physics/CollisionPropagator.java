@@ -406,7 +406,6 @@ public class CollisionPropagator {
 					&& yOldSign != 0) {
 				yChange = pullToY(rect, other);
 			}
-
 		}
 
 		if (!rect.canPushX()) {
