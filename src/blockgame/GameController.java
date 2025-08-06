@@ -158,6 +158,23 @@ public class GameController extends WindowAdapter
 	}
 
 	/**
+	 * Computes the next frame.
+	 */
+	private void newFrameTaskAction() {
+		try {
+			if (!paused && mainFrame.isFocused()) {
+				nextFrame();
+			}
+			mainFrame.repaint();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Something went wrong", e)
+					.setVisible(true);
+		}
+	}
+
+	/**
 	 * Restarts and reloads the current level, and stops reading from the
 	 * recording file if there is one.
 	 */
@@ -290,20 +307,6 @@ public class GameController extends WindowAdapter
 			}
 		}
 	}
-
-	private void newFrameTaskAction() {
-		try {
-			if (!paused && mainFrame.isFocused()) {
-				nextFrame();
-			}
-			mainFrame.repaint();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Something went wrong", e)
-					.setVisible(true);
-		}
-	};
 
 	/**
 	 * Processes the next frame.
