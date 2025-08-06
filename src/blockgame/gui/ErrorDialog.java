@@ -122,7 +122,6 @@ public class ErrorDialog extends JDialog {
 		});
 		JButton disposeButton = createButton(disposeButtonLabel,
 				e -> dispose());
-
 		JButton copyButton = createButton(copyButtonLabel, e -> {
 			toCopy.selectAll();
 			toCopy.copy();
