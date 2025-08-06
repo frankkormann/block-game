@@ -410,7 +410,7 @@ public class GameController extends WindowAdapter
 
 		reloadLevel();
 		JOptionPane.showMessageDialog(mainFrame,
-				"Stop playback at any time in the title bar: Recordings > Stop.",
+				"Stop playback at any time in the title bar with Recordings > Stop.",
 				"Seen Enough?", JOptionPane.INFORMATION_MESSAGE);
 
 		gameInputHandler
