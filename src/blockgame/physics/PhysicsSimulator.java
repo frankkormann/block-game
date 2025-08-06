@@ -191,8 +191,8 @@ public class PhysicsSimulator {
 
 		for (SwitchRectangle rect : switchRectangles) {
 			if (rect.becameActive()) {
-				new CollisionPropagator(rect, movingRectangles, walls,
-						sides.values()).propagateCollision();
+				new CollisionPropagator(rect, movingRectangles, walls, sides)
+						.propagateCollision();
 			}
 		}
 
@@ -207,8 +207,8 @@ public class PhysicsSimulator {
 
 			rect.moveVelocity();
 
-			new CollisionPropagator(rect, movingRectangles, walls,
-					sides.values()).propagateCollision();
+			new CollisionPropagator(rect, movingRectangles, walls, sides)
+					.propagateCollision();
 		}
 
 	}
@@ -354,7 +354,7 @@ public class PhysicsSimulator {
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(true);
 
 		int[] pushedBack = new CollisionPropagator(side, movingRectangles,
-				walls, sides.values()).propagateCollision();
+				walls, sides).propagateCollision();
 
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(false);
 

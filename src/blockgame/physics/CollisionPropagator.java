@@ -1,12 +1,12 @@
 package blockgame.physics;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import blockgame.gui.MainFrame.Direction;
 import blockgame.util.Pair;
 
 /**
@@ -29,7 +29,7 @@ public class CollisionPropagator {
 
 	private List<MovingRectangle> colliders;
 	private List<WallRectangle> walls;
-	private Collection<SideRectangle> sides;
+	private Map<Direction, SideRectangle> sides;
 
 	/**
 	 * Creates a {@code CollisionCalculator} with the given {@code walls} and
@@ -49,7 +49,7 @@ public class CollisionPropagator {
 	 */
 	public CollisionPropagator(MovingRectangle thatMoved,
 			List<MovingRectangle> colliders, List<WallRectangle> walls,
-			Collection<SideRectangle> sides) {
+			Map<Direction, SideRectangle> sides) {
 		initialRect = thatMoved;
 		completed = false;
 		this.colliders = new ArrayList<>(colliders);
@@ -205,7 +205,7 @@ public class CollisionPropagator {
 
 		int[] pushedBack = { 0, 0 };
 
-		Stream.concat(sides.stream().filter(s -> s.isActingLikeWall()),
+		Stream.concat(sides.values().stream().filter(s -> s.isActingLikeWall()),
 				walls.stream())
 				.map(w -> collideWithWall(rect, w))
 				.forEach(a -> {
@@ -478,10 +478,17 @@ public class CollisionPropagator {
 	 * @return amount to move {@code other}
 	 */
 	private int pullToX(Rectangle rect, Rectangle other) {
-		if (other.getLastX() >= rect.getLastX()) {
-			return rect.getX() + rect.getWidth() - other.getX();
+		boolean moveLeft = rect.getLastX() > other.getLastX();
+		if (rect.getLastX() == other.getLastX()) { // If they were in the exact
+													 // same spot, only move
+													 // right if there is room
+			moveLeft = rect.getX() + rect.getWidth()
+					+ other.getWidth() > sides.get(Direction.EAST).getX();
 		}
-		return rect.getX() - other.getX() - other.getWidth();
+		if (moveLeft) {
+			return rect.getX() - other.getX() - other.getWidth();
+		}
+		return rect.getX() + rect.getWidth() - other.getX();
 	}
 
 	/**
@@ -494,10 +501,17 @@ public class CollisionPropagator {
 	 * @return amount to move {@code other}
 	 */
 	private int pullToY(Rectangle rect, Rectangle other) {
-		if (other.getLastY() >= rect.getLastY()) {
-			return rect.getY() + rect.getHeight() - other.getY();
+		boolean moveUp = rect.getLastY() > other.getLastY();
+		if (rect.getLastY() == other.getLastY()) {  // If they were in the exact
+													  // same spot, only move
+													  // down if there is room
+			moveUp = rect.getY() + rect.getHeight()
+					+ other.getHeight() > sides.get(Direction.SOUTH).getY();
 		}
-		return rect.getY() - other.getY() - other.getHeight();
+		if (moveUp) {
+			return rect.getY() - other.getY() - other.getHeight();
+		}
+		return rect.getY() + rect.getHeight() - other.getY();
 	}
 
 }
