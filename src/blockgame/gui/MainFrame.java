@@ -440,6 +440,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * @param newText text to display
 	 */
 	private void updateTitleBarText(String newText) {
+		newText = newText.replace(' ', ' ');
+//                   Normal space -^    ^- Non-breaking space
 		String taskbarText = getTitle();
 		setTitle("<html><body><b>" + newText + "</b></body></html>");
 		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
