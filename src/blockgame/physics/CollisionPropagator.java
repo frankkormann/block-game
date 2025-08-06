@@ -3,6 +3,7 @@ package blockgame.physics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -26,8 +27,8 @@ public class CollisionPropagator {
 	private MovingRectangle initialRect;
 	private boolean completed;
 
-	private Collection<MovingRectangle> colliders;
-	private Collection<WallRectangle> walls;
+	private List<MovingRectangle> colliders;
+	private List<WallRectangle> walls;
 	private Collection<SideRectangle> sides;
 
 	/**
@@ -47,8 +48,8 @@ public class CollisionPropagator {
 	 *                  interact with
 	 */
 	public CollisionPropagator(MovingRectangle thatMoved,
-			Collection<MovingRectangle> colliders,
-			Collection<WallRectangle> walls, Collection<SideRectangle> sides) {
+			List<MovingRectangle> colliders, List<WallRectangle> walls,
+			Collection<SideRectangle> sides) {
 		initialRect = thatMoved;
 		completed = false;
 		this.colliders = new ArrayList<>(colliders);
