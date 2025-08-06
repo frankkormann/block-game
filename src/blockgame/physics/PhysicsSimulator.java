@@ -33,7 +33,7 @@ public class PhysicsSimulator {
 	private static int PLAYER_JUMP_CAP = -10;
 
 	private List<MovingRectangle> movingRectangles;
-	// SwitchRectangles should also be put in movingRectangles
+	// SwitchRectangles should also be put into movingRectangles
 	private List<SwitchRectangle> switchRectangles;
 	private List<WallRectangle> walls;
 	private List<Area> areas;
