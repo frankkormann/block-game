@@ -22,8 +22,8 @@ import javax.swing.UIManager;
 import blockgame.Level;
 import blockgame.input.GameInputHandler;
 import blockgame.input.ParameterMapper;
-import blockgame.input.ValueChangeListener;
 import blockgame.input.ParameterMapper.Parameter;
+import blockgame.input.ValueChangeListener;
 
 /**
  * JFrame that displays each level. Buffers changes to width/height between each
@@ -112,7 +112,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
 
-		// levelXXX, width, height are instantiated in
+		// idealXxx, width, height are instantiated in
 		// setUpLevel()
 		xChange = 0;
 		yChange = 0;
