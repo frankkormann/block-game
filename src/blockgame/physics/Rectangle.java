@@ -525,8 +525,10 @@ public abstract class Rectangle implements Drawable {
 	@JsonProperty("attachments")
 	public void addAllAttachments(
 			List<Pair<Area, Set<AttachmentOption>>> attachments) {
-		attachedAreas.addAll(attachments);
-		updateAttachments();
+		for (Pair<Area, Set<AttachmentOption>> pair : attachments) {
+			addAttachment(pair.first,
+					pair.second.toArray(new AttachmentOption[] {}));
+		}
 	}
 
 	public List<Area> getAttachments() {
