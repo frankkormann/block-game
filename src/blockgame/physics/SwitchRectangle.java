@@ -101,6 +101,16 @@ public class SwitchRectangle extends MovingRectangle {
 	}
 
 	/**
+	 * Returns whether this is "active" or not. See {@link #setActive(boolean)}
+	 * for more about about what "activity" means.
+	 * 
+	 * @return {@code true} if this is "active"
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
+
+	/**
 	 * Sets whether this is "active" or not. When this is not "active", it
 	 * cannot interact with other {@code Rectangle}s (except
 	 * {@code SideRectangle}s, {@code WallRectangle}s, and {@code SwitchArea}s
