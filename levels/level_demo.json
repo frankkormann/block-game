@@ -117,15 +117,6 @@
 	],
 	"areas": [
 		{
-			"type": ".ForceArea",
-			"x": 480,
-			"y": 360,
-			"width": 40,
-			"height": 80,
-			"xForce": 0,
-			"yForce": -3
-		},
-		{
 			"type": ".AntigravityArea",
 			"x": 300,
 			"y": 300,
