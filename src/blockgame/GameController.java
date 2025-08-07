@@ -204,6 +204,7 @@ public class GameController extends WindowAdapter
 			}
 			else {
 				if (!levelResource.equals(FIRST_LEVEL)) {
+					System.err.println("Loading first level");
 					loadLevel(FIRST_LEVEL);
 				}
 				else {
