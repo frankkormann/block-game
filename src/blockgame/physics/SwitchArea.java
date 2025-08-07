@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * there is at least one {@code MovingRectangle} within this, each of its
  * children will be active. Otherwise, they will all be inactive.
  * <p>
- * Children are usually added by matching this's {@code key} with their
- * {@code key}.
+ * Child {@code SwitchRectangle}s are usually added by matching this's
+ * {@code key} with their {@code key}.
  *
  * @author Frank Kormann
  */
