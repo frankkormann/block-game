@@ -26,13 +26,13 @@ import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
 
 /**
- * JFrame that displays each level. Buffers changes to width/height between each
- * frame.
+ * {@code JFrame} that displays each level. Buffers changes to width/height
+ * between each frame.
  * <p>
- * The usual methods for resizing a JFrame should not be used for this. The
- * methods {@link #resize(int, Direction)} and {@link #resizeAll(Map)} should be
- * used instead. {@code incorporateChanges} should be called at the end of each
- * frame.
+ * The usual methods for resizing a {@code JFrame} should not be used for this.
+ * The methods {@link #resize(int, Direction)} and {@link #resizeAll(Map)}
+ * should be used instead. {@code incorporateChanges} should be called at the
+ * end of each frame.
  * <p>
  * Actual resizing of the window is delayed until {@code incorporateChanges} is
  * called at the end of each frame, after the new window size has been verified
