@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
  * then it cannot interact with other {@code Rectangle}s (except
- * {@code SideRectangle}s, {@code WallRectangle}s, and {@code SwitchArea}s) and
- * it cannot move due to gravity. The key exists to pair it with a
- * {@code SwitchArea}.
+ * {@code SideRectangle}s, {@code WallRectangle}s, and {@code SwitchArea}s with
+ * the same key) and it cannot move due to gravity. The key exists to pair it
+ * with a {@code SwitchArea}.
  * 
  * @author Frank Kormann
  */
@@ -66,7 +66,7 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean canInteract(Rectangle other) {
-		return isActive || alwaysInteractsWithType(other);
+		return isActive || canAlwaysInteractWith(other);
 	}
 
 	@Override
@@ -76,33 +76,36 @@ public class SwitchRectangle extends MovingRectangle {
 
 	@Override
 	public boolean usedToIntersectX(Rectangle other) {
-		return (wasActive || alwaysInteractsWithType(other))
+		return (wasActive || canAlwaysInteractWith(other))
 				&& super.usedToIntersectX(other);
 	}
 
 	@Override
 	public boolean usedToIntersectY(Rectangle other) {
-		return (wasActive || alwaysInteractsWithType(other))
+		return (wasActive || canAlwaysInteractWith(other))
 				&& super.usedToIntersectY(other);
 	}
 
 	/**
-	 * Checks if {@code other} is of a type that this can interact with.
+	 * Checks if this can interact with {@code other} regardless of activity.
 	 * 
 	 * @param other {@code Rectangle} to test
 	 * 
 	 * @return {@code true} if this can interact with {@code other}'s type
 	 */
-	private boolean alwaysInteractsWithType(Rectangle other) {
-		return other instanceof WallRectangle || other instanceof SideRectangle
-				|| other instanceof SwitchArea;
+	private boolean canAlwaysInteractWith(Rectangle other) {
+		if (other instanceof SwitchArea) {
+			return ((SwitchArea) other).getKey().equals(key);
+		}
+		return other instanceof WallRectangle || other instanceof SideRectangle;
 	}
 
 	/**
 	 * Sets whether this is "active" or not. When this is not "active", it
 	 * cannot interact with other {@code Rectangle}s (except
 	 * {@code SideRectangle}s, {@code WallRectangle}s, and {@code SwitchArea}s
-	 * or move due to gravity. This loses all velocity when set inactive.
+	 * with the same key) or move due to gravity. This loses all velocity when
+	 * set inactive.
 	 * 
 	 * @param active whether it should be "active"
 	 */
