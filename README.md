@@ -1,9 +1,19 @@
 # Block Game
 
-# Remember to update wiki with package information and update JSON format
-
-This is a puzzle game about moving blocks around. Solve 25 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 30 hand-crafted levels
 by interacting with the environment in varied, creative ways.
+
+### Features
+
+- 30 fun levels<sup>1</sup>
+- Hint system
+    - Ability to see the solution if you are really stuck
+- Expansive options menu
+    - Accessibility options for colorblindness, key remapping, increasing GUI
+    size, and slowing the game speed
+- Occasional cryptic messages printed to `stderr`
+
+<sup>1. Joy is not guaranteed</sup>
 
 ## Playing the game
 
@@ -36,8 +46,10 @@ by interacting with the environment in varied, creative ways.
 
 ### Installation
 
-Download the latest `jar` file from the
-[releases tab](https://github.com/frankkormann/block-game/releases) and run it.
+If you do not have Java, install Java 8 or higher from
+[java.com](https://www.java.com/en/download/). Then, download the latest `jar`
+file from the [releases tab](https://github.com/frankkormann/block-game/releases) 
+and run it.
 
 ### Controls
 
@@ -164,9 +176,8 @@ Each level is built from a `JSON` file. See
 requirements. See `level_demo.json` for an example level that creates every type
 of rectangle.
 
-The game will automatically load `level_1.json` as its first level unless a
-command-line argument is used. Subsequent level filenames are read from the
-activated Goal Area.
+The game will automatically load `level_1-1.json` as its first level. Subsequent
+level filenames are read from the activated Goal Area.
 
 ## Contributing
 
