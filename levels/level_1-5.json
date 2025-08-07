@@ -1,0 +1,119 @@
+{
+	"name": "Skewer Mover [1-5]",
+	"width": 500,
+	"height": 500,
+	"solution": "/level_1-5.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 240,
+			"y": 290,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 170,
+			"y": 260,
+			"width": 180,
+			"height": 30,
+			"color": "BLUE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 170,
+			"y": 310,
+			"width": 180,
+			"height": 10,
+			"color": "RED"
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 150,
+			"y": 140,
+			"width": 200,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 150,
+			"y": 160,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 330,
+			"y": 160,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 130,
+			"y": 270,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 110,
+			"y": 290,
+			"width": 60,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 350,
+			"y": 290,
+			"width": 40,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 130,
+			"y": 320,
+			"width": 240,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".GoalArea",
+			"x": 225,
+			"y": 210,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_2-1.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": -50,
+			"y": 280,
+			"width": 180,
+			"height": 10,
+			"color": "RED"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 70,
+			"y": 290,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"
+		}
+	]
+}

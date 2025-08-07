@@ -117,15 +117,6 @@
 	],
 	"areas": [
 		{
-			"type": ".ForceArea",
-			"x": 480,
-			"y": 360,
-			"width": 40,
-			"height": 80,
-			"xForce": 0,
-			"yForce": -3
-		},
-		{
 			"type": ".AntigravityArea",
 			"x": 300,
 			"y": 300,
@@ -167,9 +158,7 @@
 			"height": 25,
 			"xShrink": 1,
 			"yShrink": 0
-		}
-	],
-	"goals": [
+		},
 		{
 			"type": ".GoalArea",
 			"x": 280,

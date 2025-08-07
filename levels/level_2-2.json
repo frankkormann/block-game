@@ -1,0 +1,88 @@
+{
+	"name": "The Beanstalk [2-2]",
+	"width": 500,
+	"height": 700,
+	"solution": "/level_2-2.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 50,
+			"y": 230,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 400,
+			"y": 680,
+			"width": 10,
+			"height": 20,
+			"color": "GREEN"
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": -20,
+			"y": 250,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 290,
+			"y": 250,
+			"width": 210,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": -20,
+			"y": 90,
+			"width": 20,
+			"height": 160,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 300,
+			"y": 90,
+			"width": 20,
+			"height": 160,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".GrowArea",
+			"x": 120,
+			"y": 640,
+			"width": 60,
+			"height": 60,
+			"xGrowth": 0,
+			"yGrowth": 1
+		},
+		{
+			"type": ".GoalArea",
+			"x": 380,
+			"y": 200,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_2-3.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 145,
+			"y": 580,
+			"width": 10,
+			"height": 120,
+			"color": "GREEN"
+		}
+	]
+}

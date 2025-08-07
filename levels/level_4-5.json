@@ -1,0 +1,140 @@
+{
+	"name": "Inevitably Tall [4-5]",
+	"width": 800,
+	"height": 300,
+	"solution": "/level_4-5.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 190,
+			"y": 200,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 350,
+			"y": 150,
+			"width": 10,
+			"height": 70,
+			"color": "ORANGE",
+			"attachments": [
+				{
+					"area": {
+						"type": ".GrowArea",
+						"width": 80,
+						"xGrowth": 0,
+						"yGrowth": 1
+					},
+					"options": ["GLUED_WEST", "SAME_HEIGHT"]
+				},
+				{
+					"area": {
+						"type": ".ShrinkArea",
+						"width": 20,
+						"xShrink": 0,
+						"yShrink": 1
+					},
+					"options": ["GLUED_EAST", "SAME_HEIGHT"]
+				}
+			]
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 420,
+			"y": 120,
+			"width": 80,
+			"height": 100,
+			"color": "RED"
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 110,
+			"y": 100,
+			"width": 20,
+			"height": 40,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 420,
+			"y": 100,
+			"width": 270,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 500,
+			"y": 200,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 670,
+			"y": 120,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 110,
+			"y": 220,
+			"width": 580,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".ShrinkArea",
+			"x": 130,
+			"y": 180,
+			"width": 30,
+			"height": 40,
+			"xShrink": 0,
+			"yShrink": 1
+		},
+		{
+			"type": ".GoalArea",
+			"x": 570,
+			"y": 170,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_5-1.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 410,
+			"y": 180,
+			"width": 10,
+			"height": 40,
+			"color": "ORANGE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 330,
+			"y": 180,
+			"width": 80,
+			"height": 40,
+			"color": "TRANSLUCENT_GREEN"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 420,
+			"y": 180,
+			"width": 20,
+			"height": 40,
+			"color": "TRANSLUCENT_RED"
+		}
+	]
+}
