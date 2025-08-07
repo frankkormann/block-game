@@ -72,6 +72,8 @@ public class GameInputHandler extends KeyAdapter
 	 * stream.
 	 * 
 	 * @param inputMapper {@code InputMapper} to take keybinds from
+	 * @param paramMapper {@code ParameterMapper} to take keyboard resize value
+	 *                    from
 	 */
 	public GameInputHandler(InputMapper inputMapper,
 			ParameterMapper paramMapper) {

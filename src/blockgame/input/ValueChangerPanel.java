@@ -20,6 +20,8 @@ import javax.swing.SwingUtilities;
  * saving mappings once the parent window is closed. Subclasses must define how
  * to create a {@code GetterSetter} and how to lay out {@code GetterSetter}s.
  * 
+ * @param <T> type of value to change
+ * 
  * @author Frank Kormann
  */
 public abstract class ValueChangerPanel<T> extends JPanel
@@ -76,9 +78,10 @@ public abstract class ValueChangerPanel<T> extends JPanel
 	 * Creates a {@code JPanel} to display each {@code GetterSetter} in
 	 * {@code getterSetters}.
 	 * 
-	 * @param getterSetters
+	 * @param getterSetters {@code Map} from the enum value for this
+	 *                      {@code GetterSetter} to the {@code GetterSetter}
 	 * 
-	 * @return
+	 * @return the {@code JPanel}
 	 */
 	protected abstract JPanel createGetterSetterPanel(
 			Map<Enum<?>, GetterSetter<T>> getterSetters);
