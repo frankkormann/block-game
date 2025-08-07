@@ -244,6 +244,9 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 			fileChooserResult = fileChooser
 					.showSaveDialog(SwingUtilities.getWindowAncestor(this));
 			saveFile = fileChooser.getSelectedFile();
+			if (saveFile == null) {
+				return null;
+			}
 
 			if (!saveFile.getName().matches("^.*\\..*$")) {
 				saveFile = new File(saveFile.getPath() + ".rec");
