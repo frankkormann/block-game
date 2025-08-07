@@ -62,6 +62,12 @@ public class SwitchArea extends Area {
 		g.dispose();
 	}
 
+	/**
+	 * Sets all {@code SwitchRectangle} children to be active if there were no
+	 * {@code MovingRectangle}s within this previously.
+	 * 
+	 * @param rect {@code MovingRectangle} which entered
+	 */
 	@Override
 	protected void onEnter(MovingRectangle rect) {
 		numberInside++;
@@ -70,6 +76,12 @@ public class SwitchArea extends Area {
 		}
 	}
 
+	/**
+	 * Sets all {@code SwitchRectangle} children to be inactive if there area no
+	 * {@code MovingRectangle}s within this anymore.
+	 * 
+	 * @param rect {@code MovingRectangle} which exited
+	 */
 	@Override
 	protected void onExit(MovingRectangle rect) {
 		numberInside--;
@@ -78,15 +90,16 @@ public class SwitchArea extends Area {
 		}
 	}
 
+	/**
+	 * Not implemented.
+	 * 
+	 * @param rect unused
+	 */
 	@Override
 	protected void everyFrame(MovingRectangle rect) {}
 
 	public String getKey() {
 		return key;
-	}
-
-	public Set<SwitchRectangle> getChildren() {
-		return children;
 	}
 
 	public void addChild(SwitchRectangle child) {
