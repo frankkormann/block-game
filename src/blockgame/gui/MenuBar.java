@@ -110,6 +110,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 		showSolutionItem = createMenuItem("Show solution",
 				MetaInput.PLAY_SOLUTION, this::showSolutionAction, false);
+		showSolutionItem.setToolTipText(
+				"Please view the hint and give a good effort before using this option");
 		showSolutionItem.setEnabled(false);
 
 		menu.add(showHintItem);
