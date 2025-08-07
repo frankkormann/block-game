@@ -2,9 +2,13 @@ package blockgame.physics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import blockgame.util.Pair;
 
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
@@ -98,6 +102,19 @@ public class SwitchRectangle extends MovingRectangle {
 			return ((SwitchArea) other).getKey().equals(key);
 		}
 		return other instanceof WallRectangle || other instanceof SideRectangle;
+	}
+
+	@Override
+	public void addAttachment(Area attachment, AttachmentOption... options) {
+		super.addAttachment(attachment, options);
+		attachment.setActive(isActive);
+	}
+
+	@Override
+	public void addAllAttachments(
+			List<Pair<Area, Set<AttachmentOption>>> attachments) {
+		super.addAllAttachments(attachments);
+		attachments.forEach(p -> p.first.setActive(isActive));
 	}
 
 	/**
