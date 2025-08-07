@@ -15,7 +15,7 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 145,
+			"x": 60,
 			"y": 550,
 			"width": 30,
 			"height": 50,
@@ -23,7 +23,7 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 425,
+			"x": 520,
 			"y": 550,
 			"width": 30,
 			"height": 50,
