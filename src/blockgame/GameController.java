@@ -127,7 +127,7 @@ public class GameController extends WindowAdapter
 
 		paramMapper.addListener(this);
 
-		startGame(SaveManager.getValue("CURRENT_LEVEL", FIRST_LEVEL),
+		startGame(SaveManager.getValue("current_level", FIRST_LEVEL),
 				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
 
@@ -142,11 +142,11 @@ public class GameController extends WindowAdapter
 		loadLevel(firstLevel);
 		mainFrame.setVisible(true);
 
-		if (SaveManager.getValue("NEW_SAVE", "true").equals("true")) {
+		if (SaveManager.getValue("new_save", "true").equals("true")) {
 			JOptionPane.showMessageDialog(mainFrame,
 					"You can change colors and controls in the Options menu at any time.",
 					"Message", JOptionPane.INFORMATION_MESSAGE);
-			SaveManager.putValue("NEW_SAVE", "false");
+			SaveManager.putValue("new_save", "false");
 		}
 
 		newFrameTask = new TimerTask() {
@@ -223,7 +223,7 @@ public class GameController extends WindowAdapter
 		currentSolution = level.solution;
 		currentLevel = levelResource;
 		loadObjectsFromLevel(level);
-		SaveManager.putValue("CURRENT_LEVEL", levelResource);
+		SaveManager.putValue("current_level", levelResource);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
@@ -478,7 +478,7 @@ public class GameController extends WindowAdapter
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
-		SaveManager.putValue("CURRENT_LEVEL", currentLevel);
+		SaveManager.putValue("current_level", currentLevel);
 		System.exit(0);
 	}
 
