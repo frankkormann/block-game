@@ -1,0 +1,131 @@
+{
+	"name": "Daisy Chain [6-4]",
+	"width": 800,
+	"height": 400,
+	"solution": "/level_6-4.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 280,
+			"y": 370,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 395,
+			"y": 340,
+			"width": 30,
+			"height": 50,
+			"color": "GREEN"
+		},
+		{
+			"type": ".SwitchRectangle",
+			"x": 560,
+			"y": 360,
+			"width": 30,
+			"height": 30,
+			"color": "BLUE",
+			"key": "blue"
+		},
+		{
+			"type": ".SwitchRectangle",
+			"x": 590,
+			"y": 310,
+			"width": 30,
+			"height": 80,
+			"color": "RED",
+			"key": "red"
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 390,
+			"width": 640,
+			"height": 10,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 370,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 200,
+			"y": 340,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 620,
+			"y": 250,
+			"width": 20,
+			"height": 140,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 620,
+			"y": 230,
+			"width": 180,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".SwitchArea",
+			"x": 70,
+			"y": 310,
+			"width": 80,
+			"height": 80,
+			"color": "TRANSLUCENT_RED",
+			"key": "red"
+		},
+		{
+			"type": ".SwitchArea",
+			"x": 370,
+			"y": 310,
+			"width": 80,
+			"height": 80,
+			"color": "TRANSLUCENT_BLUE",
+			"key": "blue"
+		},
+		{
+			"type": ".GoalArea",
+			"x": 680,
+			"y": 180,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1-1.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 95,
+			"y": 360,
+			"width": 30,
+			"height": 30,
+			"color": "BLUE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 395,
+			"y": 340,
+			"width": 30,
+			"height": 50,
+			"color": "GREEN"
+		}
+	]
+}
