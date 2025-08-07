@@ -203,7 +203,12 @@ public class GameController extends WindowAdapter
 				physicsSimulator.resetNextlevel();
 			}
 			else {
-				System.exit(1);
+				if (!levelResource.equals(FIRST_LEVEL)) {
+					loadLevel(FIRST_LEVEL);
+				}
+				else {
+					System.exit(1);
+				}
 			}
 
 			paused = false;
