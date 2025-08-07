@@ -408,10 +408,16 @@ public class GameController extends WindowAdapter
 			return;
 		}
 
+		String[] options = { "Show solution", "Cancel" };
+		int proceedChoice = JOptionPane.showOptionDialog(mainFrame,
+				"This option is intended to be used if you are absolutely stuck. Please give the puzzle a good effort before watching this.\n\nIf you have seen enough and want to stop the recording partway through, select Recordings > Stop in the title bar.",
+				"Continue?", JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+		if (proceedChoice != JOptionPane.OK_OPTION) {
+			return;
+		}
+
 		reloadLevel();
-		JOptionPane.showMessageDialog(mainFrame,
-				"Stop playback at any time in the title bar with Recordings > Stop.",
-				"Seen Enough?", JOptionPane.INFORMATION_MESSAGE);
 
 		gameInputHandler
 				.beginReading(getClass().getResourceAsStream(currentSolution));
