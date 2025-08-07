@@ -254,8 +254,7 @@ public class GameController extends WindowAdapter
 			}
 			physicsSimulator.add(rect);
 			for (Area attached : rect.getAttachments()) {
-				physicsSimulator.add(attached);
-				mainFrame.add(attached, 0);
+				level.areas.add(attached);
 			}
 		}
 
