@@ -20,6 +20,8 @@ import java.util.Set;
  */
 public abstract class Area extends Rectangle {
 
+	private static final int INACTIVE_OUTLINE_THICKNESS = 2;
+
 	private Set<MovingRectangle> rectsInside;
 	private boolean isActive;
 
@@ -37,7 +39,13 @@ public abstract class Area extends Rectangle {
 
 		g = g.create();
 		g.setColor(getColor());
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
+
+		if (isActive) {
+			g.fillRect(getX(), getY(), getWidth(), getHeight());
+		}
+		else {
+			drawRectOutline(g, INACTIVE_OUTLINE_THICKNESS);
+		}
 
 		g.dispose();
 	}
@@ -88,6 +96,16 @@ public abstract class Area extends Rectangle {
 		if (rectsInside.contains(rect)) {
 			everyFrame(rect);
 		}
+	}
+
+	/**
+	 * Sets whether this is "active". See {@link #setActive(boolean)} for a
+	 * description of what activity means.
+	 * 
+	 * @return {@code true} if this is "active"
+	 */
+	public boolean getActive() {
+		return isActive;
 	}
 
 	/**
