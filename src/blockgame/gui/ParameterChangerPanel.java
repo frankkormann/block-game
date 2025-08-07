@@ -17,8 +17,8 @@ import javax.swing.SwingUtilities;
 
 import blockgame.input.GetterSetter;
 import blockgame.input.ParameterMapper;
-import blockgame.input.ValueChangerPanel;
 import blockgame.input.ParameterMapper.Parameter;
+import blockgame.input.ValueChangerPanel;
 
 /**
  * {@code JPanel} which allows the user to remap values in
@@ -129,7 +129,7 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 			case GUI_SCALING:
 				return "GUI Scaling";
 			case OPACITY_MULTIPLIER:
-				return "Opacity of Transparent Blocks";
+				return "Hint Opacity";
 			case KEYBOARD_RESIZING_AMOUNT:
 				return "Keyboard Resizing Rate";
 			case RESIZING_AREA_WIDTH:
@@ -156,7 +156,7 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 			case GUI_SCALING:
 				return "Multiplier for size of GUI elements";
 			case OPACITY_MULTIPLIER:
-				return "Alpha multiplier for blocks with transparent parts, such as hints\nLower is more transparent";
+				return "Transparency of hint blocks\nLower is more transparent";
 			case KEYBOARD_RESIZING_AMOUNT:
 				return "Amount the window will be resized with each keyboard input";
 			case RESIZING_AREA_WIDTH:
