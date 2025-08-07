@@ -1,0 +1,121 @@
+{
+	"name": "Now It's Here and Now It's Not [6-1]",
+	"width": 800,
+	"height": 500,
+	"solution": "/level_6-1.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 265,
+			"y": 470,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 80,
+			"y": 460,
+			"width": 30,
+			"height": 30,
+			"color": "GREEN"
+		},
+		{
+			"type": ".SwitchRectangle",
+			"x": 110,
+			"y": 430,
+			"width": 30,
+			"height": 60,
+			"color": "RED",
+			"key": "red"
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 0,
+			"width": 800,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 490,
+			"width": 800,
+			"height": 10,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 10,
+			"width": 10,
+			"height": 480,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 790,
+			"y": 10,
+			"width": 10,
+			"height": 480,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 500,
+			"y": 360,
+			"width": 20,
+			"height": 130,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 520,
+			"y": 360,
+			"width": 270,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".SwitchArea",
+			"x": 200,
+			"y": 390,
+			"width": 150,
+			"height": 100,
+			"color": "TRANSLUCENT_RED",
+			"key": "red"
+		},
+		{
+			"type": ".GoalArea",
+			"x": 700,
+			"y": 310,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1-1.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 300,
+			"y": 460,
+			"width": 30,
+			"height": 30,
+			"color": "GREEN"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 470,
+			"y": 430,
+			"width": 30,
+			"height": 60,
+			"color": "RED"
+		}
+	]
+}
