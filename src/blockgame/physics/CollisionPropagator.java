@@ -18,6 +18,8 @@ import blockgame.util.Pair;
  * call {@link #propagateCollision()} to compute the collision, then throw this
  * instance away. Calling {@code propagateCollision} multiple times is not
  * supported and will result in an {@code IllegalStateException}.
+ * 
+ * @author Frank Kormann
  */
 public class CollisionPropagator {
 
