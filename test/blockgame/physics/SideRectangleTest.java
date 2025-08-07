@@ -20,8 +20,8 @@ class SideRectangleTest {
 	}
 
 	@Test
-	void is_not_acting_like_a_wall_by_default() {
-		assertFalse(side.isActingLikeWall());
+	void is_acting_like_a_wall_by_default() {
+		assertTrue(side.isActingLikeWall());
 	}
 
 	@Test
