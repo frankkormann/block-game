@@ -257,6 +257,9 @@ public class GameController extends WindowAdapter
 
 		currentSolution = level.solution;
 		currentLevel = resource;
+		if (level.newTitle != "") {
+			SaveManager.putValue("title_screen", level.newTitle);
+		}
 		loadObjects(level);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
