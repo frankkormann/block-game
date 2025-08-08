@@ -30,7 +30,6 @@ public class ImageArea extends Area implements ValueChangeListener {
 
 	private static ColorMapper colorMapper;
 
-	private int x, y;
 	private BufferedImage baseImage;
 	private BufferedImage imageToDraw;
 	private Colors color;
@@ -40,8 +39,6 @@ public class ImageArea extends Area implements ValueChangeListener {
 			@JsonProperty("source") String source) {
 		super(x, y, 0, 0, Colors.TRANSPARENT);
 
-		this.x = x;
-		this.y = y;
 		color = null;
 		colorMapper.addListener(this);
 		try {
@@ -70,7 +67,7 @@ public class ImageArea extends Area implements ValueChangeListener {
 
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(imageToDraw, x, y, null);
+		g.drawImage(imageToDraw, getX(), getY(), null);
 	}
 
 	public void setColor(Colors color) {
