@@ -2,14 +2,6 @@
 	"name": "Block Game: Resizer",
 	"width": 800,
 	"height": 500,
-	"images": [
-		{
-			"x": 100,
-			"y": 100,
-			"source": "/title_screen_text.png",
-			"color": "TRANSLUCENT_GREEN"
-		}
-	],
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -73,6 +65,13 @@
 			"width": 50,
 			"height": 50,
 			"nextLevel": "$current_level"
+		},
+		{
+			"type": ".ImageArea",
+			"x": 100,
+			"y": 100,
+			"source": "/title_screen_text.png",
+			"color": "TRANSLUCENT_GREEN"
 		}
 	]
 }
