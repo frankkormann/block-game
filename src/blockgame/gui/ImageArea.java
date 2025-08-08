@@ -23,6 +23,12 @@ import blockgame.physics.MovingRectangle;
  * applies a coloring to the image. In the second mode, the supplied image
  * resource should be grayscale. Whiter sections will become more colored and
  * darker sections will stay darker.
+ * <p>
+ * An {@code Area} can be set as the "imitated {@code Area}". If there is an
+ * imitated {@code Area}, all {@code MovingRectangle}s which enter this will be
+ * treated as though they entered an {@code Area} of the imitated {@code Area}'s
+ * type. There is no need to set a position or size for the imitated
+ * {@code Area}, since it will inherit its position and size from this.
  * 
  * @author Frank Kormann
  */
@@ -106,6 +112,13 @@ public class ImageArea extends Area implements ValueChangeListener {
 		colorImage();
 	}
 
+	/**
+	 * Sets the {@code Area} which this should act like. Calls to
+	 * {@code onEnter}, {@code onExit}, and {@code everyFrame} will be passed to
+	 * this {@code Area} and it will have its bounds updated to match this.
+	 * 
+	 * @param area {@code Area} to imitate
+	 */
 	public void setImitatedArea(Area area) {
 		imitatedArea = area;
 		imitatedArea.setX(getX());
@@ -114,6 +127,13 @@ public class ImageArea extends Area implements ValueChangeListener {
 		imitatedArea.setHeight(getHeight());
 	}
 
+	/**
+	 * Gets the {@code Area} which this is acting like.
+	 * 
+	 * @return the imitated {@code Area}
+	 * 
+	 * @see #setImitatedArea(Area)
+	 */
 	public Area getImitatedArea() {
 		return imitatedArea;
 	}
@@ -152,6 +172,14 @@ public class ImageArea extends Area implements ValueChangeListener {
 
 	/* Area */
 
+	/**
+	 * Does nothing unless there is an imitated {@code Area} set. In that case,
+	 * calls {@code imitatedArea.onEnter(rect)}.
+	 * 
+	 * @param rect {@code MovingRectangle} which entered
+	 * 
+	 * @see #setImitatedArea(Area)
+	 */
 	@Override
 	public void onEnter(MovingRectangle rect) {
 		if (imitatedArea != null) {
@@ -159,6 +187,14 @@ public class ImageArea extends Area implements ValueChangeListener {
 		}
 	}
 
+	/**
+	 * Does nothing unless there is an imitated {@code Area} set. In that case,
+	 * calls {@code imitatedArea.onExit(rect)}.
+	 * 
+	 * @param rect {@code MovingRectangle} which exited
+	 * 
+	 * @see #setImitatedArea(Area)
+	 */
 	@Override
 	public void onExit(MovingRectangle rect) {
 		if (imitatedArea != null) {
@@ -166,6 +202,14 @@ public class ImageArea extends Area implements ValueChangeListener {
 		}
 	}
 
+	/**
+	 * Does nothing unless there is an imitated {@code Area} set. In that case,
+	 * calls {@code imitatedArea.everyFrame(rect)}.
+	 * 
+	 * @param rect {@code MovingRectangle} which is inside
+	 * 
+	 * @see #setImitatedArea(Area)
+	 */
 	@Override
 	public void everyFrame(MovingRectangle rect) {
 		if (imitatedArea != null) {
