@@ -27,7 +27,7 @@ public class GroundingArea extends Area {
 	 * @param rect {@code MovingRectangle} to change the state of
 	 */
 	@Override
-	protected void onEnter(MovingRectangle rect) {
+	public void onEnter(MovingRectangle rect) {
 		rect.setState(State.ON_GROUND);
 	}
 
@@ -37,7 +37,7 @@ public class GroundingArea extends Area {
 	 * @param rect {@code MovingRectangle} to change the state of
 	 */
 	@Override
-	protected void onExit(MovingRectangle rect) {
+	public void onExit(MovingRectangle rect) {
 		rect.setState(State.IN_AIR);
 	}
 
@@ -47,7 +47,7 @@ public class GroundingArea extends Area {
 	 * @param rect {@code MovingRectangle} to change the state of
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {
+	public void everyFrame(MovingRectangle rect) {
 		rect.setState(State.ON_GROUND);
 	}
 

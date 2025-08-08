@@ -86,7 +86,7 @@ public class ShrinkArea extends Area {
 	 * @param rect unused
 	 */
 	@Override
-	protected void onEnter(MovingRectangle rect) {}
+	public void onEnter(MovingRectangle rect) {}
 
 	/**
 	 * Not implemented.
@@ -94,7 +94,7 @@ public class ShrinkArea extends Area {
 	 * @param rect unused
 	 */
 	@Override
-	protected void onExit(MovingRectangle rect) {}
+	public void onExit(MovingRectangle rect) {}
 
 	/**
 	 * Shrink rect until it is as tall/wide as this.
@@ -102,7 +102,7 @@ public class ShrinkArea extends Area {
 	 * @param rect {@code MovingRectangle} to shrink
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {
+	public void everyFrame(MovingRectangle rect) {
 
 		shrinkRect(rect, getY() - rect.getY(), Direction.NORTH);
 		shrinkRect(rect, rect.getY() + rect.getHeight() - getY() - getHeight(),

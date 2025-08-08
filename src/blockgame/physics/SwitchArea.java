@@ -69,7 +69,7 @@ public class SwitchArea extends Area {
 	 * @param rect {@code MovingRectangle} which entered
 	 */
 	@Override
-	protected void onEnter(MovingRectangle rect) {
+	public void onEnter(MovingRectangle rect) {
 		numberInside++;
 		if (numberInside == 1) {
 			children.forEach(r -> r.setActive(true));
@@ -83,7 +83,7 @@ public class SwitchArea extends Area {
 	 * @param rect {@code MovingRectangle} which exited
 	 */
 	@Override
-	protected void onExit(MovingRectangle rect) {
+	public void onExit(MovingRectangle rect) {
 		numberInside--;
 		if (numberInside == 0) {
 			children.forEach(r -> r.setActive(false));
@@ -96,7 +96,7 @@ public class SwitchArea extends Area {
 	 * @param rect unused
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {}
+	public void everyFrame(MovingRectangle rect) {}
 
 	public String getKey() {
 		return key;

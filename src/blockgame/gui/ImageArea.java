@@ -107,13 +107,13 @@ public class ImageArea extends Area implements ValueChangeListener {
 	/* Area */
 
 	@Override
-	protected void onEnter(MovingRectangle rect) {}
+	public void onEnter(MovingRectangle rect) {}
 
 	@Override
-	protected void onExit(MovingRectangle rect) {}
+	public void onExit(MovingRectangle rect) {}
 
 	@Override
-	protected void everyFrame(MovingRectangle rect) {}
+	public void everyFrame(MovingRectangle rect) {}
 
 	/* ValueChangeListener */
 
