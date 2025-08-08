@@ -70,11 +70,6 @@ public class ImageArea extends Area implements ValueChangeListener {
 		g.drawImage(imageToDraw, getX(), getY(), null);
 	}
 
-	public void setColor(Colors color) {
-		this.color = color;
-		colorImage();
-	}
-
 	/**
 	 * Applies the coloring to {@code imageToDraw}, taking grayscale RGB data
 	 * from {@code baseImage}.
@@ -104,15 +99,12 @@ public class ImageArea extends Area implements ValueChangeListener {
 		}
 	}
 
-	@Override
-	public void valueChanged(Enum<?> key, Object newValue) {
-		if (key == color) {
-			colorImage();
-		}
+	public void setColor(Colors color) {
+		this.color = color;
+		colorImage();
 	}
 
-	@Override
-	public void valueRemoved(Enum<?> key) {}
+	/* Area */
 
 	@Override
 	protected void onEnter(MovingRectangle rect) {}
@@ -122,5 +114,17 @@ public class ImageArea extends Area implements ValueChangeListener {
 
 	@Override
 	protected void everyFrame(MovingRectangle rect) {}
+
+	/* ValueChangeListener */
+
+	@Override
+	public void valueChanged(Enum<?> key, Object newValue) {
+		if (key == color) {
+			colorImage();
+		}
+	}
+
+	@Override
+	public void valueRemoved(Enum<?> key) {}
 
 }
