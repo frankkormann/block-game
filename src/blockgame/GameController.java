@@ -517,7 +517,6 @@ public class GameController extends WindowAdapter
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
-		SaveManager.putValue("current_level", currentLevel);
 		System.exit(0);
 	}
 
