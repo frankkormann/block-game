@@ -2,6 +2,13 @@
 	"name": "Block Game",
 	"width": 800,
 	"height": 500,
+	"images": [
+		{
+			"x": 50,
+			"y": 100,
+			"source": "/title_screen_text.png"
+		}
+	],
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
