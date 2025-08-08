@@ -1,0 +1,78 @@
+{
+	"name": "Block Game: Resizer",
+	"width": 800,
+	"height": 500,
+	"images": [
+		{
+			"x": 100,
+			"y": 100,
+			"source": "/title_screen_text.png",
+			"color": "TRANSLUCENT_GREEN"
+		}
+	],
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 400,
+			"y": 320,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 600,
+			"y": 440,
+			"width": 30,
+			"height": 60,
+			"color": "RED"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 270,
+			"y": 310,
+			"width": 40,
+			"height": 30,
+			"color": "BLUE"
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 230,
+			"y": 340,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".GrowArea",
+			"x": 470,
+			"y": 280,
+			"width": 120,
+			"height": 60,
+			"xGrowth": 1,
+			"yGrowth": 0
+		},
+		{
+			"type": ".GrowArea",
+			"x": 120,
+			"y": 380,
+			"width": 50,
+			"height": 120,
+			"xGrowth": 0,
+			"yGrowth": 1
+		},
+		{
+			"type": ".GoalArea",
+			"x": 120,
+			"y": 290,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "$current_level"
+		}
+	]
+}
