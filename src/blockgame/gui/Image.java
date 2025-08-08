@@ -77,6 +77,7 @@ public class Image implements Drawable, ValueChangeListener {
 		if (referenceColor == null) {
 			return;
 		}
+		int refA = referenceColor.getAlpha();
 		int refR = referenceColor.getRed();
 		int refG = referenceColor.getGreen();
 		int refB = referenceColor.getBlue();
@@ -84,11 +85,12 @@ public class Image implements Drawable, ValueChangeListener {
 		for (int x1 = 0; x1 < imageToDraw.getWidth(); x1++) {
 			for (int y1 = 0; y1 < imageToDraw.getHeight(); y1++) {
 				int rgb = baseImage.getRGB(x1, y1);
-				int α = (rgb >> 24) & 0xff;
+				int α = (rgb >> 24) & 0xff * refA / 0xff;
 				int r = ((rgb >> 16) & 0xff) * refR / 0xff;
 				int g = ((rgb >> 8) & 0xff) * refG / 0xff;
 				int b = (rgb & 0xff) * refB / 0xff;
-				imageToDraw.setRGB(x1, y1, (α << 24) + (r << 16) + (g << 8) + b);
+				imageToDraw.setRGB(x1, y1,
+						(α << 24) + (r << 16) + (g << 8) + b);
 			}
 		}
 	}
