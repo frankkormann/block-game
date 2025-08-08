@@ -48,9 +48,9 @@
 		},
 		{
 			"type": ".SwitchRectangle",
-			"x": 360,
+			"x": 330,
 			"y": 430,
-			"width": 10,
+			"width": 30,
 			"height": 70,
 			"color": "BLUE",
 			"key": "blue",
