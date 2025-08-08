@@ -111,6 +111,7 @@ public class GameController extends WindowAdapter
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
+		Image.setColorMapper(colorMapper);
 
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded

@@ -6,7 +6,8 @@
 		{
 			"x": 50,
 			"y": 100,
-			"source": "/title_screen_text.png"
+			"source": "/title_screen_text.png",
+			"color": "BLUE"
 		}
 	],
 	"movingRectangles": [
