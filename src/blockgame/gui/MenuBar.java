@@ -50,6 +50,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	private JFileChooser fileChooser;
 	private Map<Enum<?>, JMenuItem> inputToMenuItem;
 
+	private JMenu hintMenu;
 	private JMenuItem showHintItem;
 	private JMenuItem showSolutionItem;
 	private JMenuItem pauseItem;
@@ -85,7 +86,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 		inputMapper.addListener(this);
 
-		add(createHintMenu());
+		hintMenu = createHintMenu();
+		add(hintMenu);
 		add(createRecordingMenu());
 		add(createPauseRestartMenu());
 		add(createOptionsButton(colorMapper, paramMapper));
@@ -100,6 +102,16 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		pauseItem.setSelected(false);
 		showSolutionItem.setEnabled(false);
 		frameAdvanceItem.setEnabled(false);
+	}
+
+	/**
+	 * Sets visible or not the {@code JMenu} which contains options to show
+	 * hints and level solution.
+	 * 
+	 * @param show {@code true} if it should be shown
+	 */
+	public void showHintsMenu(boolean show) {
+		hintMenu.setVisible(show);
 	}
 
 	private JMenu createHintMenu() {
