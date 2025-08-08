@@ -68,6 +68,7 @@ public class GameController extends WindowAdapter
 
 	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
+	private static final String FIRST_TITLE_SCREEN = "/title_1.json";
 	private static final String FIRST_LEVEL = "/level_1-1.json";
 
 	private MainFrame mainFrame;
@@ -127,19 +128,19 @@ public class GameController extends WindowAdapter
 
 		paramMapper.addListener(this);
 
-		startGame(SaveManager.getValue("current_level", FIRST_LEVEL),
+		startGame(SaveManager.getValue("title_screen", FIRST_TITLE_SCREEN),
 				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
 
 	/**
-	 * Loads {@code firstLevel} and begins a repeating {@code TimerTask} to
+	 * Loads {@code titleScreen} and begins a repeating {@code TimerTask} to
 	 * process each frame.
 	 * 
-	 * @param firstLevel          resource name of first level to load
+	 * @param titleScreen         resource name of title screen to load
 	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
-	public void startGame(String firstLevel, int millisBetweenFrames) {
-		loadLevel(firstLevel);
+	public void startGame(String titleScreen, int millisBetweenFrames) {
+		loadTitle(titleScreen);
 		mainFrame.setVisible(true);
 
 		if (SaveManager.getValue("new_save", "true").equals("true")) {
@@ -180,22 +181,53 @@ public class GameController extends WindowAdapter
 	 */
 	private void reloadLevel() {
 		gameInputHandler.endReading();
-		loadLevel(currentLevel);
+		load(currentLevel);
 	}
 
+	/**
+	 * Loads {@code titleResource} and disables the hint menu.
+	 * 
+	 * @param titleResource name of resource to load
+	 * 
+	 * @see #load(String)
+	 */
+	private void loadTitle(String titleResource) {
+		load(titleResource);
+		menuBar.showHintsMenu(false);
+	}
+
+	/**
+	 * Loads {@code levelResource} and saves it as the current level.
+	 * 
+	 * @param levelResource name of resource to load
+	 * 
+	 * @see #load(String)
+	 */
 	private void loadLevel(String levelResource) {
+		load(levelResource);
+		menuBar.showHintsMenu(true);
+		SaveManager.putValue("current_level", levelResource);
+	}
+
+	/**
+	 * Loads the resource named {@code resource} into {@code physicsSimulator}
+	 * and {@code mainFrame} as a level.
+	 * 
+	 * @param resource name of resource to load
+	 */
+	private void load(String resource) {
 		paused = true;
 		Level level;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			level = mapper.readValue(
-					getClass().getResourceAsStream(levelResource), Level.class);
+			level = mapper.readValue(getClass().getResourceAsStream(resource),
+					Level.class);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			new ErrorDialog("Error",
-					"Could not load level '" + levelResource
+					"Could not load level '" + resource
 							+ "', file is corrupt or does not exist",
 					e).setVisible(true);
 
@@ -203,9 +235,9 @@ public class GameController extends WindowAdapter
 				physicsSimulator.resetNextlevel();
 			}
 			else {
-				if (!levelResource.equals(FIRST_LEVEL)) {
-					System.err.println("Loading first level");
-					loadLevel(FIRST_LEVEL);
+				if (!resource.equals(FIRST_TITLE_SCREEN)) {
+					System.err.println("Loading first title screen");
+					loadTitle(FIRST_TITLE_SCREEN);
 				}
 				else {
 					System.exit(1);
@@ -222,19 +254,16 @@ public class GameController extends WindowAdapter
 		hints.clear();
 
 		currentSolution = level.solution;
-		currentLevel = levelResource;
-		loadObjectsFromLevel(level);
-		SaveManager.putValue("current_level", levelResource);
+		currentLevel = resource;
+		loadObjects(level);
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
 				mainFrame.getNextYOffset());
 
 		mainFrame.moveToMiddleOfScreen();
-
 		beginTempRecording();
 		paused = false;
-
 	}
 
 	/**
@@ -244,7 +273,7 @@ public class GameController extends WindowAdapter
 	 * 
 	 * @param level {@code Level} to take objects from
 	 */
-	private void loadObjectsFromLevel(Level level) {
+	private void loadObjects(Level level) {
 
 		for (MovingRectangle rect : level.movingRectangles) {
 			if (rect instanceof SwitchRectangle) {
@@ -335,7 +364,12 @@ public class GameController extends WindowAdapter
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
 
 		if (physicsSimulator.getNextLevel() != "") {
-			loadLevel(physicsSimulator.getNextLevel());
+			String nextLevel = physicsSimulator.getNextLevel();
+			if (nextLevel.startsWith("$")) {
+				nextLevel = SaveManager.getValue(nextLevel.substring(1),
+						FIRST_LEVEL);
+			}
+			loadLevel(nextLevel);
 			return;
 		}
 
