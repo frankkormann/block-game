@@ -71,7 +71,12 @@
 			"x": 100,
 			"y": 100,
 			"source": "/title_screen_text.png",
-			"color": "TRANSLUCENT_GREEN"
+			"color": "TRANSLUCENT_GREEN",
+			"imitatedArea": {
+				"type": ".GrowArea",
+				"xGrowth": 1,
+				"yGrowth": 1
+			}
 		}
 	]
 }

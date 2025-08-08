@@ -97,7 +97,12 @@
 			"x": 100,
 			"y": 100,
 			"source": "/title_screen_text.png",
-			"color": "TRANSLUCENT_RED"
+			"color": "TRANSLUCENT_RED",
+			"imitatedArea": {
+				"type": ".ShrinkArea",
+				"xShrink": 1,
+				"yShrink": 1
+			}
 		}
 	]
 }
