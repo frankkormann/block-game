@@ -278,10 +278,10 @@ public class GameController extends WindowAdapter
 
 		for (MovingRectangle rect : level.movingRectangles) {
 			if (rect instanceof SwitchRectangle) {
-				mainFrame.add(rect, 1);
+				mainFrame.add(rect, 2);
 			}
 			else {
-				mainFrame.add(rect, 2);
+				mainFrame.add(rect, 3);
 			}
 			physicsSimulator.add(rect);
 			for (Area attached : rect.getAttachments()) {
@@ -291,25 +291,24 @@ public class GameController extends WindowAdapter
 
 		for (WallRectangle wall : level.walls) {
 			physicsSimulator.add(wall);
-			mainFrame.add(wall, 3);
+			mainFrame.add(wall, 4);
 			for (Area attached : wall.getAttachments()) {
-				physicsSimulator.add(attached);
-				mainFrame.add(attached, 0);
+				level.areas.add(attached);
 			}
 		}
 
 		for (Area area : level.areas) {
 			physicsSimulator.add(area);
-			mainFrame.add(area, 0);
+			mainFrame.add(area, 1);
 		}
 
 		for (HintRectangle hint : level.hints) {
-			mainFrame.add(hint, 3);
+			mainFrame.add(hint, 5);
 			hints.add(hint);
 		}
 
 		for (Image img : level.images) {
-			mainFrame.add(img, 4);
+			mainFrame.add(img, 0);
 		}
 
 		linkSwitchAreasAndRects(level.areas, level.movingRectangles);
