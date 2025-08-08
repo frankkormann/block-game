@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import blockgame.gui.HintRectangle;
+import blockgame.gui.Image;
 import blockgame.physics.Area;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.WallRectangle;
@@ -22,7 +23,9 @@ public class Level {
 	public List<MovingRectangle> movingRectangles;
 	public List<WallRectangle> walls;
 	public List<Area> areas;
+
 	public List<HintRectangle> hints;
+	public List<Image> images;
 
 	public Level() {
 		name = "";
@@ -32,6 +35,7 @@ public class Level {
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();
 		hints = new ArrayList<>();
+		images = new ArrayList<>();
 	}
 
 }

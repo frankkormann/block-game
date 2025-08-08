@@ -28,6 +28,7 @@ import com.formdev.flatlaf.util.SystemInfo;
 
 import blockgame.gui.ErrorDialog;
 import blockgame.gui.HintRectangle;
+import blockgame.gui.Image;
 import blockgame.gui.MainFrame;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.gui.MenuBar;
@@ -305,6 +306,10 @@ public class GameController extends WindowAdapter
 		for (HintRectangle hint : level.hints) {
 			mainFrame.add(hint, 3);
 			hints.add(hint);
+		}
+
+		for (Image img : level.images) {
+			mainFrame.add(img, 4);
 		}
 
 		linkSwitchAreasAndRects(level.areas, level.movingRectangles);
