@@ -28,7 +28,7 @@ import com.formdev.flatlaf.util.SystemInfo;
 
 import blockgame.gui.ErrorDialog;
 import blockgame.gui.HintRectangle;
-import blockgame.gui.Image;
+import blockgame.gui.ImageArea;
 import blockgame.gui.MainFrame;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.gui.MenuBar;
@@ -111,7 +111,7 @@ public class GameController extends WindowAdapter
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
-		Image.setColorMapper(colorMapper);
+		ImageArea.setColorMapper(colorMapper);
 
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
@@ -303,16 +303,17 @@ public class GameController extends WindowAdapter
 
 		for (Area area : level.areas) {
 			physicsSimulator.add(area);
-			mainFrame.add(area, 1);
+			if (area instanceof ImageArea) {
+				mainFrame.add(area, 0);
+			}
+			else {
+				mainFrame.add(area, 1);
+			}
 		}
 
 		for (HintRectangle hint : level.hints) {
 			mainFrame.add(hint, 5);
 			hints.add(hint);
-		}
-
-		for (Image img : level.images) {
-			mainFrame.add(img, 0);
 		}
 
 		linkSwitchAreasAndRects(level.areas, level.movingRectangles);

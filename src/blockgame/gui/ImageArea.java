@@ -12,10 +12,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.input.ColorMapper;
 import blockgame.input.ValueChangeListener;
-import blockgame.physics.Rectangle.Colors;
+import blockgame.physics.Area;
+import blockgame.physics.MovingRectangle;
 
 /**
- * {@code Drawable} which draws an image from a resource.
+ * {@code Area} which draws an image from a resource as its texture. Does not
+ * implement {@code onEnter}, {@code onExit}, or {@code everyFrame}.
  * <p>
  * This has two modes: one where it draws the image as normal, and one where it
  * applies a coloring to the image. In the second mode, the supplied image
@@ -24,7 +26,7 @@ import blockgame.physics.Rectangle.Colors;
  * 
  * @author Frank Kormann
  */
-public class Image implements Drawable, ValueChangeListener {
+public class ImageArea extends Area implements ValueChangeListener {
 
 	private static ColorMapper colorMapper;
 
@@ -34,16 +36,21 @@ public class Image implements Drawable, ValueChangeListener {
 	private Colors color;
 
 	@JsonCreator
-	public Image(@JsonProperty("x") int x, @JsonProperty("y") int y,
+	public ImageArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("source") String source) {
+		super(x, y, 0, 0, Colors.TRANSPARENT);
+
 		this.x = x;
 		this.y = y;
 		color = null;
 		colorMapper.addListener(this);
 		try {
-			baseImage = ImageIO.read(Image.class.getResourceAsStream(source));
+			baseImage = ImageIO
+					.read(ImageArea.class.getResourceAsStream(source));
 			imageToDraw = new BufferedImage(baseImage.getWidth(),
 					baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			setWidth(baseImage.getWidth());
+			setHeight(baseImage.getHeight());
 			for (int x1 = 0; x1 < baseImage.getWidth(); x1++) {
 				for (int y1 = 0; y1 < baseImage.getHeight(); y1++) {
 					imageToDraw.setRGB(x1, y1, baseImage.getRGB(x1, y1));
@@ -58,7 +65,7 @@ public class Image implements Drawable, ValueChangeListener {
 	}
 
 	public static void setColorMapper(ColorMapper colorMapper) {
-		Image.colorMapper = colorMapper;
+		ImageArea.colorMapper = colorMapper;
 	}
 
 	@Override
@@ -109,5 +116,14 @@ public class Image implements Drawable, ValueChangeListener {
 
 	@Override
 	public void valueRemoved(Enum<?> key) {}
+
+	@Override
+	protected void onEnter(MovingRectangle rect) {}
+
+	@Override
+	protected void onExit(MovingRectangle rect) {}
+
+	@Override
+	protected void everyFrame(MovingRectangle rect) {}
 
 }
