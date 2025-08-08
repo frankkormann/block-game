@@ -1,10 +1,10 @@
 {
-	"name": "Block Game",
+	"name": "Block Game: Resizer",
 	"width": 800,
 	"height": 500,
 	"images": [
 		{
-			"x": 50,
+			"x": 100,
 			"y": 100,
 			"source": "/title_screen_text.png",
 			"color": "BLUE"
