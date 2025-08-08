@@ -280,6 +280,9 @@ public class GameController extends WindowAdapter
 	 */
 	private void loadObjects(Level level) {
 
+		List<SwitchArea> switchAreas = new ArrayList<>();
+		List<SwitchRectangle> switchRects = new ArrayList<>();
+
 		for (MovingRectangle rect : level.movingRectangles) {
 			if (rect instanceof SwitchRectangle) {
 				mainFrame.add(rect, 2);
@@ -288,6 +291,9 @@ public class GameController extends WindowAdapter
 				mainFrame.add(rect, 3);
 			}
 			physicsSimulator.add(rect);
+			if (rect instanceof SwitchRectangle) {
+				switchRects.add((SwitchRectangle) rect);
+			}
 			for (Area attached : rect.getAttachments()) {
 				level.areas.add(attached);
 			}
@@ -303,8 +309,15 @@ public class GameController extends WindowAdapter
 
 		for (Area area : level.areas) {
 			physicsSimulator.add(area);
+			if (area instanceof SwitchArea) {
+				switchAreas.add((SwitchArea) area);
+			}
 			if (area instanceof ImageArea) {
-				mainFrame.add(area, 0);
+				ImageArea imgArea = (ImageArea) area;
+				mainFrame.add(imgArea, 0);
+				if (imgArea.getImitatedArea() instanceof SwitchArea) {
+					switchAreas.add((SwitchArea) imgArea.getImitatedArea());
+				}
 			}
 			else {
 				mainFrame.add(area, 1);
@@ -316,36 +329,30 @@ public class GameController extends WindowAdapter
 			hints.add(hint);
 		}
 
-		linkSwitchAreasAndRects(level.areas, level.movingRectangles);
+		linkSwitchAreasAndRects(switchAreas, switchRects);
 	}
 
 	/**
 	 * Pairs each {@code SwitchArea} with all the {@code SwitchRectangle}s that
 	 * share its key.
 	 * 
-	 * @param areas {@code List} of potential {@code SwitchArea}s
-	 * @param rects {@code List} of potential {@code SwitchRectangle}s
+	 * @param areas {@code List} of {@code SwitchArea}s
+	 * @param rects {@code List} of {@code SwitchRectangle}s
 	 */
-	private void linkSwitchAreasAndRects(List<Area> areas,
-			List<MovingRectangle> rects) {
+	private void linkSwitchAreasAndRects(List<SwitchArea> areas,
+			List<SwitchRectangle> rects) {
 		Map<String, Set<SwitchRectangle>> rectKeys = new HashMap<>();
 
-		for (MovingRectangle rect : rects) {
-			if (rect instanceof SwitchRectangle) {
-				SwitchRectangle switchRect = (SwitchRectangle) rect;
-				if (!rectKeys.containsKey(switchRect.getKey())) {
-					rectKeys.put(switchRect.getKey(), new HashSet<>());
-				}
-				rectKeys.get(switchRect.getKey()).add(switchRect);
+		for (SwitchRectangle rect : rects) {
+			if (!rectKeys.containsKey(rect.getKey())) {
+				rectKeys.put(rect.getKey(), new HashSet<>());
 			}
+			rectKeys.get(rect.getKey()).add(rect);
 		}
-		for (Area area : areas) {
-			if (area instanceof SwitchArea) {
-				SwitchArea switchArea = (SwitchArea) area;
-				if (rectKeys.containsKey(switchArea.getKey())) {
-					rectKeys.get(switchArea.getKey())
-							.forEach(r -> switchArea.addChild(r));
-				}
+
+		for (SwitchArea area : areas) {
+			if (rectKeys.containsKey(area.getKey())) {
+				rectKeys.get(area.getKey()).forEach(r -> area.addChild(r));
 			}
 		}
 	}

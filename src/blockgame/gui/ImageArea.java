@@ -114,6 +114,10 @@ public class ImageArea extends Area implements ValueChangeListener {
 		imitatedArea.setHeight(getHeight());
 	}
 
+	public Area getImitatedArea() {
+		return imitatedArea;
+	}
+
 	@Override
 	public void setX(int x) {
 		super.setX(x);
