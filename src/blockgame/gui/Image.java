@@ -30,7 +30,7 @@ public class Image implements Drawable, ValueChangeListener {
 
 	private int x, y;
 	private BufferedImage baseImage;
-	private BufferedImage image;
+	private BufferedImage imageToDraw;
 	private Colors color;
 
 	@JsonCreator
@@ -42,7 +42,7 @@ public class Image implements Drawable, ValueChangeListener {
 		colorMapper.addListener(this);
 		try {
 			baseImage = ImageIO.read(Image.class.getResourceAsStream(source));
-			image = ImageIO.read(Image.class.getResourceAsStream(source));
+			imageToDraw = ImageIO.read(Image.class.getResourceAsStream(source));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public class Image implements Drawable, ValueChangeListener {
 
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(image, x, y, null);
+		g.drawImage(imageToDraw, x, y, null);
 	}
 
 	public void setColor(Colors color) {
@@ -81,14 +81,14 @@ public class Image implements Drawable, ValueChangeListener {
 		int refG = referenceColor.getGreen();
 		int refB = referenceColor.getBlue();
 
-		for (int x1 = 0; x1 < image.getWidth(); x1++) {
-			for (int y1 = 0; y1 < image.getHeight(); y1++) {
+		for (int x1 = 0; x1 < imageToDraw.getWidth(); x1++) {
+			for (int y1 = 0; y1 < imageToDraw.getHeight(); y1++) {
 				int rgb = baseImage.getRGB(x1, y1);
 				int α = (rgb >> 24) & 0xff;
 				int r = ((rgb >> 16) & 0xff) * refR / 0xff;
 				int g = ((rgb >> 8) & 0xff) * refG / 0xff;
 				int b = (rgb & 0xff) * refB / 0xff;
-				image.setRGB(x1, y1, (α << 24) + (r << 16) + (g << 8) + b);
+				imageToDraw.setRGB(x1, y1, (α << 24) + (r << 16) + (g << 8) + b);
 			}
 		}
 	}
