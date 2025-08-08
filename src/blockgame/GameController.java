@@ -69,7 +69,7 @@ public class GameController extends WindowAdapter
 
 	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
-	private static final String FIRST_TITLE_SCREEN = "/title_1.json";
+	private static final String FIRST_TITLE_SCREEN = "/title_0.json";
 	private static final String FIRST_LEVEL = "/level_1-1.json";
 
 	private MainFrame mainFrame;
