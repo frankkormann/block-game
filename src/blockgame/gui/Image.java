@@ -42,7 +42,13 @@ public class Image implements Drawable, ValueChangeListener {
 		colorMapper.addListener(this);
 		try {
 			baseImage = ImageIO.read(Image.class.getResourceAsStream(source));
-			imageToDraw = ImageIO.read(Image.class.getResourceAsStream(source));
+			imageToDraw = new BufferedImage(baseImage.getWidth(),
+					baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			for (int x1 = 0; x1 < baseImage.getWidth(); x1++) {
+				for (int y1 = 0; y1 < baseImage.getHeight(); y1++) {
+					imageToDraw.setRGB(x1, y1, baseImage.getRGB(x1, y1));
+				}
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -66,8 +72,8 @@ public class Image implements Drawable, ValueChangeListener {
 	}
 
 	/**
-	 * Applies the coloring to {@code image}, taking grayscale RGB data from
-	 * {@code baseImage}.
+	 * Applies the coloring to {@code imageToDraw}, taking grayscale RGB data
+	 * from {@code baseImage}.
 	 */
 	private void colorImage() {
 		if (color == null) {
@@ -82,15 +88,14 @@ public class Image implements Drawable, ValueChangeListener {
 		int refG = referenceColor.getGreen();
 		int refB = referenceColor.getBlue();
 
-		for (int x1 = 0; x1 < imageToDraw.getWidth(); x1++) {
-			for (int y1 = 0; y1 < imageToDraw.getHeight(); y1++) {
-				int rgb = baseImage.getRGB(x1, y1);
-				int α = (rgb >> 24) & 0xff * refA / 0xff;
-				int r = ((rgb >> 16) & 0xff) * refR / 0xff;
-				int g = ((rgb >> 8) & 0xff) * refG / 0xff;
-				int b = (rgb & 0xff) * refB / 0xff;
-				imageToDraw.setRGB(x1, y1,
-						(α << 24) + (r << 16) + (g << 8) + b);
+		for (int x = 0; x < imageToDraw.getWidth(); x++) {
+			for (int y = 0; y < imageToDraw.getHeight(); y++) {
+				int rgb = baseImage.getRGB(x, y);
+				int α = ((rgb >> 24) & 0xFF) * refA / 0xFF;
+				int r = ((rgb >> 16) & 0xFF) * refR / 0xFF;
+				int g = ((rgb >> 8) & 0xFF) * refG / 0xFF;
+				int b = (rgb & 0xFF) * refB / 0xFF;
+				imageToDraw.setRGB(x, y, (α << 24) | (r << 16) | (g << 8) | b);
 			}
 		}
 	}
