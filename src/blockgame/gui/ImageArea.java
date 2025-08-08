@@ -16,8 +16,7 @@ import blockgame.physics.Area;
 import blockgame.physics.MovingRectangle;
 
 /**
- * {@code Area} which draws an image from a resource as its texture. Does not
- * implement {@code onEnter}, {@code onExit}, or {@code everyFrame}.
+ * {@code Area} which draws an image from a resource as its texture.
  * <p>
  * This has two modes: one where it draws the image as normal, and one where it
  * applies a coloring to the image. In the second mode, the supplied image
