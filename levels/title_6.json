@@ -23,9 +23,9 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 220,
-			"y": 460,
+			"y": 440,
 			"width": 30,
-			"height": 40,
+			"height": 60,
 			"color": "ORANGE"
 		},
 		{
@@ -40,9 +40,9 @@
 		{
 			"type": ".SwitchRectangle",
 			"x": 85,
-			"y": 370,
+			"y": 360,
 			"width": 30,
-			"height": 130,
+			"height": 140,
 			"color": "RED",
 			"key": "red"
 		},
