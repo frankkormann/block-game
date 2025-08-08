@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import blockgame.gui.Drawable;
+import blockgame.gui.HintRectangle;
+import blockgame.gui.ImageArea;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.ColorMapper;
 import blockgame.input.ParameterMapper;
@@ -46,7 +49,17 @@ import blockgame.util.Pair;
  *
  * @author Frank Kormann
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = GoalArea.class, name = ".GoalArea"),
+		@JsonSubTypes.Type(value = AntigravityArea.class, name = ".AntigravityArea"),
+		@JsonSubTypes.Type(value = GrowArea.class, name = ".GrowArea"),
+		@JsonSubTypes.Type(value = ImageArea.class, name = ".ImageArea"),
+		@JsonSubTypes.Type(value = ShrinkArea.class, name = ".ShrinkArea"),
+		@JsonSubTypes.Type(value = SwitchArea.class, name = ".SwitchArea"),
+		@JsonSubTypes.Type(value = HintRectangle.class, name = ".HintRectangle"),
+		@JsonSubTypes.Type(value = MovingRectangle.class, name = ".MovingRectangle"),
+		@JsonSubTypes.Type(value = SwitchRectangle.class, name = ".SwitchRectangle"),
+		@JsonSubTypes.Type(value = WallRectangle.class, name = ".WallRectangle") })
 public abstract class Rectangle implements Drawable {
 
 	private static final float BORDER_DARKNESS = 1.2f;
