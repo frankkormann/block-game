@@ -33,14 +33,16 @@ public class ImageArea extends Area implements ValueChangeListener {
 	private BufferedImage baseImage;
 	private BufferedImage imageToDraw;
 	private Colors color;
+	private Area imitatedArea;
 
 	@JsonCreator
 	public ImageArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("source") String source) {
 		super(x, y, 0, 0, Colors.TRANSPARENT);
-
 		color = null;
+		imitatedArea = null;
 		colorMapper.addListener(this);
+
 		try {
 			baseImage = ImageIO
 					.read(ImageArea.class.getResourceAsStream(source));
@@ -104,16 +106,68 @@ public class ImageArea extends Area implements ValueChangeListener {
 		colorImage();
 	}
 
+	public void setImitatedArea(Area area) {
+		imitatedArea = area;
+		imitatedArea.setX(getX());
+		imitatedArea.setY(getY());
+		imitatedArea.setWidth(getWidth());
+		imitatedArea.setHeight(getHeight());
+	}
+
+	@Override
+	public void setX(int x) {
+		super.setX(x);
+		if (imitatedArea != null) {
+			imitatedArea.setX(getX());
+		}
+	}
+
+	@Override
+	public void setY(int y) {
+		super.setY(y);
+		if (imitatedArea != null) {
+			imitatedArea.setY(getY());
+		}
+	}
+
+	@Override
+	public void setWidth(int width) {
+		super.setWidth(width);
+		if (imitatedArea != null) {
+			imitatedArea.setWidth(getWidth());
+		}
+	}
+
+	@Override
+	public void setHeight(int height) {
+		super.setHeight(height);
+		if (imitatedArea != null) {
+			imitatedArea.setHeight(getHeight());
+		}
+	}
+
 	/* Area */
 
 	@Override
-	public void onEnter(MovingRectangle rect) {}
+	public void onEnter(MovingRectangle rect) {
+		if (imitatedArea != null) {
+			imitatedArea.onEnter(rect);
+		}
+	}
 
 	@Override
-	public void onExit(MovingRectangle rect) {}
+	public void onExit(MovingRectangle rect) {
+		if (imitatedArea != null) {
+			imitatedArea.onExit(rect);
+		}
+	}
 
 	@Override
-	public void everyFrame(MovingRectangle rect) {}
+	public void everyFrame(MovingRectangle rect) {
+		if (imitatedArea != null) {
+			imitatedArea.everyFrame(rect);
+		}
+	}
 
 	/* ValueChangeListener */
 
