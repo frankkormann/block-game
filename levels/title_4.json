@@ -30,27 +30,26 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 600,
-			"y": 440,
+			"x": 400,
+			"y": 450,
 			"width": 10,
-			"height": 60,
+			"height": 50,
 			"color": "ORANGE",
 			"attachments": [
+				{
+					"area": {
+						"type": ".GoalArea",
+						"width": 50,
+						"nextLevel": "$current_level"
+					},
+					"options": ["GLUED_WEST", "SAME_HEIGHT"]
+				},
 				{
 					"area": {
 						"type": ".GrowArea",
 						"width": 60,
 						"xGrowth": 1,
 						"yGrowth": 0
-					},
-					"options": ["GLUED_WEST", "SAME_HEIGHT"]
-				},
-				{
-					"area": {
-						"type": ".ShrinkArea",
-						"width": 40,
-						"xShrink": 1,
-						"yShrink": 0
 					},
 					"options": ["GLUED_EAST", "SAME_HEIGHT"]
 				}
@@ -95,30 +94,22 @@
 	],
 	"areas": [
 		{
-			"type": ".ShrinkArea",
-			"x": 100,
-			"y": 400,
-			"width": 30,
-			"height": 100,
-			"xShrink": 0,
-			"yShrink": 1
-		},
-		{
 			"type": ".GrowArea",
 			"x": 130,
-			"y": 400,
-			"width": 30,
-			"height": 100,
+			"y": 420,
+			"width": 60,
+			"height": 80,
 			"xGrowth": 0,
 			"yGrowth": 1
 		},
 		{
-			"type": ".GoalArea",
-			"x": 355,
-			"y": 450,
-			"width": 50,
-			"height": 50,
-			"nextLevel": "$current_level"
+			"type": ".ShrinkArea",
+			"x": 600,
+			"y": 440,
+			"width": 80,
+			"height": 60,
+			"xShrink": 1,
+			"yShrink": 0
 		}
 	]
 }
