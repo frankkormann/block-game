@@ -79,6 +79,8 @@ public class DrawingPane extends JPanel {
 				drawable.draw(g2d);
 			}
 		}
+
+		g2d.dispose();
 	}
 
 	public void setScale(float scale) {
