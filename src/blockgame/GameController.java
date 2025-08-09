@@ -157,7 +157,7 @@ public class GameController extends WindowAdapter
 				newFrameTaskAction();
 			}
 		};
-		new Timer().scheduleAtFixedRate(newFrameTask, 0, millisBetweenFrames);
+		new Timer().schedule(newFrameTask, 0, millisBetweenFrames);
 	}
 
 	/**
@@ -540,7 +540,7 @@ public class GameController extends WindowAdapter
 					newFrameTaskAction();
 				}
 			};
-			new Timer().scheduleAtFixedRate(newFrameTask, 0,
+			new Timer().schedule(newFrameTask, 0,
 					((Number) newValue).intValue());
 		}
 	}
