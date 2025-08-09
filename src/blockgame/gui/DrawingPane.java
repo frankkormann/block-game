@@ -88,6 +88,8 @@ public class DrawingPane extends JPanel {
 	}
 
 	public void setOffsets(int xOffset, int yOffset) {
+		getGraphics().copyArea(0, 0, getWidth(), getHeight(),
+				this.xOffset - xOffset, this.yOffset - yOffset);
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 	}

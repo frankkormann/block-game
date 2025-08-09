@@ -338,8 +338,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 				.anyMatch(w -> (w instanceof Dialog && w.isVisible()));
 		if (!existsVisibleDialog) {
 			// Paint before arranging components to minimize stuttering
-			drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
-					drawingPane.getHeight());
+//			drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
+//					drawingPane.getHeight());
 		}
 
 		xChange = 0;
