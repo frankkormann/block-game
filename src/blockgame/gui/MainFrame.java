@@ -319,11 +319,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	public void incorporateChanges() {
 		if (!SwingUtilities.isEventDispatchThread()) {
 			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					public void run() {
-						incorporateChanges();
-					}
-				});
+				SwingUtilities.invokeAndWait(() -> incorporateChanges());
 			}
 			catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
