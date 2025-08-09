@@ -14,8 +14,8 @@
 		},
 		{
 			"type": ".MovingRectangle",
-			"x": 550,
-			"y": 440,
+			"x": 120,
+			"y": 320,
 			"width": 30,
 			"height": 60,
 			"color": "RED"
@@ -42,8 +42,8 @@
 	"areas": [
 		{
 			"type": ".GoalArea",
-			"x": 120,
-			"y": 330,
+			"x": 550,
+			"y": 450,
 			"width": 50,
 			"height": 50,
 			"nextLevel": "$current_level"

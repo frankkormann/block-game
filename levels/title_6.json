@@ -23,9 +23,9 @@
 		{
 			"type": ".MovingRectangle",
 			"x": 220,
-			"y": 440,
+			"y": 460,
 			"width": 30,
-			"height": 60,
+			"height": 40,
 			"color": "ORANGE"
 		},
 		{
@@ -39,8 +39,8 @@
 		},
 		{
 			"type": ".SwitchRectangle",
-			"x": 85,
-			"y": 360,
+			"x": 60,
+			"y": 180,
 			"width": 30,
 			"height": 140,
 			"color": "RED",
@@ -90,6 +90,14 @@
 			"width": 100,
 			"height": 20,
 			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 500,
+			"y": 60,
+			"width": 200,
+			"height": 20,
+			"resizeBehavior": "STAY"
 		}
 	],
 	"areas": [
@@ -123,7 +131,7 @@
 		{
 			"type": ".GoalArea",
 			"x": 75,
-			"y": 270,
+			"y": 450,
 			"width": 50,
 			"height": 50,
 			"nextLevel": "$current_level"

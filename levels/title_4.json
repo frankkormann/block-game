@@ -38,9 +38,10 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".GoalArea",
-						"width": 50,
-						"nextLevel": "$current_level"
+						"type": ".ShrinkArea",
+						"width": 40,
+						"xShrink": 0,
+						"yShrink": 1
 					},
 					"options": ["GLUED_WEST", "SAME_HEIGHT"]
 				},
@@ -103,13 +104,12 @@
 			"yGrowth": 1
 		},
 		{
-			"type": ".ShrinkArea",
+			"type": ".GoalArea",
 			"x": 600,
-			"y": 440,
-			"width": 80,
-			"height": 60,
-			"xShrink": 1,
-			"yShrink": 0
+			"y": 450,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "$current_level"
 		}
 	]
 }
