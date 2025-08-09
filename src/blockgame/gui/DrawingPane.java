@@ -98,12 +98,4 @@ public class DrawingPane extends JPanel {
 		return yOffset;
 	}
 
-	public void setXOffset(int xOffset) {
-		this.xOffset = xOffset;
-	}
-
-	public void setYOffset(int yOffset) {
-		this.yOffset = yOffset;
-	}
-
 }

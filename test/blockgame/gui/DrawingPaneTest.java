@@ -68,8 +68,7 @@ class DrawingPaneTest {
 	@Test
 	void drawable_is_drawn_offset_when_offsets_are_not_zero() {
 		int xOffset = 3, yOffset = 2;
-		drawingPane.setXOffset(xOffset);
-		drawingPane.setYOffset(yOffset);
+		drawingPane.setOffsets(xOffset, yOffset);
 		draw();
 
 		assertCornersAreColored(drawable.x - xOffset, drawable.y - yOffset,
