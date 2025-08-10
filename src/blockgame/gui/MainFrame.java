@@ -275,12 +275,12 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		}
 
 		if ((direction == Direction.NORTH || direction == Direction.SOUTH)
-				&& (getHeight() + change < HEIGHT_MINIMUM * scale)) {
-			change = (int) (HEIGHT_MINIMUM * scale) - getHeight();
+				&& (idealHeight + change < HEIGHT_MINIMUM)) {
+			change = HEIGHT_MINIMUM - idealHeight;
 		}
 		if ((direction == Direction.WEST || direction == Direction.EAST)
-				&& (getWidth() + change < WIDTH_MINIMUM * scale)) {
-			change = (int) (WIDTH_MINIMUM * scale) - getWidth();
+				&& (idealWidth + change < WIDTH_MINIMUM)) {
+			change = WIDTH_MINIMUM - idealWidth;
 		}
 
 		switch (direction) {
