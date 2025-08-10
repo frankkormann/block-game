@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -504,8 +505,9 @@ public class GameController extends WindowAdapter
 				case SAVE_RECORDING:
 					errorWord = "save";
 					gameInputHandler.flushWriter();
-					currentLevelOutputStream
-							.writeTo(new FileOutputStream(file));
+					OutputStream out = new FileOutputStream(file);
+					currentLevelOutputStream.writeTo(out);
+					out.close();
 					break;
 				case PLAY_RECORDING:
 					errorWord = "open";
