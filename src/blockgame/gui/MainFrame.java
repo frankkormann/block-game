@@ -1,17 +1,14 @@
 package blockgame.gui;
 
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
-import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -333,14 +330,6 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		idealYOffset += yChange;
 
 		drawingPane.setOffsets(idealXOffset, idealYOffset);
-		// Makes sure paintImmediately() doesn't interact badly with any Dialogs
-		boolean existsVisibleDialog = Arrays.stream(Window.getWindows())
-				.anyMatch(w -> (w instanceof Dialog && w.isVisible()));
-		if (!existsVisibleDialog) {
-			// Paint before arranging components to minimize stuttering
-//			drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
-//					drawingPane.getHeight());
-		}
 
 		xChange = 0;
 		yChange = 0;
