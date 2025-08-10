@@ -66,6 +66,8 @@ public class GameInputHandler extends KeyAdapter
 
 	private NumberReader reader;
 	private NumberWriter writer;
+	private boolean wantToCloseReader;
+	private boolean wantToCloseWriter;
 
 	/**
 	 * Creates a new {@code GameInputHandler} with no input stream or output
@@ -89,6 +91,8 @@ public class GameInputHandler extends KeyAdapter
 
 		reader = null;
 		writer = null;
+		wantToCloseReader = false;
+		wantToCloseWriter = false;
 	}
 
 	/**
@@ -204,6 +208,8 @@ public class GameInputHandler extends KeyAdapter
 	private Set<MovementInput> getInputs() throws IOException {
 		Set<MovementInput> movementInputs = EnumSet.noneOf(MovementInput.class);
 
+		closeStreamsThatWantToBeClosed();
+
 		if (reader == null) {
 			for (MovementInput inp : MovementInput.values()) {
 				Pair<Integer, Integer> keybind = inputMapper.get(inp);
@@ -254,41 +260,52 @@ public class GameInputHandler extends KeyAdapter
 	}
 
 	/**
-	 * Stops reading and closes the stream. If this is not reading, this method
-	 * has no effect.
+	 * Stops reading and closes the stream the next time it is safe to do so. If
+	 * this is not reading, this method has no effect.
 	 */
 	public void endReading() {
 		if (reader == null) {
 			return;
 		}
-		try {
-			reader.close();
-			reader = null;
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Couldn't close reading stream", e)
-					.setVisible(true);
-		}
+		wantToCloseReader = true;
 	}
 
 	/**
-	 * Stops writing and closes the stream. If this is not writing, this method
-	 * has no effect.
+	 * Stops writing and closes the stream the next time it is safe to do so. If
+	 * this is not writing, this method has no effect.
 	 */
 	public void endWriting() {
 		if (writer == null) {
 			return;
 		}
-		try {
-			flushWriter();
-			writer.close();
-			writer = null;
+		wantToCloseWriter = true;
+	}
+
+	private void closeStreamsThatWantToBeClosed() {
+		if (wantToCloseReader) {
+			try {
+				reader.close();
+				reader = null;
+				wantToCloseReader = false;
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Couldn't close reading stream", e)
+						.setVisible(true);
+			}
 		}
-		catch (IOException e) {
-			e.printStackTrace();
-			// Don't pop up an ErrorDialog because the user probably doesn't
-			// care
+		if (wantToCloseWriter) {
+			try {
+				flushWriter();
+				writer.close();
+				writer = null;
+				wantToCloseWriter = false;
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				// Don't pop up an ErrorDialog because the user probably doesn't
+				// care
+			}
 		}
 	}
 
