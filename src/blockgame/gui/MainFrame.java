@@ -408,8 +408,11 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 		}
 		if (drawingPane != null)
-			drawingPane.setBounds(0, 0, getContentPane().getWidth(),
-					getContentPane().getHeight());
+			drawingPane.setBounds(0, 0,
+					(int) Math.min(getContentPane().getWidth(),
+							idealWidth * scale),
+					(int) Math.max(getContentPane().getHeight(),
+							idealHeight * scale));
 	}
 
 	private int getPreferredX() {
