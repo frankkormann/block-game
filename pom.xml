@@ -8,12 +8,6 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
     	<resource>
-    		<directory>levels</directory>
-    	</resource>
-    	<resource>
-    		<directory>recordings</directory>
-    	</resource>
-    	<resource>
     		<directory>resources</directory>
     	</resource>
     </resources>
