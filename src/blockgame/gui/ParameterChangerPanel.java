@@ -247,35 +247,38 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 			valueIsAdjustingListener = runnable;
 		}
 
-	}
+		/**
+		 * {@code NumberEditor} with a {@code JLabel} to display a unit which is
+		 * not part of the {@code JFormattedTextField} that the user types into.
+		 */
+		private class LabeledNumberEditor extends JSpinner.NumberEditor {
 
-	/**
-	 * {@code NumberEditor} with a {@code JLabel} to display a unit which is not
-	 * part of the {@code JFormattedTextField} that the user types into.
-	 */
-	private class LabeledNumberEditor extends JSpinner.NumberEditor {
-		private LabeledNumberEditor(JSpinner spinner, String unit) {
-			super(spinner);
-			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+			private LabeledNumberEditor(JSpinner spinner, String unit) {
+				super(spinner);
+				setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-			MouseAdapter focusTextField = new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					getTextField().requestFocus();
-				}
-			};
-			Cursor textCursor = Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR);
+				MouseAdapter focusTextField = new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						getTextField().requestFocus();
+					}
+				};
+				Cursor textCursor = Cursor
+						.getPredefinedCursor(Cursor.TEXT_CURSOR);
 
-			setCursor(textCursor);
-			addMouseListener(focusTextField);
+				setCursor(textCursor);
+				addMouseListener(focusTextField);
 
-			JLabel unitLabel = new JLabel(unit);
-			unitLabel.setCursor(textCursor);
-			unitLabel.addMouseListener(focusTextField);
+				JLabel unitLabel = new JLabel(unit);
+				unitLabel.setCursor(textCursor);
+				unitLabel.addMouseListener(focusTextField);
 
-			add(unitLabel);
-			add(Box.createHorizontalStrut(10));
+				add(unitLabel);
+				add(Box.createHorizontalStrut(10));
+			}
+
 		}
+
 	}
 
 }
