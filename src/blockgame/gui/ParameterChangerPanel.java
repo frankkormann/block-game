@@ -1,12 +1,17 @@
 package blockgame.gui;
 
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -188,8 +193,7 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 			valueIsAdjustingListener = null;
 
 			slider.setValue((int) spinner.getValue());
-			spinner.setEditor(
-					new JSpinner.NumberEditor(spinner, "# '" + suffix + "'"));
+			spinner.setEditor(new LabeledNumberEditor(spinner, suffix));
 
 			slider.addChangeListener(e -> {
 				spinner.setValue(slider.getValue());
@@ -243,6 +247,35 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 			valueIsAdjustingListener = runnable;
 		}
 
+	}
+
+	/**
+	 * {@code NumberEditor} with a {@code JLabel} to display a unit which is not
+	 * part of the {@code JFormattedTextField} that the user types into.
+	 */
+	private class LabeledNumberEditor extends JSpinner.NumberEditor {
+		private LabeledNumberEditor(JSpinner spinner, String unit) {
+			super(spinner);
+			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
+			MouseAdapter focusTextField = new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					getTextField().requestFocus();
+				}
+			};
+			Cursor textCursor = Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR);
+
+			setCursor(textCursor);
+			addMouseListener(focusTextField);
+
+			JLabel unitLabel = new JLabel(unit);
+			unitLabel.setCursor(textCursor);
+			unitLabel.addMouseListener(focusTextField);
+
+			add(unitLabel);
+			add(Box.createHorizontalStrut(10));
+		}
 	}
 
 }
