@@ -6,6 +6,7 @@ by interacting with the environment in varied, creative ways.
 ### Features
 
 - 30 fun levels<sup>1</sup>
+- Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
 - Expansive options menu
