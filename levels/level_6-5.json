@@ -116,6 +116,14 @@
 			"width": 350,
 			"height": 20,
 			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 310,
+			"y": 90,
+			"width": 20,
+			"height": 40,
+			"resizeBehavior": "PREVENT_X"
 		}
 	],
 	"areas": [
