@@ -2,7 +2,7 @@
         "name": "Thick and Thin [♛-1]",
         "width": 600,
         "height": 500,
-        "solution": "/level_7-1.rec",
+        "solution": "/level_crown-1.rec",
         "movingRectangles": [
                 {
                         "type": ".MovingRectangle",
