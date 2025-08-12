@@ -7,12 +7,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * {@code Area} that sets the activity of {@code SwitchRectangle}s. As long as
- * there is at least one {@code MovingRectangle} within this, each of its
- * children will be active. Otherwise, they will all be inactive.
- * <p>
- * Child {@code SwitchRectangle}s are usually added by matching this's
- * {@code key} with their {@code key}.
+ * {@code Area} that reports to {@code SwitchController}. As long as there is a
+ * {@code MovingRectangle} within this, all the children of its
+ * {@code SwitchContoller} will be active.
  *
  * @author Frank Kormann
  */

@@ -3,6 +3,14 @@ package blockgame.physics;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Controls the activity of {@code SwitchRectangle}s based on
+ * {@code SwitchArea}s. As long as any of the {@code SwitchArea}s that point to
+ * this have a {@code MovingRectangle} within, all of this's
+ * {@code SwitchRectangle}s will be active.
+ * 
+ * @author Frank Kormann
+ */
 public class SwitchController {
 
 	private Set<SwitchRectangle> rects;
