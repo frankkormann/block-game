@@ -240,6 +240,7 @@ public class GameInputHandler extends KeyAdapter
 	public void beginReading(InputStream input) {
 		try {
 			reader = new NumberReader(input);
+			wantToCloseReader = false;
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -257,6 +258,7 @@ public class GameInputHandler extends KeyAdapter
 	 */
 	public void beginWriting(OutputStream output) {
 		writer = new NumberWriter(output);
+		wantToCloseWriter = false;
 	}
 
 	/**
