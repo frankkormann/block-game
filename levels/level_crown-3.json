@@ -1,8 +1,8 @@
 {
-	"name": "Trapped in Unity [6-5]",
+	"name": "Trapped in Unity [♛-3]",
 	"width": 800,
 	"height": 500,
-	"solution": "/level_6-5.rec",
+	"solution": "/level_crown-3.rec",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
@@ -142,7 +142,7 @@
 			"y": 180,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_crown-1.json"
+			"nextLevel": "/level_1-1.json"
 		}
 	],
 	"hints": [
