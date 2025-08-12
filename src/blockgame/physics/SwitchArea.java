@@ -2,8 +2,6 @@ package blockgame.physics;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,9 +22,9 @@ public class SwitchArea extends Area {
 	private static final int TICK_THICKNESS = 3;
 	private static final float INNER_RECT_DARKNESS = 1.2f;
 
-	private Set<SwitchRectangle> children;
-	private int numberInside;
 	private String key;
+	private SwitchController controller;
+	private int numberInside;
 
 	@JsonCreator
 	public SwitchArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
@@ -36,7 +34,7 @@ public class SwitchArea extends Area {
 			@JsonProperty("key") String key) {
 		super(x, y, width, height, colorEnum);
 		this.key = key;
-		children = new HashSet<>();
+		numberInside = 0;
 	}
 
 	@Override
@@ -72,7 +70,7 @@ public class SwitchArea extends Area {
 	public void onEnter(MovingRectangle rect) {
 		numberInside++;
 		if (numberInside == 1) {
-			children.forEach(r -> r.setActive(true));
+			controller.areaActivated();
 		}
 	}
 
@@ -86,7 +84,7 @@ public class SwitchArea extends Area {
 	public void onExit(MovingRectangle rect) {
 		numberInside--;
 		if (numberInside == 0) {
-			children.forEach(r -> r.setActive(false));
+			controller.areaDeactivated();
 		}
 	}
 
@@ -102,8 +100,8 @@ public class SwitchArea extends Area {
 		return key;
 	}
 
-	public void addChild(SwitchRectangle child) {
-		children.add(child);
+	public void setController(SwitchController controller) {
+		this.controller = controller;
 	}
 
 }

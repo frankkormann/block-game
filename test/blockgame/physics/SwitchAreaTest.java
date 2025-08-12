@@ -11,13 +11,16 @@ import blockgame.physics.Rectangle.Colors;
 public class SwitchAreaTest {
 
 	SwitchArea area;
+	SwitchController controller;
 	SwitchRectangle rect;
 
 	@BeforeEach
 	void setUp() {
 		area = new SwitchArea(0, 0, 50, 50, Colors.BLACK, "key");
 		rect = new SwitchRectangle(100, 100, 50, 50, Colors.BLACK, "key");
-		area.addChild(rect);
+		controller = new SwitchController();
+		area.setController(controller);
+		controller.addSwitchRectangle(rect);
 		rect.setActive(false);
 	}
 

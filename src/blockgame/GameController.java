@@ -11,7 +11,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +45,7 @@ import blockgame.physics.MovingRectangle;
 import blockgame.physics.PhysicsSimulator;
 import blockgame.physics.Rectangle;
 import blockgame.physics.SwitchArea;
+import blockgame.physics.SwitchController;
 import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
 import blockgame.util.Pair;
@@ -342,19 +342,20 @@ public class GameController extends WindowAdapter
 	 */
 	private void linkSwitchAreasAndRects(List<SwitchArea> areas,
 			List<SwitchRectangle> rects) {
-		Map<String, Set<SwitchRectangle>> rectKeys = new HashMap<>();
+		Map<String, SwitchController> controllers = new HashMap<>();
 
 		for (SwitchRectangle rect : rects) {
-			if (!rectKeys.containsKey(rect.getKey())) {
-				rectKeys.put(rect.getKey(), new HashSet<>());
+			if (!controllers.containsKey(rect.getKey())) {
+				controllers.put(rect.getKey(), new SwitchController());
 			}
-			rectKeys.get(rect.getKey()).add(rect);
+			controllers.get(rect.getKey()).addSwitchRectangle(rect);
 		}
 
 		for (SwitchArea area : areas) {
-			if (rectKeys.containsKey(area.getKey())) {
-				rectKeys.get(area.getKey()).forEach(r -> area.addChild(r));
+			if (!controllers.containsKey(area.getKey())) {
+				continue;
 			}
+			area.setController(controllers.get(area.getKey()));
 		}
 	}
 
