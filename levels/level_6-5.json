@@ -1,0 +1,182 @@
+{
+	"name": "Juggling [6-5]",
+	"width": 800,
+	"height": 400,
+	"solution": "/level_6-5.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 140,
+			"y": 380,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 280,
+			"y": 170,
+			"width": 30,
+			"height": 80,
+			"color": "BLUE"
+		},
+		{
+			"type": ".SwitchRectangle",
+			"x": 310,
+			"y": 170,
+			"width": 120,
+			"height": 60,
+			"color": "RED",
+			"key": "red"
+		},
+		{
+			"type": ".SwitchRectangle",
+			"x": 620,
+			"y": 360,
+			"width": 100,
+			"height": 10,
+			"color": "GREEN",
+			"key": "green"
+		},
+		{
+			"type": ".SwitchRectangle",
+			"x": 620,
+			"y": 370,
+			"width": 100,
+			"height": 10,
+			"color": "ORANGE",
+			"key": "orange",
+			"attachments": [
+				{
+					"area": {
+						"type": ".AntigravityArea",
+						"height": 200
+					},
+					"options": ["GLUED_NORTH", "SAME_WIDTH"]
+				}
+			]
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 310,
+			"y": 230,
+			"width": 10,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 310,
+			"y": 130,
+			"width": 10,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 310,
+			"y": 150,
+			"width": 490,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 280,
+			"y": 250,
+			"width": 40,
+			"height": 130,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 460,
+			"y": 40,
+			"width": 20,
+			"height": 70,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 780,
+			"y": 170,
+			"width": 20,
+			"height": 210,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 280,
+			"y": 380,
+			"width": 520,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".SwitchArea",
+			"x": 70,
+			"y": 320,
+			"width": 100,
+			"height": 80,
+			"color": "TRANSLUCENT_GREEN",
+			"key": "green"
+		},
+		{
+			"type": ".SwitchArea",
+			"x": 130,
+			"y": 320,
+			"width": 100,
+			"height": 80,
+			"color": "TRANSLUCENT_ORANGE",
+			"key": "orange"
+		},
+		{
+			"type": ".SwitchArea",
+			"x": 430,
+			"y": 170,
+			"width": 60,
+			"height": 60,
+			"color": "TRANSLUCENT_RED",
+			"key": "red"
+		},
+		{
+			"type": ".GoalArea",
+			"x": 370,
+			"y": 330,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_crown-1.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 380,
+			"y": 370,
+			"width": 100,
+			"height": 10,
+			"color": "ORANGE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 380,
+			"y": 170,
+			"width": 100,
+			"height": 200,
+			"color": "TRANSLUCENT_PINK"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 380,
+			"y": 200,
+			"width": 100,
+			"height": 10,
+			"color": "GREEN"
+		}
+	]
+}
