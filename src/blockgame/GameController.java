@@ -466,7 +466,7 @@ public class GameController extends WindowAdapter
 
 		String[] options = { "Show solution", "Cancel" };
 		int proceedChoice = JOptionPane.showOptionDialog(mainFrame,
-				"This option is intended to be used if you are absolutely stuck. Please give the puzzle a good effort before watching this.\n\nIf you have seen enough and want to stop the recording partway through, select Recordings > Stop in the title bar.",
+				"This option is intended to be used if you are absolutely stuck. Please give the puzzle a good effort before watching the solution.\n\nIf you have seen enough and want to stop the recording partway through, select Recordings > Stop in the title bar.",
 				"Continue?", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 		if (proceedChoice != JOptionPane.OK_OPTION) {
