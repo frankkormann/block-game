@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SwitchArea extends Area {
 
-	private static final int TICK_SIZE = 10;
-	private static final int TICK_THICKNESS = 3;
+	private static final int DASH_SIZE = 10;
+	private static final int DASH_THICKNESS = 3;
 	private static final float INNER_RECT_DARKNESS = 1.2f;
 
 	private String key;
@@ -50,7 +50,7 @@ public class SwitchArea extends Area {
 		// Calculate the width/height by subtracting 2 quarters so that there is
 		// equal distance from each side of the inner rectangle to the side of
 		// the outer rectangle, taking into account float rounding
-		drawTickedRectangle(g, new Color(0, 0, 0, 0), TICK_SIZE, TICK_THICKNESS,
+		drawDashedRectangle(g, new Color(0, 0, 0, 0), DASH_SIZE, DASH_THICKNESS,
 				getX() + quarterWidth, getY() + quarterHeight,
 				getWidth() - 2 * quarterWidth, getHeight() - 2 * quarterHeight);
 

@@ -190,45 +190,45 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
-	 * Draws a ticked outline (looks like - - - - -) of a rectangle.
+	 * Draws a dashed outline (looks like - - - - -) of a rectangle.
 	 * 
 	 * @param g          {@code Graphics} to draw with
-	 * @param emptyColor {@code Color} to use for space between tick marks
-	 * @param tickSize   length of each tick mark
+	 * @param emptyColor {@code Color} to use for space between dash marks
+	 * @param dashSize   length of each dash mark
 	 * @param thickness  width of the outline
 	 * @param x          position of bounding rectangle
 	 * @param y          position of bounding rectangle
 	 * @param width      size of bounding rectangle
 	 * @param height     size of bounding rectangle
 	 */
-	protected void drawTickedRectangle(Graphics g, Color emptyColor,
-			int tickSize, int thickness, int x, int y, int width, int height) {
+	protected void drawDashedRectangle(Graphics g, Color emptyColor,
+			int dashSize, int thickness, int x, int y, int width, int height) {
 		g = g.create();
 		g.clipRect(x, y, width, height);
-		Color tickColor = g.getColor();
+		Color dashColor = g.getColor();
 
-		boolean isEmptyTick = false;
-		for (int tickX = x; tickX < x + width; tickX += tickSize) {
-			g.setColor(isEmptyTick ? emptyColor : tickColor);
+		boolean isEmptyDash = false;
+		for (int dashX = x; dashX < x + width; dashX += dashSize) {
+			g.setColor(isEmptyDash ? emptyColor : dashColor);
 
-			tickX = Math.min(tickX, x + width - tickSize);
-			g.fillRect(tickX, y, tickSize, thickness);
-			g.fillRect(tickX + tickSize / 2, y + height - thickness, tickSize,
+			dashX = Math.min(dashX, x + width - dashSize);
+			g.fillRect(dashX, y, dashSize, thickness);
+			g.fillRect(dashX + dashSize / 2, y + height - thickness, dashSize,
 					thickness);
 
-			isEmptyTick = !isEmptyTick;
+			isEmptyDash = !isEmptyDash;
 		}
 
-		isEmptyTick = false;
-		for (int tickY = y; tickY < y + height; tickY += tickSize) {
-			g.setColor(isEmptyTick ? emptyColor : tickColor);
+		isEmptyDash = false;
+		for (int dashY = y; dashY < y + height; dashY += dashSize) {
+			g.setColor(isEmptyDash ? emptyColor : dashColor);
 
-			tickY = Math.min(tickY, y + height - tickSize);
-			g.fillRect(x, tickY, thickness, tickSize);
-			g.fillRect(x + width - thickness, tickY + tickSize / 2, thickness,
-					tickSize);
+			dashY = Math.min(dashY, y + height - dashSize);
+			g.fillRect(x, dashY, thickness, dashSize);
+			g.fillRect(x + width - thickness, dashY + dashSize / 2, thickness,
+					dashSize);
 
-			isEmptyTick = !isEmptyTick;
+			isEmptyDash = !isEmptyDash;
 		}
 
 		g.dispose();
