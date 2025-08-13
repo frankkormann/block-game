@@ -70,14 +70,6 @@
 		{
 			"type": ".WallRectangle",
 			"x": 310,
-			"y": 130,
-			"width": 10,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": ".WallRectangle",
-			"x": 310,
 			"y": 150,
 			"width": 490,
 			"height": 20,
@@ -93,7 +85,7 @@
 		},
 		{
 			"type": ".WallRectangle",
-			"x": 460,
+			"x": 410,
 			"y": 40,
 			"width": 20,
 			"height": 70,
