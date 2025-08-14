@@ -52,7 +52,7 @@ public class DrawingPane extends JPanel {
 	 * @param drawable {@code Drawable} to draw
 	 * @param index    layer to put {@code drawable}
 	 */
-	public void add(Drawable drawable, int index) {
+	public synchronized void add(Drawable drawable, int index) {
 		if (drawableLists.get(index) == null) {
 			drawableLists.put(index, new ArrayList<>());
 		}
@@ -62,12 +62,12 @@ public class DrawingPane extends JPanel {
 	/**
 	 * Removes all {@code Drawable}s from this.
 	 */
-	public void clearDrawables() {
+	public synchronized void clearDrawables() {
 		drawableLists.clear();
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
+	public synchronized void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g.create();
 		super.paintComponent(g2d);
 		g2d.scale(scale, scale);
