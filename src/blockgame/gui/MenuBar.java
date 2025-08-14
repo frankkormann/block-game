@@ -1,10 +1,13 @@
 package blockgame.gui;
 
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -49,8 +52,11 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 	private JFileChooser fileChooser;
 	private Map<Enum<?>, JMenuItem> inputToMenuItem;
+	private List<JMenu> menus;
+	private Map<JMenu, Integer> menuWidths;
 
 	private JMenu hintMenu;
+	private JMenu moreMenu;
 	private JMenuItem showHintItem;
 	private JMenuItem showSolutionItem;
 	private JMenuItem pauseItem;
@@ -76,6 +82,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		this.listener = listener;
 		this.inputMapper = inputMapper;
 		inputToMenuItem = new HashMap<>();
+		menus = new ArrayList<>();
+		menuWidths = new HashMap<>();
 
 		fileChooser = new JFileChooser();  // global file chooser so it
 											  // remembers which directory the
@@ -85,12 +93,90 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 
 		inputMapper.addListener(this);
-
 		hintMenu = createHintMenu();
+		moreMenu = new JMenu("More");
+
 		add(hintMenu);
 		add(createPauseRestartMenu());
 		add(createRecordingMenu());
 		add(createOptionsButton(colorMapper, paramMapper));
+		super.add(moreMenu);
+		menuWidths.put(moreMenu, moreMenu.getPreferredSize().width);
+	}
+
+	@Override
+	public JMenu add(JMenu menu) {
+		menus.add(menu);
+		super.add(menu);
+		menuWidths.put(menu, menu.getPreferredSize().width);
+		return menu;
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		int sumWidth = 0;
+		for (JMenu menu : menus) {
+			if (menu.isVisible()) {
+				sumWidth += menuWidths.get(menu);
+			}
+		}
+		return new Dimension(sumWidth, super.getPreferredSize().height);
+	}
+
+	/**
+	 * Lays out all the {@code JMenu}s in this, collapsing them into
+	 * {@code moreMenu} if necessary.
+	 */
+	@Override
+	public void doLayout() {
+		int x = 0;
+		JMenu menu, nextMenu;
+		boolean overflowing = false;
+		for (int i = 0; i < menus.size(); i++) {
+			menu = menus.get(i);
+			nextMenu = i + 1 < menus.size() ? menus.get(i + 1) : null;
+			if (!menu.isVisible()) {
+				continue;
+			}
+
+			if (nextMenu != null) {
+				if (x + menuWidths.get(menu)
+						+ Math.min(menuWidths.get(nextMenu),
+								menuWidths.get(moreMenu)) > getWidth()) {
+					overflowing = true;
+				}
+			}
+
+			layoutMenu(menu, x, !overflowing);
+			if (!overflowing) {
+				x += menu.getPreferredSize().width;
+			}
+		}
+		moreMenu.setVisible(moreMenu.getItemCount() > 0);
+		layoutMenu(moreMenu, x, moreMenu.isVisible());
+	}
+
+	/**
+	 * Sets the bounds of {@code menu} and displays it as a top-level menu or in
+	 * {@code moreMenu}.
+	 * 
+	 * @param menu       {@code JMenu} to layout
+	 * @param x          position in the menu bar if it is top-level
+	 * @param isTopLevel {@code true} if {@code menu} should be a top-level
+	 *                   menu; otherwise, it will be added to {@code moreMenu}
+	 */
+	private void layoutMenu(JMenu menu, int x, boolean isTopLevel) {
+		if (isTopLevel) {
+			moreMenu.remove(menu);
+			super.add(menu);
+			menu.setBounds(x, 0, menuWidths.get(menu), getHeight() - 1);
+		}
+		else {
+			if (menu != moreMenu) {
+				moreMenu.add(menu);
+			}
+			menu.setBounds(0, 0, 0, 0);
+		}
 	}
 
 	/**
@@ -176,7 +262,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 			ParameterMapper paramMapper) {
 		JMenu button = new JMenu("Options");
 		Runnable openDialog = () -> {
-			new OptionsDialog(SwingUtilities.getWindowAncestor(button),
+			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
 					inputMapper, colorMapper, paramMapper).setVisible(true);
 		};
 
