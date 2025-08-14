@@ -13,11 +13,10 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.util.UIScale;
 
 import blockgame.Level;
 import blockgame.input.GameInputHandler;
@@ -178,7 +177,6 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		Font font = UIManager.getFont("defaultFont");
 		UIManager.put("defaultFont",
 				font.deriveFont(DEFAULT_FONT_SIZE * scale));
-		SwingUtilities.updateComponentTreeUI(this);
 
 		updateTitleBarText(title);
 		arrangeComponents();
@@ -431,13 +429,15 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * @param newText text to display
 	 */
 	private void updateTitleBarText(String newText) {
+		int textWidth = getFontMetrics(
+				UIManager.getFont("TitlePane.font").deriveFont(Font.BOLD))
+				.stringWidth(newText)
+				+ UIManager.getInt("TitlePane.buttonMinimumWidth");
+		UIManager.put("TitlePane.titleMinimumWidth", // Need to unscale it
+				UIScale.unscale(textWidth));		 // because FlatLaf
+		SwingUtilities.updateComponentTreeUI(this);	 // re-scales it
+
 		newText = "<html><b>" + newText + "</b></html>";
-
-		UIManager.put("TitlePane.titleMinimumWidth",
-				new JLabel(newText).getPreferredSize().width
-						+ UIManager.getInt("TitlePane.buttonMinimumWidth"));
-		FlatLaf.updateUI();
-
 		newText = newText.replace(' ', ' ');
 //                   Normal space -^    ^- Non-breaking space
 		String taskbarText = getTitle();

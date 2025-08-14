@@ -107,9 +107,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	@Override
 	public JMenu add(JMenu menu) {
 		menus.add(menu);
-		super.add(menu);
-		menuWidths.put(menu, menu.getPreferredSize().width);
-		return menu;
+		return super.add(menu);
 	}
 
 	@Override
@@ -167,7 +165,6 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 */
 	private void layoutMenu(JMenu menu, int x, boolean isTopLevel) {
 		if (isTopLevel) {
-			moreMenu.remove(menu);
 			super.add(menu);
 			menu.setBounds(x, 0, menuWidths.get(menu), getHeight() - 1);
 		}
@@ -176,6 +173,18 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 				moreMenu.add(menu);
 			}
 			menu.setBounds(0, 0, 0, 0);
+		}
+	}
+
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		if (menus != null) {
+			menus.forEach(m -> super.add(m));  // Make sure preferredSize
+												  // reflects size as a
+												  // top-level menu
+			menus.forEach(m -> menuWidths.put(m, m.getPreferredSize().width));
+			menuWidths.put(moreMenu, moreMenu.getPreferredSize().width);
 		}
 	}
 
