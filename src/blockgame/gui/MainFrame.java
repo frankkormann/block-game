@@ -13,8 +13,11 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatLaf;
 
 import blockgame.Level;
 import blockgame.input.GameInputHandler;
@@ -428,10 +431,17 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * @param newText text to display
 	 */
 	private void updateTitleBarText(String newText) {
+		newText = "<html><b>" + newText + "</b></html>";
+
+		UIManager.put("TitlePane.titleMinimumWidth",
+				new JLabel(newText).getPreferredSize().width
+						+ UIManager.getInt("TitlePane.buttonMinimumWidth"));
+		FlatLaf.updateUI();
+
 		newText = newText.replace(' ', ' ');
 //                   Normal space -^    ^- Non-breaking space
 		String taskbarText = getTitle();
-		setTitle("<html><b>" + newText + "</b></html>");
+		setTitle(newText);
 		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
 		setTitle(taskbarText);  				// setting its text back
 		interceptPropertyChangeEvent = false;
