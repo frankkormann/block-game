@@ -66,8 +66,6 @@ public class GameInputHandler extends KeyAdapter
 
 	private NumberReader reader;
 	private NumberWriter writer;
-	private boolean wantToCloseReader;
-	private boolean wantToCloseWriter;
 
 	/**
 	 * Creates a new {@code GameInputHandler} with no input stream or output
@@ -91,8 +89,6 @@ public class GameInputHandler extends KeyAdapter
 
 		reader = null;
 		writer = null;
-		wantToCloseReader = false;
-		wantToCloseWriter = false;
 	}
 
 	/**
@@ -103,7 +99,7 @@ public class GameInputHandler extends KeyAdapter
 	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in
 	 *         each direction and {@code Set<GameInput>} for inputs
 	 */
-	public Pair<Map<Direction, Integer>, Set<MovementInput>> poll() {
+	public synchronized Pair<Map<Direction, Integer>, Set<MovementInput>> poll() {
 		try {
 			return new Pair<>(getResizes(), getInputs());
 		}
@@ -208,8 +204,6 @@ public class GameInputHandler extends KeyAdapter
 	private Set<MovementInput> getInputs() throws IOException {
 		Set<MovementInput> movementInputs = EnumSet.noneOf(MovementInput.class);
 
-		closeStreamsThatWantToBeClosed();
-
 		if (reader == null) {
 			for (MovementInput inp : MovementInput.values()) {
 				Pair<Integer, Integer> keybind = inputMapper.get(inp);
@@ -237,10 +231,9 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @param input {@code InputStream} to read from
 	 */
-	public void beginReading(InputStream input) {
+	public synchronized void beginReading(InputStream input) {
 		try {
 			reader = new NumberReader(input);
-			wantToCloseReader = false;
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -256,58 +249,46 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @param output {@code OutputStream} to write to
 	 */
-	public void beginWriting(OutputStream output) {
+	public synchronized void beginWriting(OutputStream output) {
 		writer = new NumberWriter(output);
-		wantToCloseWriter = false;
 	}
 
 	/**
 	 * Stops reading and closes the stream the next time it is safe to do so. If
 	 * this is not reading, this method has no effect.
 	 */
-	public void endReading() {
+	public synchronized void endReading() {
 		if (reader == null) {
 			return;
 		}
-		wantToCloseReader = true;
+		try {
+			reader.close();
+			reader = null;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Couldn't close reading stream", e)
+					.setVisible(true);
+		}
 	}
 
 	/**
 	 * Stops writing and closes the stream the next time it is safe to do so. If
 	 * this is not writing, this method has no effect.
 	 */
-	public void endWriting() {
+	public synchronized void endWriting() {
 		if (writer == null) {
 			return;
 		}
-		wantToCloseWriter = true;
-	}
-
-	private void closeStreamsThatWantToBeClosed() {
-		if (wantToCloseReader) {
-			try {
-				reader.close();
-				reader = null;
-				wantToCloseReader = false;
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error", "Couldn't close reading stream", e)
-						.setVisible(true);
-			}
+		try {
+			flushWriter();
+			writer.close();
+			writer = null;
 		}
-		if (wantToCloseWriter) {
-			try {
-				flushWriter();
-				writer.close();
-				writer = null;
-				wantToCloseWriter = false;
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-				// Don't pop up an ErrorDialog because the user probably doesn't
-				// care
-			}
+		catch (IOException e) {
+			e.printStackTrace();
+			// Don't pop up an ErrorDialog because the user probably doesn't
+			// care
 		}
 	}
 
@@ -352,7 +333,7 @@ public class GameInputHandler extends KeyAdapter
 	/**
 	 * Ensures that all inputs are written to the output stream.
 	 */
-	public void flushWriter() {
+	public synchronized void flushWriter() {
 		try {
 			writer.flush();
 		}
