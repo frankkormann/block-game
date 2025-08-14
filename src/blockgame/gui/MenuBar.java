@@ -88,8 +88,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 		hintMenu = createHintMenu();
 		add(hintMenu);
-		add(createRecordingMenu());
 		add(createPauseRestartMenu());
+		add(createRecordingMenu());
 		add(createOptionsButton(colorMapper, paramMapper));
 	}
 
