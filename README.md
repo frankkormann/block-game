@@ -41,7 +41,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>3.01 MB</td>
+		<td>3.06 MB</td>
 	</tr>
 </table>
 
