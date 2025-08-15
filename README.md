@@ -89,14 +89,14 @@ First, select a direction to resize. Then adjust it.
 
 ### Reporting a bug
 
-If you encounter a bug, press `Control + Shift + S` to save a recording of the
-current level. Then open an issue on this GitHub page and include as much as
-much as you can:
+If you encounter a bug, save a recording of the current level in
+`Recordings > Save current`. Then open an issue on this GitHub page and include
+as much as you can:
 
 - The full copied text of any error message you received, if there was an error
   message. Make sure to click "Details" for the full text
 - The recording file
-- Your options settings, particularly Game Scaling
+- Your Options settings, particularly Game Scaling
 - The level you encountered the bug
 - A description of the bug
 - Any other information you think is relevant
