@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.TimerTask;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -253,9 +255,22 @@ public class GameController extends WindowAdapter
 		}
 
 		physicsSimulator = new PhysicsSimulator();
-		mainFrame.setUpLevel(level);
 		menuBar.reset();
 		hints.clear();
+
+		if (!SwingUtilities.isEventDispatchThread()) {
+			try {
+				SwingUtilities.invokeAndWait(() -> mainFrame.setUpLevel(level));
+			}
+			catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Something went wrong", e)
+						.setVisible(true);
+			}
+		}
+		else {
+			mainFrame.setUpLevel(level);
+		}
 
 		currentSolution = level.solution;
 		currentLevel = resource;
@@ -393,7 +408,20 @@ public class GameController extends WindowAdapter
 		}
 
 		mainFrame.resizeAll(physicsSimulator.getResizes());
-		mainFrame.incorporateChanges();
+		if (!SwingUtilities.isEventDispatchThread()) {
+			try {
+				SwingUtilities
+						.invokeAndWait(() -> mainFrame.incorporateChanges());
+			}
+			catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Something went wrong", e)
+						.setVisible(true);
+			}
+		}
+		else {
+			mainFrame.incorporateChanges();
+		}
 	}
 
 	/**

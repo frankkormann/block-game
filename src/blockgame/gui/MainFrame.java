@@ -8,7 +8,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -168,8 +167,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	/**
-	 * Sets the amount to scale GUI elements by, then updates the UI tree and
-	 * packs this.
+	 * Sets the amount to scale GUI elements by.
 	 * 
 	 * @param scale size multiplier
 	 */
@@ -232,6 +230,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	/**
 	 * Sets width, height, and title for a {@code Level}. Also clears the
 	 * previous level.
+	 * <p>
+	 * This should be called from the AWT Event Dispatching Thread.
 	 * 
 	 * @param level Level to set up
 	 */
@@ -311,20 +311,9 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * Incorporates all pending changes to x, y, width, and height, then lays
 	 * out components and repaints this.
 	 * <p>
-	 * If this is called from anywhere other than the AWT event dispatching
-	 * thread, it will call itself from the AWT event dispatching thread.
+	 * This should be called from the AWT Event Dispatching Thread.
 	 */
 	public void incorporateChanges() {
-		if (!SwingUtilities.isEventDispatchThread()) {
-			try {
-				SwingUtilities.invokeAndWait(() -> incorporateChanges());
-			}
-			catch (InvocationTargetException | InterruptedException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e);
-			}
-		}
-
 		idealWidth += widthChange;
 		idealHeight += heightChange;
 		idealXOffset += xChange;
@@ -433,9 +422,10 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 				UIManager.getFont("TitlePane.font").deriveFont(Font.BOLD))
 				.stringWidth(newText)
 				+ UIManager.getInt("TitlePane.buttonMinimumWidth");
-		UIManager.put("TitlePane.titleMinimumWidth", // Need to unscale it
-				UIScale.unscale(textWidth));		 // because FlatLaf
-		SwingUtilities.updateComponentTreeUI(this);	 // re-scales it
+		UIManager.put("TitlePane.titleMinimumWidth",  // Need to unscale it
+				UIScale.unscale(textWidth));		  // because FlatLaf
+													  // re-scales it
+		SwingUtilities.updateComponentTreeUI(this);
 
 		newText = "<html><b>" + newText + "</b></html>";
 		newText = newText.replace(' ', ' ');
