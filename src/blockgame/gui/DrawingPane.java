@@ -52,7 +52,7 @@ public class DrawingPane extends JPanel {
 	 * @param drawable {@code Drawable} to draw
 	 * @param index    layer to put {@code drawable}
 	 */
-	public void add(Drawable drawable, int index) {
+	public synchronized void add(Drawable drawable, int index) {
 		if (drawableLists.get(index) == null) {
 			drawableLists.put(index, new ArrayList<>());
 		}
@@ -62,12 +62,12 @@ public class DrawingPane extends JPanel {
 	/**
 	 * Removes all {@code Drawable}s from this.
 	 */
-	public void clearDrawables() {
+	public synchronized void clearDrawables() {
 		drawableLists.clear();
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
+	public synchronized void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g.create();
 		super.paintComponent(g2d);
 		g2d.scale(scale, scale);
@@ -79,6 +79,8 @@ public class DrawingPane extends JPanel {
 				drawable.draw(g2d);
 			}
 		}
+
+		g2d.dispose();
 	}
 
 	public void setScale(float scale) {
@@ -86,6 +88,11 @@ public class DrawingPane extends JPanel {
 	}
 
 	public void setOffsets(int xOffset, int yOffset) {
+		Graphics g = getGraphics();
+		if (g != null) {
+			g.copyArea(0, 0, getWidth(), getHeight(), this.xOffset - xOffset,
+					this.yOffset - yOffset);
+		}
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 	}
@@ -96,14 +103,6 @@ public class DrawingPane extends JPanel {
 
 	public int getYOffset() {
 		return yOffset;
-	}
-
-	public void setXOffset(int xOffset) {
-		this.xOffset = xOffset;
-	}
-
-	public void setYOffset(int yOffset) {
-		this.yOffset = yOffset;
 	}
 
 }

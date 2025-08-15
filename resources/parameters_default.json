@@ -1,6 +1,6 @@
 {
 	"values": {
-		"GAME_SPEED": 20,
+		"GAME_SPEED": 19,
 		"GAME_SCALING": 1,
 		"GUI_SCALING": 1,
 		"OPACITY_MULTIPLIER": 0.5,

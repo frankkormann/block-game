@@ -99,7 +99,7 @@ public class GameInputHandler extends KeyAdapter
 	 * @return {@code Pair} of {@code Map<Direction, Integer>} for resizes in
 	 *         each direction and {@code Set<GameInput>} for inputs
 	 */
-	public Pair<Map<Direction, Integer>, Set<MovementInput>> poll() {
+	public synchronized Pair<Map<Direction, Integer>, Set<MovementInput>> poll() {
 		try {
 			return new Pair<>(getResizes(), getInputs());
 		}
@@ -231,7 +231,7 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @param input {@code InputStream} to read from
 	 */
-	public void beginReading(InputStream input) {
+	public synchronized void beginReading(InputStream input) {
 		try {
 			reader = new NumberReader(input);
 		}
@@ -249,15 +249,15 @@ public class GameInputHandler extends KeyAdapter
 	 * 
 	 * @param output {@code OutputStream} to write to
 	 */
-	public void beginWriting(OutputStream output) {
+	public synchronized void beginWriting(OutputStream output) {
 		writer = new NumberWriter(output);
 	}
 
 	/**
-	 * Stops reading and closes the stream. If this is not reading, this method
-	 * has no effect.
+	 * Stops reading and closes the stream the next time it is safe to do so. If
+	 * this is not reading, this method has no effect.
 	 */
-	public void endReading() {
+	public synchronized void endReading() {
 		if (reader == null) {
 			return;
 		}
@@ -273,10 +273,10 @@ public class GameInputHandler extends KeyAdapter
 	}
 
 	/**
-	 * Stops writing and closes the stream. If this is not writing, this method
-	 * has no effect.
+	 * Stops writing and closes the stream the next time it is safe to do so. If
+	 * this is not writing, this method has no effect.
 	 */
-	public void endWriting() {
+	public synchronized void endWriting() {
 		if (writer == null) {
 			return;
 		}
@@ -333,7 +333,7 @@ public class GameInputHandler extends KeyAdapter
 	/**
 	 * Ensures that all inputs are written to the output stream.
 	 */
-	public void flushWriter() {
+	public synchronized void flushWriter() {
 		try {
 			writer.flush();
 		}

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SwitchRectangle extends MovingRectangle {
 
-	private static final int TICK_SIZE = 5;
+	private static final int DASH_SIZE = 5;
 	private static final int BORDER_THICKNESS = 2;
 	private static final float BORDER_DARKNESS = 1.2f;
 
@@ -47,7 +47,7 @@ public class SwitchRectangle extends MovingRectangle {
 				(int) (color.getGreen() / BORDER_DARKNESS),
 				(int) (color.getBlue() / BORDER_DARKNESS));
 		g.setColor(border);
-		drawTickedRectangle(g, color, TICK_SIZE, BORDER_THICKNESS, getX(),
+		drawDashedRectangle(g, color, DASH_SIZE, BORDER_THICKNESS, getX(),
 				getY(), getWidth(), getHeight());
 
 		g.setColor(color);
@@ -129,7 +129,6 @@ public class SwitchRectangle extends MovingRectangle {
 		isActive = active;
 		getAttachments().forEach(a -> a.setActive(active));
 		if (!isActive) {
-			setXVelocity(0);
 			setYVelocity(0);
 		}
 	}

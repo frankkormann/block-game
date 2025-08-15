@@ -1,23 +1,21 @@
 package blockgame.gui;
 
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
-import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import com.formdev.flatlaf.util.UIScale;
 
 import blockgame.Level;
 import blockgame.input.GameInputHandler;
@@ -169,8 +167,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	/**
-	 * Sets the amount to scale GUI elements by, then updates the UI tree and
-	 * packs this.
+	 * Sets the amount to scale GUI elements by.
 	 * 
 	 * @param scale size multiplier
 	 */
@@ -178,7 +175,6 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		Font font = UIManager.getFont("defaultFont");
 		UIManager.put("defaultFont",
 				font.deriveFont(DEFAULT_FONT_SIZE * scale));
-		SwingUtilities.updateComponentTreeUI(this);
 
 		updateTitleBarText(title);
 		arrangeComponents();
@@ -234,6 +230,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	/**
 	 * Sets width, height, and title for a {@code Level}. Also clears the
 	 * previous level.
+	 * <p>
+	 * This should be called from the AWT Event Dispatching Thread.
 	 * 
 	 * @param level Level to set up
 	 */
@@ -275,12 +273,12 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		}
 
 		if ((direction == Direction.NORTH || direction == Direction.SOUTH)
-				&& (getHeight() + change < HEIGHT_MINIMUM * scale)) {
-			change = (int) (HEIGHT_MINIMUM * scale) - getHeight();
+				&& (idealHeight + change < HEIGHT_MINIMUM)) {
+			change = HEIGHT_MINIMUM - idealHeight;
 		}
 		if ((direction == Direction.WEST || direction == Direction.EAST)
-				&& (getWidth() + change < WIDTH_MINIMUM * scale)) {
-			change = (int) (WIDTH_MINIMUM * scale) - getWidth();
+				&& (idealWidth + change < WIDTH_MINIMUM)) {
+			change = WIDTH_MINIMUM - idealWidth;
 		}
 
 		switch (direction) {
@@ -313,38 +311,15 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * Incorporates all pending changes to x, y, width, and height, then lays
 	 * out components and repaints this.
 	 * <p>
-	 * If this is called from anywhere other than the AWT event dispatching
-	 * thread, it will call itself from the AWT event dispatching thread.
+	 * This should be called from the AWT Event Dispatching Thread.
 	 */
 	public void incorporateChanges() {
-		if (!SwingUtilities.isEventDispatchThread()) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					public void run() {
-						incorporateChanges();
-					}
-				});
-			}
-			catch (InvocationTargetException | InterruptedException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e);
-			}
-		}
-
 		idealWidth += widthChange;
 		idealHeight += heightChange;
 		idealXOffset += xChange;
 		idealYOffset += yChange;
 
 		drawingPane.setOffsets(idealXOffset, idealYOffset);
-		// Makes sure paintImmediately() doesn't interact badly with any Dialogs
-		boolean existsVisibleDialog = Arrays.stream(Window.getWindows())
-				.anyMatch(w -> (w instanceof Dialog && w.isVisible()));
-		if (!existsVisibleDialog) {
-			// Paint before arranging components to minimize stuttering
-			drawingPane.paintImmediately(0, 0, drawingPane.getWidth(),
-					drawingPane.getHeight());
-		}
 
 		xChange = 0;
 		yChange = 0;
@@ -412,8 +387,11 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 		}
 		if (drawingPane != null)
-			drawingPane.setBounds(0, 0, getContentPane().getWidth(),
-					getContentPane().getHeight());
+			drawingPane.setBounds(0, 0,
+					(int) Math.min(getContentPane().getWidth(),
+							idealWidth * scale),
+					(int) Math.max(getContentPane().getHeight(),
+							idealHeight * scale));
 	}
 
 	private int getPreferredX() {
@@ -440,10 +418,20 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * @param newText text to display
 	 */
 	private void updateTitleBarText(String newText) {
+		int textWidth = getFontMetrics(
+				UIManager.getFont("TitlePane.font").deriveFont(Font.BOLD))
+				.stringWidth(newText)
+				+ UIManager.getInt("TitlePane.buttonMinimumWidth");
+		UIManager.put("TitlePane.titleMinimumWidth",  // Need to unscale it
+				UIScale.unscale(textWidth));		  // because FlatLaf
+													  // re-scales it
+		SwingUtilities.updateComponentTreeUI(this);
+
+		newText = "<html><b>" + newText + "</b></html>";
 		newText = newText.replace(' ', ' ');
 //                   Normal space -^    ^- Non-breaking space
 		String taskbarText = getTitle();
-		setTitle("<html><body><b>" + newText + "</b></body></html>");
+		setTitle(newText);
 		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
 		setTitle(taskbarText);  				// setting its text back
 		interceptPropertyChangeEvent = false;

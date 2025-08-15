@@ -58,7 +58,7 @@ public class GoalArea extends Area {
 	 * @param rect unused
 	 */
 	@Override
-	protected void onEnter(MovingRectangle rect) {}
+	public void onEnter(MovingRectangle rect) {}
 
 	/**
 	 * Resets the internal timer to {@code 0} if
@@ -67,7 +67,7 @@ public class GoalArea extends Area {
 	 * @param rect {@code MovingRectangle} to consider
 	 */
 	@Override
-	protected void onExit(MovingRectangle rect) {
+	public void onExit(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {
 			timer = 0;
 		}
@@ -81,7 +81,7 @@ public class GoalArea extends Area {
 	 * @param rect {@code MovingRectangle} to consider
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {
+	public void everyFrame(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {
 			timer++;
 		}

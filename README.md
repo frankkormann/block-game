@@ -1,11 +1,12 @@
 # Block Game
 
-This is a puzzle game about moving blocks around. Solve 30 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 35 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ### Features
 
-- 30 fun levels<sup>1</sup>
+- 35 fun levels<sup>1</sup>
+- Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
 - Expansive options menu
@@ -40,7 +41,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>3.01 MB</td>
+		<td>3.06 MB</td>
 	</tr>
 </table>
 
@@ -64,29 +65,6 @@ You can change these in the Options menu.
 		<td>Jump</td>
 		<td>W</td>
 	</tr>
-	<tr>
-		<td>Pause</td>
-		<td>P</td>
-	</tr>
-	<tr>
-		<td>Restart level</td>
-		<td>R</td>
-	</tr>
-</table>
-
-**Hints**
-
-These options are also available from the menu bar.
-
-<table>
-	<tr>
-		<td>Show hint</td>
-		<td>H</td>
-	</tr>
-	<tr>
-		<td>Show solution</td>
-		<td>Control + Shift + H</td>
-	</tr>
 </table>
 
 **Keyboard resizing**
@@ -109,39 +87,16 @@ First, select a direction to resize. Then adjust it.
 	</tr>
 </table>
 
-**Advanced**
-
-These options are also available from the menu bar.
-
-<table>
-	<tr>
-		<td>Save replay of current level<t/d>
-		<td>Control + Shift + S</td>
-	</tr>
-	<tr>
-		<td>Playback replay</td>
-		<td>Control + Shift + P</td>
-	</tr>
-	<tr>
-		<td>Stop playback</td>
-		<td>S</td>
-	</tr>
-	<tr>
-		<td>Advance frame while paused</td>
-		<td>N</td>
-	</tr>
-</table>
-
 ### Reporting a bug
 
-If you encounter a bug, press `Control + Shift + S` to save a recording of the
-current level. Then open an issue on this GitHub page and include as much as
-much as you can:
+If you encounter a bug, save a recording of the current level in
+`Recordings > Save current`. Then open an issue on this GitHub page and include
+as much as you can:
 
 - The full copied text of any error message you received, if there was an error
   message. Make sure to click "Details" for the full text
 - The recording file
-- Your options settings, particularly Game Scaling
+- Your Options settings, particularly Game Scaling
 - The level you encountered the bug
 - A description of the bug
 - Any other information you think is relevant

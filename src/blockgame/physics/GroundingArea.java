@@ -14,7 +14,7 @@ import blockgame.physics.MovingRectangle.State;
  */
 public class GroundingArea extends Area {
 
-	private static int HEIGHT = 1; // TODO Add leniency for jumping when
+	private static int HEIGHT = 2; // TODO Add leniency for jumping when
 									 // hovering a few pixels above the floor
 
 	public GroundingArea(int x, int y, int width) {
@@ -27,7 +27,7 @@ public class GroundingArea extends Area {
 	 * @param rect {@code MovingRectangle} to change the state of
 	 */
 	@Override
-	protected void onEnter(MovingRectangle rect) {
+	public void onEnter(MovingRectangle rect) {
 		rect.setState(State.ON_GROUND);
 	}
 
@@ -37,7 +37,7 @@ public class GroundingArea extends Area {
 	 * @param rect {@code MovingRectangle} to change the state of
 	 */
 	@Override
-	protected void onExit(MovingRectangle rect) {
+	public void onExit(MovingRectangle rect) {
 		rect.setState(State.IN_AIR);
 	}
 
@@ -47,7 +47,7 @@ public class GroundingArea extends Area {
 	 * @param rect {@code MovingRectangle} to change the state of
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {
+	public void everyFrame(MovingRectangle rect) {
 		rect.setState(State.ON_GROUND);
 	}
 

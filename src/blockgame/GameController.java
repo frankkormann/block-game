@@ -7,10 +7,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ import java.util.TimerTask;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +30,7 @@ import com.formdev.flatlaf.util.SystemInfo;
 
 import blockgame.gui.ErrorDialog;
 import blockgame.gui.HintRectangle;
+import blockgame.gui.ImageArea;
 import blockgame.gui.MainFrame;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.gui.MenuBar;
@@ -44,6 +47,7 @@ import blockgame.physics.MovingRectangle;
 import blockgame.physics.PhysicsSimulator;
 import blockgame.physics.Rectangle;
 import blockgame.physics.SwitchArea;
+import blockgame.physics.SwitchController;
 import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
 import blockgame.util.Pair;
@@ -68,6 +72,7 @@ public class GameController extends WindowAdapter
 
 	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
+	private static final String FIRST_TITLE_SCREEN = "/title_0.json";
 	private static final String FIRST_LEVEL = "/level_1-1.json";
 
 	private MainFrame mainFrame;
@@ -88,6 +93,7 @@ public class GameController extends WindowAdapter
 		FlatLightLaf.setup();
 		UIManager.put("TitlePane.embeddedForeground",
 				UIManager.get("TitlePane.foreground"));
+		UIManager.put("TitlePane.menuBarTitleMinimumGap", 0);
 		SaveManager.setDirectory(System.getenv(DIRECTORY_ENV_VAR));
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
@@ -109,6 +115,7 @@ public class GameController extends WindowAdapter
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
+		ImageArea.setColorMapper(colorMapper);
 
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
@@ -127,19 +134,19 @@ public class GameController extends WindowAdapter
 
 		paramMapper.addListener(this);
 
-		startGame(SaveManager.getValue("current_level", FIRST_LEVEL),
+		startGame(SaveManager.getValue("title_screen", FIRST_TITLE_SCREEN),
 				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
 
 	/**
-	 * Loads {@code firstLevel} and begins a repeating {@code TimerTask} to
+	 * Loads {@code titleScreen} and begins a repeating {@code TimerTask} to
 	 * process each frame.
 	 * 
-	 * @param firstLevel          resource name of first level to load
+	 * @param titleScreen         resource name of title screen to load
 	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
-	public void startGame(String firstLevel, int millisBetweenFrames) {
-		loadLevel(firstLevel);
+	public void startGame(String titleScreen, int millisBetweenFrames) {
+		loadTitle(titleScreen);
 		mainFrame.setVisible(true);
 
 		if (SaveManager.getValue("new_save", "true").equals("true")) {
@@ -154,7 +161,7 @@ public class GameController extends WindowAdapter
 				newFrameTaskAction();
 			}
 		};
-		new Timer().scheduleAtFixedRate(newFrameTask, 0, millisBetweenFrames);
+		new Timer().schedule(newFrameTask, 0, millisBetweenFrames);
 	}
 
 	/**
@@ -180,22 +187,51 @@ public class GameController extends WindowAdapter
 	 */
 	private void reloadLevel() {
 		gameInputHandler.endReading();
-		loadLevel(currentLevel);
+		load(currentLevel);
 	}
 
+	/**
+	 * Loads {@code titleResource} and disables the hint menu.
+	 * 
+	 * @param titleResource name of resource to load
+	 * 
+	 * @see #load(String)
+	 */
+	private void loadTitle(String titleResource) {
+		load(titleResource);
+	}
+
+	/**
+	 * Loads {@code levelResource} and saves it as the current level.
+	 * 
+	 * @param levelResource name of resource to load
+	 * 
+	 * @see #load(String)
+	 */
 	private void loadLevel(String levelResource) {
+		load(levelResource);
+		SaveManager.putValue("current_level", levelResource);
+	}
+
+	/**
+	 * Loads the resource named {@code resource} into {@code physicsSimulator}
+	 * and {@code mainFrame} as a level.
+	 * 
+	 * @param resource name of resource to load
+	 */
+	private void load(String resource) {
 		paused = true;
 		Level level;
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			level = mapper.readValue(
-					getClass().getResourceAsStream(levelResource), Level.class);
+			level = mapper.readValue(getClass().getResourceAsStream(resource),
+					Level.class);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			new ErrorDialog("Error",
-					"Could not load level '" + levelResource
+					"Could not load level '" + resource
 							+ "', file is corrupt or does not exist",
 					e).setVisible(true);
 
@@ -203,9 +239,9 @@ public class GameController extends WindowAdapter
 				physicsSimulator.resetNextlevel();
 			}
 			else {
-				if (!levelResource.equals(FIRST_LEVEL)) {
-					System.err.println("Loading first level");
-					loadLevel(FIRST_LEVEL);
+				if (!resource.equals(FIRST_TITLE_SCREEN)) {
+					System.err.println("Loading first title screen");
+					loadTitle(FIRST_TITLE_SCREEN);
 				}
 				else {
 					System.exit(1);
@@ -217,24 +253,39 @@ public class GameController extends WindowAdapter
 		}
 
 		physicsSimulator = new PhysicsSimulator();
-		mainFrame.setUpLevel(level);
 		menuBar.reset();
 		hints.clear();
 
+		if (!SwingUtilities.isEventDispatchThread()) {
+			try {
+				SwingUtilities.invokeAndWait(() -> mainFrame.setUpLevel(level));
+			}
+			catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Something went wrong", e)
+						.setVisible(true);
+			}
+		}
+		else {
+			mainFrame.setUpLevel(level);
+		}
+
 		currentSolution = level.solution;
-		currentLevel = levelResource;
-		loadObjectsFromLevel(level);
-		SaveManager.putValue("current_level", levelResource);
+		currentLevel = resource;
+		if (level.newTitle != "") {
+			SaveManager.putValue("title_screen", level.newTitle);
+		}
+		loadObjects(level);
+
+		menuBar.showHintsMenu(hints.size() > 0 || !level.solution.equals(""));
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
 				mainFrame.getNextYOffset());
 
 		mainFrame.moveToMiddleOfScreen();
-
 		beginTempRecording();
 		paused = false;
-
 	}
 
 	/**
@@ -244,16 +295,22 @@ public class GameController extends WindowAdapter
 	 * 
 	 * @param level {@code Level} to take objects from
 	 */
-	private void loadObjectsFromLevel(Level level) {
+	private void loadObjects(Level level) {
+
+		List<SwitchArea> switchAreas = new ArrayList<>();
+		List<SwitchRectangle> switchRects = new ArrayList<>();
 
 		for (MovingRectangle rect : level.movingRectangles) {
 			if (rect instanceof SwitchRectangle) {
-				mainFrame.add(rect, 1);
-			}
-			else {
 				mainFrame.add(rect, 2);
 			}
+			else {
+				mainFrame.add(rect, 3);
+			}
 			physicsSimulator.add(rect);
+			if (rect instanceof SwitchRectangle) {
+				switchRects.add((SwitchRectangle) rect);
+			}
 			for (Area attached : rect.getAttachments()) {
 				level.areas.add(attached);
 			}
@@ -261,54 +318,60 @@ public class GameController extends WindowAdapter
 
 		for (WallRectangle wall : level.walls) {
 			physicsSimulator.add(wall);
-			mainFrame.add(wall, 3);
+			mainFrame.add(wall, 4);
 			for (Area attached : wall.getAttachments()) {
-				physicsSimulator.add(attached);
-				mainFrame.add(attached, 0);
+				level.areas.add(attached);
 			}
 		}
 
 		for (Area area : level.areas) {
 			physicsSimulator.add(area);
-			mainFrame.add(area, 0);
+			if (area instanceof SwitchArea) {
+				switchAreas.add((SwitchArea) area);
+			}
+			if (area instanceof ImageArea) {
+				ImageArea imgArea = (ImageArea) area;
+				mainFrame.add(imgArea, 0);
+				if (imgArea.getImitatedArea() instanceof SwitchArea) {
+					switchAreas.add((SwitchArea) imgArea.getImitatedArea());
+				}
+			}
+			else {
+				mainFrame.add(area, 1);
+			}
 		}
 
 		for (HintRectangle hint : level.hints) {
-			mainFrame.add(hint, 3);
+			mainFrame.add(hint, 5);
 			hints.add(hint);
 		}
 
-		linkSwitchAreasAndRects(level.areas, level.movingRectangles);
+		linkSwitchAreasAndRects(switchAreas, switchRects);
 	}
 
 	/**
 	 * Pairs each {@code SwitchArea} with all the {@code SwitchRectangle}s that
 	 * share its key.
 	 * 
-	 * @param areas {@code List} of potential {@code SwitchArea}s
-	 * @param rects {@code List} of potential {@code SwitchRectangle}s
+	 * @param areas {@code List} of {@code SwitchArea}s
+	 * @param rects {@code List} of {@code SwitchRectangle}s
 	 */
-	private void linkSwitchAreasAndRects(List<Area> areas,
-			List<MovingRectangle> rects) {
-		Map<String, Set<SwitchRectangle>> rectKeys = new HashMap<>();
+	private void linkSwitchAreasAndRects(List<SwitchArea> areas,
+			List<SwitchRectangle> rects) {
+		Map<String, SwitchController> controllers = new HashMap<>();
 
-		for (MovingRectangle rect : rects) {
-			if (rect instanceof SwitchRectangle) {
-				SwitchRectangle switchRect = (SwitchRectangle) rect;
-				if (!rectKeys.containsKey(switchRect.getKey())) {
-					rectKeys.put(switchRect.getKey(), new HashSet<>());
-				}
-				rectKeys.get(switchRect.getKey()).add(switchRect);
+		for (SwitchRectangle rect : rects) {
+			if (!controllers.containsKey(rect.getKey())) {
+				controllers.put(rect.getKey(), new SwitchController());
 			}
+			controllers.get(rect.getKey()).addSwitchRectangle(rect);
 		}
-		for (Area area : areas) {
-			if (area instanceof SwitchArea) {
-				SwitchArea switchArea = (SwitchArea) area;
-				if (rectKeys.containsKey(switchArea.getKey())) {
-					rectKeys.get(switchArea.getKey())
-							.forEach(r -> switchArea.addChild(r));
-				}
+
+		for (SwitchArea area : areas) {
+			if (!controllers.containsKey(area.getKey())) {
+				continue;
 			}
+			area.setController(controllers.get(area.getKey()));
 		}
 	}
 
@@ -335,12 +398,30 @@ public class GameController extends WindowAdapter
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
 
 		if (physicsSimulator.getNextLevel() != "") {
-			loadLevel(physicsSimulator.getNextLevel());
+			String nextLevel = physicsSimulator.getNextLevel();
+			if (nextLevel.startsWith("$")) {
+				nextLevel = SaveManager.getValue(nextLevel.substring(1),
+						FIRST_LEVEL);
+			}
+			loadLevel(nextLevel);
 			return;
 		}
 
 		mainFrame.resizeAll(physicsSimulator.getResizes());
-		mainFrame.incorporateChanges();
+		if (!SwingUtilities.isEventDispatchThread()) {
+			try {
+				SwingUtilities
+						.invokeAndWait(() -> mainFrame.incorporateChanges());
+			}
+			catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Something went wrong", e)
+						.setVisible(true);
+			}
+		}
+		else {
+			mainFrame.incorporateChanges();
+		}
 	}
 
 	/**
@@ -415,7 +496,7 @@ public class GameController extends WindowAdapter
 
 		String[] options = { "Show solution", "Cancel" };
 		int proceedChoice = JOptionPane.showOptionDialog(mainFrame,
-				"This option is intended to be used if you are absolutely stuck. Please give the puzzle a good effort before watching this.\n\nIf you have seen enough and want to stop the recording partway through, select Recordings > Stop in the title bar.",
+				"This option is intended to be used if you are absolutely stuck. Please give the puzzle a good effort before watching the solution.\n\nIf you have seen enough and want to stop the recording partway through, select Recordings > Stop in the title bar.",
 				"Continue?", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 		if (proceedChoice != JOptionPane.OK_OPTION) {
@@ -454,8 +535,9 @@ public class GameController extends WindowAdapter
 				case SAVE_RECORDING:
 					errorWord = "save";
 					gameInputHandler.flushWriter();
-					currentLevelOutputStream
-							.writeTo(new FileOutputStream(file));
+					OutputStream out = new FileOutputStream(file);
+					currentLevelOutputStream.writeTo(out);
+					out.close();
 					break;
 				case PLAY_RECORDING:
 					errorWord = "open";
@@ -478,7 +560,6 @@ public class GameController extends WindowAdapter
 	public void windowClosing(WindowEvent e) {
 		gameInputHandler.endReading();
 		gameInputHandler.endWriting();
-		SaveManager.putValue("current_level", currentLevel);
 		System.exit(0);
 	}
 
@@ -491,7 +572,7 @@ public class GameController extends WindowAdapter
 					newFrameTaskAction();
 				}
 			};
-			new Timer().scheduleAtFixedRate(newFrameTask, 0,
+			new Timer().schedule(newFrameTask, 0,
 					((Number) newValue).intValue());
 		}
 	}

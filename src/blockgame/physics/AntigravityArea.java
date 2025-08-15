@@ -24,7 +24,7 @@ public class AntigravityArea extends Area {
 	 * @param rect {@code MovingRectangle} to affect
 	 */
 	@Override
-	protected void onEnter(MovingRectangle rect) {
+	public void onEnter(MovingRectangle rect) {
 		rect.setHasGravity(false);
 	}
 
@@ -34,7 +34,7 @@ public class AntigravityArea extends Area {
 	 * @param rect {@code MovingRectangle} to affect
 	 */
 	@Override
-	protected void onExit(MovingRectangle rect) {
+	public void onExit(MovingRectangle rect) {
 		rect.setHasGravity(true);
 	}
 
@@ -44,7 +44,7 @@ public class AntigravityArea extends Area {
 	 * @param rect {@code MovingRectangle} to affect
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {
+	public void everyFrame(MovingRectangle rect) {
 		rect.setHasGravity(false);
 	}
 

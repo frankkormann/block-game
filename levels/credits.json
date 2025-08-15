@@ -1,0 +1,81 @@
+{
+	"name": "Credits",
+	"width": 800,
+	"height": 500,
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 100,
+			"y": 480,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		}
+	],
+	"walls": [
+			{
+				"type": ".WallRectangle",
+				"x": 0,
+				"y": 0,
+				"width": 800,
+				"height": 10,
+				"resizeBehavior": "STAY"
+			},
+			{
+				"type": ".WallRectangle",
+				"x": 0,
+				"y": 630,
+				"width": 800,
+				"height": 10,
+				"resizeBehavior": "STAY"
+			},
+			{
+				"type": ".WallRectangle",
+				"x": 0,
+				"y": 10,
+				"width": 10,
+				"height": 620,
+				"resizeBehavior": "STAY"
+			},
+			{
+				"type": ".WallRectangle",
+				"x": 790,
+				"y": 10,
+				"width": 10,
+				"height": 620,
+				"resizeBehavior": "STAY"
+			}
+		],
+	"areas": [
+		{
+			"type": ".ImageArea",
+			"x": 150,
+			"y": 80,
+			"source": "/credits_start.png",
+			"color": "TRANSLUCENT_BLUE"
+		},
+		{
+			"type": ".ImageArea",
+			"x": 100,
+			"y": 150,
+			"source": "/credits_name.png",
+			"color": "BLUE"
+		},
+		{
+			"type": ".ImageArea",
+			"x": 182,
+			"y": 440,
+			"source": "/credits_thanks.png",
+			"color": "TRANSLUCENT_YELLOW"
+		},
+		{
+			"type": ".GoalArea",
+			"x": 700,
+			"y": 580,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1-1.json"
+		}
+	]
+}

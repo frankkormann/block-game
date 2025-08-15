@@ -55,21 +55,21 @@ public abstract class Area extends Rectangle {
 	 * 
 	 * @param rect {@code MovingRectangle} which entered
 	 */
-	protected abstract void onEnter(MovingRectangle rect);
+	public abstract void onEnter(MovingRectangle rect);
 
 	/**
 	 * Called when {@code rect} exits this.
 	 * 
 	 * @param rect {@code MovingRectangle} which exited
 	 */
-	protected abstract void onExit(MovingRectangle rect);
+	public abstract void onExit(MovingRectangle rect);
 
 	/**
 	 * Called on every frame that {@code rect} is inside this.
 	 * 
 	 * @param rect {@code MovingRectangle} which is inside
 	 */
-	protected abstract void everyFrame(MovingRectangle rect);
+	public abstract void everyFrame(MovingRectangle rect);
 
 	/**
 	 * Adds or removes {@code rect} from the list of {@code MovingRectangles} in

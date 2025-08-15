@@ -2,31 +2,26 @@ package blockgame.physics;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * {@code Area} that sets the activity of {@code SwitchRectangle}s. As long as
- * there is at least one {@code MovingRectangle} within this, each of its
- * children will be active. Otherwise, they will all be inactive.
- * <p>
- * Child {@code SwitchRectangle}s are usually added by matching this's
- * {@code key} with their {@code key}.
+ * {@code Area} that reports to {@code SwitchController}. As long as there is a
+ * {@code MovingRectangle} within this, all the children of its
+ * {@code SwitchContoller} will be active.
  *
  * @author Frank Kormann
  */
 public class SwitchArea extends Area {
 
-	private static final int TICK_SIZE = 10;
-	private static final int TICK_THICKNESS = 3;
+	private static final int DASH_SIZE = 10;
+	private static final int DASH_THICKNESS = 3;
 	private static final float INNER_RECT_DARKNESS = 1.2f;
 
-	private Set<SwitchRectangle> children;
-	private int numberInside;
 	private String key;
+	private SwitchController controller;
+	private int numberInside;
 
 	@JsonCreator
 	public SwitchArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
@@ -36,7 +31,7 @@ public class SwitchArea extends Area {
 			@JsonProperty("key") String key) {
 		super(x, y, width, height, colorEnum);
 		this.key = key;
-		children = new HashSet<>();
+		numberInside = 0;
 	}
 
 	@Override
@@ -55,7 +50,7 @@ public class SwitchArea extends Area {
 		// Calculate the width/height by subtracting 2 quarters so that there is
 		// equal distance from each side of the inner rectangle to the side of
 		// the outer rectangle, taking into account float rounding
-		drawTickedRectangle(g, new Color(0, 0, 0, 0), TICK_SIZE, TICK_THICKNESS,
+		drawDashedRectangle(g, new Color(0, 0, 0, 0), DASH_SIZE, DASH_THICKNESS,
 				getX() + quarterWidth, getY() + quarterHeight,
 				getWidth() - 2 * quarterWidth, getHeight() - 2 * quarterHeight);
 
@@ -69,10 +64,10 @@ public class SwitchArea extends Area {
 	 * @param rect {@code MovingRectangle} which entered
 	 */
 	@Override
-	protected void onEnter(MovingRectangle rect) {
+	public void onEnter(MovingRectangle rect) {
 		numberInside++;
 		if (numberInside == 1) {
-			children.forEach(r -> r.setActive(true));
+			controller.areaActivated();
 		}
 	}
 
@@ -83,10 +78,10 @@ public class SwitchArea extends Area {
 	 * @param rect {@code MovingRectangle} which exited
 	 */
 	@Override
-	protected void onExit(MovingRectangle rect) {
+	public void onExit(MovingRectangle rect) {
 		numberInside--;
 		if (numberInside == 0) {
-			children.forEach(r -> r.setActive(false));
+			controller.areaDeactivated();
 		}
 	}
 
@@ -96,14 +91,14 @@ public class SwitchArea extends Area {
 	 * @param rect unused
 	 */
 	@Override
-	protected void everyFrame(MovingRectangle rect) {}
+	public void everyFrame(MovingRectangle rect) {}
 
 	public String getKey() {
 		return key;
 	}
 
-	public void addChild(SwitchRectangle child) {
-		children.add(child);
+	public void setController(SwitchController controller) {
+		this.controller = controller;
 	}
 
 }

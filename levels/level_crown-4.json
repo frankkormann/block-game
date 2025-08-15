@@ -1,0 +1,168 @@
+{
+	"name": "Only Down [♛-4]",
+	"width": 800,
+	"height": 500,
+	"solution": "/level_crown-4.rec",
+	"movingRectangles": [
+		{
+			"type": ".MovingRectangle",
+			"x": 40,
+			"y": 470,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 220,
+			"y": 130,
+			"width": 30,
+			"height": 180,
+			"color": "BLUE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 250,
+			"y": 190,
+			"width": 30,
+			"height": 120,
+			"color": "GREEN"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 280,
+			"y": 250,
+			"width": 30,
+			"height": 60,
+			"color": "ORANGE"
+		},
+		{
+			"type": ".MovingRectangle",
+			"x": 760,
+			"y": 430,
+			"width": 30,
+			"height": 60,
+			"color": "RED"
+		}
+	],
+	"walls": [
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 0,
+			"width": 800,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 10,
+			"width": 10,
+			"height": 480,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 90,
+			"y": 164,
+			"width": 20,
+			"height": 326,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 510,
+			"y": 10,
+			"width": 20,
+			"height": 280,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 750,
+			"y": 10,
+			"width": 10,
+			"height": 480,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 790,
+			"y": 10,
+			"width": 10,
+			"height": 480,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 190,
+			"y": 310,
+			"width": 150,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 640,
+			"y": 250,
+			"width": 110,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": ".WallRectangle",
+			"x": 0,
+			"y": 490,
+			"width": 800,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": ".GrowArea",
+			"x": 760,
+			"y": 10,
+			"width": 30,
+			"height": 190,
+			"xGrowth": 0,
+			"yGrowth": 20
+		},
+		{
+			"type": ".GoalArea",
+			"x": 670,
+			"y": 200,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_crown-5.json"
+		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 600,
+			"y": 310,
+			"width": 30,
+			"height": 180,
+			"color": "BLUE"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 570,
+			"y": 370,
+			"width": 30,
+			"height": 120,
+			"color": "GREEN"
+		},
+		{
+			"type": ".HintRectangle",
+			"x": 540,
+			"y": 430,
+			"width": 30,
+			"height": 60,
+			"color": "ORANGE"
+		}
+	]
+}

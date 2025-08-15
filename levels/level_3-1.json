@@ -3,6 +3,7 @@
 	"width": 300,
 	"height": 400,
 	"solution": "/level_3-1.rec",
+	"newTitle": "/title_3.json",
 	"movingRectangles": [
 		{
 			"type": ".MovingRectangle",
