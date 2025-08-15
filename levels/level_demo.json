@@ -183,5 +183,15 @@
 			"y": 100,
 			"source": "/taskbar_icon.png"
 		}
+	],
+	"hints": [
+		{
+			"type": ".HintRectangle",
+			"x": 100,
+			"y": 200,
+			"width": 30,
+			"height": 60,
+			"color": "RED"
+		}
 	]
 }
