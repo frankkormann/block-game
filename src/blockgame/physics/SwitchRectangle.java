@@ -129,7 +129,6 @@ public class SwitchRectangle extends MovingRectangle {
 		isActive = active;
 		getAttachments().forEach(a -> a.setActive(active));
 		if (!isActive) {
-			setXVelocity(0);
 			setYVelocity(0);
 		}
 	}
