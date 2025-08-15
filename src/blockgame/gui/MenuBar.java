@@ -101,7 +101,6 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		add(createRecordingMenu());
 		add(createOptionsButton(colorMapper, paramMapper));
 		super.add(moreMenu);
-		menuWidths.put(moreMenu, moreMenu.getPreferredSize().width);
 	}
 
 	@Override
