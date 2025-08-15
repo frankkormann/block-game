@@ -199,7 +199,6 @@ public class GameController extends WindowAdapter
 	 */
 	private void loadTitle(String titleResource) {
 		load(titleResource);
-		menuBar.showHintsMenu(false);
 	}
 
 	/**
@@ -211,7 +210,6 @@ public class GameController extends WindowAdapter
 	 */
 	private void loadLevel(String levelResource) {
 		load(levelResource);
-		menuBar.showHintsMenu(true);
 		SaveManager.putValue("current_level", levelResource);
 	}
 
@@ -278,6 +276,8 @@ public class GameController extends WindowAdapter
 			SaveManager.putValue("title_screen", level.newTitle);
 		}
 		loadObjects(level);
+
+		menuBar.showHintsMenu(hints.size() > 0 || !level.solution.equals(""));
 
 		physicsSimulator.createSides(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
