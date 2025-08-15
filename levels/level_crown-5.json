@@ -227,7 +227,7 @@
 			"y": 250,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_1-1.json"
+			"nextLevel": "/credits.json"
 		}
 	],
 	"hints": [
