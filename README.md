@@ -65,29 +65,6 @@ You can change these in the Options menu.
 		<td>Jump</td>
 		<td>W</td>
 	</tr>
-	<tr>
-		<td>Pause</td>
-		<td>P</td>
-	</tr>
-	<tr>
-		<td>Restart level</td>
-		<td>R</td>
-	</tr>
-</table>
-
-**Hints**
-
-These options are also available from the menu bar.
-
-<table>
-	<tr>
-		<td>Show hint</td>
-		<td>H</td>
-	</tr>
-	<tr>
-		<td>Show solution</td>
-		<td>Control + Shift + H</td>
-	</tr>
 </table>
 
 **Keyboard resizing**
@@ -107,29 +84,6 @@ First, select a direction to resize. Then adjust it.
 	<tr>
 		<td>Move side left/right</td>
 		<td>J and L</td>
-	</tr>
-</table>
-
-**Advanced**
-
-These options are also available from the menu bar.
-
-<table>
-	<tr>
-		<td>Save replay of current level<t/d>
-		<td>Control + Shift + S</td>
-	</tr>
-	<tr>
-		<td>Playback replay</td>
-		<td>Control + Shift + P</td>
-	</tr>
-	<tr>
-		<td>Stop playback</td>
-		<td>S</td>
-	</tr>
-	<tr>
-		<td>Advance frame while paused</td>
-		<td>N</td>
 	</tr>
 </table>
 
