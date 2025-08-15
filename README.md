@@ -1,11 +1,11 @@
 # Block Game
 
-This is a puzzle game about moving blocks around. Solve 30 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 35 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ### Features
 
-- 30 fun levels<sup>1</sup>
+- 35 fun levels<sup>1</sup>
 - Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
