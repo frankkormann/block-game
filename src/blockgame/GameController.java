@@ -151,7 +151,7 @@ public class GameController extends WindowAdapter
 
 		if (SaveManager.getValue("new_save", "true").equals("true")) {
 			JOptionPane.showMessageDialog(mainFrame,
-					"You can change colors and controls in the Options menu at any time.",
+					"The default controls are A, D, and W to move. You can change colors and controls in the Options menu at any time.",
 					"Message", JOptionPane.INFORMATION_MESSAGE);
 			SaveManager.putValue("new_save", "false");
 		}
