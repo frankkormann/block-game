@@ -4,7 +4,7 @@
 	"height": 500,
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 430,
 			"y": 360,
 			"width": 20,
@@ -13,7 +13,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 750,
 			"y": 420,
 			"width": 10,
@@ -22,7 +22,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".AntigravityArea",
+						"type": "AntigravityArea",
 						"width": 60
 					},
 					"options": ["GLUED_WEST", "SAME_HEIGHT"]
@@ -30,7 +30,7 @@
 			]
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 385,
 			"y": 100,
 			"width": 30,
@@ -39,7 +39,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".ImageArea",
+						"type": "ImageArea",
 						"source": "/title_screen_Z.png",
 						"color": "ORANGE"
 					},
@@ -48,7 +48,7 @@
 			]
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 30,
 			"y": 470,
 			"width": 30,
@@ -57,7 +57,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 500,
 			"y": 350,
 			"width": 120,
@@ -66,7 +66,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 390,
 			"y": 40,
 			"width": 100,
@@ -74,7 +74,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 330,
 			"y": 430,
 			"width": 30,
@@ -84,7 +84,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".SwitchArea",
+						"type": "SwitchArea",
 						"width": 50,
 						"color": "TRANSLUCENT_RED",
 						"key": "red"
@@ -93,7 +93,7 @@
 				},
 				{
 					"area": {
-						"type": ".GrowArea",
+						"type": "GrowArea",
 						"width": 60,
 						"xGrowth": 1,
 						"yGrowth": 0
@@ -105,7 +105,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 380,
 			"y": 380,
 			"width": 300,
@@ -113,7 +113,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 100,
 			"y": 320,
 			"width": 100,
@@ -121,7 +121,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 385,
 			"y": 241,
 			"width": 30,
@@ -129,7 +129,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 360,
 			"y": 60,
 			"width": 150,
@@ -139,14 +139,14 @@
 	],
 	"areas": [
 		{
-			"type": ".AntigravityArea",
+			"type": "AntigravityArea",
 			"x": 0,
 			"y": 0,
 			"width": 80,
 			"height": 500
 		},
 		{
-			"type": ".ShrinkArea",
+			"type": "ShrinkArea",
 			"x": 289,
 			"y": 20,
 			"width": 71,
@@ -155,7 +155,7 @@
 			"yShrink": 0
 		},
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 100,
 			"y": 420,
 			"width": 100,
@@ -164,7 +164,7 @@
 			"key": "blue"
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 125,
 			"y": 270,
 			"width": 50,
@@ -172,54 +172,54 @@
 			"nextLevel": "$current_level"
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 100,
 			"y": 100,
 			"source": "/title_screen_R.png",
 			"color": "BLUE"
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 194,
 			"y": 100,
 			"source": "/title_screen_E.png",
 			"color": "TRANSLUCENT_GREEN",
 			"imitatedArea": {
-				"type": ".GrowArea",
+				"type": "GrowArea",
 				"xGrowth": 1,
 				"yGrowth": 1
 			}
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 289,
 			"y": 100,
 			"source": "/title_screen_S.png",
 			"color": "TRANSLUCENT_RED",
 			"imitatedArea": {
-				"type": ".ShrinkArea",
+				"type": "ShrinkArea",
 				"xShrink": 1,
 				"yShrink": 1
 			}
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 514,
 			"y": 100,
 			"source": "/title_screen_E.png",
 			"color": "TRANSLUCENT_PINK",
 			"imitatedArea": {
-				"type": ".AntigravityArea"
+				"type": "AntigravityArea"
 			}
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 609,
 			"y": 100,
 			"source": "/title_screen_R.png",
 			"color": "TRANSLUCENT_BLUE",
 			"imitatedArea": {
-				"type": ".SwitchArea",
+				"type": "SwitchArea",
 				"key": "blue"
 			}
 		}

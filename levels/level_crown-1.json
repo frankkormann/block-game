@@ -6,7 +6,7 @@
 		"newTitle": "/title_crown.json",
         "movingRectangles": [
                 {
-                        "type": ".MovingRectangle",
+                        "type": "MovingRectangle",
                         "x": 350,
                         "y": 290,
                         "width": 20,
@@ -15,7 +15,7 @@
                         "controlledByPlayer": true
                 },
                 {
-                        "type": ".MovingRectangle",
+                        "type": "MovingRectangle",
                         "x": 280,
                         "y": 260,
                         "width": 180,
@@ -23,7 +23,7 @@
                         "color": "BLUE"
                 },
                 {
-                        "type": ".MovingRectangle",
+                        "type": "MovingRectangle",
                         "x": 80,
                         "y": 330,
                         "width": 50,
@@ -31,7 +31,7 @@
                         "color": "GREEN"
                 },
                 {
-                        "type": ".MovingRectangle",
+                        "type": "MovingRectangle",
                         "x": 80,
                         "y": 280,
                         "width": 100,
@@ -41,7 +41,7 @@
         ],
         "walls": [
                 {
-                        "type": ".WallRectangle",
+                        "type": "WallRectangle",
                         "x": 260,
                         "y": 140,
                         "width": 200,
@@ -49,7 +49,7 @@
                         "resizeBehavior": "STAY"
                 },
                 {
-                        "type": ".WallRectangle",
+                        "type": "WallRectangle",
                         "x": 260,
                         "y": 160,
                         "width": 20,
@@ -57,7 +57,7 @@
                         "resizeBehavior": "STAY"
                 },
                 {
-                        "type": ".WallRectangle",
+                        "type": "WallRectangle",
                         "x": 260,
                         "y": 280,
                         "width": 20,
@@ -65,7 +65,7 @@
                         "resizeBehavior": "STAY"
                 },
                 {
-                        "type": ".WallRectangle",
+                        "type": "WallRectangle",
                         "x": 440,
                         "y": 160,
                         "width": 20,
@@ -73,7 +73,7 @@
                         "resizeBehavior": "STAY"
                 },
                 {
-                        "type": ".WallRectangle",
+                        "type": "WallRectangle",
                         "x": 440,
                         "y": 300,
                         "width": 20,
@@ -81,7 +81,7 @@
                         "resizeBehavior": "STAY"
                 },
                 {
-                        "type": ".WallRectangle",
+                        "type": "WallRectangle",
                         "x": 260,
                         "y": 310,
                         "width": 200,
@@ -89,7 +89,7 @@
                         "resizeBehavior": "STAY"
                 },
                 {
-                        "type": ".WallRectangle",
+                        "type": "WallRectangle",
                         "x": 80,
                         "y": 340,
                         "width": 180,
@@ -99,7 +99,7 @@
         ],
         "areas": [
                 {
-                        "type": ".GrowArea",
+                        "type": "GrowArea",
                         "x": 200,
                         "y": 270,
                         "width": 30,
@@ -108,7 +108,7 @@
                         "yGrowth": 1
                 },
                 {
-                        "type": ".ShrinkArea",
+                        "type": "ShrinkArea",
                         "x": 230,
                         "y": 270,
                         "width": 30,
@@ -117,7 +117,7 @@
                         "yShrink": 1
                 },
                 {
-                        "type": ".GoalArea",
+                        "type": "GoalArea",
                         "x": 335,
                         "y": 210,
                         "width": 50,
@@ -127,7 +127,7 @@
         ],
         "hints": [
                 {
-                        "type": ".HintRectangle",
+                        "type": "HintRectangle",
                         "x": 200,
                         "y": 280,
                         "width": 50,
@@ -135,7 +135,7 @@
                         "color": "GREEN"
                 },
                 {
-                        "type": ".HintRectangle",
+                        "type": "HintRectangle",
                         "x": 200,
                         "y": 270,
                         "width": 100,

@@ -4,7 +4,7 @@
 	"height": 500,
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 260,
 			"y": 480,
 			"width": 20,
@@ -13,7 +13,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 340,
 			"y": 320,
 			"width": 40,
@@ -21,7 +21,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 510,
 			"y": 340,
 			"width": 220,
@@ -29,7 +29,7 @@
 			"color": "BLUE"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 395,
 			"y": 0,
 			"width": 10,
@@ -38,7 +38,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".ShrinkArea",
+						"type": "ShrinkArea",
 						"width": 60,
 						"xShrink": 1,
 						"yShrink": 0
@@ -47,7 +47,7 @@
 				},
 				{
 					"area": {
-						"type": ".GrowArea",
+						"type": "GrowArea",
 						"width": 60,
 						"xGrowth": 1,
 						"yGrowth": 0
@@ -57,7 +57,7 @@
 			]
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 130,
 			"y": 440,
 			"width": 10,
@@ -66,7 +66,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".AntigravityArea",
+						"type": "AntigravityArea",
 						"width": 60
 					},
 					"options": ["GLUED_EAST", "SAME_HEIGHT"]
@@ -76,7 +76,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 80,
 			"y": 60,
 			"width": 640,
@@ -84,7 +84,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 310,
 			"y": 350,
 			"width": 230,
@@ -94,21 +94,21 @@
 	],
 	"areas": [
 		{
-			"type": ".AntigravityArea",
+			"type": "AntigravityArea",
 			"x": 0,
 			"y": 0,
 			"width": 80,
 			"height": 450
 		},
 		{
-			"type": ".AntigravityArea",
+			"type": "AntigravityArea",
 			"x": 720,
 			"y": 0,
 			"width": 80,
 			"height": 450
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 600,
 			"y": 450,
 			"width": 50,
@@ -116,13 +116,13 @@
 			"nextLevel": "$current_level"
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 100,
 			"y": 100,
 			"source": "/title_screen_text.png",
 			"color": "TRANSLUCENT_PINK",
 			"imitatedArea": {
-				"type": ".AntigravityArea"
+				"type": "AntigravityArea"
 			}
 		}
 	]

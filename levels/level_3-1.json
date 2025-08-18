@@ -6,7 +6,7 @@
 	"newTitle": "/title_3.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 230,
 			"y": 380,
 			"width": 40,
@@ -15,7 +15,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 60,
 			"y": 360,
 			"width": 80,
@@ -23,7 +23,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 140,
 			"y": 360,
 			"width": 80,
@@ -33,7 +33,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 60,
 			"y": 60,
 			"width": 20,
@@ -41,7 +41,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 240,
 			"y": 60,
 			"width": 20,
@@ -49,7 +49,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 80,
 			"y": 140,
 			"width": 80,
@@ -57,7 +57,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 60,
 			"y": 300,
 			"width": 90,
@@ -65,7 +65,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 180,
 			"y": 300,
 			"width": 80,
@@ -75,7 +75,7 @@
 	],
 	"areas": [
 		{
-			"type": ".ShrinkArea",
+			"type": "ShrinkArea",
 			"x": 0,
 			"y": 340,
 			"width": 40,
@@ -84,7 +84,7 @@
 			"yShrink": 0
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 95,
 			"y": 90,
 			"width": 50,
@@ -94,7 +94,7 @@
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 0,
 			"y": 360,
 			"width": 15,
@@ -102,7 +102,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 15,
 			"y": 360,
 			"width": 15,
@@ -110,7 +110,7 @@
 			"color": "BLUE"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 30,
 			"y": 380,
 			"width": 10,

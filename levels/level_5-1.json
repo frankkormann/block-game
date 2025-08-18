@@ -6,7 +6,7 @@
 	"newTitle": "/title_5.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 340,
 			"y": 460,
 			"width": 20,
@@ -17,7 +17,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 0,
 			"width": 700,
@@ -25,7 +25,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 20,
 			"width": 10,
@@ -33,7 +33,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 10,
 			"y": 200,
 			"width": 190,
@@ -41,7 +41,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 500,
 			"y": 200,
 			"width": 190,
@@ -49,7 +49,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 690,
 			"y": 20,
 			"width": 10,
@@ -57,7 +57,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 480,
 			"width": 700,
@@ -67,14 +67,14 @@
 	],
 	"areas": [
 		{
-			"type": ".AntigravityArea",
+			"type": "AntigravityArea",
 			"x": 200,
 			"y": 20,
 			"width": 300,
 			"height": 400
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 575,
 			"y": 150,
 			"width": 50,
@@ -84,7 +84,7 @@
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 340,
 			"y": 360,
 			"width": 20,
@@ -92,7 +92,7 @@
 			"color": "PLAYER"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 340,
 			"y": 320,
 			"width": 20,
@@ -100,7 +100,7 @@
 			"color": "PLAYER"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 340,
 			"y": 280,
 			"width": 20,

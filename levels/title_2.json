@@ -4,7 +4,7 @@
 	"height": 500,
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 420,
 			"y": 480,
 			"width": 20,
@@ -13,7 +13,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 200,
 			"y": 440,
 			"width": 30,
@@ -21,7 +21,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 320,
 			"y": 310,
 			"width": 40,
@@ -31,7 +31,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 230,
 			"y": 340,
 			"width": 300,
@@ -41,7 +41,7 @@
 	],
 	"areas": [
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 470,
 			"y": 280,
 			"width": 120,
@@ -50,7 +50,7 @@
 			"yGrowth": 0
 		},
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 120,
 			"y": 380,
 			"width": 50,
@@ -59,7 +59,7 @@
 			"yGrowth": 1
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 600,
 			"y": 450,
 			"width": 50,
@@ -67,13 +67,13 @@
 			"nextLevel": "$current_level"
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 100,
 			"y": 100,
 			"source": "/title_screen_text.png",
 			"color": "TRANSLUCENT_GREEN",
 			"imitatedArea": {
-				"type": ".GrowArea",
+				"type": "GrowArea",
 				"xGrowth": 1,
 				"yGrowth": 1
 			}

@@ -5,7 +5,7 @@
 	"solution": "/level_1-5.rec",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 240,
 			"y": 290,
 			"width": 20,
@@ -14,7 +14,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 170,
 			"y": 260,
 			"width": 180,
@@ -22,7 +22,7 @@
 			"color": "BLUE"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 170,
 			"y": 310,
 			"width": 180,
@@ -32,7 +32,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 150,
 			"y": 140,
 			"width": 200,
@@ -40,7 +40,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 150,
 			"y": 160,
 			"width": 20,
@@ -48,7 +48,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 330,
 			"y": 160,
 			"width": 20,
@@ -56,7 +56,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 130,
 			"y": 270,
 			"width": 20,
@@ -64,7 +64,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 110,
 			"y": 290,
 			"width": 60,
@@ -72,7 +72,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 350,
 			"y": 290,
 			"width": 40,
@@ -80,7 +80,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 130,
 			"y": 320,
 			"width": 240,
@@ -90,7 +90,7 @@
 	],
 	"areas": [
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 225,
 			"y": 210,
 			"width": 50,
@@ -100,7 +100,7 @@
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": -50,
 			"y": 280,
 			"width": 180,
@@ -108,7 +108,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 70,
 			"y": 290,
 			"width": 20,
