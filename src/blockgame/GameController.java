@@ -146,12 +146,12 @@ public class GameController extends WindowAdapter
 	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
 	public void startGame(String titleScreen, int millisBetweenFrames) {
-		loadTitle(titleScreen);
+		load(titleScreen);
 		mainFrame.setVisible(true);
 
 		if (SaveManager.getValue("new_save", "true").equals("true")) {
 			JOptionPane.showMessageDialog(mainFrame,
-					"The default controls are A, D, and W to move. You can change colors and controls in the Options menu at any time.",
+					"You can change colors and controls in the Options menu at any time.",
 					"Message", JOptionPane.INFORMATION_MESSAGE);
 			SaveManager.putValue("new_save", "false");
 		}
@@ -191,29 +191,6 @@ public class GameController extends WindowAdapter
 	}
 
 	/**
-	 * Loads {@code titleResource} and disables the hint menu.
-	 * 
-	 * @param titleResource name of resource to load
-	 * 
-	 * @see #load(String)
-	 */
-	private void loadTitle(String titleResource) {
-		load(titleResource);
-	}
-
-	/**
-	 * Loads {@code levelResource} and saves it as the current level.
-	 * 
-	 * @param levelResource name of resource to load
-	 * 
-	 * @see #load(String)
-	 */
-	private void loadLevel(String levelResource) {
-		load(levelResource);
-		SaveManager.putValue("current_level", levelResource);
-	}
-
-	/**
 	 * Loads the resource named {@code resource} into {@code physicsSimulator}
 	 * and {@code mainFrame} as a level.
 	 * 
@@ -241,7 +218,7 @@ public class GameController extends WindowAdapter
 			else {
 				if (!resource.equals(FIRST_TITLE_SCREEN)) {
 					System.err.println("Loading first title screen");
-					loadTitle(FIRST_TITLE_SCREEN);
+					load(FIRST_TITLE_SCREEN);
 				}
 				else {
 					System.exit(1);
@@ -403,7 +380,8 @@ public class GameController extends WindowAdapter
 				nextLevel = SaveManager.getValue(nextLevel.substring(1),
 						FIRST_LEVEL);
 			}
-			loadLevel(nextLevel);
+			load(nextLevel);
+			SaveManager.putValue("current_level", nextLevel);
 			return;
 		}
 
