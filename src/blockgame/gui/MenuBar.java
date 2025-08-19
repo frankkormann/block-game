@@ -56,6 +56,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	private Map<JMenu, Integer> menuWidths;
 
 	private JMenu hintMenu;
+	private JMenu levelSelectButton;
 	private JMenu moreMenu;
 	private JMenuItem showHintItem;
 	private JMenuItem showSolutionItem;
@@ -94,12 +95,14 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 		inputMapper.addListener(this);
 		hintMenu = createHintMenu();
+		levelSelectButton = createLevelSelectButton(listener);
 		moreMenu = new JMenu("More");
 
 		add(hintMenu);
 		add(createPauseRestartMenu());
 		add(createRecordingMenu());
 		add(createOptionsButton(colorMapper, paramMapper));
+		add(levelSelectButton);
 		super.add(moreMenu);
 	}
 
@@ -208,6 +211,16 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		hintMenu.setVisible(show);
 	}
 
+	/**
+	 * Sets visible or not the {@code JMenu} which contains a button to show a
+	 * {@code LevelSelectDialog}.
+	 * 
+	 * @param show {@code true} if it should be shown
+	 */
+	public void showLevelSelect(boolean show) {
+		levelSelectButton.setVisible(show);
+	}
+
 	private JMenu createHintMenu() {
 		JMenu menu = new JMenu("Hint");
 
@@ -272,6 +285,39 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		Runnable openDialog = () -> {
 			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
 					inputMapper, colorMapper, paramMapper).setVisible(true);
+		};
+
+		button.addMenuKeyListener(new MenuKeyListener() {
+			@Override
+			public void menuKeyPressed(MenuKeyEvent e) {
+				if ((e.getKeyCode() == KeyEvent.VK_ENTER
+						|| e.getKeyCode() == KeyEvent.VK_SPACE)
+						&& button.isSelected()) {
+					openDialog.run();
+				}
+			}
+
+			@Override
+			public void menuKeyTyped(MenuKeyEvent e) {}
+
+			@Override
+			public void menuKeyReleased(MenuKeyEvent e) {}
+		});
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				openDialog.run();
+			}
+		});
+
+		return button;
+	}
+
+	private JMenu createLevelSelectButton(GameController gameController) {
+		JMenu button = new JMenu("Level select");
+		Runnable openDialog = () -> {
+			new LevelSelectDialog(SwingUtilities.getWindowAncestor(this),
+					gameController).setVisible(true);
 		};
 
 		button.addMenuKeyListener(new MenuKeyListener() {
