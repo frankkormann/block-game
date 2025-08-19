@@ -107,9 +107,10 @@ public class LevelSelectDialog extends JDialog {
 
 		for (Entry<String, Pair<String, Integer>> level : levels.entrySet()) {
 			panel.add(Box.createVerticalStrut(SPACE));
+			boolean isLevelComplete = (levelsComplete
+					& (1L << level.getValue().second)) != 0;
 			panel.add(createLevelButtonPanel(level.getKey(),
-					level.getValue().first,
-					(levelsComplete & (1L << level.getValue().second)) != 0));
+					level.getValue().first, isLevelComplete));
 		}
 
 		for (Component comp : panel.getComponents()) {
