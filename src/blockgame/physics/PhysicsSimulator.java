@@ -247,10 +247,9 @@ public class PhysicsSimulator {
 	private void applyGoalAreas(MovingRectangle rect) {
 		for (GoalArea goal : goals) {
 			goal.handle(rect);
-
 			if (goal.hasWon()) {
-				nextLevel = goal.getNextLevel();
 				goal.markUsed();
+				nextLevel = goal.getNextLevel();
 			}
 		}
 	}

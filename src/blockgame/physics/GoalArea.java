@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import blockgame.gui.ParticleExplosion;
+
 /**
  * Advances to the next level when a {@code MovingRectangle} controlled by the
  * player has stayed within it for a long enough time.
@@ -14,10 +16,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class GoalArea extends Area {
 
 	private static final int TIMEOUT = 100;
+	private static final int PARTICLE_EFFECT_LENGTH = 30;
+	private static final int PARTICLE_COUNT = 50;
+	private static final int PARTICLE_SIZE = 5;
 
 	private int timer;
 	private boolean used;
 	private String nextLevel;
+	private ParticleExplosion particleExplosion;
 
 	@JsonCreator
 	public GoalArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
@@ -28,6 +34,7 @@ public class GoalArea extends Area {
 		timer = 0;
 		used = false;
 		this.nextLevel = nextLevel;
+		particleExplosion = new ParticleExplosion();
 
 		if (nextLevel == "") {
 			System.err.println(
@@ -36,19 +43,25 @@ public class GoalArea extends Area {
 	}
 
 	public boolean hasWon() {
-		return timer >= TIMEOUT && !used;
+		return timer >= TIMEOUT + PARTICLE_EFFECT_LENGTH && !used;
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		super.draw(g);
 		g = g.create();
-		// Create a loading bar effect as timer approaches TIMEOUT
+
 		g.setColor(getColor().darker());
 		int fillHeight = getHeight() * timer / TIMEOUT;
+		fillHeight = Math.min(fillHeight, getHeight());
 		g.fillRect(getX(), getY() + getHeight() - fillHeight, getWidth(),
 				fillHeight);
 
+		final Graphics g2 = g;
+		g2.setColor(getColor());
+		particleExplosion.draw(g2);
+
+		g2.dispose();
 		g.dispose();
 	}
 
@@ -70,6 +83,7 @@ public class GoalArea extends Area {
 	public void onExit(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {
 			timer = 0;
+			particleExplosion.stop();
 		}
 		used = false;
 	}
@@ -84,6 +98,12 @@ public class GoalArea extends Area {
 	public void everyFrame(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {
 			timer++;
+			if (timer == TIMEOUT) {
+				particleExplosion.start(PARTICLE_COUNT, PARTICLE_SIZE,
+						getX() + getWidth() / 2, getY() + getHeight() / 2, -5,
+						5, -5, 2);
+			}
+			particleExplosion.nextFrame();
 		}
 	}
 
