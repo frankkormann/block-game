@@ -138,7 +138,8 @@
 			"y": 200,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_crown-5.json"
+			"nextLevel": "/level_crown-5.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [

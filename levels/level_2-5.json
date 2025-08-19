@@ -186,7 +186,8 @@
 			"y": 270,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_3-1.json"
+			"nextLevel": "/level_3-1.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [

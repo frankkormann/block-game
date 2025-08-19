@@ -229,7 +229,8 @@
 			"y": 250,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/credits.json"
+			"nextLevel": "/credits.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [

@@ -113,7 +113,8 @@
 			"y": 450,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "$current_level"
+			"nextLevel": "$current_level",
+			"hasParticles": false
 		},
 		{
 			"type": "ImageArea",

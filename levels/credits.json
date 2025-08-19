@@ -78,7 +78,8 @@
 			"y": 580,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_1-1.json"
+			"nextLevel": "/level_1-1.json",
+			"hasParticles": false
 		}
 	]
 }

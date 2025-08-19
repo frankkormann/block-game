@@ -23,18 +23,21 @@ public class GoalArea extends Area {
 	private int timer;
 	private boolean used;
 	private String nextLevel;
+	private boolean hasParticles;
 	private ParticleExplosion particleExplosion;
 
 	@JsonCreator
 	public GoalArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height,
-			@JsonProperty("nextLevel") String nextLevel) {
+			@JsonProperty("nextLevel") String nextLevel,
+			@JsonProperty("hasParticles") boolean hasParticles) {
 		super(x, y, width, height, Colors.TRANSLUCENT_YELLOW);
 		timer = 0;
 		used = false;
 		this.nextLevel = nextLevel;
-		particleExplosion = new ParticleExplosion();
+		this.hasParticles = hasParticles;
+		particleExplosion = hasParticles ? new ParticleExplosion() : null;
 
 		if (nextLevel == "") {
 			System.err.println(
@@ -43,7 +46,11 @@ public class GoalArea extends Area {
 	}
 
 	public boolean hasWon() {
-		return timer >= TIMEOUT + PARTICLE_EFFECT_LENGTH && !used;
+		int fullTimeout = TIMEOUT;
+		if (hasParticles) {
+			fullTimeout += PARTICLE_EFFECT_LENGTH;
+		}
+		return timer >= fullTimeout && !used;
 	}
 
 	@Override
@@ -57,11 +64,13 @@ public class GoalArea extends Area {
 		g.fillRect(getX(), getY() + getHeight() - fillHeight, getWidth(),
 				fillHeight);
 
-		final Graphics g2 = g;
-		g2.setColor(getColor());
-		particleExplosion.draw(g2);
+		if (hasParticles) {
+			final Graphics g2 = g;
+			g2.setColor(getColor());
+			particleExplosion.draw(g2);
+			g2.dispose();
+		}
 
-		g2.dispose();
 		g.dispose();
 	}
 
@@ -83,7 +92,9 @@ public class GoalArea extends Area {
 	public void onExit(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {
 			timer = 0;
-			particleExplosion.stop();
+			if (hasParticles) {
+				particleExplosion.stop();
+			}
 		}
 		used = false;
 	}
@@ -98,12 +109,14 @@ public class GoalArea extends Area {
 	public void everyFrame(MovingRectangle rect) {
 		if (rect.isControlledByPlayer()) {
 			timer++;
-			if (timer == TIMEOUT) {
-				particleExplosion.start(PARTICLE_COUNT, PARTICLE_SIZE,
-						getX() + getWidth() / 2, getY() + getHeight() / 2, -5,
-						5, -5, 2);
+			if (hasParticles) {
+				if (timer == TIMEOUT) {
+					particleExplosion.start(PARTICLE_COUNT, PARTICLE_SIZE,
+							getX() + getWidth() / 2, getY() + getHeight() / 2,
+							-5, 5, -5, 2);
+				}
+				particleExplosion.nextFrame();
 			}
-			particleExplosion.nextFrame();
 		}
 	}
 
