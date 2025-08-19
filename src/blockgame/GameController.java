@@ -283,7 +283,6 @@ public class GameController extends WindowAdapter
 		}
 		if (level.gameComplete) {
 			SaveManager.putValue("game_complete", "true");
-			markLevelComplete(level.number);
 			menuBar.showLevelSelect(true);
 		}
 		loadObjects(level);
@@ -299,9 +298,11 @@ public class GameController extends WindowAdapter
 
 		paused = false;
 
-		if (!level.popup.equals("") && !isLevelComplete(level.number)) {
+		if (!level.popup.equals("")
+				&& !isLevelInField("visited_levels", level.number)) {
 			JOptionPane.showMessageDialog(mainFrame, level.popup);
 		}
+		markLevelInField("visited_levels", level.number);
 	}
 
 	/**
@@ -419,7 +420,7 @@ public class GameController extends WindowAdapter
 				nextLevel = SaveManager.getValue(nextLevel.substring(1),
 						FIRST_LEVEL);
 			}
-			markLevelComplete(currentLevelNumber);
+			markLevelInField("completed_levels", currentLevelNumber);
 			loadLevel(nextLevel);
 			return;
 		}
@@ -442,29 +443,29 @@ public class GameController extends WindowAdapter
 	}
 
 	/**
-	 * Puts the level at {@code levelNumbeR} as completed in the save data. This
-	 * is represented as a bitfield.
+	 * Puts the level at {@code levelNumbeR} into the saved value named
+	 * {@code fieldName}. The value is interpreted as a bitfield of level
+	 * numbers.
 	 * 
 	 * @param levelNumber numerical identifier of the level
 	 */
-	private void markLevelComplete(int levelNumber) {
-		long levelFlags = Long
-				.valueOf(SaveManager.getValue("completed_levels", "0"));
+	private void markLevelInField(String fieldName, int levelNumber) {
+		long levelFlags = Long.valueOf(SaveManager.getValue(fieldName, "0"));
 		levelFlags |= 1L << levelNumber;
-		SaveManager.putValue("completed_levels", Long.toString(levelFlags));
+		SaveManager.putValue(fieldName, Long.toString(levelFlags));
 	}
 
 	/**
-	 * Returns whether the level at {@code levelNumber} has been marked as
-	 * complete.
+	 * Returns whether the level at {@code levelNumber} has been marked in the
+	 * saved value named {@code fieldName}. The value is interpreted as a
+	 * bitfield of level numbers.
 	 * 
 	 * @param levelNumber numerical identifier of the level
 	 * 
 	 * @return {@code true} if it has been completed
 	 */
-	private boolean isLevelComplete(int levelNumber) {
-		long levelFlags = Long
-				.valueOf(SaveManager.getValue("completed_levels", "0"));
+	private boolean isLevelInField(String fieldName, int levelNumber) {
+		long levelFlags = Long.valueOf(SaveManager.getValue(fieldName, "0"));
 		return (levelFlags & (1L << levelNumber)) != 0;
 	}
 
