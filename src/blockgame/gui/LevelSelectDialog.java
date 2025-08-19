@@ -66,6 +66,7 @@ public class LevelSelectDialog extends JDialog {
 				.valueOf(SaveManager.getValue("completed_levels", "0"));
 
 		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		Map<String, Map<String, Pair<String, Integer>>> levelMap = loadLevelMap();
 		for (Entry<String, Map<String, Pair<String, Integer>>> world : levelMap
 				.entrySet()) {
