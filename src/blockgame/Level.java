@@ -16,6 +16,7 @@ import blockgame.physics.WallRectangle;
 public class Level {
 
 	public String name;
+	public int number;
 	public int width, height;
 	public String solution;
 	public String newTitle;
@@ -30,6 +31,7 @@ public class Level {
 
 	public Level() {
 		name = "";
+		number = -1;
 		width = height = 0;
 		solution = "";
 		newTitle = "";

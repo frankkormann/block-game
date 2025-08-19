@@ -1,5 +1,6 @@
 {
 	"name": "Cave In [3-3]",
+	"number": 12,
 	"width": 700,
 	"height": 450,
 	"solution": "/level_3-3.rec",

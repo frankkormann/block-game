@@ -1,5 +1,6 @@
 {
 	"name": "The Beanstalk [2-2]",
+	"number": 6,
 	"width": 500,
 	"height": 700,
 	"solution": "/level_2-2.rec",

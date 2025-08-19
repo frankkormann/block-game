@@ -1,5 +1,6 @@
 {
 	"name": "Small, Medium, Large [2-4]",
+	"number": 8,
 	"width": 560,
 	"height": 500,
 	"solution": "/level_2-4.rec",

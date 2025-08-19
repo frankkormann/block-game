@@ -1,5 +1,6 @@
 {
 	"name": "Resize [1-2]",
+	"number": 1,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_1-2.rec",

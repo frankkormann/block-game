@@ -1,5 +1,6 @@
 {
 	"name": "Don't Trap Yourself [3-2]",
+	"number": 11,
 	"width": 900,
 	"height": 400,
 	"solution": "/level_3-2.rec",

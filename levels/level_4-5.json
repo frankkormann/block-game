@@ -1,5 +1,6 @@
 {
 	"name": "Inevitably Tall [4-5]",
+	"number": 19,
 	"width": 800,
 	"height": 300,
 	"solution": "/level_4-5.rec",

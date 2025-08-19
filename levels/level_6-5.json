@@ -1,5 +1,6 @@
 {
 	"name": "Juggling [6-5]",
+	"number": 29,
 	"width": 800,
 	"height": 400,
 	"solution": "/level_6-5.rec",

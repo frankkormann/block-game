@@ -1,5 +1,6 @@
 {
 	"name": "Pick Up and Put Down [5-4]",
+	"number": 23,
 	"width": 700,
 	"height": 400,
 	"solution": "/level_5-4.rec",

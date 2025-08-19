@@ -1,5 +1,6 @@
 {
 	"name": "Width Before Height [2-3]",
+	"number": 7,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_2-3.rec",

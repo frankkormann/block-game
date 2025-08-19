@@ -1,5 +1,6 @@
 {
 	"name": "Floating Platform [5-3]",
+	"number": 22,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_5-3.rec",

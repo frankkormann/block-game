@@ -1,5 +1,6 @@
 {
 	"name": "Stacking [1-3]",
+	"number": 2,
 	"width": 500,
 	"height": 800,
 	"solution": "/level_1-3.rec",

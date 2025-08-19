@@ -1,5 +1,6 @@
 {
 	"name": "Blocked Off [2-5]",
+	"number": 9,
 	"width": 500,
 	"height": 600,
 	"solution": "/level_2-5.rec",

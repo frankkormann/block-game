@@ -1,5 +1,6 @@
 {
 	"name": "Now It's Here and Now It's Not [6-1]",
+	"number": 25,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_6-1.rec",

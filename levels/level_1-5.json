@@ -1,5 +1,6 @@
 {
 	"name": "Skewer Mover [1-5]",
+	"number": 4,
 	"width": 500,
 	"height": 500,
 	"solution": "/level_1-5.rec",

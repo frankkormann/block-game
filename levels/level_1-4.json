@@ -1,5 +1,6 @@
 {
 	"name": "Reverse Order [1-4]",
+	"number": 3,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_1-4.rec",
