@@ -283,6 +283,7 @@ public class GameController extends WindowAdapter
 		}
 		if (level.gameComplete) {
 			SaveManager.putValue("game_complete", "true");
+			markLevelComplete(level.number);
 			menuBar.showLevelSelect(true);
 		}
 		loadObjects(level);
@@ -449,7 +450,7 @@ public class GameController extends WindowAdapter
 	private void markLevelComplete(int levelNumber) {
 		long levelFlags = Long
 				.valueOf(SaveManager.getValue("completed_levels", "0"));
-		levelFlags |= 1 << levelNumber;
+		levelFlags |= 1L << levelNumber;
 		SaveManager.putValue("completed_levels", Long.toString(levelFlags));
 	}
 
@@ -464,7 +465,7 @@ public class GameController extends WindowAdapter
 	private boolean isLevelComplete(int levelNumber) {
 		long levelFlags = Long
 				.valueOf(SaveManager.getValue("completed_levels", "0"));
-		return (levelFlags & (1 << levelNumber)) != 0;
+		return (levelFlags & (1L << levelNumber)) != 0;
 	}
 
 	/**
