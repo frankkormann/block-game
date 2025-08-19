@@ -450,6 +450,9 @@ public class GameController extends WindowAdapter
 	 * @param levelNumber numerical identifier of the level
 	 */
 	private void markLevelInField(String fieldName, int levelNumber) {
+		if (levelNumber < 0) {
+			return;
+		}
 		long levelFlags = Long.valueOf(SaveManager.getValue(fieldName, "0"));
 		levelFlags |= 1L << levelNumber;
 		SaveManager.putValue(fieldName, Long.toString(levelFlags));
