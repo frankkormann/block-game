@@ -314,7 +314,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private JMenu createLevelSelectButton(GameController gameController) {
-		JMenu button = new JMenu("Level select");
+		JMenu button = new JMenu("Level Select");
 		Runnable openDialog = () -> {
 			new LevelSelectDialog(SwingUtilities.getWindowAncestor(this),
 					gameController).setVisible(true);
