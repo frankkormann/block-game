@@ -81,6 +81,7 @@ public class GameController extends WindowAdapter
 	private MenuBar menuBar;
 
 	private String currentLevel;
+	private int currentLevelNumber;
 	private String currentSolution;
 	private List<HintRectangle> hints;
 
@@ -126,6 +127,7 @@ public class GameController extends WindowAdapter
 				SaveManager.getValue("game_complete", "false").equals("true"));
 
 		currentLevel = "";
+		currentLevelNumber = -1;
 		currentSolution = "";
 		currentLevelOutputStream = null;
 		hints = new ArrayList<>();
@@ -275,6 +277,7 @@ public class GameController extends WindowAdapter
 
 		currentSolution = level.solution;
 		currentLevel = resource;
+		currentLevelNumber = level.number;
 		if (!level.newTitle.equals("")) {
 			SaveManager.putValue("title_screen", level.newTitle);
 		}
@@ -295,7 +298,7 @@ public class GameController extends WindowAdapter
 
 		paused = false;
 
-		if (!level.popup.equals("")) {
+		if (!level.popup.equals("") && !isLevelComplete(level.number)) {
 			JOptionPane.showMessageDialog(mainFrame, level.popup);
 		}
 	}
@@ -415,6 +418,7 @@ public class GameController extends WindowAdapter
 				nextLevel = SaveManager.getValue(nextLevel.substring(1),
 						FIRST_LEVEL);
 			}
+			markLevelComplete(currentLevelNumber);
 			loadLevel(nextLevel);
 			return;
 		}
@@ -434,6 +438,33 @@ public class GameController extends WindowAdapter
 		else {
 			mainFrame.incorporateChanges();
 		}
+	}
+
+	/**
+	 * Puts the level at {@code levelNumbeR} as completed in the save data. This
+	 * is represented as a bitfield.
+	 * 
+	 * @param levelNumber numerical identifier of the level
+	 */
+	private void markLevelComplete(int levelNumber) {
+		long levelFlags = Long
+				.valueOf(SaveManager.getValue("completed_levels", "0"));
+		levelFlags |= 1 << levelNumber;
+		SaveManager.putValue("completed_levels", Long.toString(levelFlags));
+	}
+
+	/**
+	 * Returns whether the level at {@code levelNumber} has been marked as
+	 * complete.
+	 * 
+	 * @param levelNumber numerical identifier of the level
+	 * 
+	 * @return {@code true} if it has been completed
+	 */
+	private boolean isLevelComplete(int levelNumber) {
+		long levelFlags = Long
+				.valueOf(SaveManager.getValue("completed_levels", "0"));
+		return (levelFlags & (1 << levelNumber)) != 0;
 	}
 
 	/**
