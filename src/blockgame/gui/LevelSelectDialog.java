@@ -29,6 +29,7 @@ import com.formdev.flatlaf.util.UIScale;
 
 import blockgame.GameController;
 import blockgame.util.Pair;
+import blockgame.util.SaveManager;
 
 /**
  * {@code JDialog} which allows the user to select which level to load from a
@@ -43,6 +44,7 @@ public class LevelSelectDialog extends JDialog {
 	private static final int SPACE = 3;
 
 	private GameController gameController;
+	private long levelsComplete;
 
 	/**
 	 * Creates a {@code LevelSelectDialog} which will send level loads to
@@ -60,6 +62,8 @@ public class LevelSelectDialog extends JDialog {
 		contentPanePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		setLayout(new BorderLayout());
+		levelsComplete = Long
+				.valueOf(SaveManager.getValue("completed_levels", "0"));
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		Map<String, Map<String, Pair<String, Integer>>> levelMap = loadLevelMap();
@@ -104,7 +108,8 @@ public class LevelSelectDialog extends JDialog {
 		for (Entry<String, Pair<String, Integer>> level : levels.entrySet()) {
 			panel.add(Box.createVerticalStrut(SPACE));
 			panel.add(createLevelButtonPanel(level.getKey(),
-					level.getValue().first));
+					level.getValue().first,
+					(levelsComplete & (1L << level.getValue().second)) != 0));
 		}
 
 		for (Component comp : panel.getComponents()) {
@@ -116,7 +121,8 @@ public class LevelSelectDialog extends JDialog {
 		return panel;
 	}
 
-	private JPanel createLevelButtonPanel(String name, String path) {
+	private JPanel createLevelButtonPanel(String name, String path,
+			boolean isLevelComplete) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
@@ -129,6 +135,10 @@ public class LevelSelectDialog extends JDialog {
 		panel.add(Box.createHorizontalStrut(SPACE));
 		panel.add(new JLabel(name));
 		panel.add(Box.createHorizontalGlue());
+		if (isLevelComplete) {
+			panel.add(new JLabel("🏆"));
+			panel.add(Box.createHorizontalStrut(SPACE));
+		}
 		panel.add(loadButton);
 
 		return panel;
