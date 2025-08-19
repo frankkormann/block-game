@@ -4,6 +4,7 @@
 	"width": 500,
 	"height": 800,
 	"solution": "/level_1-3.rec",
+	"newTitle": "/title_1.json",
 	"popup": "You can also resize the window with your keyboard.\n\nUse Shift+I, Shift+J, Shift+K, and Shift+L to select a side. Then use I, J, K, and L to resize it.\n\nYou can change these controls in the Options menu. Give it try!",
 	"movingRectangles": [
 		{

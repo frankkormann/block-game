@@ -4,6 +4,7 @@
 	"width": 800,
 	"height": 420,
 	"solution": "/level_3-4.rec",
+	"newTitle": "/title_3.json",
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

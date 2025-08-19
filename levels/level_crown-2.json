@@ -4,6 +4,7 @@
 	"width": 600,
 	"height": 600,
 	"solution": "/level_crown-2.rec",
+	"newTitle": "/title_crown.json",
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
