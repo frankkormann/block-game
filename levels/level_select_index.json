@@ -1,0 +1,156 @@
+{
+	"World 1": {
+		"1-1: Pushing Stairs": {
+			"path": "/level_1-1.json",
+			"number": 1
+		},
+		"1-2: Resize": {
+			"path": "/level_1-2.json",
+			"number": 2
+		},
+		"1-3: Stacking": {
+			"path": "/level_1-3.json",
+			"number": 3
+		},
+		"1-4: Reverse Order": {
+			"path": "/level_1-4.json",
+			"number": 4
+		},
+		"1-5: Skewer Mover": {
+			"path": "/level_1-5.json",
+			"number": 5
+		}
+	},
+	"World 2": {
+		"2-1: The Embiggening": {
+			"path": "/level_2-1.json",
+			"number": 6
+		},
+		"2-2: The Beanstalk": {
+			"path": "/level_2-2.json",
+			"number": 7
+		},
+		"2-3: Width Before Height": {
+			"path": "/level_2-3.json",
+			"number": 8
+		},
+		"2-4: Small, Medium, Large": {
+			"path": "/level_2-4.json",
+			"number": 9
+		},
+		"2-5: Blocked Off": {
+			"path": "/level_2-5.json",
+			"number": 10
+		}
+	},
+	"World 3": {
+		"3-1: Too Big": {
+			"path": "/level_3-1.json",
+			"number": 11
+		},
+		"3-2: Don't Trap Yourself": {
+			"path": "/level_3-2.json",
+			"number": 12
+		},
+		"3-3: Cave In": {
+			"path": "/level_3-3.json",
+			"number": 13
+		},
+		"3-4: Smooth Over": {
+			"path": "/level_3-4.json",
+			"number": 14
+		},
+		"3-5: Pull Into Form": {
+			"path": "/level_3-5.json",
+			"number": 15
+		}
+	},
+	"World 4": {
+		"4-1: Move": {
+			"path": "/level_4-1.json",
+			"number": 16
+		},
+		"4-2: Extension": {
+			"path": "/level_4-2.json",
+			"number": 17
+		},
+		"4-3: Revisiting": {
+			"path": "/level_4-3.json",
+			"number": 18
+		},
+		"4-4: Revisiting II": {
+			"path": "/level_4-4.json",
+			"number": 19
+		},
+		"4-5: Inevitably Tall": {
+			"path": "/level_4-5.json",
+			"number": 20
+		}
+	},
+	"World 5": {
+		"5-1: Non-Newtonian": {
+			"path": "/level_5-1.json",
+			"number": 21
+		},
+		"5-2: Round Trip": {
+			"path": "/level_5-2.json",
+			"number": 22
+		},
+		"5-3: Floating Platform": {
+			"path": "/level_5-3.json",
+			"number": 23
+		},
+		"5-4: Pick Up and Put Down": {
+			"path": "/level_5-4.json",
+			"number": 24
+		},
+		"5-5: Long Pink": {
+			"path": "/level_5-5.json",
+			"number": 25
+		}
+	},
+	"World 6": {
+		"6-1: Now It's Here and Now It's Not": {
+			"path": "/level_6-1.json",
+			"number": 26
+		},
+		"6-2: Ghostly Displacement": {
+			"path": "/level_6-2.json",
+			"number": 27
+		},
+		"6-3: One For Both": {
+			"path": "/level_6-3.json",
+			"number": 28
+		},
+		"6-4: Daisy Chain": {
+			"path": "/level_6-4.json",
+			"number": 29
+		},
+		"6-5: Juggling": {
+			"path": "/level_6-5.json",
+			"number": 30
+		}
+	},
+	"World ♛": {
+		"♛-1: Thick and Thin": {
+			"path": "/level_crown-1.json",
+			"number": 31
+		},
+		"♛-2: Too Tall or Too Low": {
+			"path": "/level_crown-2.json",
+			"number": 32
+		},
+		"♛-3: Trapped in Unity": {
+			"path": "/level_crown-3.json",
+			"number": 33
+		},
+		"♛-4: Only Down": {
+			"path": "/level_crown-4.json",
+			"number": 34
+		},
+		"♛-5: Over and Below ": {
+			"path": "/level_crown-5.json",
+			"number": 35
+		}
+	}
+}
