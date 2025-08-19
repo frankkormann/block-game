@@ -278,6 +278,10 @@ public class GameController extends WindowAdapter
 		if (level.newTitle != "") {
 			SaveManager.putValue("title_screen", level.newTitle);
 		}
+		if (level.gameComplete) {
+			SaveManager.putValue("game_complete", "true");
+			menuBar.showLevelSelect(true);
+		}
 		loadObjects(level);
 
 		menuBar.showHintsMenu(hints.size() > 0 || !level.solution.equals(""));

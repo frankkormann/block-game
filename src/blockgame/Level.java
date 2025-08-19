@@ -19,6 +19,7 @@ public class Level {
 	public int width, height;
 	public String solution;
 	public String newTitle;
+	public boolean gameComplete;
 
 	public List<MovingRectangle> movingRectangles;
 	public List<WallRectangle> walls;
@@ -31,6 +32,7 @@ public class Level {
 		width = height = 0;
 		solution = "";
 		newTitle = "";
+		gameComplete = false;
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();

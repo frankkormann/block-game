@@ -2,6 +2,7 @@
 	"name": "Credits",
 	"width": 800,
 	"height": 500,
+	"gameComplete": true,
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
