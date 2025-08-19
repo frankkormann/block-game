@@ -94,6 +94,7 @@ public class GameController extends WindowAdapter
 		UIManager.put("TitlePane.embeddedForeground",
 				UIManager.get("TitlePane.foreground"));
 		UIManager.put("TitlePane.menuBarTitleMinimumGap", 0);
+		System.setProperty("flatlaf.uiScale.allowScaleDown", "true");
 		SaveManager.setDirectory(System.getenv(DIRECTORY_ENV_VAR));
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
@@ -121,6 +122,8 @@ public class GameController extends WindowAdapter
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper, this);
+		menuBar.showLevelSelect(
+				SaveManager.getValue("game_complete", "false").equals("true"));
 
 		currentLevel = "";
 		currentSolution = "";
@@ -146,7 +149,7 @@ public class GameController extends WindowAdapter
 	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
 	public void startGame(String titleScreen, int millisBetweenFrames) {
-		load(titleScreen);
+		loadTitle(titleScreen);
 		mainFrame.setVisible(true);
 
 		if (SaveManager.getValue("new_save", "true").equals("true")) {
@@ -188,6 +191,29 @@ public class GameController extends WindowAdapter
 	private void reloadLevel() {
 		gameInputHandler.endReading();
 		load(currentLevel);
+	}
+
+	/**
+	 * Loads the title screen referred to by {@code resource}. Unlike
+	 * {@link #loadLevel(String)}, this does not set {@code current_level} in
+	 * the save data.
+	 * 
+	 * @param resource name of resource to load
+	 */
+	public void loadTitle(String resource) {
+		load(resource);
+	}
+
+	/**
+	 * Loads the level referred to by {@code resource}. Unlike
+	 * {@link #loadTitle(String)}, this sets {@code current_level} in the save
+	 * data.
+	 * 
+	 * @param resource name of resource to load.
+	 */
+	public void loadLevel(String resource) {
+		load(resource);
+		SaveManager.putValue("current_level", resource);
 	}
 
 	/**
@@ -380,8 +406,7 @@ public class GameController extends WindowAdapter
 				nextLevel = SaveManager.getValue(nextLevel.substring(1),
 						FIRST_LEVEL);
 			}
-			load(nextLevel);
-			SaveManager.putValue("current_level", nextLevel);
+			loadLevel(nextLevel);
 			return;
 		}
 
