@@ -139,12 +139,13 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 				continue;
 			}
 
+			int nextMenuWidth = 0;
 			if (nextMenu != null) {
-				if (x + menuWidths.get(menu)
-						+ Math.min(menuWidths.get(nextMenu),
-								menuWidths.get(moreMenu)) > getWidth()) {
-					overflowing = true;
-				}
+				nextMenuWidth = Math.min(menuWidths.get(nextMenu),
+						menuWidths.get(moreMenu));
+			}
+			if (x + menuWidths.get(menu) + nextMenuWidth > getWidth()) {
+				overflowing = true;
 			}
 
 			layoutMenu(menu, x, !overflowing);
