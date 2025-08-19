@@ -3,6 +3,7 @@
 	"width": 800,
 	"height": 500,
 	"gameComplete": true,
+	"popup": "Level select now unlocked!",
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

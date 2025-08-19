@@ -275,7 +275,7 @@ public class GameController extends WindowAdapter
 
 		currentSolution = level.solution;
 		currentLevel = resource;
-		if (level.newTitle != "") {
+		if (!level.newTitle.equals("")) {
 			SaveManager.putValue("title_screen", level.newTitle);
 		}
 		if (level.gameComplete) {
@@ -292,7 +292,12 @@ public class GameController extends WindowAdapter
 
 		mainFrame.moveToMiddleOfScreen();
 		beginTempRecording();
+
 		paused = false;
+
+		if (!level.popup.equals("")) {
+			JOptionPane.showMessageDialog(mainFrame, level.popup);
+		}
 	}
 
 	/**
