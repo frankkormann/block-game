@@ -1,19 +1,12 @@
 package blockgame.physics;
 
 import java.awt.Graphics;
-import java.io.IOException;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import blockgame.gui.ErrorDialog;
 import blockgame.gui.ParticleExplosion;
+import blockgame.util.SoundPlayer;
 
 /**
  * Advances to the next level when a {@code MovingRectangle} controlled by the
@@ -124,27 +117,10 @@ public class GoalArea extends Area {
 					particleExplosion.start(PARTICLE_COUNT, PARTICLE_SIZE,
 							getX() + getWidth() / 2, getY() + getHeight() / 2,
 							-5, 5, -5, 2);
-					playSound();
+					SoundPlayer.play(LEVEL_COMPLETE_SOUND);
 				}
 				particleExplosion.nextFrame();
 			}
-		}
-	}
-
-	private void playSound() {
-		try (AudioInputStream stream = AudioSystem.getAudioInputStream(
-				getClass().getResourceAsStream(LEVEL_COMPLETE_SOUND))) {
-			Clip clip = AudioSystem.getClip();
-			clip.open(stream);
-			if (AudioSystem.isLineSupported(clip.getLineInfo())) {
-				clip.start();
-			}
-		}
-		catch (IOException | UnsupportedAudioFileException
-				| LineUnavailableException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to play sound effect", e)
-					.setVisible(true);
 		}
 	}
 
