@@ -123,7 +123,6 @@ public class GrowArea extends Area {
 		possibleChange = getY() + getHeight() - rect.getY() - rect.getHeight();
 		if (possibleChange > 0) {
 			rect.changeHeight(Math.min(yGrowth, possibleChange), false);
-
 		}
 	}
 
