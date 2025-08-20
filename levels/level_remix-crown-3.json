@@ -1,0 +1,176 @@
+{
+	"name": "Remix: ♛-3",
+	"number": 39,
+	"width": 800,
+	"height": 500,
+	"solution": "/level_remix-crown-3.rec",
+	"movingRectangles": [
+		{
+			"type": "MovingRectangle",
+			"x": 260,
+			"y": 380,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 330,
+			"y": 370,
+			"width": 40,
+			"height": 30,
+			"color": "GREEN"
+		},
+		{
+			"type": "SwitchRectangle",
+			"x": 520,
+			"y": 110,
+			"width": 60,
+			"height": 120,
+			"color": "ORANGE",
+			"key": "orange"
+		},
+		{
+			"type": "SwitchRectangle",
+			"x": 130,
+			"y": 340,
+			"width": 30,
+			"height": 60,
+			"color": "ORANGE",
+			"key": "orange",
+			"controlledByPlayer": true,
+			"attachments": [
+				{
+					"area": {
+						"type": "ShrinkArea",
+						"width": 40,
+						"xShrink": 1,
+						"yShrink": 0
+					},
+					"options": ["GLUED_WEST", "SAME_HEIGHT"]
+				},
+				{
+					"area": {
+						"type": "GrowArea",
+						"width": 60,
+						"xGrowth": 1,
+						"yGrowth": 0
+					},
+					"options": ["GLUED_EAST", "SAME_HEIGHT"]
+				}
+			]
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": 500,
+			"y": 90,
+			"width": 250,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 500,
+			"y": 110,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 580,
+			"y": 110,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 730,
+			"y": 110,
+			"width": 20,
+			"height": 120,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 500,
+			"y": 230,
+			"width": 250,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 500,
+			"y": 250,
+			"width": 30,
+			"height": 120,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 500,
+			"y": 370,
+			"width": 30,
+			"height": 50,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 90,
+			"y": 400,
+			"width": 350,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 310,
+			"y": 90,
+			"width": 20,
+			"height": 40,
+			"resizeBehavior": "PREVENT_X"
+		}
+	],
+	"areas": [
+		{
+			"type": "SwitchArea",
+			"x": 310,
+			"y": 320,
+			"width": 80,
+			"height": 60,
+			"color": "TRANSLUCENT_ORANGE",
+			"key": "orange"
+		},
+		{
+			"type": "GoalArea",
+			"x": 630,
+			"y": 180,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_crown-4.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": 460,
+			"y": 390,
+			"width": 40,
+			"height": 30,
+			"color": "GREEN"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 350,
+			"y": 370,
+			"width": 130,
+			"height": 20,
+			"color": "PLAYER"
+		}
+	]
+}

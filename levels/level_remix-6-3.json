@@ -85,7 +85,7 @@
 			"y": 150,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/credits.json",
+			"nextLevel": "/level_remix-crown-3.json",
 			"hasParticles": true
 		}
 	],

@@ -165,6 +165,10 @@
 		"Remix: 6-3": {
 			"path": "/level_remix-6-3.json",
 			"number": 38
+		},
+		"Remix: ♛-3": {
+			"path": "/level_remix-crown-3.json",
+			"number": 39
 		}
 	}
 }
