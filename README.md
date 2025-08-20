@@ -112,12 +112,15 @@ set, its value will be used as the directory to save data in.
 
 ### Version information
 
-The project is developed in using:
+The project is developed using:
 
 - JDK 24, compiled for Java 8
 - Maven 3.8.1
 - [FlatLaf](https://github.com/JFormDesigner/FlatLaf) 3.5
 - [Jackson Databind](https://github.com/FasterXML/jackson-databind/) 2.18.2
+
+All sound effects are from Davit Masia's Free SFX pack:
+[https://kronbits.itch.io/freesfx](https://kronbits.itch.io/freesfx)
 
 ### Documentation
 

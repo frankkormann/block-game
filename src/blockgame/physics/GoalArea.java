@@ -1,6 +1,13 @@
 package blockgame.physics;
 
 import java.awt.Graphics;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +21,8 @@ import blockgame.gui.ParticleExplosion;
  * @author Frank Kormann
  */
 public class GoalArea extends Area {
+
+	private static final String LEVEL_COMPLETE_SOUND = "/level_complete.wav";
 
 	private static final int TIMEOUT = 100;
 	private static final int PARTICLE_EFFECT_LENGTH = 30;
@@ -114,9 +123,24 @@ public class GoalArea extends Area {
 					particleExplosion.start(PARTICLE_COUNT, PARTICLE_SIZE,
 							getX() + getWidth() / 2, getY() + getHeight() / 2,
 							-5, 5, -5, 2);
+					playSound();
 				}
 				particleExplosion.nextFrame();
 			}
+		}
+	}
+
+	private void playSound() {
+		try (AudioInputStream stream = AudioSystem.getAudioInputStream(
+				getClass().getResourceAsStream(LEVEL_COMPLETE_SOUND))) {
+			Clip clip = AudioSystem.getClip();
+			clip.open(stream);
+			clip.start();
+		}
+		catch (IOException | UnsupportedAudioFileException
+				| LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
