@@ -43,6 +43,7 @@ import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
 import blockgame.physics.Area;
+import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.PhysicsSimulator;
 import blockgame.physics.Rectangle;
@@ -54,8 +55,8 @@ import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
 /**
- * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
- * {@code InputHandler}.
+ * Coordinates {@code MainFrame}, {@code PhysicsSimulator},
+ * {@code SoundEffectMonitor}, and {@code GameInputHandler}.
  * <p>
  * Level data is read from JSON files. The JSON is used to fill the fields in
  * {@link Level}, so it should have data for each of that class's public
@@ -76,6 +77,7 @@ public class GameController extends WindowAdapter
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
+	private SoundEffectMonitor sfxMonitor;
 	private GameInputHandler gameInputHandler;
 	private MenuBar menuBar;
 
@@ -121,6 +123,7 @@ public class GameController extends WindowAdapter
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
+		sfxMonitor = new SoundEffectMonitor();
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper, this);
 		menuBar.showLevelSelect(
 				SaveManager.getValue("game_complete", "false").equals("true"));
@@ -233,6 +236,7 @@ public class GameController extends WindowAdapter
 		}
 
 		physicsSimulator = new PhysicsSimulator();
+		sfxMonitor.clear();
 		menuBar.reset();
 		hints.clear();
 
@@ -340,6 +344,7 @@ public class GameController extends WindowAdapter
 				mainFrame.add(rect, 3);
 			}
 			physicsSimulator.add(rect);
+			sfxMonitor.add(rect);
 			if (rect instanceof SwitchRectangle) {
 				switchRects.add((SwitchRectangle) rect);
 			}
@@ -358,6 +363,9 @@ public class GameController extends WindowAdapter
 
 		for (Area area : level.areas) {
 			physicsSimulator.add(area);
+			if (area instanceof GoalArea) {
+				sfxMonitor.add((GoalArea) area);
+			}
 			if (area instanceof SwitchArea) {
 				switchAreas.add((SwitchArea) area);
 			}
@@ -428,8 +436,9 @@ public class GameController extends WindowAdapter
 		physicsSimulator.updateAndMoveObjects(allInputs.second,
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
+		sfxMonitor.playSounds();
 
-		if (physicsSimulator.getNextLevel() != "") {
+		if (!physicsSimulator.getNextLevel().equals("")) {
 			String nextLevel = physicsSimulator.getNextLevel();
 			if (nextLevel.startsWith("$")) {
 				nextLevel = SaveManager.getValue(nextLevel.substring(1),

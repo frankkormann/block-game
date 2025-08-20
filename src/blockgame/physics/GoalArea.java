@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.gui.ParticleExplosion;
-import blockgame.util.SoundPlayer;
 
 /**
  * Advances to the next level when a {@code MovingRectangle} controlled by the
@@ -15,8 +14,6 @@ import blockgame.util.SoundPlayer;
  * @author Frank Kormann
  */
 public class GoalArea extends Area {
-
-	private static final String LEVEL_COMPLETE_SOUND = "/level_complete.wav";
 
 	private static final int TIMEOUT = 100;
 	private static final int PARTICLE_EFFECT_LENGTH = 30;
@@ -117,7 +114,6 @@ public class GoalArea extends Area {
 					particleExplosion.start(PARTICLE_COUNT, PARTICLE_SIZE,
 							getX() + getWidth() / 2, getY() + getHeight() / 2,
 							-5, 5, -5, 2);
-					SoundPlayer.play(LEVEL_COMPLETE_SOUND);
 				}
 				particleExplosion.nextFrame();
 			}
@@ -136,6 +132,10 @@ public class GoalArea extends Area {
 
 	public String getNextLevel() {
 		return nextLevel;
+	}
+
+	public boolean hasParticles() {
+		return hasParticles;
 	}
 
 }
