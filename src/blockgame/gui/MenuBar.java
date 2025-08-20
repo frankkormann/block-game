@@ -140,7 +140,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 			}
 
 			int nextMenuWidth = 0;
-			if (nextMenu != null) {
+			if (nextMenu != null && nextMenu.isVisible()) {
 				nextMenuWidth = Math.min(menuWidths.get(nextMenu),
 						menuWidths.get(moreMenu));
 			}
