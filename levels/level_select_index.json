@@ -152,5 +152,19 @@
 			"path": "/level_crown-5.json",
 			"number": 34
 		}
+	},
+	"Post-credits": {
+		"Remix: 3-4": {
+			"path": "/level_remix-3-4.json",
+			"number": 36
+		},
+		"Remix: 5-5": {
+			"path": "/level_remix-5-5.json",
+			"number": 37
+		},
+		"Remix: 6-3": {
+			"path": "/level_remix-6-3.json",
+			"number": 38
+		}
 	}
 }
