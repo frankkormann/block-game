@@ -365,7 +365,12 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				action.run();
+				new Thread(action).start();  // In a new thread to fix a problem
+											  // related to updating component
+											  // UI while in a dialog; AWT tries
+											  // to send a mouse pressed event
+											  // to the old UI, but its
+											  // component is now null
 			}
 		});
 
