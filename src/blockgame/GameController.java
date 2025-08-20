@@ -261,18 +261,13 @@ public class GameController extends WindowAdapter
 		menuBar.reset();
 		hints.clear();
 
-		if (!SwingUtilities.isEventDispatchThread()) {
-			try {
-				SwingUtilities.invokeAndWait(() -> mainFrame.setUpLevel(level));
-			}
-			catch (InvocationTargetException | InterruptedException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e)
-						.setVisible(true);
-			}
+		try {
+			SwingUtilities.invokeAndWait(() -> mainFrame.setUpLevel(level));
 		}
-		else {
-			mainFrame.setUpLevel(level);
+		catch (InvocationTargetException | InterruptedException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Something went wrong", e)
+					.setVisible(true);
 		}
 
 		currentSolution = level.solution;
@@ -426,19 +421,13 @@ public class GameController extends WindowAdapter
 		}
 
 		mainFrame.resizeAll(physicsSimulator.getResizes());
-		if (!SwingUtilities.isEventDispatchThread()) {
-			try {
-				SwingUtilities
-						.invokeAndWait(() -> mainFrame.incorporateChanges());
-			}
-			catch (InvocationTargetException | InterruptedException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e)
-						.setVisible(true);
-			}
+		try {
+			SwingUtilities.invokeAndWait(() -> mainFrame.incorporateChanges());
 		}
-		else {
-			mainFrame.incorporateChanges();
+		catch (InvocationTargetException | InterruptedException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Something went wrong", e)
+					.setVisible(true);
 		}
 	}
 
@@ -504,7 +493,7 @@ public class GameController extends WindowAdapter
 				break;
 			case FRAME_ADVANCE:
 				if (paused) {
-					nextFrame();
+					new Thread(() -> nextFrame()).start();
 				}
 				break;
 			case RELOAD_LEVEL:
