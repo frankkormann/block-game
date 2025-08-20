@@ -1,15 +1,20 @@
 package blockgame;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
+import blockgame.gui.ErrorDialog;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
-import blockgame.util.SoundPlayer;
 
 /**
  * Monitors the game state and plays sound effects when necessary.
@@ -58,9 +63,26 @@ public class SoundEffectMonitor {
 	public void playSounds() {
 		goals.forEach(g -> {
 			if (g.hasWon() && g.hasParticles()) {
-				SoundPlayer.play(LEVEL_COMPLETE_SOUND);
+				playSound(LEVEL_COMPLETE_SOUND);
 			}
 		});
+	}
+
+	private void playSound(String resource) {
+		try (AudioInputStream stream = AudioSystem.getAudioInputStream(
+				getClass().getResourceAsStream(resource))) {
+			Clip clip = AudioSystem.getClip();
+			clip.open(stream);
+			if (AudioSystem.isLineSupported(clip.getLineInfo())) {
+				clip.start();
+			}
+		}
+		catch (IOException | UnsupportedAudioFileException
+				| LineUnavailableException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Failed to play sound effect", e)
+					.setVisible(true);
+		}
 	}
 
 }
