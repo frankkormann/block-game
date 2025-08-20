@@ -282,69 +282,21 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 	private JMenu createOptionsButton(ColorMapper colorMapper,
 			ParameterMapper paramMapper) {
-		JMenu button = new JMenu("Options");
 		Runnable openDialog = () -> {
 			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
 					inputMapper, colorMapper, paramMapper).setVisible(true);
 		};
 
-		button.addMenuKeyListener(new MenuKeyListener() {
-			@Override
-			public void menuKeyPressed(MenuKeyEvent e) {
-				if ((e.getKeyCode() == KeyEvent.VK_ENTER
-						|| e.getKeyCode() == KeyEvent.VK_SPACE)
-						&& button.isSelected()) {
-					openDialog.run();
-				}
-			}
-
-			@Override
-			public void menuKeyTyped(MenuKeyEvent e) {}
-
-			@Override
-			public void menuKeyReleased(MenuKeyEvent e) {}
-		});
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				openDialog.run();
-			}
-		});
-
-		return button;
+		return createMenuButton("Options", openDialog);
 	}
 
 	private JMenu createLevelSelectButton(GameController gameController) {
-		JMenu button = new JMenu("Level Select");
 		Runnable openDialog = () -> {
 			new LevelSelectDialog(SwingUtilities.getWindowAncestor(this),
 					gameController).setVisible(true);
 		};
 
-		button.addMenuKeyListener(new MenuKeyListener() {
-			@Override
-			public void menuKeyPressed(MenuKeyEvent e) {
-				if ((e.getKeyCode() == KeyEvent.VK_ENTER
-						|| e.getKeyCode() == KeyEvent.VK_SPACE)
-						&& button.isSelected()) {
-					openDialog.run();
-				}
-			}
-
-			@Override
-			public void menuKeyTyped(MenuKeyEvent e) {}
-
-			@Override
-			public void menuKeyReleased(MenuKeyEvent e) {}
-		});
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				openDialog.run();
-			}
-		});
-
-		return button;
+		return createMenuButton("Level Select", openDialog);
 	}
 
 	/**
@@ -381,6 +333,43 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		inputToMenuItem.put(metaInput, menuItem);
 
 		return menuItem;
+	}
+
+	/**
+	 * Creates a {@code JMenu} which acts as a button. When it is pressed, it
+	 * runs {@code action}.
+	 * 
+	 * @param text   label on the button
+	 * @param action {@code Runnable} to run when the button is pressed
+	 * 
+	 * @return the {@code JMenu}
+	 */
+	private JMenu createMenuButton(String text, Runnable action) {
+		JMenu button = new JMenu(text);
+		button.addMenuKeyListener(new MenuKeyListener() {
+			@Override
+			public void menuKeyPressed(MenuKeyEvent e) {
+				if ((e.getKeyCode() == KeyEvent.VK_ENTER
+						|| e.getKeyCode() == KeyEvent.VK_SPACE)
+						&& button.isSelected()) {
+					action.run();
+				}
+			}
+
+			@Override
+			public void menuKeyTyped(MenuKeyEvent e) {}
+
+			@Override
+			public void menuKeyReleased(MenuKeyEvent e) {}
+		});
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				action.run();
+			}
+		});
+
+		return button;
 	}
 
 	private File promptFileSaveLocation() {
