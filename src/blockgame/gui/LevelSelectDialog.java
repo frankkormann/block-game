@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formdev.flatlaf.util.UIScale;
 
 import blockgame.GameController;
+import blockgame.gui.MenuBar.MetaInput;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
@@ -130,6 +131,7 @@ public class LevelSelectDialog extends JDialog {
 
 		JButton loadButton = new JButton("Load");
 		loadButton.addActionListener(e -> {
+			gameController.processMetaInput(MetaInput.STOP_RECORDING);
 			gameController.loadLevel(path);
 			dispose();
 		});
