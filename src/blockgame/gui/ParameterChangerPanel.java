@@ -62,8 +62,10 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 			guiScaling.setValueIsAdjustingListener(() -> {
 				SwingUtilities.invokeLater(() -> {
 					Window window = SwingUtilities.getWindowAncestor(this);
-					SwingUtilities.updateComponentTreeUI(window);
-					window.pack();
+					if (window != null) {
+						SwingUtilities.updateComponentTreeUI(window);
+						window.pack();
+					}
 				});
 			});
 			return guiScaling;
