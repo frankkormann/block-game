@@ -61,16 +61,15 @@ import blockgame.util.SaveManager;
  * {@link Level}, so it should have data for each of that class's public
  * attributes.
  * <p>
- * If the environment variable stored in {@link #DIRECTORY_ENV_VAR} is set, it
- * will be used as the path to put save files. Otherwise, a default directory is
- * used.
+ * If the "BLOCKGAME_DIRECTORY" environment variable is set, it will be used as
+ * the path to put save files. Otherwise, a default directory is used.
  * 
  * @author Frank Kormann
  */
 public class GameController extends WindowAdapter
 		implements ValueChangeListener {
 
-	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
+	private static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
 	private static final String FIRST_TITLE_SCREEN = "/title_0.json";
 	private static final String FIRST_LEVEL = "/level_1-1.json";
