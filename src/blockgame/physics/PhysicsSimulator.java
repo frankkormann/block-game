@@ -248,7 +248,6 @@ public class PhysicsSimulator {
 		for (GoalArea goal : goals) {
 			goal.handle(rect);
 			if (goal.hasWon()) {
-				goal.markUsed();
 				nextLevel = goal.getNextLevel();
 			}
 		}
@@ -380,6 +379,7 @@ public class PhysicsSimulator {
 	 */
 	public void resetNextlevel() {
 		nextLevel = "";
+		goals.stream().filter(g -> g.hasWon()).forEach(g -> g.markUsed());
 	}
 
 	public Map<Direction, Integer> getResizes() {
