@@ -1,20 +1,17 @@
 # Block Game
 
-This is a puzzle game about moving blocks around. Solve 39 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 40 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ### Features
 
-- 35 fun levels<sup>1</sup> + 4 bonus levels
+- 35 main levels + 5 bonus levels
 - Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
 - Expansive options menu
     - Accessibility options for colorblindness, key remapping, increasing GUI
     size, and slowing the game speed
-- Occasional cryptic messages printed to `stderr`
-
-<sup>1. Joy is not guaranteed</sup>
 
 ## Playing the game
 
