@@ -68,7 +68,7 @@
 		{
 			"type": "ImageArea",
 			"x": 182,
-			"y": 440,
+			"y": 300,
 			"source": "/credits_thanks.png",
 			"color": "TRANSLUCENT_YELLOW"
 		},
