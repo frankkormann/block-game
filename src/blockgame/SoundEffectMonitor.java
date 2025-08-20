@@ -3,7 +3,9 @@ package blockgame;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import javax.sound.sampled.AudioInputStream;
@@ -31,6 +33,7 @@ public class SoundEffectMonitor {
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
+	private Map<String, Clip> clips;
 
 	/**
 	 * Creates a new {@code SoundEffectMonitor} with no objects.
@@ -38,6 +41,26 @@ public class SoundEffectMonitor {
 	public SoundEffectMonitor() {
 		movingRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
+		clips = new HashMap<>();
+
+		clips.put(LEVEL_COMPLETE_SOUND, loadClip(LEVEL_COMPLETE_SOUND));
+		clips.put(GROW_SOUND, loadClip(GROW_SOUND));
+	}
+
+	private Clip loadClip(String resource) {
+		try (AudioInputStream stream = AudioSystem.getAudioInputStream(
+				getClass().getResourceAsStream(resource))) {
+			Clip clip = AudioSystem.getClip();
+			clip.open(stream);
+			return clip;
+		}
+		catch (IOException | UnsupportedAudioFileException
+				| LineUnavailableException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Failed to play sound effect", e)
+					.setVisible(true);
+			return null;
+		}
 	}
 
 	public void add(MovingRectangle rect) {
@@ -59,32 +82,18 @@ public class SoundEffectMonitor {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
-				LEVEL_COMPLETE_SOUND);
-		playIfAnyMatch(movingRectangles, r -> r.getWidth() > r.getLastWidth()
-				|| r.getHeight() > r.getLastHeight(), GROW_SOUND);
+				clips.get(LEVEL_COMPLETE_SOUND));
+		playIfAnyMatch(movingRectangles,
+				r -> r.getWidth() > r.getLastWidth()
+						|| r.getHeight() > r.getLastHeight(),
+				clips.get(GROW_SOUND));
 	}
 
 	private <T> void playIfAnyMatch(Collection<T> objects,
-			Predicate<T> condition, String resource) {
-		if (objects.stream().anyMatch(condition)) {
-			playSound(resource);
-		}
-	}
-
-	private void playSound(String resource) {
-		try (AudioInputStream stream = AudioSystem.getAudioInputStream(
-				getClass().getResourceAsStream(resource))) {
-			Clip clip = AudioSystem.getClip();
-			clip.open(stream);
-			if (AudioSystem.isLineSupported(clip.getLineInfo())) {
-				clip.start();
-			}
-		}
-		catch (IOException | UnsupportedAudioFileException
-				| LineUnavailableException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to play sound effect", e)
-					.setVisible(true);
+			Predicate<T> condition, Clip clip) {
+		if (!clip.isRunning() && objects.stream().anyMatch(condition)) {
+			clip.setFramePosition(0);
+			clip.start();
 		}
 	}
 
