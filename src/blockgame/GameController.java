@@ -225,33 +225,9 @@ public class GameController extends WindowAdapter
 	 */
 	private void load(String resource) {
 		paused = true;
-		Level level;
 
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			level = mapper.readValue(getClass().getResourceAsStream(resource),
-					Level.class);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Could not load level '" + resource
-							+ "', file is corrupt or does not exist",
-					e).setVisible(true);
-
-			if (mainFrame.isVisible()) {
-				physicsSimulator.resetNextlevel();
-			}
-			else {
-				if (!resource.equals(FIRST_TITLE_SCREEN)) {
-					System.err.println("Loading first title screen");
-					load(FIRST_TITLE_SCREEN);
-				}
-				else {
-					System.exit(1);
-				}
-			}
-
+		Level level = readLevel(resource);
+		if (level == null) {
 			paused = false;
 			return;
 		}
@@ -297,6 +273,46 @@ public class GameController extends WindowAdapter
 			JOptionPane.showMessageDialog(mainFrame, level.popup);
 		}
 		markLevelInField("visited_levels", level.number);
+	}
+
+	/**
+	 * Reads the JSON data in the resource file as a {@code Level} object.
+	 * <p>
+	 * If the resource can't be read and the game just started, tries to read
+	 * {@code FIRST_TITLE_SCREEN}. If the player is in a level, calls
+	 * {@code physicsSimulator.resetNextLevel()} and returns {@code null}.
+	 * 
+	 * @param resource name of resource to read
+	 * 
+	 * @return the {@code Level}
+	 */
+	private Level readLevel(String resource) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(getClass().getResourceAsStream(resource),
+					Level.class);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			new ErrorDialog("Error",
+					"Could not load level '" + resource
+							+ "', file is corrupt or does not exist",
+					e).setVisible(true);
+
+			if (mainFrame.isVisible()) {
+				physicsSimulator.resetNextlevel();
+			}
+			else {
+				if (!resource.equals(FIRST_TITLE_SCREEN)) {
+					System.err.println("Loading first title screen");
+					return readLevel(FIRST_TITLE_SCREEN);
+				}
+				else {
+					System.exit(1);
+				}
+			}
+			return null;
+		}
 	}
 
 	/**
