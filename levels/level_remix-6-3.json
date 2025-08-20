@@ -85,7 +85,7 @@
 			"y": 150,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_6-4.json",
+			"nextLevel": "/credits.json",
 			"hasParticles": true
 		}
 	],
