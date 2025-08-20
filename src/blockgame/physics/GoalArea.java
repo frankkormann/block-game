@@ -12,6 +12,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import blockgame.gui.ErrorDialog;
 import blockgame.gui.ParticleExplosion;
 
 /**
@@ -135,12 +136,15 @@ public class GoalArea extends Area {
 				getClass().getResourceAsStream(LEVEL_COMPLETE_SOUND))) {
 			Clip clip = AudioSystem.getClip();
 			clip.open(stream);
-			clip.start();
+			if (AudioSystem.isLineSupported(clip.getLineInfo())) {
+				clip.start();
+			}
 		}
 		catch (IOException | UnsupportedAudioFileException
 				| LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			new ErrorDialog("Error", "Failed to play sound effect", e)
+					.setVisible(true);
 		}
 	}
 
