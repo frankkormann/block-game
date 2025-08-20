@@ -154,21 +154,25 @@
 		}
 	},
 	"Post-credits": {
+		"Remix: 1-1": {
+			"path": "/level_remix-1-1.json",
+			"number": 36
+		},
 		"Remix: 3-4": {
 			"path": "/level_remix-3-4.json",
-			"number": 36
+			"number": 37
 		},
 		"Remix: 5-5": {
 			"path": "/level_remix-5-5.json",
-			"number": 37
+			"number": 38
 		},
 		"Remix: 6-3": {
 			"path": "/level_remix-6-3.json",
-			"number": 38
+			"number": 39
 		},
 		"Remix: ♛-3": {
 			"path": "/level_remix-crown-3.json",
-			"number": 39
+			"number": 40
 		}
 	}
 }
