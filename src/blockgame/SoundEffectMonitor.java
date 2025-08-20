@@ -2,9 +2,9 @@ package blockgame;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Predicate;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -29,22 +29,19 @@ public class SoundEffectMonitor {
 	private static final String LEVEL_COMPLETE_SOUND = "/level_complete.wav";
 	private static final String GROW_SOUND = "/expand.wav";
 
-	private List<MovingRectangle> rects;
+	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
-	private Map<String, Clip> clips;
 
 	/**
 	 * Creates a new {@code SoundEffectMonitor} with no objects.
 	 */
 	public SoundEffectMonitor() {
-		rects = new ArrayList<>();
+		movingRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
-		clips = new HashMap<>();
-
 	}
 
 	public void add(MovingRectangle rect) {
-		rects.add(rect);
+		movingRectangles.add(rect);
 	}
 
 	public void add(GoalArea goal) {
@@ -52,7 +49,7 @@ public class SoundEffectMonitor {
 	}
 
 	public void clear() {
-		rects.clear();
+		movingRectangles.clear();
 		goals.clear();
 	}
 
@@ -61,11 +58,17 @@ public class SoundEffectMonitor {
 	 * need to be played.
 	 */
 	public void playSounds() {
-		goals.forEach(g -> {
-			if (g.hasWon() && g.hasParticles()) {
-				playSound(LEVEL_COMPLETE_SOUND);
-			}
-		});
+		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
+				LEVEL_COMPLETE_SOUND);
+		playIfAnyMatch(movingRectangles, r -> r.getWidth() > r.getLastWidth()
+				|| r.getHeight() > r.getLastHeight(), GROW_SOUND);
+	}
+
+	private <T> void playIfAnyMatch(Collection<T> objects,
+			Predicate<T> condition, String resource) {
+		if (objects.stream().anyMatch(condition)) {
+			playSound(resource);
+		}
 	}
 
 	private void playSound(String resource) {
