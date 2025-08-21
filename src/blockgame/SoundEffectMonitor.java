@@ -18,6 +18,7 @@ import blockgame.gui.ErrorDialog;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.MovingRectangle.State;
+import blockgame.physics.SwitchRectangle;
 
 /**
  * Monitors the game state and plays sound effects when necessary.
@@ -37,7 +38,7 @@ public class SoundEffectMonitor {
 	 */
 	public enum SoundEffect {
 		LEVEL_COMPLETE("/level_complete.wav"), GROW("/grow.wav"),
-		SHRINK("/shrink.wav"), LAND("/land.wav");
+		SHRINK("/shrink.wav"), LAND("/land.wav"), SWITCH_ON("/switch_on.wav");
 
 		public final Clip clip;
 
@@ -63,6 +64,7 @@ public class SoundEffectMonitor {
 	}
 
 	private List<MovingRectangle> movingRectangles;
+	private List<SwitchRectangle> switchRectangles;
 	private List<GoalArea> goals;
 
 	private Map<MovingRectangle, State> rectStates;
@@ -73,6 +75,7 @@ public class SoundEffectMonitor {
 	 */
 	public SoundEffectMonitor() {
 		movingRectangles = new ArrayList<>();
+		switchRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
 		rectStates = new HashMap<>();
 		fallDistances = new HashMap<>();
@@ -80,6 +83,9 @@ public class SoundEffectMonitor {
 
 	public void add(MovingRectangle rect) {
 		movingRectangles.add(rect);
+		if (rect instanceof SwitchRectangle) {
+			switchRectangles.add((SwitchRectangle) rect);
+		}
 	}
 
 	public void add(GoalArea goal) {
@@ -106,6 +112,8 @@ public class SoundEffectMonitor {
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
 				SoundEffect.SHRINK.clip, false, true);
+		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
+				SoundEffect.SWITCH_ON.clip, false, false);
 		playIfAnyMatch(movingRectangles,
 				r -> fallDistances.containsKey(r)
 						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
