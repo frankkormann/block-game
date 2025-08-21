@@ -119,7 +119,7 @@ public class SoundEffectMonitor {
 						|| r.getHeight() < r.getLastHeight(),
 				SoundEffect.SHRINK.clip, false);
 		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
-				SoundEffect.SWITCH_ON.clip, false);
+				SoundEffect.SWITCH_ON.clip, true);
 		playIfAnyMatch(movingRectangles,
 				r -> fallDistances.containsKey(r)
 						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
@@ -151,11 +151,10 @@ public class SoundEffectMonitor {
 			if (restartPrevious) {
 				clip.stop();
 			}
-			if (!clip.isRunning() && objects.stream().anyMatch(condition)) {
-				setVolume(clip);
-				clip.flush();
+			if (!clip.isRunning()) {
 				clip.setFramePosition(0);
 				clip.start();
+				setVolume(clip);
 			}
 		}
 	}
