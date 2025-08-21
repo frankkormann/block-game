@@ -25,7 +25,7 @@ import blockgame.physics.SwitchRectangle;
  * <p>
  * After objects have been added to this, {@code playSounds()} should be called
  * every frame. It should be called after {@code PhysicsSimulator} has done its
- * work and before any objects' states are changed.
+ * work and before any object's state is changed.
  * 
  * @author Frank Kormann
  */
