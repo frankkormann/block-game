@@ -103,22 +103,22 @@ public class SoundEffectMonitor {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
-				SoundEffect.LEVEL_COMPLETE.clip, false, false);
+				SoundEffect.LEVEL_COMPLETE.clip, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
 						|| r.getHeight() > r.getLastHeight(),
-				SoundEffect.GROW.clip, false, true);
+				SoundEffect.GROW.clip, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
-				SoundEffect.SHRINK.clip, false, true);
+				SoundEffect.SHRINK.clip, false);
 		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
-				SoundEffect.SWITCH_ON.clip, false, false);
+				SoundEffect.SWITCH_ON.clip, false);
 		playIfAnyMatch(movingRectangles,
 				r -> fallDistances.containsKey(r)
 						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
 						&& r.getState() == State.ON_GROUND,
-				SoundEffect.LAND.clip, true, false);
+				SoundEffect.LAND.clip, true);
 
 		updateFallDistances();
 	}
@@ -131,9 +131,6 @@ public class SoundEffectMonitor {
 	 * simultaneously. If {@code restartPrevious == true}, {@code clip} will be
 	 * restarted. Otherwise, subsequent calls will have no effect for a running
 	 * {@code clip}.
-	 * <p>
-	 * If {@code stopIfNone == true}, {@code clip} will be stopped if nothing in
-	 * {@code objects} matches {@code condition}.
 	 * 
 	 * @param <T>             type of objects to test
 	 * @param objects         {@code Collection} of objects to test
@@ -141,12 +138,9 @@ public class SoundEffectMonitor {
 	 * @param clip            sound {@code Clip} to play
 	 * @param restartPrevious {@code true} if {@code clip} should be restarted
 	 *                        if it is already running
-	 * @param stopIfNone      {@code true} if {@code clip} should be stopped if
-	 *                        no objects match
 	 */
 	private <T> void playIfAnyMatch(Collection<T> objects,
-			Predicate<T> condition, Clip clip, boolean restartPrevious,
-			boolean stopIfNone) {
+			Predicate<T> condition, Clip clip, boolean restartPrevious) {
 		if (objects.stream().anyMatch(condition)) {
 			if (restartPrevious) {
 				clip.stop();
@@ -156,9 +150,6 @@ public class SoundEffectMonitor {
 				clip.setFramePosition(0);
 				clip.start();
 			}
-		}
-		else if (stopIfNone && clip.isRunning()) {
-			clip.stop();
 		}
 	}
 
