@@ -3,7 +3,9 @@ package blockgame;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import javax.sound.sampled.AudioInputStream;
@@ -15,6 +17,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import blockgame.gui.ErrorDialog;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
+import blockgame.physics.MovingRectangle.State;
 
 /**
  * Monitors the game state and plays sound effects when necessary.
@@ -26,6 +29,8 @@ import blockgame.physics.MovingRectangle;
  * @author Frank Kormann
  */
 public class SoundEffectMonitor {
+
+	private static final int MIN_FALL_DISTANCE = 20;
 
 	/**
 	 * Sound effect containing a {@code Clip} which is pre-loaded with its data.
@@ -59,7 +64,9 @@ public class SoundEffectMonitor {
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
-	private List<MovingRectangle> fallingRects;
+
+	private Map<MovingRectangle, State> rectStates;
+	private Map<MovingRectangle, Integer> fallDistances;
 
 	/**
 	 * Creates a new {@code SoundEffectMonitor} with no objects.
@@ -67,7 +74,8 @@ public class SoundEffectMonitor {
 	public SoundEffectMonitor() {
 		movingRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
-		fallingRects = new ArrayList<>();
+		rectStates = new HashMap<>();
+		fallDistances = new HashMap<>();
 	}
 
 	public void add(MovingRectangle rect) {
@@ -89,37 +97,61 @@ public class SoundEffectMonitor {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
-				SoundEffect.LEVEL_COMPLETE.clip, false);
+				SoundEffect.LEVEL_COMPLETE.clip, false, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
 						|| r.getHeight() > r.getLastHeight(),
-				SoundEffect.GROW.clip, true);
+				SoundEffect.GROW.clip, false, true);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
-				SoundEffect.SHRINK.clip, true);
+				SoundEffect.SHRINK.clip, false, true);
 		playIfAnyMatch(movingRectangles,
-				r -> fallingRects.contains(r)
-						&& r.getState() == MovingRectangle.State.ON_GROUND,
-				SoundEffect.LAND.clip, false);
+				r -> fallDistances.containsKey(r)
+						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
+						&& r.getState() == State.ON_GROUND,
+				SoundEffect.LAND.clip, true, false);
 
-		fallingRects.clear();
-		movingRectangles.stream()
-				.filter(r -> r.getState() == MovingRectangle.State.IN_AIR)
-				.forEach(r -> fallingRects.add(r));
+		updateFallDistances();
 	}
 
 	private <T> void playIfAnyMatch(Collection<T> objects,
-			Predicate<T> condition, Clip clip, boolean stopIfNone) {
-		if (!clip.isRunning() && objects.stream().anyMatch(condition)) {
-			clip.flush();
-			clip.setFramePosition(0);
-			clip.start();
+			Predicate<T> condition, Clip clip, boolean restartPrevious,
+			boolean stopIfNone) {
+		if (objects.stream().anyMatch(condition)) {
+			if (restartPrevious) {
+				clip.stop();
+			}
+			if (!clip.isRunning() && objects.stream().anyMatch(condition)) {
+				clip.flush();
+				clip.setFramePosition(0);
+				clip.start();
+			}
 		}
-		else if (stopIfNone && clip.isRunning()
-				&& objects.stream().noneMatch(condition)) {
+		else if (stopIfNone && clip.isRunning()) {
 			clip.stop();
 		}
+	}
+
+	private void updateFallDistances() {
+		for (MovingRectangle rect : movingRectangles) {
+			if (rectStates.get(rect) == State.ON_GROUND
+					&& rect.getState() == State.IN_AIR) {
+				fallDistances.put(rect, 0);
+			}
+			if (fallDistances.containsKey(rect)) {
+				if (rect.getState() == State.ON_GROUND) {
+					fallDistances.remove(rect);
+					continue;
+				}
+
+				int dist = fallDistances.get(rect);
+				dist += rect.getY() - rect.getLastY();
+				dist = Math.max(dist, 0);
+				fallDistances.put(rect, dist);
+			}
+		}
+		movingRectangles.forEach(r -> rectStates.put(r, r.getState()));
 	}
 
 }
