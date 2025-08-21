@@ -54,9 +54,6 @@ public class SoundEffectMonitor {
 					getClass().getResourceAsStream(resource))) {
 				Clip clip = AudioSystem.getClip();
 				clip.open(stream);
-				clip.addLineListener(e -> {
-					System.out.println(this + "\t" + e);
-				});
 				return clip;
 			}
 			catch (IOException | UnsupportedAudioFileException
