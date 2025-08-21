@@ -43,6 +43,11 @@ public abstract class ValueChangerPanel<T> extends JPanel
 		for (Class<? extends Enum<?>> enumClass : mapper.getEnumClasses()) {
 			for (Enum<?> enumValue : enumClass.getEnumConstants()) {
 				GetterSetter<T> getterSetter = createGetterSetter(enumValue);
+				if (getterSetter == null) {
+					System.err.println(
+							"Can't create getterSetter for " + enumValue);
+					continue;
+				}
 				bindComponent(getterSetter, enumValue);
 			}
 		}
