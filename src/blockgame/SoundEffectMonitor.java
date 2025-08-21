@@ -87,23 +87,26 @@ public class SoundEffectMonitor {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
-				SoundEffect.LEVEL_COMPLETE.clip);
+				SoundEffect.LEVEL_COMPLETE.clip, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
 						|| r.getHeight() > r.getLastHeight(),
-				SoundEffect.GROW.clip);
+				SoundEffect.GROW.clip, true);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
-				SoundEffect.SHRINK.clip);
+				SoundEffect.SHRINK.clip, true);
 	}
 
 	private <T> void playIfAnyMatch(Collection<T> objects,
-			Predicate<T> condition, Clip clip) {
+			Predicate<T> condition, Clip clip, boolean stopIfNone) {
 		if (!clip.isRunning() && objects.stream().anyMatch(condition)) {
 			clip.flush();
 			clip.setFramePosition(0);
 			clip.start();
+		}
+		else if (clip.isRunning() && objects.stream().noneMatch(condition)) {
+			clip.stop();
 		}
 	}
 
