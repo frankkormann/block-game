@@ -28,8 +28,8 @@ import blockgame.physics.MovingRectangle;
  */
 public class SoundEffectMonitor {
 
-	private static final String LEVEL_COMPLETE_SOUND = "/level_complete.wav";
-	private static final String GROW_SOUND = "/grow.wav";
+	private static final String LEVEL_COMPLETE = "/level_complete.wav";
+	private static final String GROW = "/grow.wav";
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
@@ -43,8 +43,8 @@ public class SoundEffectMonitor {
 		goals = new ArrayList<>();
 		clips = new HashMap<>();
 
-		clips.put(LEVEL_COMPLETE_SOUND, loadClip(LEVEL_COMPLETE_SOUND));
-		clips.put(GROW_SOUND, loadClip(GROW_SOUND));
+		clips.put(LEVEL_COMPLETE, loadClip(LEVEL_COMPLETE));
+		clips.put(GROW, loadClip(GROW));
 	}
 
 	private Clip loadClip(String resource) {
@@ -82,11 +82,9 @@ public class SoundEffectMonitor {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
-				clips.get(LEVEL_COMPLETE_SOUND));
-		playIfAnyMatch(movingRectangles,
-				r -> r.getWidth() > r.getLastWidth()
-						|| r.getHeight() > r.getLastHeight(),
-				clips.get(GROW_SOUND));
+				clips.get(LEVEL_COMPLETE));
+		playIfAnyMatch(movingRectangles, r -> r.getWidth() > r.getLastWidth()
+				|| r.getHeight() > r.getLastHeight(), clips.get(GROW));
 	}
 
 	private <T> void playIfAnyMatch(Collection<T> objects,
