@@ -65,14 +65,15 @@ public class PhysicsSimulator {
 	}
 
 	/**
-	 * Sets up {@code SideRectangles} that represent window edges.
+	 * Sets up {@code SideRectangles} that represent window edges and sets
+	 * initial status of {@code SwitchRectangle}s.
 	 * 
 	 * @param width   Width of play area
 	 * @param height  Height of play area
 	 * @param xOffset X coordinate of top left corner
 	 * @param yOffset Y coordinate of top left corner
 	 */
-	public void createSides(int width, int height, int xOffset, int yOffset) {
+	public void setUp(int width, int height, int xOffset, int yOffset) {
 		sides.put(Direction.NORTH,
 				new SideRectangle(xOffset, yOffset, width, 1, Direction.NORTH));
 		sides.put(Direction.SOUTH, new SideRectangle(xOffset, yOffset + height,
@@ -87,6 +88,8 @@ public class PhysicsSimulator {
 				areas.add(attached);
 			}
 		}
+
+		applySwitchAreas();
 	}
 
 	public void add(MovingRectangle rect) {

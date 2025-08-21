@@ -268,7 +268,7 @@ public class GameController extends WindowAdapter
 
 		menuBar.showHintsMenu(hints.size() > 0 || !level.solution.equals(""));
 
-		physicsSimulator.createSides(mainFrame.getNextWidth(),
+		physicsSimulator.setUp(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
 				mainFrame.getNextYOffset());
 
