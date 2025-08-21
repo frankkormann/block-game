@@ -3,9 +3,7 @@ package blockgame;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import javax.sound.sampled.AudioInputStream;
@@ -29,16 +27,38 @@ import blockgame.physics.MovingRectangle;
  */
 public class SoundEffectMonitor {
 
-	private static final String LEVEL_COMPLETE = "/level_complete.wav";
-	private static final String GROW = "/grow.wav";
-	private static final String SHRINK = "/shrink.wav";
-	// Remember to add each new String to this array as well
-	private static final String[] ALL_EFFECTS = { LEVEL_COMPLETE, GROW,
-			SHRINK };
+	/**
+	 * Sound effect containing a {@code Clip} which is pre-loaded with its data.
+	 */
+	public enum SoundEffect {
+		LEVEL_COMPLETE("/level_complete.wav"), GROW("/grow.wav"),
+		SHRINK("/shrink.wav");
+
+		public final Clip clip;
+
+		private SoundEffect(String resource) {
+			clip = loadClip(resource);
+		}
+
+		private Clip loadClip(String resource) {
+			try (AudioInputStream stream = AudioSystem.getAudioInputStream(
+					getClass().getResourceAsStream(resource))) {
+				Clip clip = AudioSystem.getClip();
+				clip.open(stream);
+				return clip;
+			}
+			catch (IOException | UnsupportedAudioFileException
+					| LineUnavailableException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error", "Failed to load sound effect", e)
+						.setVisible(true);
+				return null;
+			}
+		}
+	}
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
-	private Map<String, Clip> clips;
 
 	/**
 	 * Creates a new {@code SoundEffectMonitor} with no objects.
@@ -46,27 +66,6 @@ public class SoundEffectMonitor {
 	public SoundEffectMonitor() {
 		movingRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
-		clips = new HashMap<>();
-
-		for (String resource : ALL_EFFECTS) {
-			clips.put(resource, loadClip(resource));
-		}
-	}
-
-	private Clip loadClip(String resource) {
-		try (AudioInputStream stream = AudioSystem.getAudioInputStream(
-				getClass().getResourceAsStream(resource))) {
-			Clip clip = AudioSystem.getClip();
-			clip.open(stream);
-			return clip;
-		}
-		catch (IOException | UnsupportedAudioFileException
-				| LineUnavailableException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to play sound effect", e)
-					.setVisible(true);
-			return null;
-		}
 	}
 
 	public void add(MovingRectangle rect) {
@@ -88,13 +87,15 @@ public class SoundEffectMonitor {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
-				clips.get(LEVEL_COMPLETE));
-		playIfAnyMatch(movingRectangles, r -> r.getWidth() > r.getLastWidth()
-				|| r.getHeight() > r.getLastHeight(), clips.get(GROW));
+				SoundEffect.LEVEL_COMPLETE.clip);
+		playIfAnyMatch(movingRectangles,
+				r -> r.getWidth() > r.getLastWidth()
+						|| r.getHeight() > r.getLastHeight(),
+				SoundEffect.GROW.clip);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
-				clips.get(SHRINK));
+				SoundEffect.SHRINK.clip);
 	}
 
 	private <T> void playIfAnyMatch(Collection<T> objects,
