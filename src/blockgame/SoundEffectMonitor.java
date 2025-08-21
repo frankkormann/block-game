@@ -32,7 +32,7 @@ public class SoundEffectMonitor {
 	 */
 	public enum SoundEffect {
 		LEVEL_COMPLETE("/level_complete.wav"), GROW("/grow.wav"),
-		SHRINK("/shrink.wav");
+		SHRINK("/shrink.wav"), LAND("/land.wav");
 
 		public final Clip clip;
 
@@ -59,6 +59,7 @@ public class SoundEffectMonitor {
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
+	private List<MovingRectangle> fallingRects;
 
 	/**
 	 * Creates a new {@code SoundEffectMonitor} with no objects.
@@ -66,6 +67,7 @@ public class SoundEffectMonitor {
 	public SoundEffectMonitor() {
 		movingRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
+		fallingRects = new ArrayList<>();
 	}
 
 	public void add(MovingRectangle rect) {
@@ -96,6 +98,15 @@ public class SoundEffectMonitor {
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
 				SoundEffect.SHRINK.clip, true);
+		playIfAnyMatch(movingRectangles,
+				r -> fallingRects.contains(r)
+						&& r.getState() == MovingRectangle.State.ON_GROUND,
+				SoundEffect.LAND.clip, false);
+
+		fallingRects.clear();
+		movingRectangles.stream()
+				.filter(r -> r.getState() == MovingRectangle.State.IN_AIR)
+				.forEach(r -> fallingRects.add(r));
 	}
 
 	private <T> void playIfAnyMatch(Collection<T> objects,
@@ -105,7 +116,8 @@ public class SoundEffectMonitor {
 			clip.setFramePosition(0);
 			clip.start();
 		}
-		else if (clip.isRunning() && objects.stream().noneMatch(condition)) {
+		else if (stopIfNone && clip.isRunning()
+				&& objects.stream().noneMatch(condition)) {
 			clip.stop();
 		}
 	}
