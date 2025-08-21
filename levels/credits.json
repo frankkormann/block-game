@@ -55,20 +55,34 @@
 			"type": "ImageArea",
 			"x": 150,
 			"y": 80,
-			"source": "/credits_start.png",
+			"source": "/credits_frank_title.png",
 			"color": "TRANSLUCENT_BLUE"
 		},
 		{
 			"type": "ImageArea",
 			"x": 100,
 			"y": 150,
-			"source": "/credits_name.png",
+			"source": "/credits_frank.png",
 			"color": "BLUE"
 		},
 		{
 			"type": "ImageArea",
+			"x": 99,
+			"y": 280,
+			"source": "/credits_sfx_title.png",
+			"color": "TRANSLUCENT_GREEN"
+		},
+		{
+			"type": "ImageArea",
+			"x": 338,
+			"y": 260,
+			"source": "/credits_sfx.png",
+			"color": "GREEN"
+		},
+		{
+			"type": "ImageArea",
 			"x": 182,
-			"y": 300,
+			"y": 400,
 			"source": "/credits_thanks.png",
 			"color": "TRANSLUCENT_YELLOW"
 		},
