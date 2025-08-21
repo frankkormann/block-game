@@ -110,15 +110,37 @@ public abstract class Mapper<T> {
 	 * @throws IOException if an I/O error occurs
 	 */
 	private void load(InputStream stream) throws IOException {
+		EnumValues<T> json = readValues(stream);
+
+		for (Enum<?> key : json.values.keySet()) {
+			T value = json.values.get(key);
+			set(key, value);
+		}
+	}
+
+	/**
+	 * Loads values from {@code stream} if the value is not already set.
+	 * 
+	 * @param stream {@code InputStream} to read from
+	 * 
+	 * @throws IOException if an I/O error occurs
+	 */
+	private void loadUnset(InputStream stream) throws IOException {
+		EnumValues<T> json = readValues(stream);
+
+		for (Enum<?> key : json.values.keySet()) {
+			if (get(key) == null) {
+				T value = json.values.get(key);
+				set(key, value);
+			}
+		}
+	}
+
+	private EnumValues<T> readValues(InputStream stream) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setInjectableValues(new InjectableValues.Std()
 				.addValue("enumClasses", getEnumClasses()));
-		EnumValues<T> json = mapper.readValue(stream, getJsonTypeReference());
-
-		for (Enum<?> input : json.values.keySet()) {
-			T keybind = json.values.get(input);
-			set(input, keybind);
-		}
+		return mapper.readValue(stream, getJsonTypeReference());
 	}
 
 	/**
@@ -168,6 +190,16 @@ public abstract class Mapper<T> {
 					.setVisible(true);
 			setToDefaults();
 			save();
+		}
+
+		try {
+			loadUnset(getClass().getResourceAsStream(defaultValuesResource));
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error",
+					"Can't read default values file. Some values may not be set.",
+					e).setVisible(true);
 		}
 	}
 
