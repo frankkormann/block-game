@@ -115,6 +115,27 @@ public class SoundEffectMonitor {
 		updateFallDistances();
 	}
 
+	/**
+	 * Starts {@code clip} if anything in {@code objects} matches
+	 * {@code condition}.
+	 * <p>
+	 * Subsequent calls cannot make {@code clip} play multiple times
+	 * simultaneously. If {@code restartPrevious == true}, {@code clip} will be
+	 * restarted. Otherwise, subsequent calls will have no effect for a running
+	 * {@code clip}.
+	 * <p>
+	 * If {@code stopIfNone == true}, {@code clip} will be stopped if nothing in
+	 * {@code objects} matches {@code condition}.
+	 * 
+	 * @param <T>             type of objects to test
+	 * @param objects         {@code Collection} of objects to test
+	 * @param condition       {@code Predicate} to test against
+	 * @param clip            sound {@code Clip} to play
+	 * @param restartPrevious {@code true} if {@code clip} should be restarted
+	 *                        if it is already running
+	 * @param stopIfNone      {@code true} if {@code clip} should be stopped if
+	 *                        no objects match
+	 */
 	private <T> void playIfAnyMatch(Collection<T> objects,
 			Predicate<T> condition, Clip clip, boolean restartPrevious,
 			boolean stopIfNone) {
