@@ -30,6 +30,7 @@ public class SoundEffectMonitor {
 
 	private static final String LEVEL_COMPLETE = "/level_complete.wav";
 	private static final String GROW = "/grow.wav";
+	private static final String SHRINK = "/shrink.wav";
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
@@ -45,6 +46,7 @@ public class SoundEffectMonitor {
 
 		clips.put(LEVEL_COMPLETE, loadClip(LEVEL_COMPLETE));
 		clips.put(GROW, loadClip(GROW));
+		clips.put(SHRINK, loadClip(SHRINK));
 	}
 
 	private Clip loadClip(String resource) {
@@ -85,6 +87,10 @@ public class SoundEffectMonitor {
 				clips.get(LEVEL_COMPLETE));
 		playIfAnyMatch(movingRectangles, r -> r.getWidth() > r.getLastWidth()
 				|| r.getHeight() > r.getLastHeight(), clips.get(GROW));
+		playIfAnyMatch(movingRectangles,
+				r -> r.getWidth() < r.getLastWidth()
+						|| r.getHeight() < r.getLastHeight(),
+				clips.get(SHRINK));
 	}
 
 	private <T> void playIfAnyMatch(Collection<T> objects,
