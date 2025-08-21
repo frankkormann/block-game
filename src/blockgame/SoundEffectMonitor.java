@@ -29,7 +29,7 @@ import blockgame.physics.MovingRectangle;
 public class SoundEffectMonitor {
 
 	private static final String LEVEL_COMPLETE_SOUND = "/level_complete.wav";
-	private static final String GROW_SOUND = "/expand.wav";
+	private static final String GROW_SOUND = "/grow.wav";
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
@@ -92,6 +92,7 @@ public class SoundEffectMonitor {
 	private <T> void playIfAnyMatch(Collection<T> objects,
 			Predicate<T> condition, Clip clip) {
 		if (!clip.isRunning() && objects.stream().anyMatch(condition)) {
+			clip.flush();
 			clip.setFramePosition(0);
 			clip.start();
 		}
