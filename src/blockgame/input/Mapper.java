@@ -79,6 +79,14 @@ public abstract class Mapper<T> {
 	public abstract T getDefaultValue();
 
 	/**
+	 * Whether values are allowed to not be set. Note that this does not
+	 * guarantee that all values will be set.
+	 * 
+	 * @return {@code true} if values can be unset
+	 */
+	public abstract boolean allowUnset();
+
+	/**
 	 * Save all values to disk.
 	 */
 	public void save() {
@@ -156,9 +164,11 @@ public abstract class Mapper<T> {
 					"Default values file is unavailable, go to Options to set values manually",
 					e).setVisible(true);
 
-			for (Class<? extends Enum> enumClass : getEnumClasses()) {
-				for (Enum<?> key : enumClass.getEnumConstants()) {
-					set(key, getDefaultValue());
+			if (!allowUnset()) {
+				for (Class<? extends Enum> enumClass : getEnumClasses()) {
+					for (Enum<?> key : enumClass.getEnumConstants()) {
+						set(key, getDefaultValue());
+					}
 				}
 			}
 		}
@@ -192,14 +202,17 @@ public abstract class Mapper<T> {
 			save();
 		}
 
-		try {
-			loadUnset(getClass().getResourceAsStream(defaultValuesResource));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Can't read default values file. Some values may not be set.",
-					e).setVisible(true);
+		if (!allowUnset()) {
+			try {
+				loadUnset(
+						getClass().getResourceAsStream(defaultValuesResource));
+			}
+			catch (IOException | IllegalArgumentException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error",
+						"Can't read default values file. Some values may not be set.",
+						e).setVisible(true);
+			}
 		}
 	}
 
@@ -235,6 +248,9 @@ public abstract class Mapper<T> {
 	 * @param key enum value to remove
 	 */
 	public void remove(Enum<?> key) {
+		if (!allowUnset()) {
+			throw new UnsupportedOperationException("Values must be set");
+		}
 		enumMap.remove(key);
 
 		for (ValueChangeListener listener : changeListeners) {

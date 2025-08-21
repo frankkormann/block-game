@@ -2,7 +2,6 @@ package blockgame.input;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import blockgame.gui.MenuBar;
 import blockgame.gui.MenuBar.MetaInput;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
@@ -52,6 +51,11 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	@Override
 	public Pair<Integer, Integer> getDefaultValue() {
 		return new Pair<Integer, Integer>(0, 0);
+	}
+
+	@Override
+	public boolean allowUnset() {
+		return true;
 	}
 
 	/**

@@ -27,4 +27,9 @@ public class IntMapper extends Mapper<Integer> {
 		return 0;
 	}
 
+	@Override
+	public boolean allowUnset() {
+		return true;
+	}
+
 }
