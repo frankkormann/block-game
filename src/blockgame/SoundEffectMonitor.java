@@ -111,23 +111,23 @@ public class SoundEffectMonitor {
 	 * need to be played.
 	 */
 	public void playSounds() {
-//		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
-//				SoundEffect.LEVEL_COMPLETE.clip, false);
-//		playIfAnyMatch(movingRectangles,
-//				r -> r.getWidth() > r.getLastWidth()
-//						|| r.getHeight() > r.getLastHeight(),
-//				SoundEffect.GROW.clip, false);
-//		playIfAnyMatch(movingRectangles,
-//				r -> r.getWidth() < r.getLastWidth()
-//						|| r.getHeight() < r.getLastHeight(),
-//				SoundEffect.SHRINK.clip, false);
+		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
+				SoundEffect.LEVEL_COMPLETE.clip, false);
+		playIfAnyMatch(movingRectangles,
+				r -> r.getWidth() > r.getLastWidth()
+						|| r.getHeight() > r.getLastHeight(),
+				SoundEffect.GROW.clip, false);
+		playIfAnyMatch(movingRectangles,
+				r -> r.getWidth() < r.getLastWidth()
+						|| r.getHeight() < r.getLastHeight(),
+				SoundEffect.SHRINK.clip, false);
 		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
 				SoundEffect.SWITCH_ON.clip, true);
-//		playIfAnyMatch(movingRectangles,
-//				r -> fallDistances.containsKey(r)
-//						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
-//						&& r.getState() == State.ON_GROUND,
-//				SoundEffect.LAND.clip, true);
+		playIfAnyMatch(movingRectangles,
+				r -> fallDistances.containsKey(r)
+						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
+						&& r.getState() == State.ON_GROUND,
+				SoundEffect.LAND.clip, true);
 
 		updateFallDistances();
 	}
