@@ -79,6 +79,9 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 		if (enumValue == Parameter.RESIZING_AREA_WIDTH) {
 			return new SliderSpinner(10, 100, 0, 200, 5, false, "px");
 		}
+		if (enumValue == Parameter.VOLUME) {
+			return new SliderSpinner(0, 200, 0, 200, 5, true, "%");
+		}
 
 		return null;
 	}
@@ -141,6 +144,8 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 				return "Keyboard Resizing Rate";
 			case RESIZING_AREA_WIDTH:
 				return "Window-edge Resizing Area Size";
+			case VOLUME:
+				return "Volume";
 		}
 
 		return param.toString();
@@ -168,6 +173,8 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 				return "Amount the window will be resized with each keyboard input";
 			case RESIZING_AREA_WIDTH:
 				return "Width of the window regions that can be click-dragged to resize it";
+			case VOLUME:
+				return "Volume of sound effects";
 		}
 
 		return param.toString();

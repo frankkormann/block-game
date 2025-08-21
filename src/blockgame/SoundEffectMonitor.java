@@ -11,10 +11,13 @@ import java.util.function.Predicate;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import blockgame.gui.ErrorDialog;
+import blockgame.input.ParameterMapper;
+import blockgame.input.ParameterMapper.Parameter;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.MovingRectangle.State;
@@ -70,15 +73,18 @@ public class SoundEffectMonitor {
 	private Map<MovingRectangle, State> rectStates;
 	private Map<MovingRectangle, Integer> fallDistances;
 
+	ParameterMapper paramMapper;
+
 	/**
 	 * Creates a new {@code SoundEffectMonitor} with no objects.
 	 */
-	public SoundEffectMonitor() {
+	public SoundEffectMonitor(ParameterMapper paramMapper) {
 		movingRectangles = new ArrayList<>();
 		switchRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
 		rectStates = new HashMap<>();
 		fallDistances = new HashMap<>();
+		this.paramMapper = paramMapper;
 	}
 
 	public void add(MovingRectangle rect) {
@@ -146,11 +152,22 @@ public class SoundEffectMonitor {
 				clip.stop();
 			}
 			if (!clip.isRunning() && objects.stream().anyMatch(condition)) {
+				setVolume(clip);
 				clip.flush();
 				clip.setFramePosition(0);
 				clip.start();
 			}
 		}
+	}
+
+	private void setVolume(Clip clip) {
+		FloatControl control = (FloatControl) clip
+				.getControl(FloatControl.Type.MASTER_GAIN);
+		float volume = paramMapper.getFloat(Parameter.VOLUME);
+		float gain = 20 * (float) Math.log10(volume);
+		gain = Math.min(control.getMaximum(),
+				Math.max(gain, control.getMinimum()));
+		control.setValue(gain);
 	}
 
 	private void updateFallDistances() {

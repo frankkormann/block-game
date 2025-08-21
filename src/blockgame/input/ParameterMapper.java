@@ -20,6 +20,10 @@ public class ParameterMapper extends Mapper<Number> {
 		 */
 		GAME_SPEED,
 		/**
+		 * Volume of sound effects where 0 is muted and 1 is normal volume
+		 */
+		VOLUME,
+		/**
 		 * Multiplier for size of game area
 		 */
 		GAME_SCALING,
