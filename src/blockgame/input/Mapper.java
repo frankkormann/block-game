@@ -114,7 +114,6 @@ public abstract class Mapper<T> {
 		mapper.setInjectableValues(new InjectableValues.Std()
 				.addValue("enumClasses", getEnumClasses()));
 		EnumValues<T> json = mapper.readValue(stream, getJsonTypeReference());
-		stream.close();
 
 		for (Enum<?> input : json.values.keySet()) {
 			T keybind = json.values.get(input);
@@ -160,6 +159,7 @@ public abstract class Mapper<T> {
 
 		try {
 			load(fileStream);
+			fileStream.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
