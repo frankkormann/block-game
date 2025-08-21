@@ -32,6 +32,9 @@ public class SoundEffectMonitor {
 	private static final String LEVEL_COMPLETE = "/level_complete.wav";
 	private static final String GROW = "/grow.wav";
 	private static final String SHRINK = "/shrink.wav";
+	// Remember to add each new String to this array as well
+	private static final String[] ALL_EFFECTS = { LEVEL_COMPLETE, GROW,
+			SHRINK };
 
 	private List<MovingRectangle> movingRectangles;
 	private List<GoalArea> goals;
@@ -45,9 +48,9 @@ public class SoundEffectMonitor {
 		goals = new ArrayList<>();
 		clips = new HashMap<>();
 
-		clips.put(LEVEL_COMPLETE, loadClip(LEVEL_COMPLETE));
-		clips.put(GROW, loadClip(GROW));
-		clips.put(SHRINK, loadClip(SHRINK));
+		for (String resource : ALL_EFFECTS) {
+			clips.put(resource, loadClip(resource));
+		}
 	}
 
 	private Clip loadClip(String resource) {
