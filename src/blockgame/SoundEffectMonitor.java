@@ -161,6 +161,10 @@ public class SoundEffectMonitor {
 	}
 
 	private void setVolume(Clip clip) {
+		if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+			System.err.println("MASTER_GAIN control is not supported");
+			return;
+		}
 		FloatControl control = (FloatControl) clip
 				.getControl(FloatControl.Type.MASTER_GAIN);
 		float volume = paramMapper.getFloat(Parameter.VOLUME);
