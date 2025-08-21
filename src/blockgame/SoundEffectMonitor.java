@@ -22,7 +22,8 @@ import blockgame.physics.MovingRectangle;
  * Monitors the game state and plays sound effects when necessary.
  * <p>
  * After objects have been added to this, {@code playSounds()} should be called
- * every frame.
+ * every frame. It should be called after {@code PhysicsSimulator} has done its
+ * work and before any objects' states are changed.
  * 
  * @author Frank Kormann
  */
