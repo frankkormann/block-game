@@ -31,7 +31,7 @@ public class VolumeChanger {
 		}
 		FloatControl control = (FloatControl) line
 				.getControl(FloatControl.Type.MASTER_GAIN);
-		float gain = 20 * (float) Math.log10(percent);
+		float gain = (float) (20 * Math.log10(percent));
 		gain = Math.min(control.getMaximum(),
 				Math.max(gain, control.getMinimum()));
 		control.setValue(gain);
