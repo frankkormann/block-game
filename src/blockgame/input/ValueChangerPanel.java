@@ -82,6 +82,10 @@ public abstract class ValueChangerPanel<T> extends JPanel
 	/**
 	 * Creates a {@code JPanel} to display each {@code GetterSetter} in
 	 * {@code getterSetters}.
+	 * <p>
+	 * If {@link #createGetterSetter(Enum)} failed to create a
+	 * {@code GetterSetter}, there will be no mapping for that enum in
+	 * {@code getterSetters}.
 	 * 
 	 * @param getterSetters {@code Map} from the enum value for this
 	 *                      {@code GetterSetter} to the {@code GetterSetter}
