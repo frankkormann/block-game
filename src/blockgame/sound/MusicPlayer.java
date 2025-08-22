@@ -9,13 +9,17 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import blockgame.gui.ErrorDialog;
+import blockgame.input.ParameterMapper;
+import blockgame.input.ParameterMapper.Parameter;
+import blockgame.input.ValueChangeListener;
+import blockgame.util.VolumeChanger;
 
 /**
  * Loops music continuously. Available songs are enumerated in {@code Song}.
  * 
  * @author Frank Kormann
  */
-public class MusicPlayer {
+public class MusicPlayer implements ValueChangeListener {
 
 	public enum Song {
 		ABMU("ABMU", "/music_abmu.wav"),
@@ -33,10 +37,16 @@ public class MusicPlayer {
 
 	private int currentThread;
 	private Song currentSong;
+	private SourceDataLine currentLine;
+	private ParameterMapper paramMapper;
 
-	public MusicPlayer() {
+	public MusicPlayer(ParameterMapper paramMapper) {
 		currentThread = 0;
 		currentSong = null;
+		currentLine = null;
+		this.paramMapper = paramMapper;
+
+		paramMapper.addListener(this);
 	}
 
 	/**
@@ -51,8 +61,11 @@ public class MusicPlayer {
 					AudioSystem.getAudioFileFormat(stream).getFormat());
 			line.open();
 			line.start();
+			VolumeChanger.setVolume(line,
+					paramMapper.getFloat(Parameter.VOLUME));
 
 			currentSong = song;
+			currentLine = line;
 			startThread(line, stream);
 		}
 		catch (IOException e) {
@@ -89,7 +102,6 @@ public class MusicPlayer {
 					stream.mark(Integer.MAX_VALUE);
 					while (currentThread == threadNumber
 							&& stream.available() > 0) {
-
 						byte[] buffer = new byte[line.available()];
 						int num = stream.read(buffer, 0, buffer.length);
 						line.write(buffer, 0, num);
@@ -111,6 +123,7 @@ public class MusicPlayer {
 	 * Stops playing music.
 	 */
 	public void stop() {
+		currentLine = null;
 		currentThread++;  // The Thread currently playing music will stop
 	}
 
@@ -123,5 +136,18 @@ public class MusicPlayer {
 	public Song getCurrentSong() {
 		return currentSong;
 	}
+
+	@Override
+	public void valueChanged(Enum<?> key, Object newValue) {
+		if (key == Parameter.VOLUME) {
+			if (currentLine != null) {
+				VolumeChanger.setVolume(currentLine,
+						((Number) newValue).floatValue());
+			}
+		}
+	}
+
+	@Override
+	public void valueRemoved(Enum<?> key) {}
 
 }
