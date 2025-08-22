@@ -165,7 +165,7 @@ public abstract class Mapper<T> {
 					e).setVisible(true);
 
 			if (!allowUnset()) {
-				for (Class<? extends Enum> enumClass : getEnumClasses()) {
+				for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
 					for (Enum<?> key : enumClass.getEnumConstants()) {
 						set(key, getDefaultValue());
 					}

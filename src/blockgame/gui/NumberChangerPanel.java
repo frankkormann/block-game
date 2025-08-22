@@ -74,9 +74,9 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 	/**
 	 * Returns the enum values which this is adjusting.
 	 * 
-	 * @return the {@code Enum[]}
+	 * @return the {@code Enum<?>[]}
 	 */
-	protected abstract Enum[] getEnumValues();
+	protected abstract Enum<?>[] getEnumValues();
 
 	@Override
 	protected GetterSetter<Number> createGetterSetter(Enum<?> enumValue) {

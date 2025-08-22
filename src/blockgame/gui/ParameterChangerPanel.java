@@ -114,7 +114,7 @@ public class ParameterChangerPanel extends NumberChangerPanel {
 	}
 
 	@Override
-	protected Enum[] getEnumValues() {
+	protected Enum<?>[] getEnumValues() {
 		return Parameter.values();
 	}
 

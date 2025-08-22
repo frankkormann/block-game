@@ -48,7 +48,7 @@ public class VolumeChangerPanel extends NumberChangerPanel {
 	}
 
 	@Override
-	protected Enum[] getEnumValues() {
+	protected Enum<?>[] getEnumValues() {
 		return Volume.values();
 	}
 
