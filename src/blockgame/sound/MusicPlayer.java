@@ -13,9 +13,13 @@ import blockgame.gui.ErrorDialog;
 import blockgame.input.ValueChangeListener;
 import blockgame.input.VolumeMapper;
 import blockgame.input.VolumeMapper.Volume;
+import blockgame.util.SaveManager;
 
 /**
  * Loops music continuously. Available songs are enumerated in {@code Song}.
+ * <p>
+ * The last played song will be stored in {@code SaveManager} under
+ * {@code song}, and will be automatically started on subsequent instantiation.
  * 
  * @author Frank Kormann
  */
@@ -45,8 +49,13 @@ public class MusicPlayer implements ValueChangeListener {
 		currentSong = null;
 		currentLine = null;
 		this.volumeMapper = volumeMapper;
-
 		volumeMapper.addListener(this);
+
+		try {
+			play(Song.valueOf(Song.class,
+					SaveManager.getValue("song", "none")));
+		}
+		catch (IllegalArgumentException ignored) {}
 	}
 
 	/**
@@ -67,6 +76,7 @@ public class MusicPlayer implements ValueChangeListener {
 
 			currentSong = song;
 			currentLine = line;
+			SaveManager.putValue("song", song.name());
 			startThread(line, stream);
 		}
 		catch (IOException e) {
@@ -127,6 +137,7 @@ public class MusicPlayer implements ValueChangeListener {
 		currentLine = null;
 		currentSong = null;
 		currentThread++;  // The Thread currently playing music will stop
+		SaveManager.putValue("song", "none");
 	}
 
 	/**
