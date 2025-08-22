@@ -21,7 +21,6 @@ import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.MovingRectangle.State;
 import blockgame.physics.SwitchRectangle;
-import blockgame.util.VolumeChanger;
 
 /**
  * Monitors the game state and plays sound effects when necessary.

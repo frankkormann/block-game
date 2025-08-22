@@ -1,4 +1,4 @@
-package blockgame.util;
+package blockgame.sound;
 
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Line;

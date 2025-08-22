@@ -12,7 +12,6 @@ import blockgame.gui.ErrorDialog;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
-import blockgame.util.VolumeChanger;
 
 /**
  * Loops music continuously. Available songs are enumerated in {@code Song}.
