@@ -43,19 +43,15 @@ public class EnumValues<T> {
 	}
 
 	private Enum<?> getEnum(String name) throws IllegalArgumentException {
-		Enum<?> result = null;
-		for (Class<? extends Enum> enumClass : enumClasses) {
-			try {
-				result = Enum.valueOf(enumClass, name);
+		for (Class<? extends Enum<?>> enumClass : enumClasses) {
+			for (Enum<?> enumValue : enumClass.getEnumConstants()) {
+				if (enumValue.toString() == name) {
+					return enumValue;
+				}
 			}
-			catch (IllegalArgumentException ignored) {}
 		}
 
-		if (result == null) {
-			throw new IllegalArgumentException("Unknown enum value");
-		}
-
-		return result;
+		throw new IllegalArgumentException("Unknown enum value");
 	}
 
 }
