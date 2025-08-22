@@ -1,40 +1,22 @@
 package blockgame.gui;
 
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Window;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Map;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRootPane;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
-import blockgame.input.GetterSetter;
+import blockgame.input.NumberChangerPanel;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
-import blockgame.input.ValueChangerPanel;
 
 /**
- * {@code JPanel} which allows the user to remap values in
+ * {@code NumberChangerPanel} which allows the user to remap values in
  * {@code ParameterMapper}, such as GUI scaling. Automatically calls
  * {@code ParameterMapper.save} the parent window is closed.
  * 
  * @author Frank Kormann
  */
-public class ParameterChangerPanel extends ValueChangerPanel<Number> {
-
-	private static final int VERTICAL_SPACE = 3;
+public class ParameterChangerPanel extends NumberChangerPanel {
 
 	/**
 	 * Creates a {@code ParameterChangerPanel} which will alter
@@ -49,7 +31,7 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 	}
 
 	@Override
-	protected GetterSetter<Number> createGetterSetter(Enum<?> enumValue) {
+	protected SliderSpinner createSliderSpinner(Enum<?> enumValue) {
 		if (enumValue == Parameter.GAME_SPEED) {
 			return new SliderSpinner(1, 100, 1, 60000, 5, false, "ms");
 		}
@@ -87,207 +69,63 @@ public class ParameterChangerPanel extends ValueChangerPanel<Number> {
 	}
 
 	@Override
-	protected JPanel createGetterSetterPanel(
-			Map<Enum<?>, GetterSetter<Number>> getterSetters) {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
-
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.gridy = 0;
-		c.insets = new Insets(VERTICAL_SPACE, 0, 0, 0);
-		c.weighty = 0.5;
-
-		for (Parameter param : Parameter.values()) {
-			if (!getterSetters.containsKey(param)) {
-				continue;
-			}
-
-			JLabel label = new JLabel(paramToName(param));
-			label.setToolTipText(paramToTooltip(param));
-			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
-
-			SliderSpinner sliderSpinner = (SliderSpinner) getterSetters
-					.get(param);
-
-			c.gridx = 0;
-			panel.add(label, c);
-			c.gridx = 1;
-			panel.add(sliderSpinner.getSlider(), c);
-			c.gridx = 2;
-			panel.add(sliderSpinner.getSpinner(), c);
-
-			c.gridy++;
+	protected String paramToName(Enum<?> enumValue) {
+		if (enumValue == Parameter.GAME_SPEED) {
+			return "Game Speed";
+		}
+		if (enumValue == Parameter.GAME_SCALING) {
+			return "Game Scaling";
+		}
+		if (enumValue == Parameter.GUI_SCALING) {
+			return "GUI Scaling";
+		}
+		if (enumValue == Parameter.OPACITY_MULTIPLIER) {
+			return "Hint Opacity";
+		}
+		if (enumValue == Parameter.KEYBOARD_RESIZING_AMOUNT) {
+			return "Keyboard Resizing Rate";
+		}
+		if (enumValue == Parameter.RESIZING_AREA_WIDTH) {
+			return "Window-edge Resizing Area Size";
+		}
+		if (enumValue == Parameter.VOLUME) {
+			return "Volume";
 		}
 
-		return panel;
+		return enumValue.toString();
+
 	}
 
-	/**
-	 * Returns a user-understandable for {@code param}.
-	 * 
-	 * @param param value to create a name for
-	 * 
-	 * @return {@code param}'s name
-	 */
-	private String paramToName(Parameter param) {
-		switch (param) {
-			case GAME_SPEED:
-				return "Game Speed";
-			case GAME_SCALING:
-				return "Game Scaling";
-			case GUI_SCALING:
-				return "GUI Scaling";
-			case OPACITY_MULTIPLIER:
-				return "Hint Opacity";
-			case KEYBOARD_RESIZING_AMOUNT:
-				return "Keyboard Resizing Rate";
-			case RESIZING_AREA_WIDTH:
-				return "Window-edge Resizing Area Size";
-			case VOLUME:
-				return "Volume";
+	@Override
+	protected String paramToTooltip(Enum<?> enumValue) {
+		if (enumValue == Parameter.GAME_SPEED) {
+			return "Number of milliseconds between each frame\nLower is faster";
+		}
+		if (enumValue == Parameter.GAME_SCALING) {
+			return "Multiplier for size of game objects";
+		}
+		if (enumValue == Parameter.GUI_SCALING) {
+			return "Multiplier for size of GUI elements";
+		}
+		if (enumValue == Parameter.OPACITY_MULTIPLIER) {
+			return "Transparency of hint blocks\nLower is more transparent";
+		}
+		if (enumValue == Parameter.KEYBOARD_RESIZING_AMOUNT) {
+			return "Amount the window will be resized with each keyboard input";
+		}
+		if (enumValue == Parameter.RESIZING_AREA_WIDTH) {
+			return "Width of the window regions that can be click-dragged to resize it";
+		}
+		if (enumValue == Parameter.VOLUME) {
+			return "Volume of sound effects\nNote: large values may not be supported on all devices";
 		}
 
-		return param.toString();
+		return enumValue.toString();
 	}
 
-	/**
-	 * Returns tooltip-text which further explains how {@code param} affects the
-	 * game.
-	 * 
-	 * @param param value to explain
-	 * 
-	 * @return tooltip-text for {@code param}
-	 */
-	private String paramToTooltip(Parameter param) {
-		switch (param) {
-			case GAME_SPEED:
-				return "Number of milliseconds between each frame\nLower is faster";
-			case GAME_SCALING:
-				return "Multiplier for size of game objects";
-			case GUI_SCALING:
-				return "Multiplier for size of GUI elements";
-			case OPACITY_MULTIPLIER:
-				return "Transparency of hint blocks\nLower is more transparent";
-			case KEYBOARD_RESIZING_AMOUNT:
-				return "Amount the window will be resized with each keyboard input";
-			case RESIZING_AREA_WIDTH:
-				return "Width of the window regions that can be click-dragged to resize it";
-			case VOLUME:
-				return "Volume of sound effects\nNote: large values may not be supported on all devices";
-		}
-
-		return param.toString();
-	}
-
-	/**
-	 * Unifies a {@code JSlider} and {@code JSpinner} to coordinate their
-	 * values.
-	 */
-	private class SliderSpinner implements GetterSetter<Number> {
-
-		private JSlider slider;
-		private JSpinner spinner;
-		private boolean isPercent;
-
-		private Runnable valueIsAdjustingListener;
-
-		public SliderSpinner(int sliderMin, int sliderMax, int spinnerMin,
-				int spinnerMax, int spinnerStep, boolean isPercent,
-				String suffix) {
-			slider = new JSlider(sliderMin, sliderMax);
-			spinner = new JSpinner(new SpinnerNumberModel(spinnerMin,
-					spinnerMin, spinnerMax, spinnerStep));
-			this.isPercent = isPercent;
-			valueIsAdjustingListener = null;
-
-			slider.setValue((int) spinner.getValue());
-			spinner.setEditor(new LabeledNumberEditor(spinner, suffix));
-
-			slider.addChangeListener(e -> {
-				spinner.setValue(slider.getValue());
-				if (!slider.getValueIsAdjusting()
-						&& valueIsAdjustingListener != null) {
-					valueIsAdjustingListener.run();
-				}
-			});
-			spinner.addChangeListener(e -> {
-				slider.setValue((int) spinner.getValue());
-			});
-		}
-
-		public JSlider getSlider() {
-			return slider;
-		}
-
-		public JSpinner getSpinner() {
-			return spinner;
-		}
-
-		public void set(Number value) {
-			int intValue;
-			if (isPercent) {
-				if (Math.abs(
-						value.doubleValue() - get().doubleValue()) < 0.01) {
-					return;
-				}
-				intValue = (int) (value.doubleValue() * 100);
-			}
-			else {
-				intValue = value.intValue();
-			}
-
-			slider.setValue(intValue);
-			spinner.setValue(intValue);
-		}
-
-		public Number get() {
-			if (isPercent) {
-				return (int) spinner.getValue() / 100.0;
-			}
-			return (int) spinner.getValue();
-		}
-
-		public void addChangeListener(Runnable listener) {
-			spinner.addChangeListener(e -> listener.run());
-		}
-
-		public void setValueIsAdjustingListener(Runnable runnable) {
-			valueIsAdjustingListener = runnable;
-		}
-
-		/**
-		 * {@code NumberEditor} with a {@code JLabel} to display a unit which is
-		 * not part of the {@code JFormattedTextField} that the user types into.
-		 */
-		private class LabeledNumberEditor extends JSpinner.NumberEditor {
-
-			private LabeledNumberEditor(JSpinner spinner, String unit) {
-				super(spinner);
-				setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
-				MouseAdapter focusTextField = new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						getTextField().requestFocus();
-					}
-				};
-				Cursor textCursor = Cursor
-						.getPredefinedCursor(Cursor.TEXT_CURSOR);
-
-				setCursor(textCursor);
-				addMouseListener(focusTextField);
-
-				JLabel unitLabel = new JLabel(unit);
-				unitLabel.setCursor(textCursor);
-				unitLabel.addMouseListener(focusTextField);
-
-				add(unitLabel);
-				add(Box.createHorizontalStrut(10));
-			}
-
-		}
-
+	@Override
+	protected Enum[] getEnumValues() {
+		return Parameter.values();
 	}
 
 }
