@@ -38,7 +38,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>3.64 MB (22.6 MB with optional music)</td>
+		<td>3.64 MB (22.6 MB with optional music) jar; ~2 KB save data</td>
 	</tr>
 </table>
 
