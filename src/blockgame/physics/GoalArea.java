@@ -45,6 +45,10 @@ public class GoalArea extends Area {
 		}
 	}
 
+	public boolean playingLevelFinish() {
+		return hasParticles && timer >= TIMEOUT;
+	}
+
 	public boolean hasWon() {
 		int fullTimeout = TIMEOUT;
 		if (hasParticles) {

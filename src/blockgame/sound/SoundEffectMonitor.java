@@ -107,7 +107,7 @@ public class SoundEffectMonitor {
 	 * need to be played.
 	 */
 	public void playSounds() {
-		playIfAnyMatch(goals, g -> g.hasWon() && g.hasParticles(),
+		playIfAnyMatch(goals, g -> g.playingLevelFinish(),
 				SoundEffect.LEVEL_COMPLETE.clip, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
