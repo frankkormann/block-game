@@ -244,8 +244,12 @@ public abstract class Mapper<T> {
 
 	/**
 	 * Removes {@code key} and its associated value.
+	 * <p>
+	 * Throws {@code UnsupportedOperationException} if values must be set.
 	 * 
 	 * @param key enum value to remove
+	 * 
+	 * @see #allowUnset()
 	 */
 	public void remove(Enum<?> key) {
 		if (!allowUnset()) {
