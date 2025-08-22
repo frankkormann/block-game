@@ -18,6 +18,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
+import blockgame.MusicPlayer;
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
@@ -44,7 +45,8 @@ public class OptionsDialog extends JDialog {
 	 * @param paramMapper {@code ParameterMapper} to change values of
 	 */
 	public OptionsDialog(Window owner, InputMapper inputMapper,
-			ColorMapper colorMapper, ParameterMapper paramMapper) {
+			ColorMapper colorMapper, ParameterMapper paramMapper,
+			MusicPlayer musicPlayer) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 
 		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
@@ -60,6 +62,7 @@ public class OptionsDialog extends JDialog {
 				new ControlsChangerPanel(getRootPane(), inputMapper));
 		tabbedPane.addTab("Colors",
 				new ColorChangerPanel(getRootPane(), colorMapper));
+		tabbedPane.addTab("Music", new MusicPanel(musicPlayer));
 
 		JButton closeButton = new JButton("OK");
 		closeButton.addActionListener(e -> dispose());

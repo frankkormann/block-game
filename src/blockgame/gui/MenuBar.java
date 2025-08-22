@@ -23,6 +23,7 @@ import javax.swing.event.MenuKeyListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import blockgame.GameController;
+import blockgame.MusicPlayer;
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
@@ -69,17 +70,20 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * {@code inputMapper}.
 	 * <p>
 	 * Includes an {@code OptionsDialog} to change mappings in
-	 * {@code inputMapper}, {@code colorMapper}, and {@code paramMaper}.
+	 * {@code inputMapper}, {@code colorMapper}, and {@code paramMaper}, and to
+	 * change song in {@code musicPlayer}.
 	 * 
 	 * @param inputMapper {@code InputMapper} to take keybinds from and to alter
 	 *                    in {@code OptionsDialog}
 	 * @param colorMapper {@code ColorMapper} to alter in {@code OptionsDialog}
 	 * @param paramMapper {@code ParameterMapper} to alter in
 	 *                    {@code OptionsDialog}
+	 * @param musicPlayer {@code MusicPlayer} to play music
 	 * @param listener    {@code GameController} which will process inputs
 	 */
 	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
-			ParameterMapper paramMapper, GameController listener) {
+			ParameterMapper paramMapper, MusicPlayer musicPlayer,
+			GameController listener) {
 		this.listener = listener;
 		this.inputMapper = inputMapper;
 		inputToMenuItem = new HashMap<>();
@@ -101,7 +105,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		add(hintMenu);
 		add(createPauseRestartMenu());
 		add(createRecordingMenu());
-		add(createOptionsButton(colorMapper, paramMapper));
+		add(createOptionsButton(colorMapper, paramMapper, musicPlayer));
 		add(levelSelectButton);
 		super.add(moreMenu);
 	}
@@ -281,10 +285,11 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private JMenu createOptionsButton(ColorMapper colorMapper,
-			ParameterMapper paramMapper) {
+			ParameterMapper paramMapper, MusicPlayer musicPlayer) {
 		Runnable openDialog = () -> {
 			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
-					inputMapper, colorMapper, paramMapper).setVisible(true);
+					inputMapper, colorMapper, paramMapper, musicPlayer)
+					.setVisible(true);
 		};
 
 		return createMenuButton("Options", openDialog);

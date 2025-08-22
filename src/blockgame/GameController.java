@@ -124,7 +124,8 @@ public class GameController extends WindowAdapter
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
 		sfxMonitor = new SoundEffectMonitor(paramMapper);
-		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper, this);
+		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
+				new MusicPlayer(), this);
 		menuBar.showLevelSelect(
 				SaveManager.getValue("game_complete", "false").equals("true"));
 
@@ -168,6 +169,7 @@ public class GameController extends WindowAdapter
 				newFrameTaskAction();
 			}
 		};
+
 		new Timer().schedule(newFrameTask, 0, millisBetweenFrames);
 	}
 

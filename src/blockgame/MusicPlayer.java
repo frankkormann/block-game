@@ -32,9 +32,11 @@ public class MusicPlayer {
 	}
 
 	private int currentThread;
+	private Song currentSong;
 
 	public MusicPlayer() {
 		currentThread = 0;
+		currentSong = null;
 	}
 
 	/**
@@ -50,6 +52,7 @@ public class MusicPlayer {
 			line.open();
 			line.start();
 
+			currentSong = song;
 			startThread(line, stream);
 		}
 		catch (IOException e) {
@@ -101,6 +104,16 @@ public class MusicPlayer {
 	 */
 	public void stop() {
 		currentThread++;  // The Thread currently playing music will stop
+	}
+
+	/**
+	 * The {@code Song} which is currently playing, or {@code null} if there is
+	 * nothing playing.
+	 * 
+	 * @return the {@code Song} which is playing or {@code null}
+	 */
+	public Song getCurrentSong() {
+		return currentSong;
 	}
 
 }
