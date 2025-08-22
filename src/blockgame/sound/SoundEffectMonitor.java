@@ -49,8 +49,8 @@ public class SoundEffectMonitor {
 		}
 
 		private Clip loadClip(String resource) {
-			try (AudioInputStream stream = AudioSystem.getAudioInputStream(
-					getClass().getResourceAsStream(resource))) {
+			try (AudioInputStream stream = AudioSystem
+					.getAudioInputStream(getClass().getResource(resource))) {
 				Clip clip = AudioSystem.getClip();
 				clip.open(stream);
 				return clip;

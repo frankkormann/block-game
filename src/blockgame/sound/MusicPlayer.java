@@ -1,5 +1,6 @@
 package blockgame.sound;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -55,7 +56,8 @@ public class MusicPlayer implements ValueChangeListener {
 	 */
 	public void play(Song song) {
 		try {
-			InputStream stream = getClass().getResourceAsStream(song.resource);
+			InputStream stream = new BufferedInputStream(
+					getClass().getResourceAsStream(song.resource));
 			SourceDataLine line = AudioSystem.getSourceDataLine(
 					AudioSystem.getAudioFileFormat(stream).getFormat());
 			line.open();
