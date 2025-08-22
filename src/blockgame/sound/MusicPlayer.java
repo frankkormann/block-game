@@ -72,6 +72,14 @@ public class MusicPlayer {
 		}
 	}
 
+	/**
+	 * Starts a {@code Thread} to copy audio data from {@code stream} to
+	 * {@code line}. The {@code Thread} will terminate when
+	 * {@code currentThread} changes.
+	 * 
+	 * @param line   {@code SourceDataLine} to move audio data into
+	 * @param stream {@code InputStream} to take audio data from
+	 */
 	private void startThread(SourceDataLine line, InputStream stream) {
 		currentThread++;
 		int threadNumber = currentThread;
