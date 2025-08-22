@@ -90,6 +90,7 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
 		c.insets = new Insets(VERTICAL_SPACE, 0, 0, 0);
+		c.weightx = 0.5;
 		c.weighty = 0.5;
 
 		for (Enum<?> enumValue : getEnumValues()) {
