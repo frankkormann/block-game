@@ -61,9 +61,6 @@ public class ParameterChangerPanel extends NumberChangerPanel {
 		if (enumValue == Parameter.RESIZING_AREA_WIDTH) {
 			return new SliderSpinner(10, 100, 0, 200, 5, false, "px");
 		}
-		if (enumValue == Parameter.VOLUME) {
-			return new SliderSpinner(0, 200, 0, 1000, 5, true, "%");
-		}
 
 		return null;
 	}
@@ -87,9 +84,6 @@ public class ParameterChangerPanel extends NumberChangerPanel {
 		}
 		if (enumValue == Parameter.RESIZING_AREA_WIDTH) {
 			return "Window-edge Resizing Area Size";
-		}
-		if (enumValue == Parameter.VOLUME) {
-			return "Volume";
 		}
 
 		return enumValue.toString();
@@ -115,9 +109,6 @@ public class ParameterChangerPanel extends NumberChangerPanel {
 		}
 		if (enumValue == Parameter.RESIZING_AREA_WIDTH) {
 			return "Width of the window regions that can be click-dragged to resize it";
-		}
-		if (enumValue == Parameter.VOLUME) {
-			return "Volume of sound effects\nNote: large values may not be supported on all devices";
 		}
 
 		return enumValue.toString();

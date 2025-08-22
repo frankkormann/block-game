@@ -1,0 +1,45 @@
+package blockgame.input;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+/**
+ * Simple {@code Mapper} to control volume settings. Volume is stored as a float
+ * on a linear scale where 0.0 represents muted and 1.0 represents normal
+ * volume.
+ * 
+ * @author Frank Kormann
+ */
+public class VolumeMapper extends Mapper<Float> {
+
+	public enum Volume {
+		SFX, MUSIC
+	}
+
+	private static final String SAVE_PATH = "/volume.json";
+	private static final String DEFAULT_RESOURCE = "/volume_default.json";
+
+	public VolumeMapper() {
+		super(SAVE_PATH, DEFAULT_RESOURCE);
+	}
+
+	@Override
+	public TypeReference<EnumValues<Float>> getJsonTypeReference() {
+		return new TypeReference<EnumValues<Float>>() {};
+	}
+
+	@Override
+	public Class<? extends Enum<?>>[] getEnumClasses() {
+		return new Class[] { Volume.class };
+	}
+
+	@Override
+	public Float getDefaultValue() {
+		return 1f;
+	}
+
+	@Override
+	public boolean allowUnset() {
+		return false;
+	}
+
+}

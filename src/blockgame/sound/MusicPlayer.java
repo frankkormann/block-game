@@ -9,9 +9,9 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import blockgame.gui.ErrorDialog;
-import blockgame.input.ParameterMapper;
-import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
+import blockgame.input.VolumeMapper;
+import blockgame.input.VolumeMapper.Volume;
 
 /**
  * Loops music continuously. Available songs are enumerated in {@code Song}.
@@ -37,15 +37,15 @@ public class MusicPlayer implements ValueChangeListener {
 	private int currentThread;
 	private Song currentSong;
 	private SourceDataLine currentLine;
-	private ParameterMapper paramMapper;
+	private VolumeMapper volumeMapper;
 
-	public MusicPlayer(ParameterMapper paramMapper) {
+	public MusicPlayer(VolumeMapper volumeMapper) {
 		currentThread = 0;
 		currentSong = null;
 		currentLine = null;
-		this.paramMapper = paramMapper;
+		this.volumeMapper = volumeMapper;
 
-		paramMapper.addListener(this);
+		volumeMapper.addListener(this);
 	}
 
 	/**
@@ -60,8 +60,7 @@ public class MusicPlayer implements ValueChangeListener {
 					AudioSystem.getAudioFileFormat(stream).getFormat());
 			line.open();
 			line.start();
-			VolumeChanger.setVolume(line,
-					paramMapper.getFloat(Parameter.VOLUME));
+			VolumeChanger.setVolume(line, volumeMapper.get(Volume.MUSIC));
 
 			currentSong = song;
 			currentLine = line;
@@ -138,7 +137,7 @@ public class MusicPlayer implements ValueChangeListener {
 
 	@Override
 	public void valueChanged(Enum<?> key, Object newValue) {
-		if (key == Parameter.VOLUME) {
+		if (key == Volume.MUSIC) {
 			if (currentLine != null) {
 				VolumeChanger.setVolume(currentLine,
 						((Number) newValue).floatValue());

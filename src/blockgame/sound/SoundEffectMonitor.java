@@ -15,8 +15,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import blockgame.gui.ErrorDialog;
-import blockgame.input.ParameterMapper;
-import blockgame.input.ParameterMapper.Parameter;
+import blockgame.input.VolumeMapper;
+import blockgame.input.VolumeMapper.Volume;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.MovingRectangle.State;
@@ -72,18 +72,18 @@ public class SoundEffectMonitor {
 	private Map<MovingRectangle, State> rectStates;
 	private Map<MovingRectangle, Integer> fallDistances;
 
-	ParameterMapper paramMapper;
+	VolumeMapper volumeMapper;
 
 	/**
 	 * Creates a new {@code SoundEffectMonitor} with no objects.
 	 */
-	public SoundEffectMonitor(ParameterMapper paramMapper) {
+	public SoundEffectMonitor(VolumeMapper volumeMapper) {
 		movingRectangles = new ArrayList<>();
 		switchRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
 		rectStates = new HashMap<>();
 		fallDistances = new HashMap<>();
-		this.paramMapper = paramMapper;
+		this.volumeMapper = volumeMapper;
 	}
 
 	public void add(MovingRectangle rect) {
@@ -155,8 +155,7 @@ public class SoundEffectMonitor {
 				while (!clip.isRunning()) {  // Make sure it starts (sometimes
 					clip.start();			  // it won't start right away soon
 				}							  // after being stopped)
-				VolumeChanger.setVolume(clip,
-						paramMapper.getFloat(Parameter.VOLUME));
+				VolumeChanger.setVolume(clip, volumeMapper.get(Volume.SFX));
 			}
 		}
 	}

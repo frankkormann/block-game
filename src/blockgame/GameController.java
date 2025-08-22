@@ -42,6 +42,7 @@ import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
+import blockgame.input.VolumeMapper;
 import blockgame.physics.Area;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
@@ -117,6 +118,7 @@ public class GameController extends WindowAdapter
 		InputMapper inputMapper = new InputMapper();
 		ColorMapper colorMapper = new ColorMapper();
 		ParameterMapper paramMapper = new ParameterMapper();
+		VolumeMapper volumeMapper = new VolumeMapper();
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
@@ -125,9 +127,9 @@ public class GameController extends WindowAdapter
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
-		sfxMonitor = new SoundEffectMonitor(paramMapper);
+		sfxMonitor = new SoundEffectMonitor(volumeMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
-				new MusicPlayer(paramMapper), this);
+				new MusicPlayer(volumeMapper), this);
 		menuBar.showLevelSelect(
 				SaveManager.getValue("game_complete", "false").equals("true"));
 
