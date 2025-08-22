@@ -12,7 +12,7 @@ import blockgame.input.ParameterMapper.Parameter;
 /**
  * {@code NumberChangerPanel} which allows the user to remap values in
  * {@code ParameterMapper}, such as GUI scaling. Automatically calls
- * {@code ParameterMapper.save} the parent window is closed.
+ * {@code Mapper.save} the parent window is closed.
  * 
  * @author Frank Kormann
  */
