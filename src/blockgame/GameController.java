@@ -317,7 +317,8 @@ public class GameController extends WindowAdapter
 			}
 			else {
 				if (!resource.equals(FIRST_TITLE_SCREEN)) {
-					System.err.println("Loading first title screen");
+					System.err.println(
+							"In GameController.java#readLevel: Can't load resource: Loading first title screen");
 					return readLevel(FIRST_TITLE_SCREEN);
 				}
 				else {

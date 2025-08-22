@@ -24,7 +24,9 @@ public class VolumeChanger {
 	 */
 	public static void setVolume(Line line, float percent) {
 		if (!line.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-			System.err.println("MASTER_GAIN control is not supported");
+			System.err.println(
+					"In VolumeChanger.java#setVolume: MASTER_GAIN control is not supported for "
+							+ line);
 			return;
 		}
 		FloatControl control = (FloatControl) line

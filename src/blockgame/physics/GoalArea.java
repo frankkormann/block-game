@@ -40,8 +40,8 @@ public class GoalArea extends Area {
 		particleExplosion = hasParticles ? new ParticleExplosion() : null;
 
 		if (nextLevel == "") {
-			System.err.println(
-					"GoalArea at " + x + ", " + y + ": nextLevel is nothing");
+			System.err.println("In GoalArea.java constructor: GoalArea at " + x
+					+ ", " + y + ": nextLevel is nothing");
 		}
 	}
 

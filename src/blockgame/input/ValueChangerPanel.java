@@ -45,7 +45,8 @@ public abstract class ValueChangerPanel<T> extends JPanel
 				GetterSetter<T> getterSetter = createGetterSetter(enumValue);
 				if (getterSetter == null) {
 					System.err.println(
-							"Can't create getterSetter for " + enumValue);
+							"In ValueChangerPanel.java constructor: Can't create getterSetter for "
+									+ enumValue);
 					continue;
 				}
 				bindComponent(getterSetter, enumValue);
