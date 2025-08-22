@@ -1,6 +1,5 @@
 package blockgame.gui;
 
-import java.awt.BorderLayout;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +8,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 
+import blockgame.input.VolumeChangerPanel;
+import blockgame.input.VolumeMapper;
 import blockgame.sound.MusicPlayer;
 import blockgame.sound.MusicPlayer.Song;
 
@@ -27,10 +29,12 @@ public class MusicPanel extends JPanel {
 	 * 
 	 * @param player {@code MusicPlayer} to alter
 	 */
-	public MusicPanel(MusicPlayer player) {
+	public MusicPanel(JRootPane rootPane, VolumeMapper volumeMapper,
+			MusicPlayer player) {
 		this.player = player;
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(createMusicSelector());
+		add(new VolumeChangerPanel(rootPane, volumeMapper));
 	}
 
 	private JPanel createMusicSelector() {

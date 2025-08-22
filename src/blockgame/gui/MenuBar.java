@@ -27,6 +27,7 @@ import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ValueChangeListener;
+import blockgame.input.VolumeMapper;
 import blockgame.sound.MusicPlayer;
 import blockgame.util.Pair;
 
@@ -73,17 +74,19 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * {@code inputMapper}, {@code colorMapper}, and {@code paramMaper}, and to
 	 * change song in {@code musicPlayer}.
 	 * 
-	 * @param inputMapper {@code InputMapper} to take keybinds from and to alter
-	 *                    in {@code OptionsDialog}
-	 * @param colorMapper {@code ColorMapper} to alter in {@code OptionsDialog}
-	 * @param paramMapper {@code ParameterMapper} to alter in
-	 *                    {@code OptionsDialog}
-	 * @param musicPlayer {@code MusicPlayer} to play music
-	 * @param listener    {@code GameController} which will process inputs
+	 * @param inputMapper  {@code InputMapper} to take keybinds from and to
+	 *                     alter in {@code OptionsDialog}
+	 * @param colorMapper  {@code ColorMapper} to alter in {@code OptionsDialog}
+	 * @param paramMapper  {@code ParameterMapper} to alter in
+	 *                     {@code OptionsDialog}
+	 * @param volumeMapper {@code VolumeMapper} to alter in
+	 *                     {@code OptionsDialog}
+	 * @param musicPlayer  {@code MusicPlayer} to play music
+	 * @param listener     {@code GameController} which will process inputs
 	 */
 	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
-			ParameterMapper paramMapper, MusicPlayer musicPlayer,
-			GameController listener) {
+			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			MusicPlayer musicPlayer, GameController listener) {
 		this.listener = listener;
 		this.inputMapper = inputMapper;
 		inputToMenuItem = new HashMap<>();
@@ -105,7 +108,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		add(hintMenu);
 		add(createPauseRestartMenu());
 		add(createRecordingMenu());
-		add(createOptionsButton(colorMapper, paramMapper, musicPlayer));
+		add(createOptionsButton(colorMapper, paramMapper, volumeMapper,
+				musicPlayer));
 		add(levelSelectButton);
 		super.add(moreMenu);
 	}
@@ -285,11 +289,12 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private JMenu createOptionsButton(ColorMapper colorMapper,
-			ParameterMapper paramMapper, MusicPlayer musicPlayer) {
+			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			MusicPlayer musicPlayer) {
 		Runnable openDialog = () -> {
 			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
-					inputMapper, colorMapper, paramMapper, musicPlayer)
-					.setVisible(true);
+					inputMapper, colorMapper, paramMapper, volumeMapper,
+					musicPlayer).setVisible(true);
 		};
 
 		return createMenuButton("Options", openDialog);

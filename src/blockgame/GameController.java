@@ -129,7 +129,7 @@ public class GameController extends WindowAdapter
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
 		sfxMonitor = new SoundEffectMonitor(volumeMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
-				new MusicPlayer(volumeMapper), this);
+				volumeMapper, new MusicPlayer(volumeMapper), this);
 		menuBar.showLevelSelect(
 				SaveManager.getValue("game_complete", "false").equals("true"));
 
