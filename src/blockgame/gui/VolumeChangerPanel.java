@@ -44,7 +44,7 @@ public class VolumeChangerPanel extends NumberChangerPanel {
 
 	@Override
 	protected String paramToTooltip(Enum<?> enumValue) {
-		return null;
+		return "0% is muted, 100% is normal, 200% is twice as loud\nLarge values may not play correctly on some devices";
 	}
 
 	@Override
