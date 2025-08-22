@@ -6,6 +6,8 @@ import javax.sound.sampled.Line;
 /**
  * Contains a single static method, {@link #setVolume(Line, float)}, to adjust
  * the volume of a {@code Line}.
+ * 
+ * @author Frank Kormann
  */
 public class VolumeChanger {
 
