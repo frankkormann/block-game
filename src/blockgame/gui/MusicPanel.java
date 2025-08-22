@@ -35,6 +35,7 @@ public class MusicPanel extends JPanel {
 			MusicPlayer player) {
 		this.player = player;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		add(Box.createVerticalStrut(EDGE_SPACE));
 		add(createMusicSelector());
 		add(new VolumeChangerPanel(rootPane, volumeMapper));
 	}
