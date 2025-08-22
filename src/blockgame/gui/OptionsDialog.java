@@ -65,7 +65,7 @@ public class OptionsDialog extends JDialog {
 				new ControlsChangerPanel(getRootPane(), inputMapper));
 		tabbedPane.addTab("Colors",
 				new ColorChangerPanel(getRootPane(), colorMapper));
-		tabbedPane.addTab("Music",
+		tabbedPane.addTab("Sound",
 				new MusicPanel(getRootPane(), volumeMapper, musicPlayer));
 
 		JButton closeButton = new JButton("OK");
