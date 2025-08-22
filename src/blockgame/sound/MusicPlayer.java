@@ -60,7 +60,8 @@ public class MusicPlayer implements ValueChangeListener {
 					AudioSystem.getAudioFileFormat(stream).getFormat());
 			line.open();
 			line.start();
-			VolumeChanger.setVolume(line, volumeMapper.get(Volume.MUSIC));
+			VolumeChanger.setVolume(line,
+					volumeMapper.get(Volume.MUSIC).floatValue());
 
 			currentSong = song;
 			currentLine = line;

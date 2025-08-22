@@ -155,7 +155,8 @@ public class SoundEffectMonitor {
 				while (!clip.isRunning()) {  // Make sure it starts (sometimes
 					clip.start();			  // it won't start right away soon
 				}							  // after being stopped)
-				VolumeChanger.setVolume(clip, volumeMapper.get(Volume.SFX));
+				VolumeChanger.setVolume(clip,
+						volumeMapper.get(Volume.SFX).floatValue());
 			}
 		}
 	}

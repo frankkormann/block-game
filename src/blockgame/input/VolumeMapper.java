@@ -3,13 +3,12 @@ package blockgame.input;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Simple {@code Mapper} to control volume settings. Volume is stored as a float
- * on a linear scale where 0.0 represents muted and 1.0 represents normal
- * volume.
+ * Simple {@code Mapper} to control volume settings. Volume is stored on a
+ * linear scale where 0.0 represents muted and 1.0 represents normal volume.
  * 
  * @author Frank Kormann
  */
-public class VolumeMapper extends Mapper<Float> {
+public class VolumeMapper extends Mapper<Number> {
 
 	public enum Volume {
 		SFX, MUSIC
@@ -23,8 +22,8 @@ public class VolumeMapper extends Mapper<Float> {
 	}
 
 	@Override
-	public TypeReference<EnumValues<Float>> getJsonTypeReference() {
-		return new TypeReference<EnumValues<Float>>() {};
+	public TypeReference<EnumValues<Number>> getJsonTypeReference() {
+		return new TypeReference<EnumValues<Number>>() {};
 	}
 
 	@Override
@@ -33,8 +32,8 @@ public class VolumeMapper extends Mapper<Float> {
 	}
 
 	@Override
-	public Float getDefaultValue() {
-		return 1f;
+	public Number getDefaultValue() {
+		return 1;
 	}
 
 	@Override
