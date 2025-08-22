@@ -1,9 +1,9 @@
 {
-	"name": "Remix: 6-3",
+	"name": "Remix: 6-4",
 	"number": 39,
 	"width": 850,
 	"height": 400,
-	"solution": "/level_remix-6-3.rec",
+	"solution": "/level_remix-6-4.rec",
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

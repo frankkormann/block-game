@@ -118,11 +118,11 @@
 			"path": "/level_6-2.json",
 			"number": 26
 		},
-		"6-3: One For Both": {
+		"6-3: Daisy Chain": {
 			"path": "/level_6-3.json",
 			"number": 27
 		},
-		"6-4: Daisy Chain": {
+		"6-4: One For Both": {
 			"path": "/level_6-4.json",
 			"number": 28
 		},
@@ -167,7 +167,7 @@
 			"number": 38
 		},
 		"Remix: 6-3": {
-			"path": "/level_remix-6-3.json",
+			"path": "/level_remix-6-4.json",
 			"number": 39
 		},
 		"Remix: ♛-3": {
