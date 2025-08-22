@@ -48,6 +48,9 @@ public class MusicPanel extends JPanel {
 
 		selector.addItem("None");
 		for (Song song : Song.values()) {
+			if (getClass().getResource(song.resource) == null) {
+				continue;
+			}
 			selector.addItem(song.name);
 			nameToSong.put(song.name, song);
 		}
