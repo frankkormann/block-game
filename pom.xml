@@ -8,7 +8,7 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
     	<resource>
-    		<directory>resources</directory>
+    		<directory>defaults</directory>
     	</resource>
     </resources>
     <plugins>
