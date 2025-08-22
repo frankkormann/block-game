@@ -18,8 +18,8 @@ import blockgame.util.SaveManager;
 /**
  * Loops music continuously. Available songs are enumerated in {@code Song}.
  * <p>
- * The last played song will be stored in {@code SaveManager} under
- * {@code song}, and will be automatically started on subsequent instantiation.
+ * The last played song will be stored in {@code SaveManager} under {@code song}
+ * and can be started with {@code playSaved()}.
  * 
  * @author Frank Kormann
  */
@@ -50,7 +50,14 @@ public class MusicPlayer implements ValueChangeListener {
 		currentLine = null;
 		this.volumeMapper = volumeMapper;
 		volumeMapper.addListener(this);
+	}
 
+	/**
+	 * Plays the saved song, which is usually the last song that was played. If
+	 * this was not playing anything when the program exited, this will not play
+	 * anything.
+	 */
+	public void playSaved() {
 		try {
 			play(Song.valueOf(Song.class,
 					SaveManager.getValue("song", "none")));

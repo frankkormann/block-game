@@ -124,14 +124,22 @@ public class GameController extends WindowAdapter
 		Rectangle.setParameterMapper(paramMapper);
 		ImageArea.setColorMapper(colorMapper);
 
+		MusicPlayer musicPlayer = new MusicPlayer(volumeMapper);
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
 		sfxMonitor = new SoundEffectMonitor(volumeMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
-				volumeMapper, new MusicPlayer(volumeMapper), this);
+				volumeMapper, musicPlayer, this);
 		menuBar.showLevelSelect(
 				SaveManager.getValue("game_complete", "false").equals("true"));
+
+		mainFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				musicPlayer.playSaved();
+			}
+		});
 
 		currentLevel = "";
 		currentLevelNumber = -1;
