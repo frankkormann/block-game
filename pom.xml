@@ -8,6 +8,18 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
     	<resource>
+    		<directory>sounds</directory>
+    	</resource>
+    	<resource>
+    		<directory>imgs</directory>
+    	</resource>
+    	<resource>
+    		<directory>levels</directory>
+    	</resource>
+    	<resource>
+    		<directory>recordings</directory>
+    	</resource>
+    	<resource>
     		<directory>defaults</directory>
     	</resource>
     </resources>
