@@ -21,6 +21,7 @@ import blockgame.sound.MusicPlayer.Song;
  */
 public class MusicPanel extends JPanel {
 
+	private static final String MUSIC_LABEL = "Music";
 	private static int EDGE_SPACE = 3;
 
 	private MusicPlayer player;
@@ -67,7 +68,7 @@ public class MusicPanel extends JPanel {
 		});
 
 		panel.add(Box.createHorizontalStrut(EDGE_SPACE));
-		panel.add(new JLabel("Song"));
+		panel.add(new JLabel(MUSIC_LABEL));
 		panel.add(Box.createHorizontalGlue());
 		panel.add(selector);
 
