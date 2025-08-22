@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -26,7 +25,7 @@ import javax.swing.SpinnerNumberModel;
  */
 public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 
-	private static final int VERTICAL_SPACE = 3;
+	private static final int EDGE_SPACE = 3;
 
 	/**
 	 * Creates a {@code ParameterChangerPanel} which will alter
@@ -89,7 +88,7 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
-		c.insets = new Insets(VERTICAL_SPACE, 0, 0, 0);
+		c.insets = new Insets(EDGE_SPACE, EDGE_SPACE, EDGE_SPACE, EDGE_SPACE);
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 
@@ -100,7 +99,6 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 
 			JLabel label = new JLabel(paramToName(enumValue));
 			label.setToolTipText(paramToTooltip(enumValue));
-			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
 
 			SliderSpinner sliderSpinner = (SliderSpinner) getterSetters
 					.get(enumValue);
