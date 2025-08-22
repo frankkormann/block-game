@@ -38,7 +38,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>3.06 MB</td>
+		<td>3.64 MB (22.6 MB with optional music)</td>
 	</tr>
 </table>
 
