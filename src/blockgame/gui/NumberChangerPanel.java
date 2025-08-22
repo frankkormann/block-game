@@ -35,8 +35,8 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 	 * Creates a {@code ParameterChangerPanel} which will alter
 	 * {@code paramMapper}.
 	 * 
-	 * @param rootPane    {@code JRootPane} of parent window
-	 * @param paramMapper {@code ParameterMapper} to alter
+	 * @param rootPane {@code JRootPane} of parent window
+	 * @param mapper   {@code Mapper} to alter
 	 */
 	public NumberChangerPanel(JRootPane rootPane, Mapper<Number> mapper) {
 		super(rootPane, mapper);

@@ -29,7 +29,10 @@ public class MusicPanel extends JPanel {
 	/**
 	 * Creates a {@code MusicPanel} to set the song in {@code player}.
 	 * 
-	 * @param player {@code MusicPlayer} to alter
+	 * @param rootPane     {@code JRootPane} of the {@code Window} this will be
+	 *                     added to
+	 * @param volumeMapper {@code VolumeMapper} to take volume settings from
+	 * @param player       {@code MusicPlayer} to alter
 	 */
 	public MusicPanel(JRootPane rootPane, VolumeMapper volumeMapper,
 			MusicPlayer player) {

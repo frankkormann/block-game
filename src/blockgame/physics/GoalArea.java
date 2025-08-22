@@ -45,10 +45,21 @@ public class GoalArea extends Area {
 		}
 	}
 
+	/**
+	 * Returns whether this is playing the level-finished effect or not.
+	 * 
+	 * @return {@code true} if the level-finish effect is playing
+	 */
 	public boolean playingLevelFinish() {
 		return hasParticles && timer >= TIMEOUT;
 	}
 
+	/**
+	 * Returns whether the player should advance to {@code getNextLevel()} or
+	 * not.
+	 * 
+	 * @return {@code true} if the player should advance
+	 */
 	public boolean hasWon() {
 		int fullTimeout = TIMEOUT;
 		if (hasParticles) {
