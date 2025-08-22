@@ -123,6 +123,7 @@ public class MusicPlayer implements ValueChangeListener {
 	 */
 	public void stop() {
 		currentLine = null;
+		currentSong = null;
 		currentThread++;  // The Thread currently playing music will stop
 	}
 
