@@ -11,7 +11,6 @@ import java.util.function.Predicate;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -22,6 +21,7 @@ import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.MovingRectangle.State;
 import blockgame.physics.SwitchRectangle;
+import blockgame.util.VolumeChanger;
 
 /**
  * Monitors the game state and plays sound effects when necessary.
@@ -156,23 +156,10 @@ public class SoundEffectMonitor {
 				while (!clip.isRunning()) {  // Make sure it starts (sometimes
 					clip.start();			  // it won't start right away soon
 				}							  // after being stopped)
-				setVolume(clip);
+				VolumeChanger.setVolume(clip,
+						paramMapper.getFloat(Parameter.VOLUME));
 			}
 		}
-	}
-
-	private void setVolume(Clip clip) {
-		if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-			System.err.println("MASTER_GAIN control is not supported");
-			return;
-		}
-		FloatControl control = (FloatControl) clip
-				.getControl(FloatControl.Type.MASTER_GAIN);
-		float volume = paramMapper.getFloat(Parameter.VOLUME);
-		float gain = 20 * (float) Math.log10(volume);
-		gain = Math.min(control.getMaximum(),
-				Math.max(gain, control.getMinimum()));
-		control.setValue(gain);
 	}
 
 	private void updateFallDistances() {
