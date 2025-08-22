@@ -4,7 +4,7 @@
 	"height": 500,
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 520,
 			"y": 360,
 			"width": 20,
@@ -13,7 +13,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 430,
 			"y": 350,
 			"width": 40,
@@ -21,7 +21,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 220,
 			"y": 460,
 			"width": 30,
@@ -29,7 +29,7 @@
 			"color": "ORANGE"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 510,
 			"y": 470,
 			"width": 30,
@@ -38,7 +38,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 60,
 			"y": 180,
 			"width": 30,
@@ -47,7 +47,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 330,
 			"y": 430,
 			"width": 30,
@@ -57,14 +57,14 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".AntigravityArea",
+						"type": "AntigravityArea",
 						"width": 50
 					},
 					"options": ["GLUED_WEST", "SAME_HEIGHT"]
 				},
 				{
 					"area": {
-						"type": ".GrowArea",
+						"type": "GrowArea",
 						"width": 60,
 						"xGrowth": 1,
 						"yGrowth": 0
@@ -76,7 +76,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 380,
 			"y": 380,
 			"width": 300,
@@ -84,7 +84,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 50,
 			"y": 320,
 			"width": 100,
@@ -92,7 +92,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 500,
 			"y": 60,
 			"width": 200,
@@ -102,7 +102,7 @@
 	],
 	"areas": [
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 600,
 			"y": 300,
 			"width": 80,
@@ -111,7 +111,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 710,
 			"y": 380,
 			"width": 30,
@@ -120,7 +120,7 @@
 			"yGrowth": 1
 		},
 		{
-			"type": ".ShrinkArea",
+			"type": "ShrinkArea",
 			"x": 740,
 			"y": 380,
 			"width": 30,
@@ -129,21 +129,22 @@
 			"yShrink": 1
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 75,
 			"y": 450,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "$current_level"
+			"nextLevel": "$current_level",
+			"hasParticles": false
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 100,
 			"y": 100,
 			"source": "/title_screen_text.png",
 			"color": "TRANSLUCENT_BLUE",
 			"imitatedArea": {
-				"type": ".SwitchArea",
+				"type": "SwitchArea",
 				"key": "blue"
 			}
 		}

@@ -1,20 +1,17 @@
 # Block Game
 
-This is a puzzle game about moving blocks around. Solve 35 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 40 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ### Features
 
-- 35 fun levels<sup>1</sup>
+- 35 main levels + 5 bonus levels
 - Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
 - Expansive options menu
     - Accessibility options for colorblindness, key remapping, increasing GUI
     size, and slowing the game speed
-- Occasional cryptic messages printed to `stderr`
-
-<sup>1. Joy is not guaranteed</sup>
 
 ## Playing the game
 
@@ -41,7 +38,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>3.06 MB</td>
+		<td>3.64 MB (22.6 MB with optional music)</td>
 	</tr>
 </table>
 
@@ -112,12 +109,15 @@ set, its value will be used as the directory to save data in.
 
 ### Version information
 
-The project is developed in using:
+The project is developed using:
 
 - JDK 24, compiled for Java 8
 - Maven 3.8.1
 - [FlatLaf](https://github.com/JFormDesigner/FlatLaf) 3.5
 - [Jackson Databind](https://github.com/FasterXML/jackson-databind/) 2.18.2
+
+All sound effects are from Davit Masia's Free SFX pack:
+[https://kronbits.itch.io/freesfx](https://kronbits.itch.io/freesfx)
 
 ### Documentation
 

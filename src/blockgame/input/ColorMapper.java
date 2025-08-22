@@ -49,6 +49,11 @@ public class ColorMapper extends Mapper<Integer> {
 		return new Color(0, 0, 0).getRGB();
 	}
 
+	@Override
+	public boolean allowUnset() {
+		return false;
+	}
+
 	/**
 	 * Convenience method to set with a {@code Color}.
 	 * 

@@ -35,25 +35,23 @@ public class EnumValues<T> {
 				this.values.put(getEnum(entry.getKey()), entry.getValue());
 			}
 			catch (IllegalArgumentException e) {
-				System.err.println("Unknown enum value " + entry.getKey());
+				System.err.println(
+						"In EnumValues.java#setValues: Error deserializing enums: Unknown enum value "
+								+ entry.getKey());
 			}
 		}
 	}
 
 	private Enum<?> getEnum(String name) throws IllegalArgumentException {
-		Enum<?> result = null;
-		for (Class<? extends Enum> enumClass : enumClasses) {
-			try {
-				result = Enum.valueOf(enumClass, name);
+		for (Class<? extends Enum<?>> enumClass : enumClasses) {
+			for (Enum<?> enumValue : enumClass.getEnumConstants()) {
+				if (enumValue.toString() == name) {
+					return enumValue;
+				}
 			}
-			catch (IllegalArgumentException ignored) {}
 		}
 
-		if (result == null) {
-			throw new IllegalArgumentException("Unknown enum value");
-		}
-
-		return result;
+		throw new IllegalArgumentException("Unknown enum value");
 	}
 
 }

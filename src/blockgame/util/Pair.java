@@ -14,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Pair<F, S> {
 
-	@JsonAlias({ "area" })
+	@JsonAlias({ "area", "path" })
 	public F first;
-	@JsonAlias({ "options" })
+	@JsonAlias({ "options", "number" })
 	public S second;
 
 	@JsonCreator

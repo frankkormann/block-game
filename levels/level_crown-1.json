@@ -1,146 +1,148 @@
 {
-        "name": "Thick and Thin [♛-1]",
-        "width": 600,
-        "height": 500,
-        "solution": "/level_crown-1.rec",
-		"newTitle": "/title_crown.json",
-        "movingRectangles": [
-                {
-                        "type": ".MovingRectangle",
-                        "x": 350,
-                        "y": 290,
-                        "width": 20,
-                        "height": 20,
-                        "color": "PLAYER",
-                        "controlledByPlayer": true
-                },
-                {
-                        "type": ".MovingRectangle",
-                        "x": 280,
-                        "y": 260,
-                        "width": 180,
-                        "height": 30,
-                        "color": "BLUE"
-                },
-                {
-                        "type": ".MovingRectangle",
-                        "x": 80,
-                        "y": 330,
-                        "width": 50,
-                        "height": 10,
-                        "color": "GREEN"
-                },
-                {
-                        "type": ".MovingRectangle",
-                        "x": 80,
-                        "y": 280,
-                        "width": 100,
-                        "height": 50,
-                        "color": "RED"
-                }
-        ],
-        "walls": [
-                {
-                        "type": ".WallRectangle",
-                        "x": 260,
-                        "y": 140,
-                        "width": 200,
-                        "height": 20,
-                        "resizeBehavior": "STAY"
-                },
-                {
-                        "type": ".WallRectangle",
-                        "x": 260,
-                        "y": 160,
-                        "width": 20,
-                        "height": 100,
-                        "resizeBehavior": "STAY"
-                },
-                {
-                        "type": ".WallRectangle",
-                        "x": 260,
-                        "y": 280,
-                        "width": 20,
-                        "height": 30,
-                        "resizeBehavior": "STAY"
-                },
-                {
-                        "type": ".WallRectangle",
-                        "x": 440,
-                        "y": 160,
-                        "width": 20,
-                        "height": 100,
-                        "resizeBehavior": "STAY"
-                },
-                {
-                        "type": ".WallRectangle",
-                        "x": 440,
-                        "y": 300,
-                        "width": 20,
-                        "height": 10,
-                        "resizeBehavior": "STAY"
-                },
-                {
-                        "type": ".WallRectangle",
-                        "x": 260,
-                        "y": 310,
-                        "width": 200,
-                        "height": 20,
-                        "resizeBehavior": "STAY"
-                },
-                {
-                        "type": ".WallRectangle",
-                        "x": 80,
-                        "y": 340,
-                        "width": 180,
-                        "height": 20,
-                        "resizeBehavior": "STAY"
-                }
-        ],
-        "areas": [
-                {
-                        "type": ".GrowArea",
-                        "x": 200,
-                        "y": 270,
-                        "width": 30,
-                        "height": 70,
-                        "xGrowth": 0,
-                        "yGrowth": 1
-                },
-                {
-                        "type": ".ShrinkArea",
-                        "x": 230,
-                        "y": 270,
-                        "width": 30,
-                        "height": 70,
-                        "xShrink": 0,
-                        "yShrink": 1
-                },
-                {
-                        "type": ".GoalArea",
-                        "x": 335,
-                        "y": 210,
-                        "width": 50,
-                        "height": 50,
-                        "nextLevel": "/level_crown-2.json"
-                }
-        ],
-        "hints": [
-                {
-                        "type": ".HintRectangle",
-                        "x": 200,
-                        "y": 280,
-                        "width": 50,
-                        "height": 60,
-                        "color": "GREEN"
-                },
-                {
-                        "type": ".HintRectangle",
-                        "x": 200,
-                        "y": 270,
-                        "width": 100,
-                        "height": 10,
-                        "color": "RED"
-                }
-        ]
+    "name": "Thick and Thin [♛-1]",
+	"number": 30,
+    "width": 600,
+    "height": 500,
+    "solution": "/level_crown-1.rec",
+	"newTitle": "/title_crown.json",
+    "movingRectangles": [
+        {
+                "type": "MovingRectangle",
+                "x": 350,
+                "y": 290,
+                "width": 20,
+                "height": 20,
+                "color": "PLAYER",
+                "controlledByPlayer": true
+        },
+        {
+                "type": "MovingRectangle",
+                "x": 280,
+                "y": 260,
+                "width": 180,
+                "height": 30,
+                "color": "BLUE"
+        },
+        {
+                "type": "MovingRectangle",
+                "x": 80,
+                "y": 330,
+                "width": 50,
+                "height": 10,
+                "color": "GREEN"
+        },
+        {
+                "type": "MovingRectangle",
+                "x": 80,
+                "y": 280,
+                "width": 100,
+                "height": 50,
+                "color": "RED"
+        }
+    ],
+    "walls": [
+        {
+                "type": "WallRectangle",
+                "x": 260,
+                "y": 140,
+                "width": 200,
+                "height": 20,
+                "resizeBehavior": "STAY"
+        },
+        {
+                "type": "WallRectangle",
+                "x": 260,
+                "y": 160,
+                "width": 20,
+                "height": 100,
+                "resizeBehavior": "STAY"
+        },
+        {
+                "type": "WallRectangle",
+                "x": 260,
+                "y": 280,
+                "width": 20,
+                "height": 30,
+                "resizeBehavior": "STAY"
+        },
+        {
+                "type": "WallRectangle",
+                "x": 440,
+                "y": 160,
+                "width": 20,
+                "height": 100,
+                "resizeBehavior": "STAY"
+        },
+        {
+                "type": "WallRectangle",
+                "x": 440,
+                "y": 300,
+                "width": 20,
+                "height": 10,
+                "resizeBehavior": "STAY"
+        },
+        {
+                "type": "WallRectangle",
+                "x": 260,
+                "y": 310,
+                "width": 200,
+                "height": 20,
+                "resizeBehavior": "STAY"
+        },
+        {
+                "type": "WallRectangle",
+                "x": 80,
+                "y": 340,
+                "width": 180,
+                "height": 20,
+                "resizeBehavior": "STAY"
+        }
+    ],
+    "areas": [
+        {
+                "type": "GrowArea",
+                "x": 200,
+                "y": 270,
+                "width": 30,
+                "height": 70,
+                "xGrowth": 0,
+                "yGrowth": 1
+        },
+        {
+                "type": "ShrinkArea",
+                "x": 230,
+                "y": 270,
+                "width": 30,
+                "height": 70,
+                "xShrink": 0,
+                "yShrink": 1
+        },
+        {
+                "type": "GoalArea",
+                "x": 335,
+                "y": 210,
+                "width": 50,
+                "height": 50,
+                "nextLevel": "/level_crown-2.json",
+				"hasParticles": true
+        }
+    ],
+    "hints": [
+        {
+                "type": "HintRectangle",
+                "x": 200,
+                "y": 280,
+                "width": 50,
+                "height": 60,
+                "color": "GREEN"
+        },
+        {
+                "type": "HintRectangle",
+                "x": 200,
+                "y": 270,
+                "width": 100,
+                "height": 10,
+                "color": "RED"
+        }
+    ]
 }

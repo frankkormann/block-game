@@ -42,7 +42,9 @@ import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
+import blockgame.input.VolumeMapper;
 import blockgame.physics.Area;
+import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.PhysicsSimulator;
 import blockgame.physics.Rectangle;
@@ -50,37 +52,40 @@ import blockgame.physics.SwitchArea;
 import blockgame.physics.SwitchController;
 import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
+import blockgame.sound.MusicPlayer;
+import blockgame.sound.SoundEffectMonitor;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
 /**
- * Coordinates {@code MainFrame}, {@code PhysicsSimulator}, and
- * {@code InputHandler}.
+ * Coordinates {@code MainFrame}, {@code PhysicsSimulator},
+ * {@code SoundEffectMonitor}, and {@code GameInputHandler}.
  * <p>
  * Level data is read from JSON files. The JSON is used to fill the fields in
  * {@link Level}, so it should have data for each of that class's public
  * attributes.
  * <p>
- * If the environment variable stored in {@link #DIRECTORY_ENV_VAR} is set, it
- * will be used as the path to put save files. Otherwise, a default directory is
- * used.
+ * If the "BLOCKGAME_DIRECTORY" environment variable is set, it will be used as
+ * the path to put save files. Otherwise, a default directory is used.
  * 
  * @author Frank Kormann
  */
 public class GameController extends WindowAdapter
 		implements ValueChangeListener {
 
-	public static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
+	private static final String DIRECTORY_ENV_VAR = "BLOCKGAME_DIRECTORY";
 
 	private static final String FIRST_TITLE_SCREEN = "/title_0.json";
 	private static final String FIRST_LEVEL = "/level_1-1.json";
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
+	private SoundEffectMonitor sfxMonitor;
 	private GameInputHandler gameInputHandler;
 	private MenuBar menuBar;
 
 	private String currentLevel;
+	private int currentLevelNumber;
 	private String currentSolution;
 	private List<HintRectangle> hints;
 
@@ -94,6 +99,7 @@ public class GameController extends WindowAdapter
 		UIManager.put("TitlePane.embeddedForeground",
 				UIManager.get("TitlePane.foreground"));
 		UIManager.put("TitlePane.menuBarTitleMinimumGap", 0);
+		System.setProperty("flatlaf.uiScale.allowScaleDown", "true");
 		SaveManager.setDirectory(System.getenv(DIRECTORY_ENV_VAR));
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
@@ -112,17 +118,31 @@ public class GameController extends WindowAdapter
 		InputMapper inputMapper = new InputMapper();
 		ColorMapper colorMapper = new ColorMapper();
 		ParameterMapper paramMapper = new ParameterMapper();
+		VolumeMapper volumeMapper = new VolumeMapper();
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
 		ImageArea.setColorMapper(colorMapper);
 
+		MusicPlayer musicPlayer = new MusicPlayer(volumeMapper);
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
-		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper, this);
+		sfxMonitor = new SoundEffectMonitor(volumeMapper);
+		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
+				volumeMapper, musicPlayer, this);
+		menuBar.showLevelSelect(
+				SaveManager.getValue("game_complete", "false").equals("true"));
+
+		mainFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				musicPlayer.playSaved();
+			}
+		});
 
 		currentLevel = "";
+		currentLevelNumber = -1;
 		currentSolution = "";
 		currentLevelOutputStream = null;
 		hints = new ArrayList<>();
@@ -161,6 +181,7 @@ public class GameController extends WindowAdapter
 				newFrameTaskAction();
 			}
 		};
+
 		new Timer().schedule(newFrameTask, 0, millisBetweenFrames);
 	}
 
@@ -191,26 +212,26 @@ public class GameController extends WindowAdapter
 	}
 
 	/**
-	 * Loads {@code titleResource} and disables the hint menu.
+	 * Loads the title screen referred to by {@code resource}. Unlike
+	 * {@link #loadLevel(String)}, this does not set {@code current_level} in
+	 * the save data.
 	 * 
-	 * @param titleResource name of resource to load
-	 * 
-	 * @see #load(String)
+	 * @param resource name of resource to load
 	 */
-	private void loadTitle(String titleResource) {
-		load(titleResource);
+	public void loadTitle(String resource) {
+		load(resource);
 	}
 
 	/**
-	 * Loads {@code levelResource} and saves it as the current level.
+	 * Loads the level referred to by {@code resource}. Unlike
+	 * {@link #loadTitle(String)}, this sets {@code current_level} in the save
+	 * data.
 	 * 
-	 * @param levelResource name of resource to load
-	 * 
-	 * @see #load(String)
+	 * @param resource name of resource to load.
 	 */
-	private void loadLevel(String levelResource) {
-		load(levelResource);
-		SaveManager.putValue("current_level", levelResource);
+	public void loadLevel(String resource) {
+		load(resource);
+		SaveManager.putValue("current_level", resource);
 	}
 
 	/**
@@ -221,38 +242,15 @@ public class GameController extends WindowAdapter
 	 */
 	private void load(String resource) {
 		paused = true;
-		Level level;
 
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			level = mapper.readValue(getClass().getResourceAsStream(resource),
-					Level.class);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Could not load level '" + resource
-							+ "', file is corrupt or does not exist",
-					e).setVisible(true);
-
-			if (mainFrame.isVisible()) {
-				physicsSimulator.resetNextlevel();
-			}
-			else {
-				if (!resource.equals(FIRST_TITLE_SCREEN)) {
-					System.err.println("Loading first title screen");
-					loadTitle(FIRST_TITLE_SCREEN);
-				}
-				else {
-					System.exit(1);
-				}
-			}
-
+		Level level = readLevel(resource);
+		if (level == null) {
 			paused = false;
 			return;
 		}
 
 		physicsSimulator = new PhysicsSimulator();
+		sfxMonitor.clear();
 		menuBar.reset();
 		hints.clear();
 
@@ -272,20 +270,73 @@ public class GameController extends WindowAdapter
 
 		currentSolution = level.solution;
 		currentLevel = resource;
-		if (level.newTitle != "") {
+		currentLevelNumber = level.number;
+		if (!level.newTitle.equals("")) {
 			SaveManager.putValue("title_screen", level.newTitle);
+		}
+		if (level.gameComplete) {
+			SaveManager.putValue("game_complete", "true");
+			menuBar.showLevelSelect(true);
 		}
 		loadObjects(level);
 
 		menuBar.showHintsMenu(hints.size() > 0 || !level.solution.equals(""));
 
-		physicsSimulator.createSides(mainFrame.getNextWidth(),
+		physicsSimulator.setUp(mainFrame.getNextWidth(),
 				mainFrame.getNextHeight(), mainFrame.getNextXOffset(),
 				mainFrame.getNextYOffset());
 
 		mainFrame.moveToMiddleOfScreen();
 		beginTempRecording();
+
 		paused = false;
+
+		if (!level.popup.equals("")
+				&& !isLevelInField("visited_levels", level.number)) {
+			JOptionPane.showMessageDialog(mainFrame, level.popup);
+		}
+		markLevelInField("visited_levels", level.number);
+	}
+
+	/**
+	 * Reads the JSON data in the resource file as a {@code Level} object.
+	 * <p>
+	 * If the resource can't be read and the game just started, tries to read
+	 * {@code FIRST_TITLE_SCREEN}. If the player is in a level, calls
+	 * {@code physicsSimulator.resetNextLevel()} and returns {@code null}.
+	 * 
+	 * @param resource name of resource to read
+	 * 
+	 * @return the {@code Level}
+	 */
+	private Level readLevel(String resource) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(getClass().getResourceAsStream(resource),
+					Level.class);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			new ErrorDialog("Error",
+					"Could not load level '" + resource
+							+ "', file is corrupt or does not exist",
+					e).setVisible(true);
+
+			if (mainFrame.isVisible()) {
+				physicsSimulator.resetNextlevel();
+			}
+			else {
+				if (!resource.equals(FIRST_TITLE_SCREEN)) {
+					System.err.println(
+							"In GameController.java#readLevel: Can't load resource: Loading first title screen");
+					return readLevel(FIRST_TITLE_SCREEN);
+				}
+				else {
+					System.exit(1);
+				}
+			}
+			return null;
+		}
 	}
 
 	/**
@@ -308,6 +359,7 @@ public class GameController extends WindowAdapter
 				mainFrame.add(rect, 3);
 			}
 			physicsSimulator.add(rect);
+			sfxMonitor.add(rect);
 			if (rect instanceof SwitchRectangle) {
 				switchRects.add((SwitchRectangle) rect);
 			}
@@ -326,6 +378,9 @@ public class GameController extends WindowAdapter
 
 		for (Area area : level.areas) {
 			physicsSimulator.add(area);
+			if (area instanceof GoalArea) {
+				sfxMonitor.add((GoalArea) area);
+			}
 			if (area instanceof SwitchArea) {
 				switchAreas.add((SwitchArea) area);
 			}
@@ -396,13 +451,15 @@ public class GameController extends WindowAdapter
 		physicsSimulator.updateAndMoveObjects(allInputs.second,
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
+		sfxMonitor.playSounds();
 
-		if (physicsSimulator.getNextLevel() != "") {
+		if (!physicsSimulator.getNextLevel().equals("")) {
 			String nextLevel = physicsSimulator.getNextLevel();
 			if (nextLevel.startsWith("$")) {
 				nextLevel = SaveManager.getValue(nextLevel.substring(1),
 						FIRST_LEVEL);
 			}
+			markLevelInField("completed_levels", currentLevelNumber);
 			loadLevel(nextLevel);
 			return;
 		}
@@ -422,6 +479,36 @@ public class GameController extends WindowAdapter
 		else {
 			mainFrame.incorporateChanges();
 		}
+	}
+
+	/**
+	 * Puts the level at {@code levelNumbeR} into the saved value named
+	 * {@code fieldName}. The value is interpreted as a bitfield of level
+	 * numbers.
+	 * 
+	 * @param levelNumber numerical identifier of the level
+	 */
+	private void markLevelInField(String fieldName, int levelNumber) {
+		if (levelNumber < 0) {
+			return;
+		}
+		long levelFlags = Long.valueOf(SaveManager.getValue(fieldName, "0"));
+		levelFlags |= 1L << levelNumber;
+		SaveManager.putValue(fieldName, Long.toString(levelFlags));
+	}
+
+	/**
+	 * Returns whether the level at {@code levelNumber} has been marked in the
+	 * saved value named {@code fieldName}. The value is interpreted as a
+	 * bitfield of level numbers.
+	 * 
+	 * @param levelNumber numerical identifier of the level
+	 * 
+	 * @return {@code true} if it has been completed
+	 */
+	private boolean isLevelInField(String fieldName, int levelNumber) {
+		long levelFlags = Long.valueOf(SaveManager.getValue(fieldName, "0"));
+		return (levelFlags & (1L << levelNumber)) != 0;
 	}
 
 	/**

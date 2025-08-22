@@ -16,9 +16,12 @@ import blockgame.physics.WallRectangle;
 public class Level {
 
 	public String name;
+	public int number;
 	public int width, height;
 	public String solution;
 	public String newTitle;
+	public String popup;
+	public boolean gameComplete;
 
 	public List<MovingRectangle> movingRectangles;
 	public List<WallRectangle> walls;
@@ -28,9 +31,12 @@ public class Level {
 
 	public Level() {
 		name = "";
+		number = -1;
 		width = height = 0;
 		solution = "";
 		newTitle = "";
+		popup = "";
+		gameComplete = false;
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();

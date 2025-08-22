@@ -438,6 +438,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	/**
+	 * Returns the buffered ideal width.
+	 * 
 	 * @return Current width + pending width changes
 	 */
 	public int getNextWidth() {
@@ -445,6 +447,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	/**
+	 * Returns the buffered ideal height.
+	 * 
 	 * @return Current height + pending height changes
 	 */
 	public int getNextHeight() {
@@ -452,6 +456,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	/**
+	 * Returns the buffered ideal x-offset.
+	 * 
 	 * @return Current x offset + pending changes
 	 */
 	public int getNextXOffset() {
@@ -459,6 +465,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	/**
+	 * Returns the buffered ideal y-offset.
+	 * 
 	 * @return Current y offset + pending changes
 	 */
 	public int getNextYOffset() {

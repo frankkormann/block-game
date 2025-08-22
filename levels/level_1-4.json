@@ -1,11 +1,13 @@
 {
 	"name": "Reverse Order [1-4]",
+	"number": 3,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_1-4.rec",
+	"newTitle": "/title_1.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 165,
 			"y": 480,
 			"width": 20,
@@ -14,7 +16,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 320,
 			"y": 440,
 			"width": 30,
@@ -22,7 +24,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 350,
 			"y": 470,
 			"width": 60,
@@ -32,7 +34,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 40,
 			"y": 350,
 			"width": 250,
@@ -40,7 +42,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 620,
 			"y": 220,
 			"width": 180,
@@ -48,7 +50,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 560,
 			"y": 120,
 			"width": 20,
@@ -56,7 +58,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 800,
 			"y": 120,
 			"width": 20,
@@ -64,7 +66,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 600,
 			"y": 220,
 			"width": 20,
@@ -72,7 +74,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 600,
 			"y": 350,
 			"width": 20,
@@ -82,17 +84,18 @@
 	],
 	"areas": [
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 650,
 			"y": 170,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_1-5.json"
+			"nextLevel": "/level_1-5.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 260,
 			"y": 290,
 			"width": 30,
@@ -100,7 +103,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 290,
 			"y": 370,
 			"width": 60,

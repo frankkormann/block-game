@@ -1,11 +1,13 @@
 {
 	"name": "Long Pink [5-5]",
+	"number": 24,
 	"width": 800,
 	"height": 400,
 	"solution": "/level_5-5.rec",
+	"newTitle": "/title_5.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 380,
 			"y": 380,
 			"width": 20,
@@ -14,7 +16,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 220,
 			"y": 250,
 			"width": 20,
@@ -22,7 +24,7 @@
 			"color": "BLUE"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 480,
 			"y": 390,
 			"width": 80,
@@ -31,7 +33,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".AntigravityArea",
+						"type": "AntigravityArea",
 						"height": 80
 					},
 					"options": ["GLUED_NORTH", "SAME_WIDTH"]
@@ -41,7 +43,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 150,
 			"y": 200,
 			"width": 20,
@@ -49,7 +51,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 150,
 			"y": 260,
 			"width": 160,
@@ -57,7 +59,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 280,
 			"y": 200,
 			"width": 160,
@@ -65,7 +67,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 650,
 			"y": 260,
 			"width": 130,
@@ -73,7 +75,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 650,
 			"y": 300,
 			"width": 30,
@@ -81,7 +83,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 650,
 			"y": 390,
 			"width": 130,
@@ -89,7 +91,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 150,
 			"y": 390,
 			"width": 160,
@@ -99,7 +101,7 @@
 	],
 	"areas": [
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 680,
 			"y": 290,
 			"width": 100,
@@ -108,7 +110,7 @@
 			"yGrowth": 0
 		},
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 680,
 			"y": 200,
 			"width": 100,
@@ -117,17 +119,18 @@
 			"yGrowth": 0
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 50,
 			"y": 200,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_6-1.json"
+			"nextLevel": "/level_6-1.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 170,
 			"y": 290,
 			"width": 480,
@@ -135,7 +138,7 @@
 			"color": "ORANGE"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 170,
 			"y": 210,
 			"width": 480,

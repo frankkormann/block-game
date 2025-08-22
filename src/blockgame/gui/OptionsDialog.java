@@ -21,6 +21,8 @@ import javax.swing.KeyStroke;
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
+import blockgame.input.VolumeMapper;
+import blockgame.sound.MusicPlayer;
 
 /**
  * {@code JDialog} for letting the user change keyboard bindings and color
@@ -36,15 +38,18 @@ public class OptionsDialog extends JDialog {
 	/**
 	 * Creates a {@code OptionsDialog} for altering the keybinds in
 	 * {@code inputMapper}, the colors of {@code colorMapper}, and the values of
-	 * {@code paramMapper}.
+	 * {@code paramMapper} and {@code volumeMapper}.
 	 * 
-	 * @param owner       {@code Window} owner
-	 * @param inputMapper {@code InputMapper} to change controls of
-	 * @param colorMapper {@code ColorMapper} to change colors of
-	 * @param paramMapper {@code ParameterMapper} to change values of
+	 * @param owner        {@code Window} owner
+	 * @param inputMapper  {@code InputMapper} to change controls of
+	 * @param colorMapper  {@code ColorMapper} to change colors of
+	 * @param paramMapper  {@code ParameterMapper} to change values of
+	 * @param volumeMapper {@code VolumeMapper} to change values of
+	 * @param musicPlayer  {@code MusicPlayer} to play music with
 	 */
 	public OptionsDialog(Window owner, InputMapper inputMapper,
-			ColorMapper colorMapper, ParameterMapper paramMapper) {
+			ColorMapper colorMapper, ParameterMapper paramMapper,
+			VolumeMapper volumeMapper, MusicPlayer musicPlayer) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 
 		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
@@ -60,6 +65,8 @@ public class OptionsDialog extends JDialog {
 				new ControlsChangerPanel(getRootPane(), inputMapper));
 		tabbedPane.addTab("Colors",
 				new ColorChangerPanel(getRootPane(), colorMapper));
+		tabbedPane.addTab("Sound",
+				new MusicPanel(getRootPane(), volumeMapper, musicPlayer));
 
 		JButton closeButton = new JButton("OK");
 		closeButton.addActionListener(e -> dispose());

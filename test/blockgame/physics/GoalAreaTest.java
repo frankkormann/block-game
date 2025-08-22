@@ -14,7 +14,7 @@ class GoalAreaTest {
 
 	@BeforeEach
 	void setUp() {
-		goal = new GoalArea(0, 0, 20, 20, "");
+		goal = new GoalArea(0, 0, 20, 20, "", false);
 		rect = new MovingRectangle(0, 0, 20, 20);
 	}
 

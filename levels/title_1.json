@@ -4,7 +4,7 @@
 	"height": 500,
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 160,
 			"y": 480,
 			"width": 20,
@@ -13,7 +13,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 120,
 			"y": 320,
 			"width": 30,
@@ -21,7 +21,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 270,
 			"y": 350,
 			"width": 40,
@@ -31,7 +31,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 60,
 			"y": 380,
 			"width": 300,
@@ -41,15 +41,16 @@
 	],
 	"areas": [
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 550,
 			"y": 450,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "$current_level"
+			"nextLevel": "$current_level",
+			"hasParticles": false
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 100,
 			"y": 100,
 			"source": "/title_screen_text.png",

@@ -1,11 +1,13 @@
 {
 	"name": "Juggling [6-5]",
+	"number": 29,
 	"width": 800,
 	"height": 400,
 	"solution": "/level_6-5.rec",
+	"newTitle": "/title_6.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 140,
 			"y": 380,
 			"width": 20,
@@ -14,7 +16,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 280,
 			"y": 170,
 			"width": 30,
@@ -22,7 +24,7 @@
 			"color": "BLUE"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 310,
 			"y": 170,
 			"width": 120,
@@ -31,7 +33,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 470,
 			"y": 370,
 			"width": 100,
@@ -40,7 +42,7 @@
 			"key": "green"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 570,
 			"y": 370,
 			"width": 100,
@@ -50,7 +52,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".AntigravityArea",
+						"type": "AntigravityArea",
 						"height": 200
 					},
 					"options": ["GLUED_NORTH", "SAME_WIDTH"]
@@ -60,7 +62,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 310,
 			"y": 230,
 			"width": 10,
@@ -68,7 +70,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 310,
 			"y": 150,
 			"width": 490,
@@ -76,7 +78,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 280,
 			"y": 250,
 			"width": 40,
@@ -84,7 +86,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 410,
 			"y": 40,
 			"width": 20,
@@ -92,7 +94,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 780,
 			"y": 170,
 			"width": 20,
@@ -100,7 +102,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 280,
 			"y": 380,
 			"width": 520,
@@ -110,7 +112,7 @@
 	],
 	"areas": [
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 70,
 			"y": 320,
 			"width": 100,
@@ -119,7 +121,7 @@
 			"key": "green"
 		},
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 130,
 			"y": 320,
 			"width": 100,
@@ -128,7 +130,7 @@
 			"key": "orange"
 		},
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 350,
 			"y": 330,
 			"width": 100,
@@ -137,17 +139,18 @@
 			"key": "red"
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 690,
 			"y": 330,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_crown-1.json"
+			"nextLevel": "/level_crown-1.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 380,
 			"y": 370,
 			"width": 100,
@@ -155,7 +158,7 @@
 			"color": "ORANGE"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 380,
 			"y": 170,
 			"width": 100,
@@ -163,7 +166,7 @@
 			"color": "TRANSLUCENT_PINK"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 380,
 			"y": 220,
 			"width": 100,

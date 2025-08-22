@@ -1,12 +1,13 @@
 {
 	"name": "Now It's Here and Now It's Not [6-1]",
+	"number": 25,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_6-1.rec",
 	"newTitle": "/title_6.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 265,
 			"y": 470,
 			"width": 20,
@@ -15,7 +16,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 80,
 			"y": 460,
 			"width": 30,
@@ -23,7 +24,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 110,
 			"y": 430,
 			"width": 30,
@@ -34,7 +35,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 0,
 			"width": 800,
@@ -42,7 +43,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 490,
 			"width": 800,
@@ -50,7 +51,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 10,
 			"width": 10,
@@ -58,7 +59,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 790,
 			"y": 10,
 			"width": 10,
@@ -66,7 +67,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 500,
 			"y": 360,
 			"width": 20,
@@ -74,7 +75,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 520,
 			"y": 360,
 			"width": 270,
@@ -84,7 +85,7 @@
 	],
 	"areas": [
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 200,
 			"y": 390,
 			"width": 150,
@@ -93,17 +94,18 @@
 			"key": "red"
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 700,
 			"y": 310,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_6-2.json"
+			"nextLevel": "/level_6-2.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 300,
 			"y": 460,
 			"width": 30,
@@ -111,7 +113,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 470,
 			"y": 430,
 			"width": 30,

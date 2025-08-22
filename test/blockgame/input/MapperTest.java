@@ -3,6 +3,7 @@ package blockgame.input;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class MapperTest {
 	private static final String SAVE_PATH = "/save";
 	private static final String DEFAULT_RESOURCE = "/colors_default.json";
 
-	Mapper<Integer> mapper;
+	IntMapper mapper;
 
 	@BeforeEach
 	void setUp(@TempDir Path dir) {
@@ -113,6 +114,14 @@ public class MapperTest {
 		mapper.setToDefaults();
 
 		assertEquals(-16777216, (int) mapper.get(Colors.BLACK));
+	}
+
+	@Test
+	void throws_UnsupportedOperationException_when_a_value_is_tried_to_be_removed_and_allowUnset_is_false() {
+		mapper.shouldAllowUnset = false;
+
+		assertThrows(UnsupportedOperationException.class,
+				() -> mapper.remove(Colors.BLACK));
 	}
 
 	@Nested

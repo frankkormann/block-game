@@ -20,8 +20,8 @@ import blockgame.physics.Rectangle.Colors;
 
 /**
  * {@code JPanel} which allows the user to change the color values in
- * {@code ColorMapper}. Automatically calls {@code ColorMapper.save} when the
- * parent window is closed.
+ * {@code ColorMapper}. Automatically calls {@code Mapper.save} when the parent
+ * window is closed.
  * 
  * @author Frank Kormann
  */
@@ -44,6 +44,9 @@ public class ColorChangerPanel extends ValueChangerPanel<Integer> {
 
 	@Override
 	protected GetterSetter<Integer> createGetterSetter(Enum<?> enumValue) {
+		if (enumValue == DISALLOW_CHANGING) {
+			return null;
+		}
 		return new ColorButton();
 	}
 
@@ -61,8 +64,7 @@ public class ColorChangerPanel extends ValueChangerPanel<Integer> {
 		c.weighty = 0.5;
 
 		for (Colors color : Colors.values()) {
-			if (!getterSetters.containsKey(color)
-					|| color == DISALLOW_CHANGING) {
+			if (!getterSetters.containsKey(color)) {
 				continue;
 			}
 
@@ -78,6 +80,7 @@ public class ColorChangerPanel extends ValueChangerPanel<Integer> {
 		}
 
 		return panel;
+
 	}
 
 	/**

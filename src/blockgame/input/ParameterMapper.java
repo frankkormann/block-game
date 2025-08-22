@@ -67,6 +67,11 @@ public class ParameterMapper extends Mapper<Number> {
 		return 0;
 	}
 
+	@Override
+	public boolean allowUnset() {
+		return false;
+	}
+
 	/**
 	 * Gets a parameter value as an {@code int}.
 	 * 

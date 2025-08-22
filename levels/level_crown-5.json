@@ -1,11 +1,13 @@
 {
 	"name": "Over and Below [♛-5]",
+	"number": 34,
 	"width": 800,
 	"height": 400,
 	"solution": "/level_crown-5.rec",
+	"newTitle": "/title_crown.json",
 	"movingRectangles": [
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 380,
 			"y": 350,
 			"width": 20,
@@ -15,7 +17,7 @@
 			"key": "blue"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 40,
 			"y": 310,
 			"width": 30,
@@ -23,7 +25,7 @@
 			"color": "BLUE"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 380,
 			"y": 370,
 			"width": 30,
@@ -31,7 +33,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 630,
 			"y": 300,
 			"width": 150,
@@ -40,7 +42,7 @@
 			"key": "orange"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 270,
 			"y": 180,
 			"width": 20,
@@ -48,7 +50,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 510,
 			"y": 250,
 			"width": 20,
@@ -58,7 +60,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 160,
 			"width": 290,
@@ -66,7 +68,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 180,
 			"width": 20,
@@ -74,7 +76,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 260,
 			"y": 180,
 			"width": 10,
@@ -82,7 +84,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 290,
 			"y": 160,
 			"width": 10,
@@ -90,7 +92,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 240,
 			"y": 300,
 			"width": 30,
@@ -98,7 +100,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 270,
 			"y": 300,
 			"width": 20,
@@ -106,7 +108,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 20,
 			"y": 330,
 			"width": 20,
@@ -114,7 +116,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 250,
 			"y": 330,
 			"width": 20,
@@ -122,7 +124,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 340,
 			"width": 290,
@@ -130,7 +132,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 330,
 			"y": 300,
 			"width": 10,
@@ -138,7 +140,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 460,
 			"y": 300,
 			"width": 10,
@@ -146,7 +148,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 510,
 			"y": 160,
 			"width": 290,
@@ -154,7 +156,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 780,
 			"y": 180,
 			"width": 20,
@@ -162,7 +164,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 500,
 			"y": 160,
 			"width": 10,
@@ -170,7 +172,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 530,
 			"y": 180,
 			"width": 10,
@@ -178,7 +180,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 530,
 			"y": 380,
 			"width": 270,
@@ -186,7 +188,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 500,
 			"y": 380,
 			"width": 10,
@@ -194,7 +196,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 500,
 			"y": 400,
 			"width": 40,
@@ -204,7 +206,7 @@
 	],
 	"areas": [
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 120,
 			"y": 260,
 			"width": 120,
@@ -213,7 +215,7 @@
 			"key": "orange"
 		},
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 340,
 			"y": 300,
 			"width": 120,
@@ -222,17 +224,18 @@
 			"key": "blue"
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 680,
 			"y": 250,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/credits.json"
+			"nextLevel": "/credits.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 250,
 			"y": 280,
 			"width": 20,
@@ -240,7 +243,7 @@
 			"color": "PLAYER"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 500,
 			"y": 360,
 			"width": 20,
@@ -248,7 +251,7 @@
 			"color": "PLAYER"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 340,
 			"y": 370,
 			"width": 30,
@@ -256,7 +259,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 340,
 			"y": 330,
 			"width": 30,

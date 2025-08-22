@@ -79,6 +79,14 @@ public abstract class Mapper<T> {
 	public abstract T getDefaultValue();
 
 	/**
+	 * Whether values are allowed to not be set. Note that this does not
+	 * guarantee that all values will be set.
+	 * 
+	 * @return {@code true} if values can be unset
+	 */
+	public abstract boolean allowUnset();
+
+	/**
 	 * Save all values to disk.
 	 */
 	public void save() {
@@ -110,16 +118,37 @@ public abstract class Mapper<T> {
 	 * @throws IOException if an I/O error occurs
 	 */
 	private void load(InputStream stream) throws IOException {
+		EnumValues<T> json = readValues(stream);
+
+		for (Enum<?> key : json.values.keySet()) {
+			T value = json.values.get(key);
+			set(key, value);
+		}
+	}
+
+	/**
+	 * Loads values from {@code stream} if the value is not already set.
+	 * 
+	 * @param stream {@code InputStream} to read from
+	 * 
+	 * @throws IOException if an I/O error occurs
+	 */
+	private void loadUnset(InputStream stream) throws IOException {
+		EnumValues<T> json = readValues(stream);
+
+		for (Enum<?> key : json.values.keySet()) {
+			if (get(key) == null) {
+				T value = json.values.get(key);
+				set(key, value);
+			}
+		}
+	}
+
+	private EnumValues<T> readValues(InputStream stream) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setInjectableValues(new InjectableValues.Std()
 				.addValue("enumClasses", getEnumClasses()));
-		EnumValues<T> json = mapper.readValue(stream, getJsonTypeReference());
-		stream.close();
-
-		for (Enum<?> input : json.values.keySet()) {
-			T keybind = json.values.get(input);
-			set(input, keybind);
-		}
+		return mapper.readValue(stream, getJsonTypeReference());
 	}
 
 	/**
@@ -135,9 +164,11 @@ public abstract class Mapper<T> {
 					"Default values file is unavailable, go to Options to set values manually",
 					e).setVisible(true);
 
-			for (Class<? extends Enum> enumClass : getEnumClasses()) {
-				for (Enum<?> key : enumClass.getEnumConstants()) {
-					set(key, getDefaultValue());
+			if (!allowUnset()) {
+				for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
+					for (Enum<?> key : enumClass.getEnumConstants()) {
+						set(key, getDefaultValue());
+					}
 				}
 			}
 		}
@@ -160,6 +191,7 @@ public abstract class Mapper<T> {
 
 		try {
 			load(fileStream);
+			fileStream.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -168,6 +200,19 @@ public abstract class Mapper<T> {
 					.setVisible(true);
 			setToDefaults();
 			save();
+		}
+
+		if (!allowUnset()) {
+			try {
+				loadUnset(
+						getClass().getResourceAsStream(defaultValuesResource));
+			}
+			catch (IOException | IllegalArgumentException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error",
+						"Can't read default values file. Some values may not be set.",
+						e).setVisible(true);
+			}
 		}
 	}
 
@@ -199,10 +244,17 @@ public abstract class Mapper<T> {
 
 	/**
 	 * Removes {@code key} and its associated value.
+	 * <p>
+	 * Throws {@code UnsupportedOperationException} if values must be set.
 	 * 
 	 * @param key enum value to remove
+	 * 
+	 * @see #allowUnset()
 	 */
 	public void remove(Enum<?> key) {
+		if (!allowUnset()) {
+			throw new UnsupportedOperationException("Values must be set");
+		}
 		enumMap.remove(key);
 
 		for (ValueChangeListener listener : changeListeners) {

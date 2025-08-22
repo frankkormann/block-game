@@ -4,7 +4,7 @@
 	"height": 500,
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 20,
 			"y": 440,
 			"width": 20,
@@ -13,7 +13,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".SwitchRectangle",
+			"type": "SwitchRectangle",
 			"x": 90,
 			"y": 400,
 			"width": 40,
@@ -22,7 +22,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 130,
 			"y": 400,
 			"width": 20,
@@ -30,7 +30,7 @@
 			"color": "BLUE"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 160,
 			"y": 400,
 			"width": 20,
@@ -38,7 +38,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 260,
 			"y": 400,
 			"width": 10,
@@ -47,7 +47,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".GrowArea",
+						"type": "GrowArea",
 						"width": 60,
 						"xGrowth": 1,
 						"yGrowth": 0
@@ -56,7 +56,7 @@
 				},
 				{
 					"area": {
-						"type": ".ShrinkArea",
+						"type": "ShrinkArea",
 						"width": 10,
 						"xShrink": 1,
 						"yShrink": 0
@@ -68,7 +68,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 50,
 			"y": 320,
 			"width": 200,
@@ -76,7 +76,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 50,
 			"y": 283,
 			"width": 200,
@@ -84,7 +84,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 780,
 			"y": 260,
 			"width": 20,
@@ -92,7 +92,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 450,
 			"y": 340,
 			"width": 20,
@@ -100,7 +100,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 480,
 			"width": 200,
@@ -108,7 +108,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 200,
 			"y": 680,
 			"width": 200,
@@ -118,14 +118,14 @@
 	],
 	"areas": [
 		{
-			"type": ".AntigravityArea",
+			"type": "AntigravityArea",
 			"x": 300,
 			"y": 300,
 			"width": 150,
 			"height": 70
 		},
 		{
-			"type": ".SwitchArea",
+			"type": "SwitchArea",
 			"x": 470,
 			"y": 300,
 			"width": 60,
@@ -134,7 +134,7 @@
 			"key": "red"
 		},
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 0,
 			"y": 430,
 			"width": 20,
@@ -143,7 +143,7 @@
 			"yGrowth": 1
 		},
 		{
-			"type": ".ShrinkArea",
+			"type": "ShrinkArea",
 			"x": 20,
 			"y": 430,
 			"width": 20,
@@ -152,7 +152,7 @@
 			"yShrink": 1
 		},
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 630,
 			"y": 450,
 			"width": 130,
@@ -161,7 +161,7 @@
 			"yGrowth": 0
 		},
 		{
-			"type": ".ShrinkArea",
+			"type": "ShrinkArea",
 			"x": 680,
 			"y": 475,
 			"width": 80,
@@ -170,15 +170,16 @@
 			"yShrink": 0
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 280,
 			"y": 630,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_1.json"
+			"nextLevel": "/level_1-1.json",
+			"hasParticles": true
 		},
 		{
-			"type": ".ImageArea",
+			"type": "ImageArea",
 			"x": 400,
 			"y": 100,
 			"source": "/taskbar_icon.png"
@@ -186,7 +187,7 @@
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 100,
 			"y": 200,
 			"width": 30,

@@ -43,6 +43,12 @@ public abstract class ValueChangerPanel<T> extends JPanel
 		for (Class<? extends Enum<?>> enumClass : mapper.getEnumClasses()) {
 			for (Enum<?> enumValue : enumClass.getEnumConstants()) {
 				GetterSetter<T> getterSetter = createGetterSetter(enumValue);
+				if (getterSetter == null) {
+					System.out.println(
+							"In ValueChangerPanel constructor: Didn't create a GetterSetter for "
+									+ enumValue);
+					continue;
+				}
 				bindComponent(getterSetter, enumValue);
 			}
 		}
@@ -76,6 +82,10 @@ public abstract class ValueChangerPanel<T> extends JPanel
 
 	/**
 	 * Creates a {@code JPanel} to display each {@code GetterSetter} in
+	 * {@code getterSetters}.
+	 * <p>
+	 * If {@link #createGetterSetter(Enum)} failed to create a
+	 * {@code GetterSetter}, there will be no mapping for that enum in
 	 * {@code getterSetters}.
 	 * 
 	 * @param getterSetters {@code Map} from the enum value for this

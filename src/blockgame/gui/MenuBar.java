@@ -27,6 +27,8 @@ import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ValueChangeListener;
+import blockgame.input.VolumeMapper;
+import blockgame.sound.MusicPlayer;
 import blockgame.util.Pair;
 
 /**
@@ -56,6 +58,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	private Map<JMenu, Integer> menuWidths;
 
 	private JMenu hintMenu;
+	private JMenu levelSelectButton;
 	private JMenu moreMenu;
 	private JMenuItem showHintItem;
 	private JMenuItem showSolutionItem;
@@ -68,17 +71,22 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * {@code inputMapper}.
 	 * <p>
 	 * Includes an {@code OptionsDialog} to change mappings in
-	 * {@code inputMapper}, {@code colorMapper}, and {@code paramMaper}.
+	 * {@code inputMapper}, {@code colorMapper}, and {@code paramMaper}, and to
+	 * change song in {@code musicPlayer}.
 	 * 
-	 * @param inputMapper {@code InputMapper} to take keybinds from and to alter
-	 *                    in {@code OptionsDialog}
-	 * @param colorMapper {@code ColorMapper} to alter in {@code OptionsDialog}
-	 * @param paramMapper {@code ParameterMapper} to alter in
-	 *                    {@code OptionsDialog}
-	 * @param listener    {@code GameController} which will process inputs
+	 * @param inputMapper  {@code InputMapper} to take keybinds from and to
+	 *                     alter in {@code OptionsDialog}
+	 * @param colorMapper  {@code ColorMapper} to alter in {@code OptionsDialog}
+	 * @param paramMapper  {@code ParameterMapper} to alter in
+	 *                     {@code OptionsDialog}
+	 * @param volumeMapper {@code VolumeMapper} to alter in
+	 *                     {@code OptionsDialog}
+	 * @param musicPlayer  {@code MusicPlayer} to play music
+	 * @param listener     {@code GameController} which will process inputs
 	 */
 	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
-			ParameterMapper paramMapper, GameController listener) {
+			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			MusicPlayer musicPlayer, GameController listener) {
 		this.listener = listener;
 		this.inputMapper = inputMapper;
 		inputToMenuItem = new HashMap<>();
@@ -94,12 +102,15 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 		inputMapper.addListener(this);
 		hintMenu = createHintMenu();
+		levelSelectButton = createLevelSelectButton(listener);
 		moreMenu = new JMenu("More");
 
 		add(hintMenu);
 		add(createPauseRestartMenu());
 		add(createRecordingMenu());
-		add(createOptionsButton(colorMapper, paramMapper));
+		add(createOptionsButton(colorMapper, paramMapper, volumeMapper,
+				musicPlayer));
+		add(levelSelectButton);
 		super.add(moreMenu);
 	}
 
@@ -136,12 +147,13 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 				continue;
 			}
 
-			if (nextMenu != null) {
-				if (x + menuWidths.get(menu)
-						+ Math.min(menuWidths.get(nextMenu),
-								menuWidths.get(moreMenu)) > getWidth()) {
-					overflowing = true;
-				}
+			int nextMenuWidth = 0;
+			if (nextMenu != null && nextMenu.isVisible()) {
+				nextMenuWidth = Math.min(menuWidths.get(nextMenu),
+						menuWidths.get(moreMenu));
+			}
+			if (x + menuWidths.get(menu) + nextMenuWidth > getWidth()) {
+				overflowing = true;
 			}
 
 			layoutMenu(menu, x, !overflowing);
@@ -208,6 +220,16 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		hintMenu.setVisible(show);
 	}
 
+	/**
+	 * Sets visible or not the {@code JMenu} which contains a button to show a
+	 * {@code LevelSelectDialog}.
+	 * 
+	 * @param show {@code true} if it should be shown
+	 */
+	public void showLevelSelect(boolean show) {
+		levelSelectButton.setVisible(show);
+	}
+
 	private JMenu createHintMenu() {
 		JMenu menu = new JMenu("Hint");
 
@@ -267,37 +289,24 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private JMenu createOptionsButton(ColorMapper colorMapper,
-			ParameterMapper paramMapper) {
-		JMenu button = new JMenu("Options");
+			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			MusicPlayer musicPlayer) {
 		Runnable openDialog = () -> {
 			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
-					inputMapper, colorMapper, paramMapper).setVisible(true);
+					inputMapper, colorMapper, paramMapper, volumeMapper,
+					musicPlayer).setVisible(true);
 		};
 
-		button.addMenuKeyListener(new MenuKeyListener() {
-			@Override
-			public void menuKeyPressed(MenuKeyEvent e) {
-				if ((e.getKeyCode() == KeyEvent.VK_ENTER
-						|| e.getKeyCode() == KeyEvent.VK_SPACE)
-						&& button.isSelected()) {
-					openDialog.run();
-				}
-			}
+		return createMenuButton("Options", openDialog);
+	}
 
-			@Override
-			public void menuKeyTyped(MenuKeyEvent e) {}
+	private JMenu createLevelSelectButton(GameController gameController) {
+		Runnable openDialog = () -> {
+			new LevelSelectDialog(SwingUtilities.getWindowAncestor(this),
+					gameController).setVisible(true);
+		};
 
-			@Override
-			public void menuKeyReleased(MenuKeyEvent e) {}
-		});
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				openDialog.run();
-			}
-		});
-
-		return button;
+		return createMenuButton("Level Select", openDialog);
 	}
 
 	/**
@@ -334,6 +343,48 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		inputToMenuItem.put(metaInput, menuItem);
 
 		return menuItem;
+	}
+
+	/**
+	 * Creates a {@code JMenu} which acts as a button. When it is pressed, it
+	 * runs {@code action}.
+	 * 
+	 * @param text   label on the button
+	 * @param action {@code Runnable} to run when the button is pressed
+	 * 
+	 * @return the {@code JMenu}
+	 */
+	private JMenu createMenuButton(String text, Runnable action) {
+		JMenu button = new JMenu(text);
+		button.addMenuKeyListener(new MenuKeyListener() {
+			@Override
+			public void menuKeyPressed(MenuKeyEvent e) {
+				if ((e.getKeyCode() == KeyEvent.VK_ENTER
+						|| e.getKeyCode() == KeyEvent.VK_SPACE)
+						&& button.isSelected()) {
+					action.run();
+				}
+			}
+
+			@Override
+			public void menuKeyTyped(MenuKeyEvent e) {}
+
+			@Override
+			public void menuKeyReleased(MenuKeyEvent e) {}
+		});
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				new Thread(action).start();  // In a new thread to fix a problem
+											  // related to updating component
+											  // UI while in a dialog; AWT tries
+											  // to send a mouse pressed event
+											  // to the old UI, but its
+											  // component is now null
+			}
+		});
+
+		return button;
 	}
 
 	private File promptFileSaveLocation() {

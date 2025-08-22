@@ -8,8 +8,11 @@ import blockgame.physics.Rectangle.Colors;
 
 public class IntMapper extends Mapper<Integer> {
 
+	public boolean shouldAllowUnset;
+
 	public IntMapper(String savePath, String defaultValuesResource) {
 		super(savePath, defaultValuesResource);
+		shouldAllowUnset = true;
 	}
 
 	@Override
@@ -25,6 +28,11 @@ public class IntMapper extends Mapper<Integer> {
 	@Override
 	public Integer getDefaultValue() {
 		return 0;
+	}
+
+	@Override
+	public boolean allowUnset() {
+		return shouldAllowUnset;
 	}
 
 }

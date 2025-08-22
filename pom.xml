@@ -2,13 +2,25 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>BlockGame</groupId>
   <artifactId>BlockGame</artifactId>
-  <version>0.11</version>
+  <version>0.12</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
     	<resource>
-    		<directory>resources</directory>
+    		<directory>sounds</directory>
+    	</resource>
+    	<resource>
+    		<directory>imgs</directory>
+    	</resource>
+    	<resource>
+    		<directory>levels</directory>
+    	</resource>
+    	<resource>
+    		<directory>recordings</directory>
+    	</resource>
+    	<resource>
+    		<directory>defaults</directory>
     	</resource>
     </resources>
     <plugins>

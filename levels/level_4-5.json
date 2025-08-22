@@ -1,11 +1,13 @@
 {
 	"name": "Inevitably Tall [4-5]",
+	"number": 19,
 	"width": 800,
 	"height": 300,
 	"solution": "/level_4-5.rec",
+	"newTitle": "/title_4.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 190,
 			"y": 200,
 			"width": 20,
@@ -14,7 +16,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 350,
 			"y": 150,
 			"width": 10,
@@ -23,7 +25,7 @@
 			"attachments": [
 				{
 					"area": {
-						"type": ".GrowArea",
+						"type": "GrowArea",
 						"width": 80,
 						"xGrowth": 0,
 						"yGrowth": 1
@@ -32,7 +34,7 @@
 				},
 				{
 					"area": {
-						"type": ".ShrinkArea",
+						"type": "ShrinkArea",
 						"width": 20,
 						"xShrink": 0,
 						"yShrink": 1
@@ -42,7 +44,7 @@
 			]
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 420,
 			"y": 120,
 			"width": 80,
@@ -52,7 +54,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 110,
 			"y": 100,
 			"width": 20,
@@ -60,7 +62,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 420,
 			"y": 100,
 			"width": 270,
@@ -68,7 +70,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 500,
 			"y": 200,
 			"width": 20,
@@ -76,7 +78,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 670,
 			"y": 120,
 			"width": 20,
@@ -84,7 +86,7 @@
 			"resizeBehavior": "PREVENT_X"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 110,
 			"y": 220,
 			"width": 580,
@@ -94,7 +96,7 @@
 	],
 	"areas": [
 		{
-			"type": ".ShrinkArea",
+			"type": "ShrinkArea",
 			"x": 130,
 			"y": 180,
 			"width": 30,
@@ -103,17 +105,18 @@
 			"yShrink": 1
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 570,
 			"y": 170,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_5-1.json"
+			"nextLevel": "/level_5-1.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 410,
 			"y": 180,
 			"width": 10,
@@ -121,7 +124,7 @@
 			"color": "ORANGE"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 330,
 			"y": 180,
 			"width": 80,
@@ -129,7 +132,7 @@
 			"color": "TRANSLUCENT_GREEN"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 420,
 			"y": 180,
 			"width": 20,

@@ -1,11 +1,13 @@
 {
 	"name": "Pull Into Form [3-5]",
+	"number": 15,
 	"width": 600,
 	"height": 600,
 	"solution": "/level_3-5.rec",
+	"newTitle": "/title_3.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 150,
 			"y": 390,
 			"width": 20,
@@ -14,7 +16,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 60,
 			"y": 550,
 			"width": 30,
@@ -22,7 +24,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 520,
 			"y": 550,
 			"width": 30,
@@ -32,7 +34,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 370,
 			"y": 170,
 			"width": 140,
@@ -40,7 +42,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 350,
 			"y": 170,
 			"width": 20,
@@ -48,7 +50,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 90,
 			"y": 410,
 			"width": 140,
@@ -56,7 +58,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 230,
 			"y": 410,
 			"width": 20,
@@ -64,7 +66,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 350,
 			"y": 410,
 			"width": 20,
@@ -72,7 +74,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 370,
 			"y": 410,
 			"width": 140,
@@ -80,7 +82,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 230,
 			"y": 510,
 			"width": 140,
@@ -90,7 +92,7 @@
 	],
 	"areas": [
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 250,
 			"y": 350,
 			"width": 100,
@@ -99,7 +101,7 @@
 			"yGrowth": 0
 		},
 		{
-			"type": ".ShrinkArea",
+			"type": "ShrinkArea",
 			"x": 300,
 			"y": 380,
 			"width": 50,
@@ -108,17 +110,18 @@
 			"yShrink": 0
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 405,
 			"y": 120,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_4-1.json"
+			"nextLevel": "/level_4-1.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 250,
 			"y": 280,
 			"width": 100,
@@ -126,7 +129,7 @@
 			"color": "GREEN"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 300,
 			"y": 230,
 			"width": 50,

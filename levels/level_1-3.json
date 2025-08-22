@@ -1,11 +1,14 @@
 {
 	"name": "Stacking [1-3]",
+	"number": 2,
 	"width": 500,
 	"height": 800,
 	"solution": "/level_1-3.rec",
+	"newTitle": "/title_1.json",
+	"popup": "You can also resize the window with your keyboard.\n\nUse Shift+I, Shift+J, Shift+K, and Shift+L to select a side. Then use I, J, K, and L to resize it.\n\nYou can change these controls in the Options menu. Give it try!",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 50,
 			"y": 230,
 			"width": 20,
@@ -14,7 +17,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 100,
 			"y": 490,
 			"width": 10,
@@ -22,7 +25,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 300,
 			"y": 740,
 			"width": 10,
@@ -32,7 +35,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": -20,
 			"y": 250,
 			"width": 300,
@@ -40,7 +43,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 290,
 			"y": 250,
 			"width": 210,
@@ -48,7 +51,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": -20,
 			"y": 90,
 			"width": 20,
@@ -56,7 +59,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 300,
 			"y": 90,
 			"width": 20,
@@ -64,7 +67,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 550,
 			"width": 150,
@@ -74,17 +77,18 @@
 	],
 	"areas": [
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 390,
 			"y": 200,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_1-4.json"
+			"nextLevel": "/level_1-4.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 150,
 			"y": 490,
 			"width": 10,
@@ -92,7 +96,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 150,
 			"y": 550,
 			"width": 10,

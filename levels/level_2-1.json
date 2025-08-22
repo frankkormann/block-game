@@ -1,12 +1,13 @@
 {
 	"name": "The Embiggening [2-1]",
+	"number": 5,
 	"width": 1100,
 	"height": 400,
 	"solution": "/level_2-1.rec",
 	"newTitle": "/title_2.json",
 	"movingRectangles": [
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 400,
 			"y": 380,
 			"width": 20,
@@ -15,7 +16,7 @@
 			"controlledByPlayer": true
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 455,
 			"y": 200,
 			"width": 20,
@@ -23,7 +24,7 @@
 			"color": "RED"
 		},
 		{
-			"type": ".MovingRectangle",
+			"type": "MovingRectangle",
 			"x": 625,
 			"y": 200,
 			"width": 20,
@@ -33,7 +34,7 @@
 	],
 	"walls": [
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 475,
 			"y": 200,
 			"width": 150,
@@ -41,7 +42,7 @@
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 200,
 			"width": 150,
@@ -49,7 +50,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 950,
 			"y": 200,
 			"width": 150,
@@ -57,7 +58,7 @@
 			"resizeBehavior": "STAY"
 		},
 		{
-			"type": ".WallRectangle",
+			"type": "WallRectangle",
 			"x": 455,
 			"y": 320,
 			"width": 190,
@@ -67,7 +68,7 @@
 	],
 	"areas": [
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 0,
 			"y": 170,
 			"width": 150,
@@ -76,7 +77,7 @@
 			"yGrowth": 0
 		},
 		{
-			"type": ".GrowArea",
+			"type": "GrowArea",
 			"x": 950,
 			"y": 170,
 			"width": 150,
@@ -85,17 +86,18 @@
 			"yGrowth": 0
 		},
 		{
-			"type": ".GoalArea",
+			"type": "GoalArea",
 			"x": 525,
 			"y": 80,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_2-2.json"
+			"nextLevel": "/level_2-2.json",
+			"hasParticles": true
 		}
 	],
 	"hints": [
 		{
-			"type": ".HintRectangle",
+			"type": "HintRectangle",
 			"x": 455,
 			"y": 180,
 			"width": 645,
