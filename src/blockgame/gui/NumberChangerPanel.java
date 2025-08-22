@@ -1,4 +1,4 @@
-package blockgame.input;
+package blockgame.gui;
 
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
@@ -16,6 +16,10 @@ import javax.swing.JRootPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import blockgame.input.GetterSetter;
+import blockgame.input.Mapper;
+import blockgame.input.ValueChangerPanel;
 
 /**
  * {@code ValueChangerPanel} which allows the user to remap numerical values

@@ -5,7 +5,6 @@ import java.awt.Window;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 
-import blockgame.input.NumberChangerPanel;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 

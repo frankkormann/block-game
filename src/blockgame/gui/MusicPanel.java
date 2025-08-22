@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import blockgame.input.VolumeChangerPanel;
 import blockgame.input.VolumeMapper;
 import blockgame.sound.MusicPlayer;
 import blockgame.sound.MusicPlayer.Song;

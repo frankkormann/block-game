@@ -1,7 +1,8 @@
-package blockgame.input;
+package blockgame.gui;
 
 import javax.swing.JRootPane;
 
+import blockgame.input.VolumeMapper;
 import blockgame.input.VolumeMapper.Volume;
 
 /**
