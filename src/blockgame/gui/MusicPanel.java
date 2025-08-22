@@ -10,8 +10,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import blockgame.MusicPlayer;
-import blockgame.MusicPlayer.Song;
+import blockgame.sound.MusicPlayer;
+import blockgame.sound.MusicPlayer.Song;
 
 /**
  * {@code JPanel} which allows the user to select which song to play.

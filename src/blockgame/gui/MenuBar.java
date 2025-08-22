@@ -23,11 +23,11 @@ import javax.swing.event.MenuKeyListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import blockgame.GameController;
-import blockgame.MusicPlayer;
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ValueChangeListener;
+import blockgame.sound.MusicPlayer;
 import blockgame.util.Pair;
 
 /**

@@ -51,6 +51,8 @@ import blockgame.physics.SwitchArea;
 import blockgame.physics.SwitchController;
 import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
+import blockgame.sound.MusicPlayer;
+import blockgame.sound.SoundEffectMonitor;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 

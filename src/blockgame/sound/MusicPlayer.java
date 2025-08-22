@@ -1,4 +1,4 @@
-package blockgame;
+package blockgame.sound;
 
 import java.io.IOException;
 import java.io.InputStream;

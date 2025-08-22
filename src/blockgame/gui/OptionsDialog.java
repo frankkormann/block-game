@@ -18,10 +18,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
-import blockgame.MusicPlayer;
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
+import blockgame.sound.MusicPlayer;
 
 /**
  * {@code JDialog} for letting the user change keyboard bindings and color
