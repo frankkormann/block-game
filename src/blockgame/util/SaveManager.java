@@ -122,16 +122,20 @@ public class SaveManager {
 	}
 
 	/**
-	 * Stores a value into the save data.
+	 * Stores a value into the save data. Throws
+	 * {@code IllegalArgumentException} if {@code value} is {@code null}.
 	 * 
 	 * @param name  which value to store
 	 * @param value what to store
 	 */
 	public static void putValue(String name, String value) {
+		if (value == null) {
+			throw new IllegalArgumentException("Saved value can't be null");
+		}
 		if (cachedValues == null) {
 			readValuesFromSave();
 		}
-		if (!getValue(name, null).equals(value)) {
+		if (!value.equals(getValue(name, null))) {
 			cachedValues.put(name, value);
 			saveToFile();
 		}
