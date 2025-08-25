@@ -88,12 +88,14 @@ public class MusicPlayer implements ValueChangeListener {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to read audio data", e)
+			new ErrorDialog("Error",
+					"Failed to read audio data for '" + song.resource + "'", e)
 					.setVisible(true);
 		}
 		catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Song file is not an audio file", e)
+			new ErrorDialog("Error",
+					"Song file '" + song.resource + "' is not an audio file", e)
 					.setVisible(true);
 		}
 		catch (LineUnavailableException e) {
