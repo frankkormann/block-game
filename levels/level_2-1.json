@@ -4,7 +4,11 @@
 	"width": 1100,
 	"height": 400,
 	"solution": "/level_2-1.rec",
-	"newTitle": "/title_2.json",
+	"popup": "Level select now unlocked!",
+	"storeValues": {
+		"title_screen": "/title_2.json",
+		"level_select_unlocked": "true"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

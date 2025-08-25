@@ -3,8 +3,9 @@
 	"number": 35,
 	"width": 800,
 	"height": 500,
-	"gameComplete": true,
-	"popup": "Level select now unlocked!",
+	"storeValues": {
+		"game_complete": "true"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

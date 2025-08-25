@@ -4,7 +4,9 @@
 	"width": 700,
 	"height": 450,
 	"solution": "/level_4-3.rec",
-	"newTitle": "/title_4.json",
+	"storeValues": {
+		"title_screen": "/title_4.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
