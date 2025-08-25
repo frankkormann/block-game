@@ -1,7 +1,9 @@
 package blockgame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import blockgame.gui.HintRectangle;
 import blockgame.physics.Area;
@@ -19,9 +21,9 @@ public class Level {
 	public int number;
 	public int width, height;
 	public String solution;
-	public String newTitle;
+
 	public String popup;
-	public boolean gameComplete;
+	public Map<String, String> storeValues;
 
 	public List<MovingRectangle> movingRectangles;
 	public List<WallRectangle> walls;
@@ -34,9 +36,8 @@ public class Level {
 		number = -1;
 		width = height = 0;
 		solution = "";
-		newTitle = "";
 		popup = "";
-		gameComplete = false;
+		storeValues = new HashMap<>();
 		movingRectangles = new ArrayList<>();
 		walls = new ArrayList<>();
 		areas = new ArrayList<>();

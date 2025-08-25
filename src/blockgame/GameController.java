@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -132,7 +133,8 @@ public class GameController extends WindowAdapter
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
 				volumeMapper, musicPlayer, this);
 		menuBar.showLevelSelect(
-				SaveManager.getValue("game_complete", "false").equals("true"));
+				SaveManager.getValue("level_select_unlocked", "false")
+						.equals("true"));
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -271,13 +273,12 @@ public class GameController extends WindowAdapter
 		currentSolution = level.solution;
 		currentLevel = resource;
 		currentLevelNumber = level.number;
-		if (!level.newTitle.equals("")) {
-			SaveManager.putValue("title_screen", level.newTitle);
+		for (Entry<String, String> entry : level.storeValues.entrySet()) {
+			SaveManager.putValue(entry.getKey(), entry.getValue());
 		}
-		if (level.gameComplete) {
-			SaveManager.putValue("game_complete", "true");
-			menuBar.showLevelSelect(true);
-		}
+		menuBar.showLevelSelect(
+				(SaveManager.getValue("level_select_unlocked", "false")
+						.equals("true")));
 		loadObjects(level);
 
 		menuBar.showHintsMenu(hints.size() > 0 || !level.solution.equals(""));
