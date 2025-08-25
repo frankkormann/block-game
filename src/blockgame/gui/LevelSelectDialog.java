@@ -9,6 +9,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -107,7 +108,7 @@ public class LevelSelectDialog extends JDialog {
 			new ErrorDialog("Error", "Failed to read level index data", e)
 					.setVisible(true);
 
-			return null;
+			return new HashMap<>();
 		}
 	}
 
