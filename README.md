@@ -49,6 +49,11 @@ If you do not have Java, install Java 8 or higher from
 file from the [releases tab](https://github.com/frankkormann/block-game/releases) 
 and run it.
 
+#### Music
+There are two versions of the game, with music and without music. The main
+difference between these verions is about 20 MB. If you download the version
+with music, make sure to enable it by selecting a song in Options > Sound.
+
 ### Controls
 
 You can change these in the Options menu.
