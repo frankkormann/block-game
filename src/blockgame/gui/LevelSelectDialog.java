@@ -93,7 +93,7 @@ public class LevelSelectDialog extends JDialog {
 		// Manually chosen so that no tabs overflow
 		// TODO Automatically detect the right size
 		tabbedPane.setPreferredSize(
-				new Dimension(UIScale.scale(585), UIScale.scale(171)));
+				new Dimension(UIScale.scale(585), UIScale.scale(195)));
 		add(tabbedPane);
 
 		registerDisposeOnKeypress(KeyEvent.VK_ESCAPE);

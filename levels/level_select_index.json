@@ -19,6 +19,10 @@
 		"1-5: Skewer Mover": {
 			"path": "/level_1-5.json",
 			"number": 4
+		},
+		"1-★: Special 1": {
+			"path": "/level_1-star.json",
+			"number": 41
 		}
 	},
 	"World 2": {
@@ -41,6 +45,10 @@
 		"2-5: Blocked Off": {
 			"path": "/level_2-5.json",
 			"number": 9
+		},
+		"2-★: Special 2": {
+			"path": "/level_2-star.json",
+			"number": 42
 		}
 	},
 	"World 3": {
@@ -63,6 +71,10 @@
 		"3-5: Pull Into Form": {
 			"path": "/level_3-5.json",
 			"number": 14
+		},
+		"3-★: Special 3": {
+			"path": "/level_3-star.json",
+			"number": 43
 		}
 	},
 	"World 4": {
@@ -85,6 +97,10 @@
 		"4-5: Inevitably Tall": {
 			"path": "/level_4-5.json",
 			"number": 19
+		},
+		"4-★: Special 4": {
+			"path": "/level_4-star.json",
+			"number": 44
 		}
 	},
 	"World 5": {
@@ -107,6 +123,10 @@
 		"5-5: Long Pink": {
 			"path": "/level_5-5.json",
 			"number": 24
+		},
+		"5-★: Special 5": {
+			"path": "/level_5-star.json",
+			"number": 45
 		}
 	},
 	"World 6": {
@@ -129,6 +149,10 @@
 		"6-5: Juggling": {
 			"path": "/level_6-5.json",
 			"number": 29
+		},
+		"6-★: Special 6": {
+			"path": "/level_6-star.json",
+			"number": 46
 		}
 	},
 	"World ♛": {
@@ -151,6 +175,10 @@
 		"♛-5: Over and Below ": {
 			"path": "/level_crown-5.json",
 			"number": 34
+		},
+		"♛-★: Special ♛": {
+			"path": "/level_crown-star.json",
+			"number": 47
 		}
 	},
 	"Post-credits": {
