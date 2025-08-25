@@ -43,8 +43,10 @@ public class LevelSelectDialog extends JDialog {
 
 	private static final String TITLE = "Level Select";
 	private static final String LEVEL_INDEX = "/level_select_index.json";
-	private static final String UNVISITED_LEVEL_NAME = "???";
 	private static final int SPACE = 3;
+
+	private static final String UNVISITED_LEVEL_NAME = "???";
+	private static final String COMPLETED_SYMBOL = "🏆";
 
 	private GameController gameController;
 	private long levelsCompleted;
@@ -156,7 +158,7 @@ public class LevelSelectDialog extends JDialog {
 		panel.add(nameLabel);
 		panel.add(Box.createHorizontalGlue());
 		if (isLevelComplete) {
-			panel.add(new JLabel("🏆"));
+			panel.add(new JLabel(COMPLETED_SYMBOL));
 			panel.add(Box.createHorizontalStrut(SPACE));
 		}
 		panel.add(loadButton);
