@@ -115,12 +115,11 @@ public class LevelSelectDialog extends JDialog {
 
 		for (Entry<String, Pair<String, Integer>> level : levels.entrySet()) {
 			panel.add(Box.createVerticalStrut(SPACE));
-			boolean isLevelLoadable = levelInField(level.getValue().second,
-					levelsVisited);
-			boolean isLevelComplete = levelInField(level.getValue().second,
-					levelsCompleted);
-			panel.add(createLevelButtonPanel(level.getKey(),
-					level.getValue().first, isLevelLoadable, isLevelComplete));
+			String levelName = level.getValue().first;
+			int levelNumber = level.getValue().second;
+			panel.add(createLevelButtonPanel(level.getKey(), levelName,
+					levelIsLoadable(levelNumber),
+					levelInField(levelNumber, levelsCompleted)));
 		}
 
 		for (Component comp : panel.getComponents()) {
@@ -163,6 +162,12 @@ public class LevelSelectDialog extends JDialog {
 		panel.add(loadButton);
 
 		return panel;
+	}
+
+	private boolean levelIsLoadable(int level) {
+		return levelInField(level, levelsVisited)
+				|| SaveManager.getValue("game_complete", "false")
+						.equals("true");
 	}
 
 	private boolean levelInField(int level, long field) {
