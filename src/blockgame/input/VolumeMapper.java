@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class VolumeMapper extends Mapper<Number> {
 
 	public enum Volume {
-		SFX, MUSIC
+		MUSIC, SFX
 	}
 
 	private static final String SAVE_PATH = "/volume.json";
