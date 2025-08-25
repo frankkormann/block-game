@@ -118,10 +118,12 @@ public class MusicPlayer implements ValueChangeListener {
 		int threadNumber = currentThread;
 		new Thread(() -> {
 			try {
-				while (currentThread == threadNumber) {
+				songLoop: while (true) {
 					stream.mark(Integer.MAX_VALUE);
-					while (currentThread == threadNumber
-							&& stream.available() > 0) {
+					while (stream.available() > 0) {
+						if (currentThread != threadNumber) {
+							break songLoop;
+						}
 						byte[] buffer = new byte[line.available()];
 						int num = stream.read(buffer, 0, buffer.length);
 						line.write(buffer, 0, num);
