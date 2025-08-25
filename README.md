@@ -52,7 +52,7 @@ and run it.
 #### Music
 There are two versions of the game, with music and without music. The main
 difference between these verions is about 20 MB. If you download the version
-with music, make sure to enable it by selecting a song in Options > Sound.
+with music, make sure to enable it by selecting a song in `Options > Sound`.
 
 ### Controls
 
