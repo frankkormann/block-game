@@ -117,8 +117,9 @@ public class MusicPlayer implements ValueChangeListener {
 		currentThread++;
 		int threadNumber = currentThread;
 		new Thread(() -> {
-			try {
-				songLoop: while (true) {
+
+			songLoop: while (true) {
+				try {
 					stream.mark(Integer.MAX_VALUE);
 					while (stream.available() > 0) {
 						if (currentThread != threadNumber) {
@@ -130,12 +131,20 @@ public class MusicPlayer implements ValueChangeListener {
 					}
 					stream.reset();
 				}
-				line.close();
+				catch (IOException e) {
+					e.printStackTrace();
+					new ErrorDialog("Error", "Failed to read audio stream", e)
+							.setVisible(true);
+					break songLoop;
+				}
+			}
+			line.close();
+			try {
 				stream.close();
 			}
 			catch (IOException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Failed to read audio data", e)
+				new ErrorDialog("Error", "Failed to close audio stream", e)
 						.setVisible(true);
 			}
 		}).start();
