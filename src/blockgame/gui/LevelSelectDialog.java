@@ -103,7 +103,7 @@ public class LevelSelectDialog extends JDialog {
 							new TypeReference<Map<String, Map<String, Pair<String, Integer>>>>() {});
 			return map;
 		}
-		catch (IOException e) {
+		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 			new ErrorDialog("Error", "Failed to read level index data", e)
 					.setVisible(true);
