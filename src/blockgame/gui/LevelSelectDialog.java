@@ -80,6 +80,13 @@ public class LevelSelectDialog extends JDialog {
 		Map<String, Map<String, Pair<String, Integer>>> levelMap = loadLevelMap();
 		for (Entry<String, Map<String, Pair<String, Integer>>> world : levelMap
 				.entrySet()) {
+			boolean noLevelsAreLoadable = world.getValue()
+					.values()
+					.stream()
+					.noneMatch(l -> isLevelLoadable(l.second));
+			if (noLevelsAreLoadable) {
+				continue;
+			}
 			tabbedPane.addTab(world.getKey(),
 					createWorldPanel(world.getValue()));
 		}
