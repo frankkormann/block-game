@@ -121,7 +121,7 @@ public class LevelSelectDialog extends JDialog {
 			String levelName = level.getValue().first;
 			int levelNumber = level.getValue().second;
 			panel.add(createLevelButtonPanel(level.getKey(), levelName,
-					levelIsLoadable(levelNumber),
+					isLevelLoadable(levelNumber),
 					levelInField(levelNumber, levelsCompleted)));
 		}
 
@@ -167,7 +167,7 @@ public class LevelSelectDialog extends JDialog {
 		return panel;
 	}
 
-	private boolean levelIsLoadable(int level) {
+	private boolean isLevelLoadable(int level) {
 		return levelInField(level, levelsVisited)
 				|| SaveManager.getValue("game_complete", "false")
 						.equals("true");
