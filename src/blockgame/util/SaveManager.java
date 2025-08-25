@@ -131,8 +131,10 @@ public class SaveManager {
 		if (cachedValues == null) {
 			readValuesFromSave();
 		}
-		cachedValues.put(name, value);
-		saveToFile();
+		if (!getValue(name, null).equals(value)) {
+			cachedValues.put(name, value);
+			saveToFile();
+		}
 	}
 
 	/**
