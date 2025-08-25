@@ -4,7 +4,7 @@
 	"width": 1100,
 	"height": 400,
 	"solution": "/level_2-1.rec",
-	"popup": "Level select now unlocked!",
+	"popup": "Level select now unlocked in the title bar!",
 	"storeValues": {
 		"title_screen": "/title_2.json",
 		"level_select_unlocked": "true"
