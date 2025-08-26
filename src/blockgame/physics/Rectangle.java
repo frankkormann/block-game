@@ -56,6 +56,7 @@ import blockgame.util.Pair;
 		@JsonSubTypes.Type(value = ImageArea.class, name = "ImageArea"),
 		@JsonSubTypes.Type(value = ShrinkArea.class, name = "ShrinkArea"),
 		@JsonSubTypes.Type(value = SwitchArea.class, name = "SwitchArea"),
+		@JsonSubTypes.Type(value = GhostRectangle.class, name = "GhostRectangle"),
 		@JsonSubTypes.Type(value = HintRectangle.class, name = "HintRectangle"),
 		@JsonSubTypes.Type(value = MovingRectangle.class, name = "MovingRectangle"),
 		@JsonSubTypes.Type(value = SwitchRectangle.class, name = "SwitchRectangle"),
