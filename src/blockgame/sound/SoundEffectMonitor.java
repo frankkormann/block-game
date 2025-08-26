@@ -39,7 +39,8 @@ public class SoundEffectMonitor {
 	 * Sound effect containing a {@code Clip} which is pre-loaded with its data.
 	 */
 	public enum SoundEffect {
-		LEVEL_COMPLETE("/level_complete.wav"), GROW("/grow.wav"),
+		LEVEL_COMPLETE("/level_complete.wav"),
+		LEVEL_COMPLETE_SPECIAL("/nananana.wav"), GROW("/grow.wav"),
 		SHRINK("/shrink.wav"), LAND("/land.wav"), SWITCH_ON("/switch_on.wav");
 
 		public final Clip clip;
@@ -107,8 +108,10 @@ public class SoundEffectMonitor {
 	 * need to be played.
 	 */
 	public void playSounds() {
-		playIfAnyMatch(goals, g -> g.playingLevelFinish(),
+		playIfAnyMatch(goals, g -> g.playingLevelFinish() && !g.isSpecial(),
 				SoundEffect.LEVEL_COMPLETE.clip, false);
+		playIfAnyMatch(goals, g -> g.playingLevelFinish() && g.isSpecial(),
+				SoundEffect.LEVEL_COMPLETE_SPECIAL.clip, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
 						|| r.getHeight() > r.getLastHeight(),

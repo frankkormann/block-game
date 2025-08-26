@@ -3,7 +3,9 @@ package blockgame.physics;
 import java.awt.Graphics;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import blockgame.gui.ParticleExplosion;
 
@@ -24,6 +26,7 @@ public class GoalArea extends Area {
 	private boolean used;
 	private String nextLevel;
 	private boolean hasParticles;
+	private boolean isSpecial;
 	private ParticleExplosion particleExplosion;
 
 	@JsonCreator
@@ -37,6 +40,7 @@ public class GoalArea extends Area {
 		used = false;
 		this.nextLevel = nextLevel;
 		this.hasParticles = hasParticles;
+		isSpecial = false;
 		particleExplosion = hasParticles ? new ParticleExplosion() : null;
 
 		if (nextLevel == "") {
@@ -74,10 +78,16 @@ public class GoalArea extends Area {
 		g = g.create();
 
 		g.setColor(getColor().darker());
-		int fillHeight = getHeight() * timer / TIMEOUT;
-		fillHeight = Math.min(fillHeight, getHeight());
-		g.fillRect(getX(), getY() + getHeight() - fillHeight, getWidth(),
-				fillHeight);
+		int fillY, fillHeight;
+		fillHeight = Math.min(getHeight() * timer / TIMEOUT, getHeight());
+		if (isSpecial) {
+			fillY = getY();
+		}
+		else {
+			fillY = getY() + getHeight() - fillHeight;
+		}
+
+		g.fillRect(getX(), fillY, getWidth(), fillHeight);
 
 		if (hasParticles) {
 			final Graphics g2 = g;
@@ -151,6 +161,16 @@ public class GoalArea extends Area {
 
 	public boolean hasParticles() {
 		return hasParticles;
+	}
+
+	@JsonSetter("special")
+	public void setSpecial(boolean isSpecial) {
+		this.isSpecial = isSpecial;
+	}
+
+	@JsonGetter("special")
+	public boolean isSpecial() {
+		return isSpecial;
 	}
 
 }
