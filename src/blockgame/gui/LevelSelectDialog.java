@@ -47,6 +47,7 @@ public class LevelSelectDialog extends JDialog {
 	private static final int SPACE = 3;
 
 	private static final String UNVISITED_LEVEL_NAME = "???";
+	private static final String UNVISITED_LEVEL_TOOLTIP = "Find the path to this level to unlock it";
 	private static final String COMPLETED_SYMBOL = "🏆";
 
 	private GameController gameController;
@@ -160,6 +161,7 @@ public class LevelSelectDialog extends JDialog {
 			nameLabel.setText(
 					name.replaceFirst(": .*", ": " + UNVISITED_LEVEL_NAME));
 			loadButton.setEnabled(false);
+			panel.setToolTipText(UNVISITED_LEVEL_TOOLTIP);
 		}
 
 		panel.add(Box.createHorizontalStrut(SPACE));
