@@ -425,7 +425,8 @@ public class GameController extends WindowAdapter
 
 		for (SwitchArea area : areas) {
 			if (!controllers.containsKey(area.getKey())) {
-				continue;
+				continue;  // Not necessary to create a SwitchController for it
+							  // because it would affect no SwitchRectangles
 			}
 			area.setController(controllers.get(area.getKey()));
 		}
