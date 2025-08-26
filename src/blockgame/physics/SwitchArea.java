@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {@code Area} that reports to {@code SwitchController}. As long as there is a
  * {@code MovingRectangle} within this, all the children of its
  * {@code SwitchContoller} will be active.
+ * <p>
+ * If no {@code SwitchController} is set, this does nothing except draw itself.
  *
  * @author Frank Kormann
  */
@@ -31,6 +33,7 @@ public class SwitchArea extends Area {
 			@JsonProperty("key") String key) {
 		super(x, y, width, height, colorEnum);
 		this.key = key;
+		controller = null;
 		numberInside = 0;
 	}
 
@@ -65,6 +68,9 @@ public class SwitchArea extends Area {
 	 */
 	@Override
 	public void onEnter(MovingRectangle rect) {
+		if (controller == null) {
+			return;
+		}
 		numberInside++;
 		if (numberInside == 1) {
 			controller.areaActivated();
@@ -79,6 +85,9 @@ public class SwitchArea extends Area {
 	 */
 	@Override
 	public void onExit(MovingRectangle rect) {
+		if (controller == null) {
+			return;
+		}
 		numberInside--;
 		if (numberInside == 0) {
 			controller.areaDeactivated();
