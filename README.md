@@ -1,4 +1,4 @@
-# Block Game
+# Resizer
 
 This is a puzzle game about moving blocks around. Solve 40 hand-crafted levels
 by interacting with the environment in varied, creative ways.
@@ -139,11 +139,17 @@ of rectangle.
 The game will automatically load `level_1-1.json` as its first level. Subsequent
 level filenames are read from the activated Goal Area.
 
+
+### Name
+
+The project's name is "Block Game" internally because that was its original name,
+and the maintainer has no interest in changing it everywhere.
+
 ## Contributing
 
 Outside contributions are not accepted because this is primarily a personal
-project. However, feedback in all forms is welcomed. You are also free to extend the
-project on your own.
+project. However, feedback in all forms is welcomed. You are also free to extend
+the project on your own.
 
 ## License
 
