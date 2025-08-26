@@ -162,6 +162,7 @@ public class LevelSelectDialog extends JDialog {
 					name.replaceFirst(": .*", ": " + UNVISITED_LEVEL_NAME));
 			loadButton.setEnabled(false);
 			panel.setToolTipText(UNVISITED_LEVEL_TOOLTIP);
+			loadButton.setToolTipText(UNVISITED_LEVEL_TOOLTIP);
 		}
 
 		panel.add(Box.createHorizontalStrut(SPACE));
