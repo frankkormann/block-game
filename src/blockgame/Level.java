@@ -12,6 +12,8 @@ import blockgame.physics.WallRectangle;
 
 /**
  * Container for level information while reading level JSON.
+ * <p>
+ * Default level number is {@code -1} if the level does not override it.
  * 
  * @author Frank Kormann
  */
