@@ -43,11 +43,7 @@ public class HintRectangle extends Rectangle {
 
 		g = g.create();
 
-		g.setColor(new Color((int) (getColor().getRed() / BORDER_DARKNESS),
-				(int) (getColor().getGreen() / BORDER_DARKNESS),
-				(int) (getColor().getBlue() / BORDER_DARKNESS),
-				getColor().getAlpha()));
-
+		g.setColor(getBorderColor());
 		drawRectOutline(g, OUTLINE_THICKNESS);
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),

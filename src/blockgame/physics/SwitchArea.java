@@ -41,12 +41,7 @@ public class SwitchArea extends Area {
 		super.draw(g);
 		g = g.create();
 
-		Color innerRectColor = new Color(
-				(int) (getColor().getRed() / BORDER_DARKNESS),
-				(int) (getColor().getGreen() / BORDER_DARKNESS),
-				(int) (getColor().getBlue() / BORDER_DARKNESS),
-				getColor().getAlpha());
-		g.setColor(innerRectColor);
+		g.setColor(getBorderColor());
 		int quarterWidth = getWidth() / 4;
 		int quarterHeight = getHeight() / 4;
 		// Calculate the width/height by subtracting 2 quarters so that there is

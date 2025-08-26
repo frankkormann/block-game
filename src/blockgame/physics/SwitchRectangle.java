@@ -42,10 +42,7 @@ public class SwitchRectangle extends MovingRectangle {
 		Color color = new Color(getColor().getRed(), getColor().getGreen(),
 				getColor().getBlue(), isActive ? 255 : 0);
 
-		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
-				(int) (color.getGreen() / BORDER_DARKNESS),
-				(int) (color.getBlue() / BORDER_DARKNESS));
-		g.setColor(border);
+		g.setColor(getBorderColor());
 		drawDashedRectangle(g, color, DASH_SIZE, BORDER_THICKNESS, getX(),
 				getY(), getWidth(), getHeight());
 

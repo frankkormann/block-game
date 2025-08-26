@@ -62,8 +62,7 @@ import blockgame.util.Pair;
 		@JsonSubTypes.Type(value = WallRectangle.class, name = "WallRectangle") })
 public abstract class Rectangle implements Drawable {
 
-	protected static final float BORDER_DARKNESS = 1.2f;
-
+	private static final float BORDER_DARKNESS = 0.8f;
 	private static final int BORDER_THICKNESS = 1;
 
 	/**
@@ -161,15 +160,10 @@ public abstract class Rectangle implements Drawable {
 	public void draw(Graphics g) {
 		g = g.create();
 
-		Color color = getColor();
-
-		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
-				(int) (color.getGreen() / BORDER_DARKNESS),
-				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
-		g.setColor(border);
+		g.setColor(getBorderColor());
 		drawRectOutline(g, BORDER_THICKNESS);
 
-		g.setColor(color);
+		g.setColor(getColor());
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
 
@@ -518,6 +512,13 @@ public abstract class Rectangle implements Drawable {
 
 	public Color getColor() {
 		return getColor(colorEnum);
+	}
+
+	public Color getBorderColor() {
+		Color color = getColor();
+		return new Color((int) (color.getRed() * BORDER_DARKNESS),
+				(int) (color.getGreen() * BORDER_DARKNESS),
+				(int) (color.getBlue() * BORDER_DARKNESS), color.getAlpha());
 	}
 
 	public Color getColor(Enum<?> colorEnum) {
