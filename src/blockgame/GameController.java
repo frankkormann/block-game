@@ -123,7 +123,6 @@ public class GameController extends WindowAdapter
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
-		ImageArea.setColorMapper(colorMapper);
 
 		MusicPlayer musicPlayer = new MusicPlayer(volumeMapper);
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
