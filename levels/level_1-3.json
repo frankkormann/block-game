@@ -38,9 +38,9 @@
 	"walls": [
 		{
 			"type": "WallRectangle",
-			"x": -20,
+			"x": -170,
 			"y": 250,
-			"width": 300,
+			"width": 450,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
@@ -85,6 +85,15 @@
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_1-4.json",
+			"hasParticles": true
+		},
+		{
+			"type": "GoalArea",
+			"x": -120,
+			"y": 200,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_1-star.json",
 			"hasParticles": true
 		}
 	],
