@@ -502,12 +502,17 @@ public class GameController extends WindowAdapter
 	 * Returns whether the level at {@code levelNumber} has been marked in the
 	 * saved value named {@code fieldName}. The value is interpreted as a
 	 * bitfield of level numbers.
+	 * <p>
+	 * If {@code levelNumber} is less than 0, always returns {@code false}.
 	 * 
 	 * @param levelNumber numerical identifier of the level
 	 * 
 	 * @return {@code true} if it has been completed
 	 */
 	private boolean isLevelInField(String fieldName, int levelNumber) {
+		if (levelNumber < 0) {
+			return false;
+		}
 		long levelFlags = Long.valueOf(SaveManager.getValue(fieldName, "0"));
 		return (levelFlags & (1L << levelNumber)) != 0;
 	}
