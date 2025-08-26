@@ -62,7 +62,8 @@ import blockgame.util.Pair;
 		@JsonSubTypes.Type(value = WallRectangle.class, name = "WallRectangle") })
 public abstract class Rectangle implements Drawable {
 
-	private static final float BORDER_DARKNESS = 1.2f;
+	protected static final float BORDER_DARKNESS = 1.2f;
+
 	private static final int BORDER_THICKNESS = 1;
 
 	/**

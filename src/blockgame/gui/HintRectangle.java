@@ -22,7 +22,6 @@ import blockgame.physics.Rectangle;
 public class HintRectangle extends Rectangle {
 
 	private static final int OUTLINE_THICKNESS = 2;
-	private static final float BORDER_DARKNESS = 1.2f;
 
 	private boolean visible;
 

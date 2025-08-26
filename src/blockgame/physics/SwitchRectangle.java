@@ -19,7 +19,6 @@ public class SwitchRectangle extends MovingRectangle {
 
 	private static final int DASH_SIZE = 5;
 	private static final int BORDER_THICKNESS = 2;
-	private static final float BORDER_DARKNESS = 1.2f;
 
 	private boolean isActive;
 	private boolean wasActive;

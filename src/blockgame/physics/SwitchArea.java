@@ -19,7 +19,6 @@ public class SwitchArea extends Area {
 
 	private static final int DASH_SIZE = 10;
 	private static final int DASH_THICKNESS = 3;
-	private static final float INNER_RECT_DARKNESS = 1.2f;
 
 	private String key;
 	private SwitchController controller;
@@ -43,9 +42,9 @@ public class SwitchArea extends Area {
 		g = g.create();
 
 		Color innerRectColor = new Color(
-				(int) (getColor().getRed() / INNER_RECT_DARKNESS),
-				(int) (getColor().getGreen() / INNER_RECT_DARKNESS),
-				(int) (getColor().getBlue() / INNER_RECT_DARKNESS),
+				(int) (getColor().getRed() / BORDER_DARKNESS),
+				(int) (getColor().getGreen() / BORDER_DARKNESS),
+				(int) (getColor().getBlue() / BORDER_DARKNESS),
 				getColor().getAlpha());
 		g.setColor(innerRectColor);
 		int quarterWidth = getWidth() / 4;
