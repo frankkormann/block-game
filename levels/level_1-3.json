@@ -94,7 +94,8 @@
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_1-star.json",
-			"hasParticles": true
+			"hasParticles": true,
+			"special": true
 		}
 	],
 	"hints": [
