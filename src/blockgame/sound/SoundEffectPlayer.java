@@ -31,7 +31,7 @@ import blockgame.physics.SwitchRectangle;
  * 
  * @author Frank Kormann
  */
-public class SoundEffectMonitor {
+public class SoundEffectPlayer {
 
 	private static final int MIN_FALL_DISTANCE = 20;
 
@@ -76,9 +76,9 @@ public class SoundEffectMonitor {
 	VolumeMapper volumeMapper;
 
 	/**
-	 * Creates a new {@code SoundEffectMonitor} with no objects.
+	 * Creates a new {@code SoundEffectPlayer} with no objects.
 	 */
-	public SoundEffectMonitor(VolumeMapper volumeMapper) {
+	public SoundEffectPlayer(VolumeMapper volumeMapper) {
 		movingRectangles = new ArrayList<>();
 		switchRectangles = new ArrayList<>();
 		goals = new ArrayList<>();

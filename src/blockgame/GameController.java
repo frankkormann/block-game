@@ -54,13 +54,13 @@ import blockgame.physics.SwitchController;
 import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
 import blockgame.sound.MusicPlayer;
-import blockgame.sound.SoundEffectMonitor;
+import blockgame.sound.SoundEffectPlayer;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator},
- * {@code SoundEffectMonitor}, and {@code GameInputHandler}.
+ * {@code SoundEffectPlayer}, and {@code GameInputHandler}.
  * <p>
  * Level data is read from JSON files. The JSON is used to fill the fields in
  * {@link Level}, so it should have data for each of that class's public
@@ -81,7 +81,7 @@ public class GameController extends WindowAdapter
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
-	private SoundEffectMonitor sfxMonitor;
+	private SoundEffectPlayer sfxMonitor;
 	private GameInputHandler gameInputHandler;
 	private MenuBar menuBar;
 
@@ -129,7 +129,7 @@ public class GameController extends WindowAdapter
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
-		sfxMonitor = new SoundEffectMonitor(volumeMapper);
+		sfxMonitor = new SoundEffectPlayer(volumeMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
 				volumeMapper, musicPlayer, this);
 		menuBar.showLevelSelect(
