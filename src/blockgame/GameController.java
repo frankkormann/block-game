@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.LineEvent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -136,13 +137,6 @@ public class GameController extends WindowAdapter
 				SaveManager.getValue("level_select_unlocked", "false")
 						.equals("true"));
 
-		mainFrame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				musicPlayer.playSaved();
-			}
-		});
-
 		currentLevel = "";
 		currentLevelNumber = -1;
 		currentSolution = "";
@@ -155,6 +149,12 @@ public class GameController extends WindowAdapter
 		paused = false;
 
 		paramMapper.addListener(this);
+
+		SoundEffect.GAME_START.clip.addLineListener(e -> {
+			if (e.getType() == LineEvent.Type.STOP) {
+				musicPlayer.playSaved();
+			}
+		});
 
 		if (isLevelInField("visited_levels", 5)) {  // Update saves from older
 													  // versions
