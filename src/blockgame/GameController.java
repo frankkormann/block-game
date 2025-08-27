@@ -55,6 +55,7 @@ import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
 import blockgame.sound.MusicPlayer;
 import blockgame.sound.SoundEffectPlayer;
+import blockgame.sound.SoundEffectPlayer.SoundEffect;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
@@ -167,6 +168,7 @@ public class GameController extends WindowAdapter
 	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
 	public void startGame(String titleScreen, int millisBetweenFrames) {
+		sfxPlayer.play(SoundEffect.GAME_START);
 		loadTitle(titleScreen);
 		mainFrame.setVisible(true);
 

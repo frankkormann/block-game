@@ -39,7 +39,7 @@ public class SoundEffectPlayer {
 	 * Sound effect containing a {@code Clip} which is pre-loaded with its data.
 	 */
 	public enum SoundEffect {
-		LEVEL_COMPLETE("/level_complete.wav"),
+		GAME_START("/start_up.wav"), LEVEL_COMPLETE("/level_complete.wav"),
 		LEVEL_COMPLETE_SPECIAL("/nananana.wav"), GROW("/grow.wav"),
 		SHRINK("/shrink.wav"), LAND("/land.wav"), SWITCH_ON("/switch_on.wav");
 
@@ -109,24 +109,24 @@ public class SoundEffectPlayer {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals, g -> g.playingLevelFinish() && !g.isSpecial(),
-				SoundEffect.LEVEL_COMPLETE.clip, false);
+				SoundEffect.LEVEL_COMPLETE, false);
 		playIfAnyMatch(goals, g -> g.playingLevelFinish() && g.isSpecial(),
-				SoundEffect.LEVEL_COMPLETE_SPECIAL.clip, false);
+				SoundEffect.LEVEL_COMPLETE_SPECIAL, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
 						|| r.getHeight() > r.getLastHeight(),
-				SoundEffect.GROW.clip, false);
+				SoundEffect.GROW, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
-				SoundEffect.SHRINK.clip, false);
+				SoundEffect.SHRINK, false);
 		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
-				SoundEffect.SWITCH_ON.clip, true);
+				SoundEffect.SWITCH_ON, true);
 		playIfAnyMatch(movingRectangles,
 				r -> fallDistances.containsKey(r)
 						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
 						&& r.getState() == State.ON_GROUND,
-				SoundEffect.LAND.clip, true);
+				SoundEffect.LAND, true);
 
 		updateFallDistances();
 	}
@@ -143,25 +143,37 @@ public class SoundEffectPlayer {
 	 * @param <T>             type of objects to test
 	 * @param objects         {@code Collection} of objects to test
 	 * @param condition       {@code Predicate} to test against
-	 * @param clip            sound {@code Clip} to play
+	 * @param soundEffect     {@code SoundEffect} to play
 	 * @param restartPrevious {@code true} if {@code clip} should be restarted
 	 *                        if it is already running
 	 */
 	private <T> void playIfAnyMatch(Collection<T> objects,
-			Predicate<T> condition, Clip clip, boolean restartPrevious) {
+			Predicate<T> condition, SoundEffect soundEffect,
+			boolean restartPrevious) {
 		if (objects.stream().anyMatch(condition)) {
 			if (restartPrevious) {
-				clip.stop();
+				soundEffect.clip.stop();
 			}
-			if (!clip.isRunning()) {
-				clip.setFramePosition(0);
-				while (!clip.isRunning()) {  // Make sure it starts (sometimes
-					clip.start();			  // it won't start right away soon
-				}							  // after being stopped)
-				VolumeChanger.setVolume(clip,
-						volumeMapper.get(Volume.SFX).floatValue());
+			if (!soundEffect.clip.isRunning()) {
+				play(soundEffect);
 			}
 		}
+	}
+
+	/**
+	 * Plays {@code soundEffect} with the volume set by this's
+	 * {@code VolumeMapper}.
+	 * 
+	 * @param soundEffect {@code SoundEffect} to play
+	 */
+	public void play(SoundEffect soundEffect) {
+		Clip clip = soundEffect.clip;
+		clip.setFramePosition(0);
+		while (!clip.isRunning()) {  // Make sure it starts (sometimes
+			clip.start();			  // it won't start right away soon
+		}							  // after being stopped)
+		VolumeChanger.setVolume(clip,
+				volumeMapper.get(Volume.SFX).floatValue());
 	}
 
 	private void updateFallDistances() {
