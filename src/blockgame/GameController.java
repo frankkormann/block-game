@@ -81,7 +81,7 @@ public class GameController extends WindowAdapter
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
-	private SoundEffectPlayer sfxMonitor;
+	private SoundEffectPlayer sfxPlayer;
 	private GameInputHandler gameInputHandler;
 	private MenuBar menuBar;
 
@@ -128,7 +128,7 @@ public class GameController extends WindowAdapter
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
-		sfxMonitor = new SoundEffectPlayer(volumeMapper);
+		sfxPlayer = new SoundEffectPlayer(volumeMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
 				volumeMapper, musicPlayer, this);
 		menuBar.showLevelSelect(
@@ -251,7 +251,7 @@ public class GameController extends WindowAdapter
 		}
 
 		physicsSimulator = new PhysicsSimulator();
-		sfxMonitor.clear();
+		sfxPlayer.clear();
 		menuBar.reset();
 		hints.clear();
 
@@ -359,7 +359,7 @@ public class GameController extends WindowAdapter
 				mainFrame.add(rect, 3);
 			}
 			physicsSimulator.add(rect);
-			sfxMonitor.add(rect);
+			sfxPlayer.add(rect);
 			if (rect instanceof SwitchRectangle) {
 				switchRects.add((SwitchRectangle) rect);
 			}
@@ -379,7 +379,7 @@ public class GameController extends WindowAdapter
 		for (Area area : level.areas) {
 			physicsSimulator.add(area);
 			if (area instanceof GoalArea) {
-				sfxMonitor.add((GoalArea) area);
+				sfxPlayer.add((GoalArea) area);
 			}
 			if (area instanceof SwitchArea) {
 				switchAreas.add((SwitchArea) area);
@@ -452,7 +452,7 @@ public class GameController extends WindowAdapter
 		physicsSimulator.updateAndMoveObjects(allInputs.second,
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
-		sfxMonitor.playSounds();
+		sfxPlayer.playSounds();
 
 		if (!physicsSimulator.getNextLevel().equals("")) {
 			String nextLevel = physicsSimulator.getNextLevel();
