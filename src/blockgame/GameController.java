@@ -156,6 +156,11 @@ public class GameController extends WindowAdapter
 
 		paramMapper.addListener(this);
 
+		if (isLevelInField("visited_levels", 5)) {  // Update saves from older
+													  // versions
+			SaveManager.putValue("level_select_unlocked", "true");
+		}
+
 		startGame(SaveManager.getValue("title_screen", FIRST_TITLE_SCREEN),
 				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
