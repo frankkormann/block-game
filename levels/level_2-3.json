@@ -29,14 +29,6 @@
 	"walls": [
 		{
 			"type": "WallRectangle",
-			"x": 160,
-			"y": 240,
-			"width": 150,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
 			"x": 330,
 			"y": 180,
 			"width": 240,
@@ -48,23 +40,15 @@
 			"x": 330,
 			"y": 200,
 			"width": 20,
-			"height": 30,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
-			"x": 300,
-			"y": 80,
-			"width": 30,
-			"height": 10,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 300,
-			"y": 90,
-			"width": 10,
-			"height": 10,
+			"x": 310,
+			"y": 220,
+			"width": 40,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
