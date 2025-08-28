@@ -54,6 +54,7 @@ import blockgame.util.Pair;
 		@JsonSubTypes.Type(value = AntigravityArea.class, name = "AntigravityArea"),
 		@JsonSubTypes.Type(value = GrowArea.class, name = "GrowArea"),
 		@JsonSubTypes.Type(value = ImageArea.class, name = "ImageArea"),
+		@JsonSubTypes.Type(value = RevealingArea.class, name = "RevealingArea"),
 		@JsonSubTypes.Type(value = ShrinkArea.class, name = "ShrinkArea"),
 		@JsonSubTypes.Type(value = SwitchArea.class, name = "SwitchArea"),
 		@JsonSubTypes.Type(value = GhostRectangle.class, name = "GhostRectangle"),
