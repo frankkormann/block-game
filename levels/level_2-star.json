@@ -32,6 +32,14 @@
 			"width": 30,
 			"height": 30,
 			"color": "GREEN"
+		},
+		{
+			"type": "GhostRectangle",
+			"x": 780,
+			"y": 220,
+			"width": 60,
+			"height": 60,
+			"color": "BLUE"
 		}
 	],
 	"walls": [
@@ -63,15 +71,23 @@
 			"type": "WallRectangle",
 			"x": 670,
 			"y": 100,
-			"width": 130,
+			"width": 170,
 			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 840,
+			"y": 100,
+			"width": 20,
+			"height": 180,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
 			"x": 0,
 			"y": 280,
-			"width": 800,
+			"width": 860,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		}
