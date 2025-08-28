@@ -140,7 +140,7 @@ public class PhysicsSimulator {
 	 */
 	public void updateAndMoveObjects(Set<MovementInput> movementInputs,
 			int width, int height, int xOffset, int yOffset) {
-		areas.addAll(areasToAdd);
+		areasToAdd.forEach(a -> add(a));
 		areasToAdd.clear();
 
 		applyInputsToPlayerRectangles(movementInputs);
