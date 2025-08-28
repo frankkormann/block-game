@@ -396,6 +396,9 @@ public class GameController extends WindowAdapter
 				((RevealingArea) area).setRevealAction(a -> {
 					physicsSimulator.addSafe(a);
 					mainFrame.add(a, 1);
+					if (a instanceof GoalArea) {
+						sfxPlayer.add((GoalArea) a);
+					}
 				});
 			}
 			if (area instanceof ImageArea) {
