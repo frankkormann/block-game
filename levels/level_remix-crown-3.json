@@ -107,15 +107,15 @@
 			"x": 500,
 			"y": 250,
 			"width": 30,
-			"height": 120,
+			"height": 110,
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": "WallRectangle",
 			"x": 500,
-			"y": 370,
+			"y": 360,
 			"width": 30,
-			"height": 50,
+			"height": 60,
 			"resizeBehavior": "STAY"
 		},
 		{
