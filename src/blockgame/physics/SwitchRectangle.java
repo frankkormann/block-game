@@ -39,14 +39,13 @@ public class SwitchRectangle extends MovingRectangle {
 	public void draw(Graphics g) {
 		g = g.create();
 
-		Color color = new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), isActive ? getColor().getAlpha() : 0);
+		Color innerColor = isActive ? getColor() : getColor(Colors.TRANSPARENT);
 
 		g.setColor(getBorderColor());
-		drawDashedRectangle(g, color, DASH_SIZE, BORDER_THICKNESS, getX(),
+		drawDashedRectangle(g, innerColor, DASH_SIZE, BORDER_THICKNESS, getX(),
 				getY(), getWidth(), getHeight());
 
-		g.setColor(color);
+		g.setColor(innerColor);
 		g.fillRect(getX() + BORDER_THICKNESS, getY() + BORDER_THICKNESS,
 				getWidth() - 2 * BORDER_THICKNESS,
 				getHeight() - 2 * BORDER_THICKNESS);
