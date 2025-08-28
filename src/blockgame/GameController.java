@@ -50,6 +50,7 @@ import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.PhysicsSimulator;
 import blockgame.physics.Rectangle;
+import blockgame.physics.RevealingArea;
 import blockgame.physics.SwitchArea;
 import blockgame.physics.SwitchController;
 import blockgame.physics.SwitchRectangle;
@@ -390,6 +391,12 @@ public class GameController extends WindowAdapter
 			}
 			if (area instanceof SwitchArea) {
 				switchAreas.add((SwitchArea) area);
+			}
+			if (area instanceof RevealingArea) {
+				((RevealingArea) area).setRevealAction(a -> {
+					physicsSimulator.addSafe(a);
+					mainFrame.add(a, 1);
+				});
 			}
 			if (area instanceof ImageArea) {
 				ImageArea imgArea = (ImageArea) area;
