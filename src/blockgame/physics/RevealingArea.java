@@ -6,9 +6,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * {@code Area} that reveals another {@code Area} when it is entered, by calling
- * the {@code Consumer} set in {@link #setRevealAction(Consumer)}. If a
- * {@code Consumer} is not set, this does nothing.
+ * {@code Area} that reveals another {@code Area} when it is entered by the
+ * player, by calling the {@code Consumer} set in
+ * {@link #setRevealAction(Consumer)}. If a {@code Consumer} is not set, this
+ * does nothing.
  * 
  * @author Frank Kormann
  */
@@ -37,7 +38,7 @@ public class RevealingArea extends Area {
 	 */
 	@Override
 	public void onEnter(MovingRectangle rect) {
-		if (!hasRevealed) {
+		if (!hasRevealed && rect.isControlledByPlayer()) {
 			howToReveal.accept(area);
 			hasRevealed = true;
 		}
