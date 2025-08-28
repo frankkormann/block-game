@@ -41,6 +41,8 @@ public class PhysicsSimulator {
 	private List<GoalArea> goals;
 	private Map<Direction, SideRectangle> sides;
 
+	private List<Area> areasToAdd;
+
 	private Map<Direction, Integer> sideRectangleResizes;
 
 	private String nextLevel;
@@ -58,6 +60,8 @@ public class PhysicsSimulator {
 		switchAreas = new ArrayList<>();
 		goals = new ArrayList<>();
 		sides = new HashMap<>();
+
+		areasToAdd = new ArrayList<>();
 
 		sideRectangleResizes = new HashMap<>();
 
@@ -115,6 +119,10 @@ public class PhysicsSimulator {
 		}
 	}
 
+	public void addSafe(Area area) {
+		areasToAdd.add(area);
+	}
+
 	/**
 	 * This should be called every frame to calculate the next frame.
 	 * <p>
@@ -132,6 +140,8 @@ public class PhysicsSimulator {
 	 */
 	public void updateAndMoveObjects(Set<MovementInput> movementInputs,
 			int width, int height, int xOffset, int yOffset) {
+		areas.addAll(areasToAdd);
+		areasToAdd.clear();
 
 		applyInputsToPlayerRectangles(movementInputs);
 		moveAllMovingRectangles();
@@ -183,7 +193,6 @@ public class PhysicsSimulator {
 	 * and gravity, applies movement from velocity, and computes collision.
 	 */
 	private void moveAllMovingRectangles() {
-
 		movingRectangles.forEach(r -> r.updateLastPosition());
 		applySwitchAreas();  // Make sure activity doesn't change mid-frame
 
@@ -213,7 +222,6 @@ public class PhysicsSimulator {
 			new CollisionPropagator(rect, movingRectangles, walls, sides)
 					.propagateCollision();
 		}
-
 	}
 
 	/**
