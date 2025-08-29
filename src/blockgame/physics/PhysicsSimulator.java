@@ -107,7 +107,16 @@ public class PhysicsSimulator {
 		walls.add(wall);
 	}
 
+	/**
+	 * Adds {@code Area} at the beginning of the next frame.
+	 * 
+	 * @param area {@code Area} to add
+	 */
 	public void add(Area area) {
+		areasToAdd.add(area);
+	}
+
+	private void addArea(Area area) {
 		if (area instanceof SwitchArea) {
 			switchAreas.add((SwitchArea) area);
 		}
@@ -117,19 +126,6 @@ public class PhysicsSimulator {
 		else {
 			areas.add(area);
 		}
-	}
-
-	/**
-	 * Adds {@code Area} at the beginning of the next frame.
-	 * <p>
-	 * This is "safe" in the sense that it will not cause a
-	 * {@code ConcurrentModificationException} if called from an {@code Area}'s
-	 * {@code onEnter}, {@code onExit}, or {@code everyFrame} methods.
-	 * 
-	 * @param area {@code Area} to add
-	 */
-	public void addSafe(Area area) {
-		areasToAdd.add(area);
 	}
 
 	/**
@@ -149,7 +145,7 @@ public class PhysicsSimulator {
 	 */
 	public void updateAndMoveObjects(Set<MovementInput> movementInputs,
 			int width, int height, int xOffset, int yOffset) {
-		areasToAdd.forEach(a -> add(a));
+		areasToAdd.forEach(a -> addArea(a));
 		areasToAdd.clear();
 
 		applyInputsToPlayerRectangles(movementInputs);

@@ -394,7 +394,7 @@ public class GameController extends WindowAdapter
 			}
 			if (area instanceof RevealingArea) {
 				((RevealingArea) area).setRevealAction(a -> {
-					physicsSimulator.addSafe(a);
+					physicsSimulator.add(a);
 					mainFrame.add(a, 1);
 					if (a instanceof GoalArea) {
 						sfxPlayer.add((GoalArea) a);
