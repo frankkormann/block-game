@@ -355,7 +355,6 @@ public class GameController extends WindowAdapter
 	 * @param level {@code Level} to take objects from
 	 */
 	private void loadObjects(Level level) {
-
 		Map<String, SwitchController> switchControllers = new HashMap<>();
 
 		for (MovingRectangle rect : level.movingRectangles) {
@@ -425,6 +424,27 @@ public class GameController extends WindowAdapter
 		if (area instanceof GoalArea) {
 			sfxPlayer.add((GoalArea) area);
 		}
+		if (area instanceof ImageArea) {
+			ImageArea imgArea = (ImageArea) area;
+			mainFrame.add(imgArea, 0);
+			setUpAreaSubtypes(imgArea.getImitatedArea(), switchControllers);
+		}
+		else {
+			mainFrame.add(area, 1);
+		}
+		setUpAreaSubtypes(area, switchControllers);
+	}
+
+	/**
+	 * Performs any necessary set-up for subtypes of {@code Area}, such as
+	 * setting the {@code SwitchController} for a {@code SwitchArea} or setting
+	 * the reveal action for a {@code RevealingArea}.
+	 * 
+	 * @param area              {@code Area} to set up
+	 * @param switchControllers {@code Map} of key to {@code SwitchController}
+	 */
+	private void setUpAreaSubtypes(Area area,
+			Map<String, SwitchController> switchControllers) {
 		if (area instanceof SwitchArea) {
 			SwitchArea switchArea = (SwitchArea) area;
 			createSwitchControllerIfNeeded(switchControllers,
@@ -435,20 +455,6 @@ public class GameController extends WindowAdapter
 		if (area instanceof RevealingArea) {
 			((RevealingArea) area)
 					.setRevealAction(a -> addArea(a, switchControllers));
-		}
-		if (area instanceof ImageArea) {
-			ImageArea imgArea = (ImageArea) area;
-			mainFrame.add(imgArea, 0);
-			if (imgArea.getImitatedArea() instanceof SwitchArea) {
-				SwitchArea switchArea = (SwitchArea) imgArea.getImitatedArea();
-				createSwitchControllerIfNeeded(switchControllers,
-						switchArea.getKey());
-				switchArea.setController(
-						switchControllers.get(switchArea.getKey()));
-			}
-		}
-		else {
-			mainFrame.add(area, 1);
 		}
 	}
 
