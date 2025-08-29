@@ -141,6 +141,33 @@
 			"key": "red"
 		},
 		{
+			"type": "RevealingArea",
+			"x": 530,
+			"y": 300,
+			"width": 100,
+			"height": 70,
+			"area": {
+				"type": "ImageArea",
+				"x": 530,
+				"y": 370,
+				"source": "/title_screen_E.png",
+				"imitatedArea": {
+					"type": "RevealingArea",
+					"x": 530,
+					"y": 370,
+					"area": {
+						"type": "SwitchArea",
+						"x": 530,
+						"y": 300,
+						"width": 100,
+						"height": 140,
+						"color": "TRANSLUCENT_RED",
+						"key": "red"
+					}
+				}
+			}
+		},
+		{
 			"type": "GrowArea",
 			"x": 0,
 			"y": 430,
