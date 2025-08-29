@@ -356,24 +356,10 @@ public class GameController extends WindowAdapter
 	 */
 	private void loadObjects(Level level) {
 
-		List<SwitchArea> switchAreas = new ArrayList<>();
-		List<SwitchRectangle> switchRects = new ArrayList<>();
+		Map<String, SwitchController> switchControllers = new HashMap<>();
 
 		for (MovingRectangle rect : level.movingRectangles) {
-			if (rect instanceof SwitchRectangle) {
-				mainFrame.add(rect, 2);
-			}
-			else {
-				mainFrame.add(rect, 3);
-			}
-			physicsSimulator.add(rect);
-			sfxPlayer.add(rect);
-			if (rect instanceof SwitchRectangle) {
-				switchRects.add((SwitchRectangle) rect);
-			}
-			for (Area attached : rect.getAttachments()) {
-				level.areas.add(attached);
-			}
+			addMovingRectangle(rect, switchControllers);
 		}
 
 		for (WallRectangle wall : level.walls) {
@@ -385,66 +371,101 @@ public class GameController extends WindowAdapter
 		}
 
 		for (Area area : level.areas) {
-			physicsSimulator.add(area);
-			if (area instanceof GoalArea) {
-				sfxPlayer.add((GoalArea) area);
-			}
-			if (area instanceof SwitchArea) {
-				switchAreas.add((SwitchArea) area);
-			}
-			if (area instanceof RevealingArea) {
-				((RevealingArea) area).setRevealAction(a -> {
-					physicsSimulator.add(a);
-					mainFrame.add(a, 1);
-					if (a instanceof GoalArea) {
-						sfxPlayer.add((GoalArea) a);
-					}
-				});
-			}
-			if (area instanceof ImageArea) {
-				ImageArea imgArea = (ImageArea) area;
-				mainFrame.add(imgArea, 0);
-				if (imgArea.getImitatedArea() instanceof SwitchArea) {
-					switchAreas.add((SwitchArea) imgArea.getImitatedArea());
-				}
-			}
-			else {
-				mainFrame.add(area, 1);
-			}
+			addArea(area, switchControllers);
 		}
 
 		for (HintRectangle hint : level.hints) {
 			mainFrame.add(hint, 5);
 			hints.add(hint);
 		}
-
-		linkSwitchAreasAndRects(switchAreas, switchRects);
 	}
 
 	/**
-	 * Pairs each {@code SwitchArea} with all the {@code SwitchRectangle}s that
-	 * share its key.
+	 * Adds {@code rect} to {@code mainFrame}, {@code physicsSimulator}, and
+	 * {@code sfxPlayer}. If it is a {@code SwitchRectangle}, pairs it with a
+	 * {@code SwitchController} in {@code switchControllers}.
 	 * 
-	 * @param areas {@code List} of {@code SwitchArea}s
-	 * @param rects {@code List} of {@code SwitchRectangle}s
+	 * @param rect              {@code MovingRectangle} to add
+	 * @param switchControllers {@code Map} of key to {@code SwitchController}
 	 */
-	private void linkSwitchAreasAndRects(List<SwitchArea> areas,
-			List<SwitchRectangle> rects) {
-		Map<String, SwitchController> controllers = new HashMap<>();
-
-		for (SwitchRectangle rect : rects) {
-			if (!controllers.containsKey(rect.getKey())) {
-				controllers.put(rect.getKey(), new SwitchController());
-			}
-			controllers.get(rect.getKey()).addSwitchRectangle(rect);
+	private void addMovingRectangle(MovingRectangle rect,
+			Map<String, SwitchController> switchControllers) {
+		if (rect instanceof SwitchRectangle) {
+			mainFrame.add(rect, 2);
 		}
+		else {
+			mainFrame.add(rect, 3);
+		}
+		physicsSimulator.add(rect);
+		sfxPlayer.add(rect);
+		if (rect instanceof SwitchRectangle) {
+			SwitchRectangle switchRect = (SwitchRectangle) rect;
+			createSwitchControllerIfNeeded(switchControllers,
+					switchRect.getKey());
+			switchControllers.get(switchRect.getKey())
+					.addSwitchRectangle(switchRect);
+		}
+		for (Area attached : rect.getAttachments()) {
+			addArea(attached, switchControllers);
+		}
+	}
 
-		for (SwitchArea area : areas) {
-			if (!controllers.containsKey(area.getKey())) {
-				continue;  // Not necessary to create a SwitchController for it
-							  // because it would affect no SwitchRectangles
+	/**
+	 * Adds {@code area} to {@code mainFrame} and {@code physicsSimulator}, and
+	 * {@code sfxPlayer} if it is a {@code GoalArea}. If it is a
+	 * {@code SwitchArea}, pairs it with a {@code SwitchController} in
+	 * {@code switchControllers}.
+	 * 
+	 * @param area              {@code Area} to add
+	 * @param switchControllers {@code Map} of key to {@code SwitchController}
+	 */
+	private void addArea(Area area,
+			Map<String, SwitchController> switchControllers) {
+		physicsSimulator.add(area);
+		if (area instanceof GoalArea) {
+			sfxPlayer.add((GoalArea) area);
+		}
+		if (area instanceof SwitchArea) {
+			SwitchArea switchArea = (SwitchArea) area;
+			createSwitchControllerIfNeeded(switchControllers,
+					switchArea.getKey());
+			switchArea
+					.setController(switchControllers.get(switchArea.getKey()));
+		}
+		if (area instanceof RevealingArea) {
+			((RevealingArea) area)
+					.setRevealAction(a -> addArea(a, switchControllers));
+		}
+		if (area instanceof ImageArea) {
+			ImageArea imgArea = (ImageArea) area;
+			mainFrame.add(imgArea, 0);
+			if (imgArea.getImitatedArea() instanceof SwitchArea) {
+				SwitchArea switchArea = (SwitchArea) imgArea.getImitatedArea();
+				createSwitchControllerIfNeeded(switchControllers,
+						switchArea.getKey());
+				switchArea.setController(
+						switchControllers.get(switchArea.getKey()));
 			}
-			area.setController(controllers.get(area.getKey()));
+		}
+		else {
+			mainFrame.add(area, 1);
+		}
+	}
+
+	/**
+	 * Creates a new {@code SwitchController} and adds it to
+	 * {@code switchControllers} with {@code key} if there is not already a
+	 * {@code SwitchController} with {@code key}.
+	 * 
+	 * @param switchControllers {@code Map} of keys and
+	 *                          {@code SwitchController}s
+	 * @param key               {@code String} key to pair
+	 *                          {@code SwitchController} with
+	 */
+	private void createSwitchControllerIfNeeded(
+			Map<String, SwitchController> switchControllers, String key) {
+		if (!switchControllers.containsKey(key)) {
+			switchControllers.put(key, new SwitchController());
 		}
 	}
 
