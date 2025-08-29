@@ -22,7 +22,7 @@
 			"key": "red"
 		},
 		{
-			"type": "MovingRectangle",
+			"type": "GhostRectangle",
 			"x": 130,
 			"y": 400,
 			"width": 20,
@@ -118,11 +118,18 @@
 	],
 	"areas": [
 		{
-			"type": "AntigravityArea",
+			"type": "RevealingArea",
 			"x": 300,
 			"y": 300,
 			"width": 150,
-			"height": 70
+			"height": 70,
+			"area": {
+				"type": "AntigravityArea",
+				"x": 300,
+				"y": 300,
+				"width": 150,
+				"height": 70
+			}
 		},
 		{
 			"type": "SwitchArea",
