@@ -119,6 +119,15 @@ public class PhysicsSimulator {
 		}
 	}
 
+	/**
+	 * Adds {@code Area} at the beginning of the next frame.
+	 * <p>
+	 * This is "safe" in the sense that it will not cause a
+	 * {@code ConcurrentModificationException} if called from an {@code Area}'s
+	 * {@code onEnter}, {@code onExit}, or {@code everyFrame} methods.
+	 * 
+	 * @param area {@code Area} to add
+	 */
 	public void addSafe(Area area) {
 		areasToAdd.add(area);
 	}
