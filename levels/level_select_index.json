@@ -182,6 +182,10 @@
 		}
 	},
 	"Post-credits": {
+		"Credits": {
+			"path": "/credits.json",
+			"number": 35
+		},
 		"Remix: 1-1": {
 			"path": "/level_remix-1-1.json",
 			"number": 36
