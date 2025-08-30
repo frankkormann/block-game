@@ -35,16 +35,16 @@
 		},		
 		{
 			"type": "MovingRectangle",
-			"x": 290,
-			"y": 460,
+			"x": 355,
+			"y": 425,
 			"width": 10,
 			"height": 20,
 			"color": "GREEN"
 		},
 		{
 			"type": "MovingRectangle",
-			"x": 310,
-			"y": 460,
+			"x": 365,
+			"y": 425,
 			"width": 10,
 			"height": 20,
 			"color": "BLUE"
@@ -109,8 +109,16 @@
 		},
 		{
 			"type": "WallRectangle",
-			"x": 350,
+			"x": 300,
 			"y": 390,
+			"width": 30,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 350,
+			"y": 445,
 			"width": 30,
 			"height": 10,
 			"resizeBehavior": "STAY"
@@ -175,7 +183,7 @@
 	"areas": [
 		{
 			"type": "GrowArea",
-			"x": 350,
+			"x": 300,
 			"y": 400,
 			"width": 30,
 			"height": 80,
@@ -195,16 +203,16 @@
 	"hints": [
 		{
 			"type": "HintRectangle",
-			"x": 290,
+			"x": 190,
 			"y": 440,
 			"width": 10,
-			"height": 40,
+			"height": 50,
 			"color": "GREEN"
 		},
 		{
 			"type": "HintRectangle",
-			"x": 310,
-			"y": 400,
+			"x": 250,
+			"y": 410,
 			"width": 10,
 			"height": 80,
 			"color": "BLUE"
