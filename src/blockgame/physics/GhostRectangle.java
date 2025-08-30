@@ -17,6 +17,10 @@ import blockgame.input.ParameterMapper.Parameter;
  */
 public class GhostRectangle extends MovingRectangle {
 
+	private static final int BORDER_THICKNESS = 1;
+	private static final int STRIPE_THICKNESS_OPAQUE = 5;
+	private static final int STRIPE_THICKNESS_TRANSLUCENT = 10;
+
 	@JsonCreator
 	public GhostRectangle(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
@@ -25,20 +29,35 @@ public class GhostRectangle extends MovingRectangle {
 		super(x, y, width, height, color);
 	}
 
-	// TODO Draw this more uniquely
 	@Override
 	public void draw(Graphics g) {
 		g = g.create();
 
+		g.clipRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(getBorderColor());
-		drawRectOutline(g, 2);
+		drawRectOutline(g, BORDER_THICKNESS);
 
-		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), (int) (getColor().getAlpha()
-						* paramMapper.getFloat(Parameter.OPACITY_MULTIPLIER))));
+		Color translucentColor = new Color(getColor().getRed(),
+				getColor().getGreen(), getColor().getBlue(),
+				(int) (getColor().getAlpha()
+						* paramMapper.getFloat(Parameter.OPACITY_MULTIPLIER)));
+		boolean isTranslucentStripe = true;
+		int thickness = STRIPE_THICKNESS_TRANSLUCENT;
+		// Multiply width/height by 2 to capture both halves of the rectangle
+		for (int x = getX() + BORDER_THICKNESS, y = getY() + BORDER_THICKNESS; x
+				+ thickness < getX() + getWidth() * 2
+				|| y + thickness < getY()
+						+ getHeight() * 2; x += thickness, y += thickness) {
 
-		g.fillRect(getX() + 2, getY() + 2, getWidth() - 2 * 2,
-				getHeight() - 2 * 2);
+			thickness = isTranslucentStripe ? STRIPE_THICKNESS_TRANSLUCENT
+					: STRIPE_THICKNESS_OPAQUE;
+			g.setColor(
+					isTranslucentStripe ? translucentColor : getBorderColor());
+			g.fillPolygon(new int[] { getX(), x, x + thickness, getX() },
+					new int[] { y, getY(), getY(), y + thickness }, 4);
+
+			isTranslucentStripe = !isTranslucentStripe;
+		}
 
 		g.dispose();
 	}
