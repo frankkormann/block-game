@@ -72,6 +72,7 @@ public class SoundEffectPlayer {
 
 	private Map<MovingRectangle, State> rectStates;
 	private Map<MovingRectangle, Integer> fallDistances;
+	private Map<GoalArea, Boolean> goalsActivated;
 
 	VolumeMapper volumeMapper;
 
@@ -84,6 +85,7 @@ public class SoundEffectPlayer {
 		goals = new ArrayList<>();
 		rectStates = new HashMap<>();
 		fallDistances = new HashMap<>();
+		goalsActivated = new HashMap<>();
 		this.volumeMapper = volumeMapper;
 	}
 
@@ -96,11 +98,13 @@ public class SoundEffectPlayer {
 
 	public void add(GoalArea goal) {
 		goals.add(goal);
+		goalsActivated.put(goal, false);
 	}
 
 	public void clear() {
 		movingRectangles.clear();
 		goals.clear();
+		goalsActivated.clear();
 	}
 
 	/**
@@ -108,9 +112,13 @@ public class SoundEffectPlayer {
 	 * need to be played.
 	 */
 	public void playSounds() {
-		playIfAnyMatch(goals, g -> g.playingLevelFinish() && !g.isSpecial(),
+		playIfAnyMatch(goals,
+				g -> g.playingLevelFinish() && !g.isSpecial()
+						&& !goalsActivated.get(g),
 				SoundEffect.LEVEL_COMPLETE, false);
-		playIfAnyMatch(goals, g -> g.playingLevelFinish() && g.isSpecial(),
+		playIfAnyMatch(goals,
+				g -> g.playingLevelFinish() && g.isSpecial()
+						&& !goalsActivated.get(g),
 				SoundEffect.LEVEL_COMPLETE_SPECIAL, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
@@ -129,6 +137,7 @@ public class SoundEffectPlayer {
 				SoundEffect.LAND, true);
 
 		updateFallDistances();
+		updateGoalsActivated();
 	}
 
 	/**
@@ -195,6 +204,10 @@ public class SoundEffectPlayer {
 			}
 		}
 		movingRectangles.forEach(r -> rectStates.put(r, r.getState()));
+	}
+
+	private void updateGoalsActivated() {
+		goals.forEach(g -> goalsActivated.put(g, g.playingLevelFinish()));
 	}
 
 }
