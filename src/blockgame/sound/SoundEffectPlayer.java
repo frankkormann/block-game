@@ -103,7 +103,10 @@ public class SoundEffectPlayer {
 
 	public void clear() {
 		movingRectangles.clear();
+		switchRectangles.clear();
 		goals.clear();
+		rectStates.clear();
+		fallDistances.clear();
 		goalsActivated.clear();
 	}
 
