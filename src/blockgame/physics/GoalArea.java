@@ -18,7 +18,7 @@ import blockgame.gui.ParticleExplosion;
 public class GoalArea extends Area {
 
 	private static final int TIMEOUT = 100;
-	private static final int PARTICLE_EFFECT_LENGTH = 30;
+	private static final int PARTICLE_EFFECT_LENGTH = 100;
 	private static final int PARTICLE_COUNT = 50;
 	private static final int PARTICLE_SIZE = 5;
 
