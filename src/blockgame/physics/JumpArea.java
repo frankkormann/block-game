@@ -12,8 +12,7 @@ package blockgame.physics;
  */
 public class JumpArea extends Area {
 
-	private static int HEIGHT = 2; // TODO Add leniency for jumping when
-									 // hovering a few pixels above the floor
+	private static int HEIGHT = 3;
 
 	public JumpArea(int x, int y, int width) {
 		super(x, y, width, HEIGHT, Colors.TRANSPARENT);
