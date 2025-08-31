@@ -132,6 +132,13 @@
 			}
 		},
 		{
+			"type": "JumpArea",
+			"x": 300,
+			"y": 230,
+			"width": 150,
+			"height": 70
+		},
+		{
 			"type": "SwitchArea",
 			"x": 470,
 			"y": 300,
