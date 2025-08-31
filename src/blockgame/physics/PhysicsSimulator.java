@@ -8,7 +8,6 @@ import java.util.Set;
 
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.GameInputHandler.MovementInput;
-import blockgame.physics.MovingRectangle.State;
 
 /**
  * Calculate the next position for all {@code Rectangles} every frame.
@@ -179,10 +178,8 @@ public class PhysicsSimulator {
 				newXVelocity -= PLAYER_X_ACCELERATION;
 			}
 
-			if (movementInputs.contains(MovementInput.UP)) {
-				if (rect.getState() == State.ON_GROUND) {
-					newYVelocity = PLAYER_JUMP_VELOCITY;
-				}
+			if (movementInputs.contains(MovementInput.UP) && rect.canJump()) {
+				newYVelocity = PLAYER_JUMP_VELOCITY;
 			}
 			else if (rect.getYVelocity() < PLAYER_JUMP_CAP) {
 				newYVelocity = PLAYER_JUMP_CAP;
@@ -276,7 +273,7 @@ public class PhysicsSimulator {
 	 * @param rect {@code MovingRectangle} to consider
 	 */
 	private void applyNaturalForces(MovingRectangle rect) {
-		if (rect.hasGravity() && rect.getState() == State.IN_AIR) {
+		if (rect.hasGravity()) {
 			rect.setYVelocity(rect.getYVelocity() + GRAVITY);
 		}
 		if (rect.getXVelocity() > 0) {

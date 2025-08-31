@@ -26,7 +26,7 @@ public class WallRectangle extends Rectangle {
 			@JsonProperty("resizeBehavior") ResizeBehavior resizeBehavior) {
 		this(x, y, width, height, Colors.GRAY, resizeBehavior);
 
-		addAttachment(new GroundingArea(x, y - 1, width),
+		addAttachment(new JumpArea(x, y - 1, width),
 				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 

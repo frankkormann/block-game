@@ -19,7 +19,6 @@ import blockgame.input.VolumeMapper;
 import blockgame.input.VolumeMapper.Volume;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
-import blockgame.physics.MovingRectangle.State;
 import blockgame.physics.SwitchRectangle;
 
 /**
@@ -33,7 +32,7 @@ import blockgame.physics.SwitchRectangle;
  */
 public class SoundEffectPlayer {
 
-	private static final int MIN_FALL_DISTANCE = 20;
+	private static final int MIN_LAND_VELOCITY = 10;
 
 	/**
 	 * Sound effect containing a {@code Clip} which is pre-loaded with its data.
@@ -70,8 +69,7 @@ public class SoundEffectPlayer {
 	private List<SwitchRectangle> switchRectangles;
 	private List<GoalArea> goals;
 
-	private Map<MovingRectangle, State> rectStates;
-	private Map<MovingRectangle, Integer> fallDistances;
+	private Map<MovingRectangle, Integer> rectYVelocities;
 	private Map<GoalArea, Boolean> goalsActivated;
 
 	VolumeMapper volumeMapper;
@@ -83,8 +81,7 @@ public class SoundEffectPlayer {
 		movingRectangles = new ArrayList<>();
 		switchRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
-		rectStates = new HashMap<>();
-		fallDistances = new HashMap<>();
+		rectYVelocities = new HashMap<>();
 		goalsActivated = new HashMap<>();
 		this.volumeMapper = volumeMapper;
 	}
@@ -105,8 +102,7 @@ public class SoundEffectPlayer {
 		movingRectangles.clear();
 		switchRectangles.clear();
 		goals.clear();
-		rectStates.clear();
-		fallDistances.clear();
+		rectYVelocities.clear();
 		goalsActivated.clear();
 	}
 
@@ -134,12 +130,12 @@ public class SoundEffectPlayer {
 		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
 				SoundEffect.SWITCH_ON, true);
 		playIfAnyMatch(movingRectangles,
-				r -> fallDistances.containsKey(r)
-						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
-						&& r.getState() == State.ON_GROUND,
+				r -> rectYVelocities.containsKey(r)
+						&& rectYVelocities.get(r) >= MIN_LAND_VELOCITY
+						&& r.getYVelocity() == 0,  // So it has now landed
 				SoundEffect.LAND, true);
 
-		updateFallDistances();
+		updateRectVelocities();
 		updateGoalsActivated();
 	}
 
@@ -188,25 +184,8 @@ public class SoundEffectPlayer {
 				volumeMapper.get(Volume.SFX).floatValue());
 	}
 
-	private void updateFallDistances() {
-		for (MovingRectangle rect : movingRectangles) {
-			if (rectStates.get(rect) == State.ON_GROUND
-					&& rect.getState() == State.IN_AIR) {
-				fallDistances.put(rect, 0);
-			}
-			if (fallDistances.containsKey(rect)) {
-				if (rect.getState() == State.ON_GROUND) {
-					fallDistances.remove(rect);
-					continue;
-				}
-
-				int dist = fallDistances.get(rect);
-				dist += rect.getY() - rect.getLastY();
-				dist = Math.max(dist, 0);
-				fallDistances.put(rect, dist);
-			}
-		}
-		movingRectangles.forEach(r -> rectStates.put(r, r.getState()));
+	private void updateRectVelocities() {
+		movingRectangles.forEach(r -> rectYVelocities.put(r, r.getYVelocity()));
 	}
 
 	private void updateGoalsActivated() {

@@ -20,10 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MovingRectangle extends Rectangle {
 
-	public enum State {
-		ON_GROUND, IN_AIR
-	}
-
 	private static final int MAX_X_SPEED = 10;
 	private static final int MAX_Y_SPEED = 20;
 
@@ -37,8 +33,7 @@ public class MovingRectangle extends Rectangle {
 	private boolean hasGravity;
 	private boolean controlledByPlayer;
 	private boolean hasMoved;
-
-	private State state;
+	private boolean canJump;
 
 	public MovingRectangle(int x, int y, int width, int height) {
 		this(x, y, width, height, Colors.BLACK);
@@ -60,12 +55,12 @@ public class MovingRectangle extends Rectangle {
 		xVelocity = 0;
 		yVelocity = 0;
 		controlledByPlayer = false;
-		state = State.IN_AIR;
 		hasMoved = false;
+		canJump = false;
 
 		updateLastPosition();
 
-		addAttachment(new GroundingArea(x, y - 1, width),
+		addAttachment(new JumpArea(x, y - 1, width),
 				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
 	}
 
@@ -263,12 +258,12 @@ public class MovingRectangle extends Rectangle {
 		return hasMoved;
 	}
 
-	public State getState() {
-		return state;
+	public boolean canJump() {
+		return canJump;
 	}
 
-	public void setState(State state) {
-		this.state = state;
+	public void setCanJump(boolean canJump) {
+		this.canJump = canJump;
 	}
 
 }
