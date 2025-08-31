@@ -10,8 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.MovingRectangle.State;
-
 class MovingRectangleTest {
 
 	MovingRectangle rect;
@@ -27,16 +25,15 @@ class MovingRectangleTest {
 	}
 
 	@Test
-	void state_is_IN_AIR_by_default() {
-		assertTrue(rect.getState() == State.IN_AIR);
+	void cannot_jump_by_default() {
+		assertFalse(rect.canJump());
 	}
 
 	@Test
 	void comes_with_a_GroundingArea_by_default() {
 		List<Area> attachments = rect.getAttachments();
 
-		assertTrue(
-				attachments.stream().anyMatch(a -> a instanceof GroundingArea));
+		assertTrue(attachments.stream().anyMatch(a -> a instanceof JumpArea));
 	}
 
 	@Test
