@@ -1,5 +1,8 @@
 package blockgame.physics;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Sets the flag of {@code MovingRectangle}s within this to be able to jump.
  * <p>
@@ -16,6 +19,13 @@ public class JumpArea extends Area {
 
 	public JumpArea(int x, int y, int width) {
 		super(x, y, width, HEIGHT, Colors.TRANSPARENT);
+	}
+
+	@JsonCreator
+	public JumpArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
+			@JsonProperty("width") int width,
+			@JsonProperty("height") int height) {
+		super(x, y, width, height, Colors.TRANSLUCENT_BLUE);
 	}
 
 	/**

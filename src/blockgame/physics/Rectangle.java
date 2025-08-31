@@ -50,8 +50,10 @@ import blockgame.util.Pair;
  * @author Frank Kormann
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = GoalArea.class, name = "GoalArea"),
+@JsonSubTypes({
 		@JsonSubTypes.Type(value = AntigravityArea.class, name = "AntigravityArea"),
+		@JsonSubTypes.Type(value = JumpArea.class, name = "JumpArea"),
+		@JsonSubTypes.Type(value = GoalArea.class, name = "GoalArea"),
 		@JsonSubTypes.Type(value = GrowArea.class, name = "GrowArea"),
 		@JsonSubTypes.Type(value = ImageArea.class, name = "ImageArea"),
 		@JsonSubTypes.Type(value = RevealingArea.class, name = "RevealingArea"),
