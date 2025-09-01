@@ -62,7 +62,7 @@ class MovingRectangleTest {
 	void moveCollision_moves_by_collision_amounts() {
 		int collisionX = 5, collisionY = 7;
 		int initialX = rect.getX(), initialY = rect.getY();
-		rect.moveCollision(collisionX, collisionY);
+		rect.moveCollision(collisionX, collisionY, true);
 
 		assertEquals(initialX + collisionX, rect.getX());
 		assertEquals(initialY + collisionY, rect.getY());
@@ -72,7 +72,7 @@ class MovingRectangleTest {
 	void moveCollision_sets_x_velocity_to_zero_when_it_moves_against_it() {
 		rect.setXVelocity(5);
 		rect.setYVelocity(5);
-		rect.moveCollision(-2, 7);
+		rect.moveCollision(-2, 7, true);
 
 		assertEquals(0, rect.getXVelocity());
 		assertEquals(5, rect.getYVelocity());
@@ -82,7 +82,7 @@ class MovingRectangleTest {
 	void moveCollision_sets_y_velocity_to_zero_when_it_moves_against_it() {
 		rect.setXVelocity(5);
 		rect.setYVelocity(5);
-		rect.moveCollision(2, -7);
+		rect.moveCollision(2, -7, true);
 
 		assertEquals(5, rect.getXVelocity());
 		assertEquals(0, rect.getYVelocity());
