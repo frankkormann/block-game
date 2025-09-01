@@ -14,7 +14,7 @@ class JumpAreaTest {
 
 	@BeforeEach
 	void setUp() {
-		area = new JumpArea(0, 0, 20);
+		area = new JumpArea(0, 0, 20, 20);
 		rect = new MovingRectangle(0, 0, 20, 20);
 	}
 
@@ -38,7 +38,7 @@ class JumpAreaTest {
 
 	@Test
 	void rect_can_jump_when_it_is_in_multiple_areas_and_it_only_leaves_one_of_them() {
-		JumpArea secondArea = new JumpArea(0, area.getHeight(), 20);
+		JumpArea secondArea = new JumpArea(0, area.getHeight(), 20, 20);
 		area.handle(rect);
 		secondArea.handle(rect);
 
