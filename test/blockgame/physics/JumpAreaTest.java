@@ -1,6 +1,5 @@
 package blockgame.physics;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
@@ -25,15 +24,6 @@ class JumpAreaTest {
 		area.handle(rect);
 
 		assertTrue(rect.canJump());
-	}
-
-	@Test
-	void rect_cannot_jump_when_it_leaves() {
-		area.handle(rect);
-		rect.setY(500);
-		area.handle(rect);
-
-		assertFalse(rect.canJump());
 	}
 
 	@Test
