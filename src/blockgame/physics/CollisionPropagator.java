@@ -274,10 +274,8 @@ public class CollisionPropagator {
 					WALL_COLLISION_LEEWAY_X, true);
 		}
 
-		// This does not check whether the fudged collision would push another
-		// MovingRectangle into a wall, but any examples I could think of where
-		// that would cause a problem are too contrived to worry about
-		// Also, implementing that check would be much more difficult
+		// TODO Check whether the fudged collision would push another
+		// MovingRectangle into a wall
 		if (wouldIntersectAWall(rect, collisionData[0], collisionData[1])) {
 			collisionData = originalMovement;
 		}
