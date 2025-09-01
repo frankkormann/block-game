@@ -99,19 +99,26 @@ public class MovingRectangle extends Rectangle {
 	 * opposite direction to its velocity, sets that component of its velocity
 	 * to zero.
 	 * 
-	 * @param xChange amount to move in x direction
-	 * @param yChange amount to move in y direction
+	 * @param xChange        amount to move in x direction
+	 * @param yChange        amount to move in y direction
+	 * @param cancelVelocity {@code true} if the velocity should be set to
+	 *                       {@code 0} for directions this was pushed in
 	 */
-	public void moveCollision(int xChange, int yChange) {
+	public void moveCollision(int xChange, int yChange,
+			boolean cancelVelocity) {
 		if (xChange == 0 && yChange == 0) {
 			return;
 		}
 
-		if (xChange != 0 && Math.signum(xChange) != Math.signum(xVelocity)) {
-			xVelocity = 0;
-		}
-		if (yChange != 0 && Math.signum(yChange) != Math.signum(yVelocity)) {
-			yVelocity = 0;
+		if (cancelVelocity) {
+			if (xChange != 0
+					&& Math.signum(xChange) != Math.signum(xVelocity)) {
+				xVelocity = 0;
+			}
+			if (yChange != 0
+					&& Math.signum(yChange) != Math.signum(yVelocity)) {
+				yVelocity = 0;
+			}
 		}
 
 		setX(getX() + xChange);
