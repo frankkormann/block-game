@@ -108,7 +108,12 @@ public class CollisionPropagator {
 			}
 
 			if (collisionData[0] != 0 && collisionData[1] != 0) {
-				collisionData[1] = 0;
+				if (collisionData[1] < 0) {
+					collisionData[1] = 0;
+				}
+				else {
+					collisionData[0] = 0;
+				}
 			}
 
 			collisionData[0] = -correctGrowthForCollision(rect,
