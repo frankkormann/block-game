@@ -181,6 +181,7 @@ public class PhysicsSimulator {
 			if (movementInputs.contains(MovementInput.UP)) {
 				if (rect.canJump()) {
 					newYVelocity = PLAYER_JUMP_VELOCITY;
+					rect.setJumpFramesRemaining(0);
 				}
 			}
 			else if (rect.getYVelocity() < PLAYER_JUMP_CAP) {

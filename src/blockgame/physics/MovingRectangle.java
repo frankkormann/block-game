@@ -33,7 +33,7 @@ public class MovingRectangle extends Rectangle {
 	private boolean hasGravity;
 	private boolean controlledByPlayer;
 	private boolean hasMoved;
-	private boolean canJump;
+	private int jumpFramesRemaining;
 
 	public MovingRectangle(int x, int y, int width, int height) {
 		this(x, y, width, height, Colors.BLACK);
@@ -56,7 +56,7 @@ public class MovingRectangle extends Rectangle {
 		yVelocity = 0;
 		controlledByPlayer = false;
 		hasMoved = false;
-		canJump = false;
+		jumpFramesRemaining = 0;
 
 		updateLastPosition();
 
@@ -75,6 +75,10 @@ public class MovingRectangle extends Rectangle {
 		lastHeight = getHeight();
 		leftWidthChange = 0;
 		topHeightChange = 0;
+
+		if (canJump()) {
+			jumpFramesRemaining -= 1;
+		}
 
 		hasMoved = false;
 	}
@@ -259,11 +263,16 @@ public class MovingRectangle extends Rectangle {
 	}
 
 	public boolean canJump() {
-		return canJump;
+		return jumpFramesRemaining > 0;
 	}
 
-	public void setCanJump(boolean canJump) {
-		this.canJump = canJump;
+	/**
+	 * Sets the number of frames until this can no longer jump.
+	 * 
+	 * @param jumpFrames number of frames
+	 */
+	public void setJumpFramesRemaining(int jumpFrames) {
+		jumpFramesRemaining = jumpFrames;
 	}
 
 }

@@ -15,21 +15,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class JumpArea extends Area {
 
-	private static int HEIGHT = 3;
+	private static final int HEIGHT = 3;
+	private static final int COYOTE_FRAMES = 2;
+
+	private int coyoteFrames;
 
 	/**
 	 * Creates a {@code JumpArea} with no color or bounds. Useful for attaching
 	 * to other {@code Rectangle}s so that things standing on them can jump.
 	 */
 	public JumpArea() {
-		super(0, 0, 0, HEIGHT, Colors.TRANSPARENT);
+		this(0, 0, 0, HEIGHT, Colors.TRANSPARENT, COYOTE_FRAMES);
 	}
 
 	@JsonCreator
 	public JumpArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
 			@JsonProperty("width") int width,
 			@JsonProperty("height") int height) {
-		super(x, y, width, height, Colors.TRANSLUCENT_BLUE);
+		this(x, y, width, height, Colors.TRANSLUCENT_BLUE, 1);
+	}
+
+	private JumpArea(int x, int y, int width, int height, Colors color,
+			int coyoteFrames) {
+		super(x, y, width, height, color);
+		this.coyoteFrames = coyoteFrames;
 	}
 
 	/**
@@ -39,18 +48,19 @@ public class JumpArea extends Area {
 	 */
 	@Override
 	public void onEnter(MovingRectangle rect) {
-		rect.setCanJump(true);
+		rect.setJumpFramesRemaining(coyoteFrames);
 	}
 
 	/**
-	 * Sets {@code rect} to not be able to jump.
+	 * Not implemented.
+	 * <p>
+	 * {@code MovingRectangle} automatically turns off its ability to jump when
+	 * its jump frames run out, so an implementation here is not necessary.
 	 * 
-	 * @param rect {@code MovingRectangle} to change the property of
+	 * @param rect unused
 	 */
 	@Override
-	public void onExit(MovingRectangle rect) {
-		rect.setCanJump(false);
-	}
+	public void onExit(MovingRectangle rect) {}
 
 	/**
 	 * Sets {@code rect} to be able to jump.
@@ -59,7 +69,7 @@ public class JumpArea extends Area {
 	 */
 	@Override
 	public void everyFrame(MovingRectangle rect) {
-		rect.setCanJump(true);
+		rect.setJumpFramesRemaining(coyoteFrames);
 	}
 
 }
