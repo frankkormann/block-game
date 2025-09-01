@@ -60,8 +60,8 @@ public class MovingRectangle extends Rectangle {
 
 		updateLastPosition();
 
-		addAttachment(new JumpArea(x, y - 1, width),
-				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
+		addAttachment(new JumpArea(), AttachmentOption.GLUED_NORTH,
+				AttachmentOption.SAME_WIDTH);
 	}
 
 	/**

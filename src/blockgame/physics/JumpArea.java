@@ -17,8 +17,12 @@ public class JumpArea extends Area {
 
 	private static int HEIGHT = 3;
 
-	public JumpArea(int x, int y, int width) {
-		super(x, y, width, HEIGHT, Colors.TRANSPARENT);
+	/**
+	 * Creates a {@code JumpArea} with no color or bounds. Useful for attaching
+	 * to other {@code Rectangle}s so that things standing on them can jump.
+	 */
+	public JumpArea() {
+		super(0, 0, 0, HEIGHT, Colors.TRANSPARENT);
 	}
 
 	@JsonCreator
