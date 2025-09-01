@@ -29,7 +29,7 @@ public class JumpArea extends Area {
 	}
 
 	/**
-	 * Sets {@code rect}'s to be able to jump.
+	 * Sets {@code rect} to be able to jump.
 	 * 
 	 * @param rect {@code MovingRectangle} to change the property of
 	 */
@@ -39,7 +39,7 @@ public class JumpArea extends Area {
 	}
 
 	/**
-	 * Sets {@code rect}'s to not be able to jump.
+	 * Sets {@code rect} to not be able to jump.
 	 * 
 	 * @param rect {@code MovingRectangle} to change the property of
 	 */
@@ -49,7 +49,7 @@ public class JumpArea extends Area {
 	}
 
 	/**
-	 * Sets {@code rect}'s to be able to jump.
+	 * Sets {@code rect} to be able to jump.
 	 * 
 	 * @param rect {@code MovingRectangle} to change the property of
 	 */
