@@ -92,6 +92,8 @@ public class PhysicsSimulator {
 			}
 		}
 
+		areasToAdd.forEach(a -> addArea(a));
+		areasToAdd.clear();
 		applySwitchAreas();
 	}
 
