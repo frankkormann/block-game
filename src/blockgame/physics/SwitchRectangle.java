@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import blockgame.gui.ImageArea;
+
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
  * then it cannot interact with other {@code Rectangle}s (except
@@ -89,6 +91,9 @@ public class SwitchRectangle extends MovingRectangle {
 	 * @return {@code true} if this can interact with {@code other}'s type
 	 */
 	private boolean canAlwaysInteractWith(Rectangle other) {
+		if (other instanceof ImageArea) {
+			return canAlwaysInteractWith(((ImageArea) other).getImitatedArea());
+		}
 		if (other instanceof SwitchArea) {
 			return ((SwitchArea) other).getKey().equals(key);
 		}
