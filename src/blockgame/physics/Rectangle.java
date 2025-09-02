@@ -552,10 +552,7 @@ public abstract class Rectangle implements Drawable {
 
 	public List<Area> getAttachments() {
 		List<Area> result = new ArrayList<>();
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			result.add(areaPair.first);
-		}
-
+		attachedAreas.stream().map(p -> p.first).forEach(result::add);
 		return result;
 	}
 
