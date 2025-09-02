@@ -109,6 +109,8 @@ public class MusicPlayer implements ValueChangeListener {
 	 * Starts a {@code Thread} to copy audio data from {@code stream} to
 	 * {@code line}. The {@code Thread} will terminate when
 	 * {@code currentThread} changes.
+	 * <p>
+	 * {@code stream} must support {@code mark} and {@code reset} operations.
 	 * 
 	 * @param line   {@code SourceDataLine} to move audio data into
 	 * @param stream {@code InputStream} to take audio data from
