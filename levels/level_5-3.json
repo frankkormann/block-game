@@ -115,6 +115,16 @@
 			"height": 50,
 			"nextLevel": "/level_5-4.json",
 			"hasParticles": true
+		},
+		{
+			"type": "GoalArea",
+			"x": 675,
+			"y": -50,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_5-star.json",
+			"hasParticles": true,
+			"special": true
 		}
 	],
 	"hints": [
