@@ -5,7 +5,8 @@
 	"height": 400,
 	"solution": "/level_remix-5-5.rec",
 	"storeValues": {
-		"current_level": "/level_remix-5-5.json"
+		"current_level": "/level_remix-5-5.json",
+		"title_screen": "/title_remix.json"
 	},
 	"movingRectangles": [
 		{
