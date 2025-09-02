@@ -3,6 +3,7 @@ package blockgame.sound;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.function.Supplier;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
@@ -118,15 +119,13 @@ public class MusicPlayer implements ValueChangeListener {
 	private void startThread(SourceDataLine line, InputStream stream) {
 		currentThread++;
 		int threadNumber = currentThread;
+		Supplier<Boolean> continueCondition = () -> currentThread == threadNumber;
 		new Thread(() -> {
 
-			songLoop: while (true) {
+			while (continueCondition.get()) {
 				try {
 					stream.mark(Integer.MAX_VALUE);
-					while (stream.available() > 0) {
-						if (currentThread != threadNumber) {
-							break songLoop;
-						}
+					while (stream.available() > 0 && continueCondition.get()) {
 						byte[] buffer = new byte[line.available()];
 						int num = stream.read(buffer, 0, buffer.length);
 						line.write(buffer, 0, num);
@@ -137,7 +136,7 @@ public class MusicPlayer implements ValueChangeListener {
 					e.printStackTrace();
 					new ErrorDialog("Error", "Failed to read audio stream", e)
 							.setVisible(true);
-					break songLoop;
+					break;
 				}
 			}
 			line.close();
