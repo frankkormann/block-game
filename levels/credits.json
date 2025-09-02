@@ -5,7 +5,7 @@
 	"height": 500,
 	"popup": "All levels now unlocked!",
 	"storeValues": {
-		"current_level": "/credits.json",
+		"title_screen": "/credits.json",
 		"game_complete": "true"
 	},
 	"movingRectangles": [
