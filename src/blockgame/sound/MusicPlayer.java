@@ -126,6 +126,8 @@ public class MusicPlayer implements ValueChangeListener {
 				try {
 					stream.mark(Integer.MAX_VALUE);
 					while (stream.available() > 0 && continueCondition.get()) {
+						// Need a small buffer size to remain responsive to
+						// music stopping
 						byte[] buffer = new byte[line.getFormat()
 								.getFrameSize()];
 						int num = stream.read(buffer, 0, buffer.length);
