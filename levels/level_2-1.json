@@ -6,6 +6,7 @@
 	"solution": "/level_2-1.rec",
 	"popup": "Level select now unlocked in the title bar!",
 	"storeValues": {
+		"current_level": "/level_2-1.json",
 		"title_screen": "/title_2.json",
 		"level_select_unlocked": "true"
 	},

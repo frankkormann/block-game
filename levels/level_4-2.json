@@ -5,6 +5,7 @@
 	"height": 400,
 	"solution": "/level_4-2.rec",
 	"storeValues": {
+		"current_level": "/level_4-2.json",
 		"title_screen": "/title_4.json"
 	},
 	"movingRectangles": [
@@ -20,7 +21,7 @@
 		{
 			"type": "MovingRectangle",
 			"x": 120,
-			"y": 260,
+			"y": 265,
 			"width": 100,
 			"height": 50,
 			"color": "GREEN"

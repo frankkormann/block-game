@@ -5,6 +5,7 @@
 	"height": 400,
 	"solution": "/level_4-star.rec",
 	"storeValues": {
+		"current_level": "/level_4-star.json",
 		"title_screen": "/title_4.json"
 	},
 	"movingRectangles": [

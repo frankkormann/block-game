@@ -5,6 +5,7 @@
 	"height": 400,
 	"solution": "/level_crown-5.rec",
 	"storeValues": {
+		"current_level": "/level_crown-5.json",
 		"title_screen": "/title_crown.json"
 	},
 	"movingRectangles": [
@@ -54,7 +55,7 @@
 		{
 			"type": "MovingRectangle",
 			"x": 510,
-			"y": 250,
+			"y": 240,
 			"width": 20,
 			"height": 160,
 			"color": "RED"

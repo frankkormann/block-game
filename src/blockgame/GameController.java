@@ -175,7 +175,7 @@ public class GameController extends WindowAdapter
 	 */
 	public void startGame(String titleScreen, int millisBetweenFrames) {
 		sfxPlayer.play(SoundEffect.GAME_START);
-		loadTitle(titleScreen);
+		load(titleScreen);
 		mainFrame.setVisible(true);
 
 		if (SaveManager.getValue("new_save", "true").equals("true")) {
@@ -221,35 +221,12 @@ public class GameController extends WindowAdapter
 	}
 
 	/**
-	 * Loads the title screen referred to by {@code resource}. Unlike
-	 * {@link #loadLevel(String)}, this does not set {@code current_level} in
-	 * the save data.
-	 * 
-	 * @param resource name of resource to load
-	 */
-	public void loadTitle(String resource) {
-		load(resource);
-	}
-
-	/**
-	 * Loads the level referred to by {@code resource}. Unlike
-	 * {@link #loadTitle(String)}, this sets {@code current_level} in the save
-	 * data.
-	 * 
-	 * @param resource name of resource to load.
-	 */
-	public void loadLevel(String resource) {
-		load(resource);
-		SaveManager.putValue("current_level", resource);
-	}
-
-	/**
 	 * Loads the resource named {@code resource} into {@code physicsSimulator}
 	 * and {@code mainFrame} as a level.
 	 * 
 	 * @param resource name of resource to load
 	 */
-	private void load(String resource) {
+	public void load(String resource) {
 		paused = true;
 
 		Level level = readLevel(resource);
@@ -505,7 +482,7 @@ public class GameController extends WindowAdapter
 						FIRST_LEVEL);
 			}
 			markLevelInField("completed_levels", currentLevelNumber);
-			loadLevel(nextLevel);
+			load(nextLevel);
 			return;
 		}
 

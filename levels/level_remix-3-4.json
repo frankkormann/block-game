@@ -4,6 +4,9 @@
 	"width": 800,
 	"height": 420,
 	"solution": "/level_remix-3-4.rec",
+	"storeValues": {
+		"current_level": "/level_remix-3-4.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

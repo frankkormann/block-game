@@ -152,7 +152,7 @@ public class LevelSelectDialog extends JDialog {
 		JButton loadButton = new JButton("Load");
 		loadButton.addActionListener(e -> {
 			gameController.processMetaInput(MetaInput.STOP_RECORDING);
-			gameController.loadLevel(path);
+			gameController.load(path);
 			dispose();
 		});
 
