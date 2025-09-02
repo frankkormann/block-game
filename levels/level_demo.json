@@ -4,7 +4,7 @@
 	"height": 500,
 	"storeValues": {
 		"title_screen": "/level_demo.json"
-	}
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
