@@ -127,6 +127,9 @@ public class CollisionPropagator {
 					collisionData[1], false);
 
 			other.moveCollision(collisionData[0], collisionData[1], false);
+			if (collisionData[1] < 0) {  // Fixes issue with jumping into blocks
+				other.setYVelocity(0);   // from below
+			}
 			collisionMap.put(other,
 					new Pair<MovingRectangle, int[]>(rect, collisionData));
 
