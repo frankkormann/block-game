@@ -46,14 +46,6 @@
 	"walls": [
 		{
 			"type": "WallRectangle",
-			"x": 180,
-			"y": 160,
-			"width": 20,
-			"height": 90,
-			"resizeBehavior": "PREVENT_X"
-		},
-		{
-			"type": "WallRectangle",
 			"x": 650,
 			"y": 100,
 			"width": 20,
@@ -91,6 +83,14 @@
 			"width": 860,
 			"height": 20,
 			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 180,
+			"y": 160,
+			"width": 20,
+			"height": 90,
+			"resizeBehavior": "PREVENT_X"
 		}
 	],
 	"areas": [
