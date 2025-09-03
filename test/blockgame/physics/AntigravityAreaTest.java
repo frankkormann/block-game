@@ -35,4 +35,15 @@ class AntigravityAreaTest {
 
 		assertTrue(rect.hasGravity());
 	}
+
+	@Test
+	void gravity_is_still_disabled_if_it_enters_two_and_only_leaves_one() {
+		AntigravityArea other = new AntigravityArea(0, 0, 0, 0);
+		area.onEnter(rect);
+		other.onEnter(rect);
+
+		other.onEnter(rect);
+
+		assertFalse(rect.hasGravity());
+	}
 }

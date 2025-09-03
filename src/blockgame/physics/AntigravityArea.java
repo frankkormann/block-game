@@ -1,5 +1,8 @@
 package blockgame.physics;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Frank Kormann
  */
 public class AntigravityArea extends Area {
+
+	private static Map<MovingRectangle, Integer> areaCounter = new HashMap<>();
 
 	@JsonCreator
 	public AntigravityArea(@JsonProperty("x") int x, @JsonProperty("y") int y,
@@ -25,6 +30,10 @@ public class AntigravityArea extends Area {
 	 */
 	@Override
 	public void onEnter(MovingRectangle rect) {
+		if (!areaCounter.containsKey(rect)) {
+			areaCounter.put(rect, 0);
+		}
+		areaCounter.put(rect, areaCounter.get(rect) + 1);
 		rect.setHasGravity(false);
 	}
 
@@ -35,17 +44,24 @@ public class AntigravityArea extends Area {
 	 */
 	@Override
 	public void onExit(MovingRectangle rect) {
-		rect.setHasGravity(true);
+		if (!areaCounter.containsKey(rect)) {
+			System.err.println(
+					"In AntigravityArea#onExit: rect not in areaCounter");
+			return;
+		}
+		areaCounter.put(rect, areaCounter.get(rect) - 1);
+		if (areaCounter.get(rect) <= 0) {
+			areaCounter.remove(rect);
+			rect.setHasGravity(true);
+		}
 	}
 
 	/**
-	 * Removes {@code rect}'s gravity.
+	 * Not implemented.
 	 * 
-	 * @param rect {@code MovingRectangle} to affect
+	 * @param rect unused
 	 */
 	@Override
-	public void everyFrame(MovingRectangle rect) {
-		rect.setHasGravity(false);
-	}
+	public void everyFrame(MovingRectangle rect) {}
 
 }
