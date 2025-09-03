@@ -12,6 +12,7 @@ by interacting with the environment in varied, creative ways.
 - Expansive options menu
     - Accessibility options for colorblindness, key remapping, increasing GUI
     size, and slowing the game speed
+- Optional thematically-discordant music
 
 ## Playing the game
 
