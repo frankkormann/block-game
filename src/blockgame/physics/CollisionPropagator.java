@@ -102,10 +102,6 @@ public class CollisionPropagator {
 
 		for (MovingRectangle other : colliders) {
 
-			if (rect instanceof SwitchRectangle
-					&& ((SwitchRectangle) rect).becameActive()) {
-				System.out.println();
-			}
 			collisionData = calculateCollision(rect, other);
 			if (collisionData[0] == 0 && collisionData[1] == 0) {
 				continue;
