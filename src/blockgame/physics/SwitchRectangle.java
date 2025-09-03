@@ -101,9 +101,9 @@ public class SwitchRectangle extends MovingRectangle {
 	}
 
 	@Override
-	public void addAttachment(Area attachment, AttachmentOption... options) {
-		super.addAttachment(attachment, options);
-		attachment.setActive(isActive);
+	protected void updateAttachments() {
+		super.updateAttachments();
+		getAttachments().forEach(a -> a.setActive(isActive));
 	}
 
 	/**

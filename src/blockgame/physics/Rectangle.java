@@ -290,8 +290,7 @@ public abstract class Rectangle implements Drawable {
 	 * Moves and resizes all attached {@code Area}s to conform with their
 	 * attachment options.
 	 */
-	private void updateAttachments() {
-
+	protected void updateAttachments() {
 		for (Entry<Area, Set<AttachmentOption>> areaPair : attachedAreas
 				.entrySet()) {
 			Area attached = areaPair.getKey();
@@ -324,9 +323,7 @@ public abstract class Rectangle implements Drawable {
 				attached.setX(x + width);
 				attached.setY(y);
 			}
-
 		}
-
 	}
 
 	/**
