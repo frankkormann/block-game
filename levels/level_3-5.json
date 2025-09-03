@@ -1,10 +1,13 @@
 {
 	"name": "Pull Into Form [3-5]",
-	"number": 15,
+	"number": 14,
 	"width": 600,
 	"height": 600,
 	"solution": "/level_3-5.rec",
-	"newTitle": "/title_3.json",
+	"storeValues": {
+		"current_level": "/level_3-5.json",
+		"title_screen": "/title_3.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

@@ -20,10 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MovingRectangle extends Rectangle {
 
-	public enum State {
-		ON_GROUND, IN_AIR
-	}
-
 	private static final int MAX_X_SPEED = 10;
 	private static final int MAX_Y_SPEED = 20;
 
@@ -37,8 +33,7 @@ public class MovingRectangle extends Rectangle {
 	private boolean hasGravity;
 	private boolean controlledByPlayer;
 	private boolean hasMoved;
-
-	private State state;
+	private int jumpFramesRemaining;
 
 	public MovingRectangle(int x, int y, int width, int height) {
 		this(x, y, width, height, Colors.BLACK);
@@ -60,13 +55,13 @@ public class MovingRectangle extends Rectangle {
 		xVelocity = 0;
 		yVelocity = 0;
 		controlledByPlayer = false;
-		state = State.IN_AIR;
 		hasMoved = false;
+		jumpFramesRemaining = 0;
 
 		updateLastPosition();
 
-		addAttachment(new GroundingArea(x, y - 1, width),
-				AttachmentOption.GLUED_NORTH, AttachmentOption.SAME_WIDTH);
+		addAttachment(new JumpArea(), AttachmentOption.GLUED_NORTH,
+				AttachmentOption.SAME_WIDTH);
 	}
 
 	/**
@@ -80,6 +75,10 @@ public class MovingRectangle extends Rectangle {
 		lastHeight = getHeight();
 		leftWidthChange = 0;
 		topHeightChange = 0;
+
+		if (canJump()) {
+			jumpFramesRemaining -= 1;
+		}
 
 		hasMoved = false;
 	}
@@ -100,19 +99,26 @@ public class MovingRectangle extends Rectangle {
 	 * opposite direction to its velocity, sets that component of its velocity
 	 * to zero.
 	 * 
-	 * @param xChange amount to move in x direction
-	 * @param yChange amount to move in y direction
+	 * @param xChange        amount to move in x direction
+	 * @param yChange        amount to move in y direction
+	 * @param cancelVelocity {@code true} if the velocity should be set to
+	 *                       {@code 0} for directions this was pushed in
 	 */
-	public void moveCollision(int xChange, int yChange) {
+	public void moveCollision(int xChange, int yChange,
+			boolean cancelVelocity) {
 		if (xChange == 0 && yChange == 0) {
 			return;
 		}
 
-		if (xChange != 0 && Math.signum(xChange) != Math.signum(xVelocity)) {
-			xVelocity = 0;
-		}
-		if (yChange != 0 && Math.signum(yChange) != Math.signum(yVelocity)) {
-			yVelocity = 0;
+		if (cancelVelocity) {
+			if (xChange != 0
+					&& Math.signum(xChange) != Math.signum(xVelocity)) {
+				xVelocity = 0;
+			}
+			if (yChange != 0
+					&& Math.signum(yChange) != Math.signum(yVelocity)) {
+				yVelocity = 0;
+			}
 		}
 
 		setX(getX() + xChange);
@@ -263,12 +269,17 @@ public class MovingRectangle extends Rectangle {
 		return hasMoved;
 	}
 
-	public State getState() {
-		return state;
+	public boolean canJump() {
+		return jumpFramesRemaining > 0;
 	}
 
-	public void setState(State state) {
-		this.state = state;
+	/**
+	 * Sets the number of frames until this can no longer jump.
+	 * 
+	 * @param jumpFrames number of frames
+	 */
+	public void setJumpFramesRemaining(int jumpFrames) {
+		jumpFramesRemaining = jumpFrames;
 	}
 
 }

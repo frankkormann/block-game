@@ -4,6 +4,10 @@
 	"width": 800,
 	"height": 500,
 	"solution": "/level_remix-crown-3.rec",
+	"storeValues": {
+		"current_level": "/level_remix-crown-3.json",
+		"title_screen": "/title_remix.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
@@ -107,15 +111,15 @@
 			"x": 500,
 			"y": 250,
 			"width": 30,
-			"height": 120,
+			"height": 110,
 			"resizeBehavior": "PREVENT_Y"
 		},
 		{
 			"type": "WallRectangle",
 			"x": 500,
-			"y": 370,
+			"y": 360,
 			"width": 30,
-			"height": 50,
+			"height": 60,
 			"resizeBehavior": "STAY"
 		},
 		{

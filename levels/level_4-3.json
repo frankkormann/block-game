@@ -4,7 +4,10 @@
 	"width": 700,
 	"height": 450,
 	"solution": "/level_4-3.rec",
-	"newTitle": "/title_4.json",
+	"storeValues": {
+		"current_level": "/level_4-3.json",
+		"title_screen": "/title_4.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
@@ -119,6 +122,16 @@
 			"height": 50,
 			"nextLevel": "/level_4-4.json",
 			"hasParticles": true
+		},
+		{
+			"type": "GoalArea",
+			"x": 365,
+			"y": 260,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_4-star.json",
+			"hasParticles": true,
+			"special": true
 		}
 	],
 	"hints": [

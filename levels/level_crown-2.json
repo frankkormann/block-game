@@ -4,7 +4,10 @@
 	"width": 600,
 	"height": 600,
 	"solution": "/level_crown-2.rec",
-	"newTitle": "/title_crown.json",
+	"storeValues": {
+		"current_level": "/level_crown-2.json",
+		"title_screen": "/title_crown.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
@@ -97,9 +100,9 @@
 		{
 			"type": "GrowArea",
 			"x": 350,
-			"y": 370,
+			"y": 320,
 			"width": 80,
-			"height": 150,
+			"height": 200,
 			"xGrowth": 0,
 			"yGrowth": 1
 		},
@@ -111,13 +114,23 @@
 			"height": 50,
 			"nextLevel": "/level_crown-3.json",
 			"hasParticles": true
+		},
+		{
+			"type": "GoalArea",
+			"x": 480,
+			"y": -50,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_crown-star.json",
+			"hasParticles": true,
+			"special": true
 		}
 	],
 	"hints": [
 		{
 			"type": "HintRectangle",
 			"x": 200,
-			"y": 200,
+			"y": 290,
 			"width": 140,
 			"height": 10,
 			"color": "ORANGE"
@@ -125,7 +138,7 @@
 		{
 			"type": "HintRectangle",
 			"x": 200,
-			"y": 130,
+			"y": 220,
 			"width": 70,
 			"height": 70,
 			"color": "TRANSLUCENT_RED"

@@ -1,10 +1,13 @@
 {
 	"name": "Move [4-1]",
-	"number": 16,
+	"number": 15,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_4-1.rec",
-	"newTitle": "/title_4.json",
+	"storeValues": {
+		"current_level": "/level_4-1.json",
+		"title_screen": "/title_4.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",

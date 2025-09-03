@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.LineEvent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -48,18 +50,20 @@ import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.PhysicsSimulator;
 import blockgame.physics.Rectangle;
+import blockgame.physics.RevealingArea;
 import blockgame.physics.SwitchArea;
 import blockgame.physics.SwitchController;
 import blockgame.physics.SwitchRectangle;
 import blockgame.physics.WallRectangle;
 import blockgame.sound.MusicPlayer;
-import blockgame.sound.SoundEffectMonitor;
+import blockgame.sound.SoundEffectPlayer;
+import blockgame.sound.SoundEffectPlayer.SoundEffect;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
 /**
  * Coordinates {@code MainFrame}, {@code PhysicsSimulator},
- * {@code SoundEffectMonitor}, and {@code GameInputHandler}.
+ * {@code SoundEffectPlayer}, and {@code GameInputHandler}.
  * <p>
  * Level data is read from JSON files. The JSON is used to fill the fields in
  * {@link Level}, so it should have data for each of that class's public
@@ -80,7 +84,7 @@ public class GameController extends WindowAdapter
 
 	private MainFrame mainFrame;
 	private PhysicsSimulator physicsSimulator;
-	private SoundEffectMonitor sfxMonitor;
+	private SoundEffectPlayer sfxPlayer;
 	private GameInputHandler gameInputHandler;
 	private MenuBar menuBar;
 
@@ -122,24 +126,17 @@ public class GameController extends WindowAdapter
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
-		ImageArea.setColorMapper(colorMapper);
 
 		MusicPlayer musicPlayer = new MusicPlayer(volumeMapper);
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, paramMapper);
-		sfxMonitor = new SoundEffectMonitor(volumeMapper);
+		sfxPlayer = new SoundEffectPlayer(volumeMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
 				volumeMapper, musicPlayer, this);
 		menuBar.showLevelSelect(
-				SaveManager.getValue("game_complete", "false").equals("true"));
-
-		mainFrame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				musicPlayer.playSaved();
-			}
-		});
+				SaveManager.getValue("level_select_unlocked", "false")
+						.equals("true"));
 
 		currentLevel = "";
 		currentLevelNumber = -1;
@@ -154,6 +151,17 @@ public class GameController extends WindowAdapter
 
 		paramMapper.addListener(this);
 
+		SoundEffect.GAME_START.clip.addLineListener(e -> {
+			if (e.getType() == LineEvent.Type.STOP) {
+				musicPlayer.playSaved();
+			}
+		});
+
+		if (isLevelInField("visited_levels", 5)) {  // Update saves from older
+													  // versions
+			SaveManager.putValue("level_select_unlocked", "true");
+		}
+
 		startGame(SaveManager.getValue("title_screen", FIRST_TITLE_SCREEN),
 				paramMapper.getInt(Parameter.GAME_SPEED));
 	}
@@ -166,7 +174,8 @@ public class GameController extends WindowAdapter
 	 * @param millisBetweenFrames number of milliseconds between each frame
 	 */
 	public void startGame(String titleScreen, int millisBetweenFrames) {
-		loadTitle(titleScreen);
+		sfxPlayer.play(SoundEffect.GAME_START);
+		load(titleScreen);
 		mainFrame.setVisible(true);
 
 		if (SaveManager.getValue("new_save", "true").equals("true")) {
@@ -212,35 +221,12 @@ public class GameController extends WindowAdapter
 	}
 
 	/**
-	 * Loads the title screen referred to by {@code resource}. Unlike
-	 * {@link #loadLevel(String)}, this does not set {@code current_level} in
-	 * the save data.
-	 * 
-	 * @param resource name of resource to load
-	 */
-	public void loadTitle(String resource) {
-		load(resource);
-	}
-
-	/**
-	 * Loads the level referred to by {@code resource}. Unlike
-	 * {@link #loadTitle(String)}, this sets {@code current_level} in the save
-	 * data.
-	 * 
-	 * @param resource name of resource to load.
-	 */
-	public void loadLevel(String resource) {
-		load(resource);
-		SaveManager.putValue("current_level", resource);
-	}
-
-	/**
 	 * Loads the resource named {@code resource} into {@code physicsSimulator}
 	 * and {@code mainFrame} as a level.
 	 * 
 	 * @param resource name of resource to load
 	 */
-	private void load(String resource) {
+	public void load(String resource) {
 		paused = true;
 
 		Level level = readLevel(resource);
@@ -250,7 +236,7 @@ public class GameController extends WindowAdapter
 		}
 
 		physicsSimulator = new PhysicsSimulator();
-		sfxMonitor.clear();
+		sfxPlayer.clear();
 		menuBar.reset();
 		hints.clear();
 
@@ -271,13 +257,12 @@ public class GameController extends WindowAdapter
 		currentSolution = level.solution;
 		currentLevel = resource;
 		currentLevelNumber = level.number;
-		if (!level.newTitle.equals("")) {
-			SaveManager.putValue("title_screen", level.newTitle);
+		for (Entry<String, String> entry : level.storeValues.entrySet()) {
+			SaveManager.putValue(entry.getKey(), entry.getValue());
 		}
-		if (level.gameComplete) {
-			SaveManager.putValue("game_complete", "true");
-			menuBar.showLevelSelect(true);
-		}
+		menuBar.showLevelSelect(
+				(SaveManager.getValue("level_select_unlocked", "false")
+						.equals("true")));
 		loadObjects(level);
 
 		menuBar.showHintsMenu(hints.size() > 0 || !level.solution.equals(""));
@@ -347,25 +332,10 @@ public class GameController extends WindowAdapter
 	 * @param level {@code Level} to take objects from
 	 */
 	private void loadObjects(Level level) {
-
-		List<SwitchArea> switchAreas = new ArrayList<>();
-		List<SwitchRectangle> switchRects = new ArrayList<>();
+		Map<String, SwitchController> switchControllers = new HashMap<>();
 
 		for (MovingRectangle rect : level.movingRectangles) {
-			if (rect instanceof SwitchRectangle) {
-				mainFrame.add(rect, 2);
-			}
-			else {
-				mainFrame.add(rect, 3);
-			}
-			physicsSimulator.add(rect);
-			sfxMonitor.add(rect);
-			if (rect instanceof SwitchRectangle) {
-				switchRects.add((SwitchRectangle) rect);
-			}
-			for (Area attached : rect.getAttachments()) {
-				level.areas.add(attached);
-			}
+			addMovingRectangle(rect, switchControllers);
 		}
 
 		for (WallRectangle wall : level.walls) {
@@ -377,56 +347,108 @@ public class GameController extends WindowAdapter
 		}
 
 		for (Area area : level.areas) {
-			physicsSimulator.add(area);
-			if (area instanceof GoalArea) {
-				sfxMonitor.add((GoalArea) area);
-			}
-			if (area instanceof SwitchArea) {
-				switchAreas.add((SwitchArea) area);
-			}
-			if (area instanceof ImageArea) {
-				ImageArea imgArea = (ImageArea) area;
-				mainFrame.add(imgArea, 0);
-				if (imgArea.getImitatedArea() instanceof SwitchArea) {
-					switchAreas.add((SwitchArea) imgArea.getImitatedArea());
-				}
-			}
-			else {
-				mainFrame.add(area, 1);
-			}
+			addArea(area, switchControllers);
 		}
 
 		for (HintRectangle hint : level.hints) {
 			mainFrame.add(hint, 5);
 			hints.add(hint);
 		}
-
-		linkSwitchAreasAndRects(switchAreas, switchRects);
 	}
 
 	/**
-	 * Pairs each {@code SwitchArea} with all the {@code SwitchRectangle}s that
-	 * share its key.
+	 * Adds {@code rect} to {@code mainFrame}, {@code physicsSimulator}, and
+	 * {@code sfxPlayer}. If it is a {@code SwitchRectangle}, pairs it with a
+	 * {@code SwitchController} in {@code switchControllers}.
 	 * 
-	 * @param areas {@code List} of {@code SwitchArea}s
-	 * @param rects {@code List} of {@code SwitchRectangle}s
+	 * @param rect              {@code MovingRectangle} to add
+	 * @param switchControllers {@code Map} of key to {@code SwitchController}
 	 */
-	private void linkSwitchAreasAndRects(List<SwitchArea> areas,
-			List<SwitchRectangle> rects) {
-		Map<String, SwitchController> controllers = new HashMap<>();
-
-		for (SwitchRectangle rect : rects) {
-			if (!controllers.containsKey(rect.getKey())) {
-				controllers.put(rect.getKey(), new SwitchController());
-			}
-			controllers.get(rect.getKey()).addSwitchRectangle(rect);
+	private void addMovingRectangle(MovingRectangle rect,
+			Map<String, SwitchController> switchControllers) {
+		if (rect instanceof SwitchRectangle) {
+			mainFrame.add(rect, 2);
 		}
+		else {
+			mainFrame.add(rect, 3);
+		}
+		physicsSimulator.add(rect);
+		sfxPlayer.add(rect);
+		if (rect instanceof SwitchRectangle) {
+			SwitchRectangle switchRect = (SwitchRectangle) rect;
+			createSwitchControllerIfNeeded(switchControllers,
+					switchRect.getKey());
+			switchControllers.get(switchRect.getKey())
+					.addSwitchRectangle(switchRect);
+		}
+		for (Area attached : rect.getAttachments()) {
+			addArea(attached, switchControllers);
+		}
+	}
 
-		for (SwitchArea area : areas) {
-			if (!controllers.containsKey(area.getKey())) {
-				continue;
-			}
-			area.setController(controllers.get(area.getKey()));
+	/**
+	 * Adds {@code area} to {@code mainFrame} and {@code physicsSimulator}, and
+	 * {@code sfxPlayer} if it is a {@code GoalArea}. If it is a
+	 * {@code SwitchArea}, pairs it with a {@code SwitchController} in
+	 * {@code switchControllers}.
+	 * 
+	 * @param area              {@code Area} to add
+	 * @param switchControllers {@code Map} of key to {@code SwitchController}
+	 */
+	private void addArea(Area area,
+			Map<String, SwitchController> switchControllers) {
+		physicsSimulator.add(area);
+		if (area instanceof GoalArea) {
+			sfxPlayer.add((GoalArea) area);
+		}
+		if (area instanceof ImageArea) {
+			ImageArea imgArea = (ImageArea) area;
+			mainFrame.add(imgArea, 0);
+			setUpAreaSubtypes(imgArea.getImitatedArea(), switchControllers);
+		}
+		else {
+			mainFrame.add(area, 1);
+		}
+		setUpAreaSubtypes(area, switchControllers);
+	}
+
+	/**
+	 * Performs any necessary set-up for subtypes of {@code Area}, such as
+	 * setting the {@code SwitchController} for a {@code SwitchArea} or setting
+	 * the reveal action for a {@code RevealingArea}.
+	 * 
+	 * @param area              {@code Area} to set up
+	 * @param switchControllers {@code Map} of key to {@code SwitchController}
+	 */
+	private void setUpAreaSubtypes(Area area,
+			Map<String, SwitchController> switchControllers) {
+		if (area instanceof SwitchArea) {
+			SwitchArea switchArea = (SwitchArea) area;
+			createSwitchControllerIfNeeded(switchControllers,
+					switchArea.getKey());
+			switchArea
+					.setController(switchControllers.get(switchArea.getKey()));
+		}
+		if (area instanceof RevealingArea) {
+			((RevealingArea) area)
+					.setRevealAction(a -> addArea(a, switchControllers));
+		}
+	}
+
+	/**
+	 * Creates a new {@code SwitchController} and adds it to
+	 * {@code switchControllers} with {@code key} if there is not already a
+	 * {@code SwitchController} with {@code key}.
+	 * 
+	 * @param switchControllers {@code Map} of keys and
+	 *                          {@code SwitchController}s
+	 * @param key               {@code String} key to pair
+	 *                          {@code SwitchController} with
+	 */
+	private void createSwitchControllerIfNeeded(
+			Map<String, SwitchController> switchControllers, String key) {
+		if (!switchControllers.containsKey(key)) {
+			switchControllers.put(key, new SwitchController());
 		}
 	}
 
@@ -451,7 +473,7 @@ public class GameController extends WindowAdapter
 		physicsSimulator.updateAndMoveObjects(allInputs.second,
 				mainFrame.getNextWidth(), mainFrame.getNextHeight(),
 				mainFrame.getNextXOffset(), mainFrame.getNextYOffset());
-		sfxMonitor.playSounds();
+		sfxPlayer.playSounds();
 
 		if (!physicsSimulator.getNextLevel().equals("")) {
 			String nextLevel = physicsSimulator.getNextLevel();
@@ -460,7 +482,7 @@ public class GameController extends WindowAdapter
 						FIRST_LEVEL);
 			}
 			markLevelInField("completed_levels", currentLevelNumber);
-			loadLevel(nextLevel);
+			load(nextLevel);
 			return;
 		}
 
@@ -501,12 +523,17 @@ public class GameController extends WindowAdapter
 	 * Returns whether the level at {@code levelNumber} has been marked in the
 	 * saved value named {@code fieldName}. The value is interpreted as a
 	 * bitfield of level numbers.
+	 * <p>
+	 * If {@code levelNumber} is less than 0, always returns {@code false}.
 	 * 
 	 * @param levelNumber numerical identifier of the level
 	 * 
 	 * @return {@code true} if it has been completed
 	 */
 	private boolean isLevelInField(String fieldName, int levelNumber) {
+		if (levelNumber < 0) {
+			return false;
+		}
 		long levelFlags = Long.valueOf(SaveManager.getValue(fieldName, "0"));
 		return (levelFlags & (1L << levelNumber)) != 0;
 	}

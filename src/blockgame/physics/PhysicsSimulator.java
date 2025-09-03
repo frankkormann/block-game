@@ -8,7 +8,6 @@ import java.util.Set;
 
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.GameInputHandler.MovementInput;
-import blockgame.physics.MovingRectangle.State;
 
 /**
  * Calculate the next position for all {@code Rectangles} every frame.
@@ -41,6 +40,8 @@ public class PhysicsSimulator {
 	private List<GoalArea> goals;
 	private Map<Direction, SideRectangle> sides;
 
+	private List<Area> areasToAdd;
+
 	private Map<Direction, Integer> sideRectangleResizes;
 
 	private String nextLevel;
@@ -58,6 +59,8 @@ public class PhysicsSimulator {
 		switchAreas = new ArrayList<>();
 		goals = new ArrayList<>();
 		sides = new HashMap<>();
+
+		areasToAdd = new ArrayList<>();
 
 		sideRectangleResizes = new HashMap<>();
 
@@ -89,6 +92,8 @@ public class PhysicsSimulator {
 			}
 		}
 
+		areasToAdd.forEach(a -> addArea(a));
+		areasToAdd.clear();
 		applySwitchAreas();
 	}
 
@@ -103,7 +108,16 @@ public class PhysicsSimulator {
 		walls.add(wall);
 	}
 
+	/**
+	 * Adds {@code Area} at the beginning of the next frame.
+	 * 
+	 * @param area {@code Area} to add
+	 */
 	public void add(Area area) {
+		areasToAdd.add(area);
+	}
+
+	private void addArea(Area area) {
 		if (area instanceof SwitchArea) {
 			switchAreas.add((SwitchArea) area);
 		}
@@ -132,6 +146,8 @@ public class PhysicsSimulator {
 	 */
 	public void updateAndMoveObjects(Set<MovementInput> movementInputs,
 			int width, int height, int xOffset, int yOffset) {
+		areasToAdd.forEach(a -> addArea(a));
+		areasToAdd.clear();
 
 		applyInputsToPlayerRectangles(movementInputs);
 		moveAllMovingRectangles();
@@ -165,8 +181,9 @@ public class PhysicsSimulator {
 			}
 
 			if (movementInputs.contains(MovementInput.UP)) {
-				if (rect.getState() == State.ON_GROUND) {
+				if (rect.canJump()) {
 					newYVelocity = PLAYER_JUMP_VELOCITY;
+					rect.setJumpFramesRemaining(0);
 				}
 			}
 			else if (rect.getYVelocity() < PLAYER_JUMP_CAP) {
@@ -183,7 +200,6 @@ public class PhysicsSimulator {
 	 * and gravity, applies movement from velocity, and computes collision.
 	 */
 	private void moveAllMovingRectangles() {
-
 		movingRectangles.forEach(r -> r.updateLastPosition());
 		applySwitchAreas();  // Make sure activity doesn't change mid-frame
 
@@ -213,7 +229,6 @@ public class PhysicsSimulator {
 			new CollisionPropagator(rect, movingRectangles, walls, sides)
 					.propagateCollision();
 		}
-
 	}
 
 	/**
@@ -263,7 +278,7 @@ public class PhysicsSimulator {
 	 * @param rect {@code MovingRectangle} to consider
 	 */
 	private void applyNaturalForces(MovingRectangle rect) {
-		if (rect.hasGravity() && rect.getState() == State.IN_AIR) {
+		if (rect.hasGravity()) {
 			rect.setYVelocity(rect.getYVelocity() + GRAVITY);
 		}
 		if (rect.getXVelocity() > 0) {

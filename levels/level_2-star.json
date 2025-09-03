@@ -1,0 +1,142 @@
+{
+	"name": "Top Can Stop, or Can't [2-★]",
+	"number": 42,
+	"width": 800,
+	"height": 500,
+	"solution": "/level_2-star.rec",
+	"storeValues": {
+		"current_level": "/level_2-star.json",
+		"title_screen": "/title_2.json"
+	},
+	"movingRectangles": [
+		{
+			"type": "MovingRectangle",
+			"x": 50,
+			"y": 260,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 100,
+			"y": 250,
+			"width": 30,
+			"height": 30,
+			"color": "RED"
+		},
+		{
+			"type": "GhostRectangle",
+			"x": 130,
+			"y": 250,
+			"width": 30,
+			"height": 30,
+			"color": "GREEN"
+		},
+		{
+			"type": "GhostRectangle",
+			"x": 780,
+			"y": 220,
+			"width": 60,
+			"height": 60,
+			"color": "BLUE"
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": 650,
+			"y": 100,
+			"width": 20,
+			"height": 120,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 650,
+			"y": 220,
+			"width": 20,
+			"height": 60,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 670,
+			"y": 100,
+			"width": 170,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 840,
+			"y": 100,
+			"width": 20,
+			"height": 180,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 280,
+			"width": 860,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 180,
+			"y": 160,
+			"width": 20,
+			"height": 90,
+			"resizeBehavior": "PREVENT_X"
+		}
+	],
+	"areas": [
+		{
+			"type": "GrowArea",
+			"x": 200,
+			"y": 160,
+			"width": 320,
+			"height": 120,
+			"xGrowth": 0,
+			"yGrowth": 2
+		},
+		{
+			"type": "GoalArea",
+			"x": 700,
+			"y": 50,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_3-1.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": 420,
+			"y": 220,
+			"width": 30,
+			"height": 60,
+			"color": "RED"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 450,
+			"y": 160,
+			"width": 30,
+			"height": 120,
+			"color": "GREEN"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 0,
+			"y": 220,
+			"width": 800,
+			"height": 5,
+			"color": "ORANGE"
+		}
+	]
+}

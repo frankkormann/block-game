@@ -1,6 +1,7 @@
 package blockgame.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -8,6 +9,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -44,8 +46,13 @@ public class LevelSelectDialog extends JDialog {
 	private static final String LEVEL_INDEX = "/level_select_index.json";
 	private static final int SPACE = 3;
 
+	private static final String UNVISITED_LEVEL_NAME = "???";
+	private static final String UNVISITED_LEVEL_TOOLTIP = "Find the path to this level to unlock it";
+	private static final String COMPLETED_SYMBOL = "🏆";
+
 	private GameController gameController;
-	private long levelsComplete;
+	private long levelsCompleted;
+	private long levelsVisited;
 
 	/**
 	 * Creates a {@code LevelSelectDialog} which will send level loads to
@@ -63,21 +70,31 @@ public class LevelSelectDialog extends JDialog {
 		contentPanePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		setLayout(new BorderLayout());
-		levelsComplete = Long
+		levelsCompleted = Long
 				.valueOf(SaveManager.getValue("completed_levels", "0"));
+		levelsVisited = Long
+				.valueOf(SaveManager.getValue("visited_levels", "0"));
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+
 		Map<String, Map<String, Pair<String, Integer>>> levelMap = loadLevelMap();
 		for (Entry<String, Map<String, Pair<String, Integer>>> world : levelMap
 				.entrySet()) {
+			boolean noLevelsAreLoadable = world.getValue()
+					.values()
+					.stream()
+					.noneMatch(l -> isLevelLoadable(l.second));
+			if (noLevelsAreLoadable) {
+				continue;
+			}
 			tabbedPane.addTab(world.getKey(),
 					createWorldPanel(world.getValue()));
 		}
 		// Manually chosen so that no tabs overflow
 		// TODO Automatically detect the right size
 		tabbedPane.setPreferredSize(
-				new Dimension(UIScale.scale(585), UIScale.scale(171)));
+				new Dimension(UIScale.scale(585), UIScale.scale(195)));
 		add(tabbedPane);
 
 		registerDisposeOnKeypress(KeyEvent.VK_ESCAPE);
@@ -94,12 +111,12 @@ public class LevelSelectDialog extends JDialog {
 							new TypeReference<Map<String, Map<String, Pair<String, Integer>>>>() {});
 			return map;
 		}
-		catch (IOException e) {
+		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 			new ErrorDialog("Error", "Failed to read level index data", e)
 					.setVisible(true);
 
-			return null;
+			return new HashMap<>();
 		}
 	}
 
@@ -109,10 +126,11 @@ public class LevelSelectDialog extends JDialog {
 
 		for (Entry<String, Pair<String, Integer>> level : levels.entrySet()) {
 			panel.add(Box.createVerticalStrut(SPACE));
-			boolean isLevelComplete = (levelsComplete
-					& (1L << level.getValue().second)) != 0;
-			panel.add(createLevelButtonPanel(level.getKey(),
-					level.getValue().first, isLevelComplete));
+			String levelName = level.getValue().first;
+			int levelNumber = level.getValue().second;
+			panel.add(createLevelButtonPanel(level.getKey(), levelName,
+					isLevelLoadable(levelNumber),
+					levelInField(levelNumber, levelsCompleted)));
 		}
 
 		for (Component comp : panel.getComponents()) {
@@ -125,27 +143,48 @@ public class LevelSelectDialog extends JDialog {
 	}
 
 	private JPanel createLevelButtonPanel(String name, String path,
-			boolean isLevelComplete) {
+			boolean isLevelLoadable, boolean isLevelComplete) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+		JLabel nameLabel = new JLabel(name);
 
 		JButton loadButton = new JButton("Load");
 		loadButton.addActionListener(e -> {
 			gameController.processMetaInput(MetaInput.STOP_RECORDING);
-			gameController.loadLevel(path);
+			gameController.load(path);
 			dispose();
 		});
 
+		if (!isLevelLoadable) {
+			nameLabel.setForeground(Color.GRAY);
+			nameLabel.setText(
+					name.replaceFirst(": .*", ": " + UNVISITED_LEVEL_NAME));
+			loadButton.setEnabled(false);
+			panel.setToolTipText(UNVISITED_LEVEL_TOOLTIP);
+			loadButton.setToolTipText(UNVISITED_LEVEL_TOOLTIP);
+		}
+
 		panel.add(Box.createHorizontalStrut(SPACE));
-		panel.add(new JLabel(name));
+		panel.add(nameLabel);
 		panel.add(Box.createHorizontalGlue());
 		if (isLevelComplete) {
-			panel.add(new JLabel("🏆"));
+			panel.add(new JLabel(COMPLETED_SYMBOL));
 			panel.add(Box.createHorizontalStrut(SPACE));
 		}
 		panel.add(loadButton);
 
 		return panel;
+	}
+
+	private boolean isLevelLoadable(int level) {
+		return levelInField(level, levelsVisited)
+				|| SaveManager.getValue("game_complete", "false")
+						.equals("true");
+	}
+
+	private boolean levelInField(int level, long field) {
+		return (field & (1L << level)) != 0;
 	}
 
 	/**

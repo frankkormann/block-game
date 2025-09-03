@@ -1,17 +1,18 @@
-# Block Game
+# Resizer
 
-This is a puzzle game about moving blocks around. Solve 40 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 47 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ### Features
 
-- 35 main levels + 5 bonus levels
+- 35 main levels + 12 bonus levels
 - Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
 - Expansive options menu
     - Accessibility options for colorblindness, key remapping, increasing GUI
     size, and slowing the game speed
+- Optional thematically-discordant music
 
 ## Playing the game
 
@@ -48,6 +49,11 @@ If you do not have Java, install Java 8 or higher from
 [java.com](https://www.java.com/en/download/). Then, download the latest `jar`
 file from the [releases tab](https://github.com/frankkormann/block-game/releases) 
 and run it.
+
+#### Music
+There are two versions of the game, with music and without music. The main
+difference between these verions is about 20 MB. If you download the version
+with music, make sure to enable it by selecting a song in `Options > Sound`.
 
 ### Controls
 
@@ -134,11 +140,17 @@ of rectangle.
 The game will automatically load `level_1-1.json` as its first level. Subsequent
 level filenames are read from the activated Goal Area.
 
+
+### Name
+
+The project's name is "Block Game" internally because that was its original name,
+and the maintainer has no interest in changing it everywhere.
+
 ## Contributing
 
 Outside contributions are not accepted because this is primarily a personal
-project. However, feedback in all forms is welcomed. You are also free to extend the
-project on your own.
+project. However, feedback in all forms is welcomed. You are also free to extend
+the project on your own.
 
 ## License
 

@@ -1,0 +1,117 @@
+{
+	"name": "Pushing by Proxy [1-★]",
+	"number": 41,
+	"width": 500,
+	"height": 800,
+	"solution": "/level_1-star.rec",
+	"storeValues": {
+		"current_level": "/level_1-star.json",
+		"title_screen": "/title_1.json"
+	},
+	"movingRectangles": [
+		{
+			"type": "MovingRectangle",
+			"x": 50,
+			"y": 230,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": "GhostRectangle",
+			"x": 160,
+			"y": 450,
+			"width": 10,
+			"height": 100,
+			"color": "GREEN"
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 210,
+			"y": 490,
+			"width": 10,
+			"height": 60,
+			"color": "BLUE"
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": -20,
+			"y": 250,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 290,
+			"y": 250,
+			"width": 210,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": -20,
+			"y": 90,
+			"width": 20,
+			"height": 160,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 300,
+			"y": 90,
+			"width": 20,
+			"height": 160,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 100,
+			"y": 550,
+			"width": 180,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 100,
+			"y": 450,
+			"width": 10,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 290,
+			"y": 450,
+			"width": 10,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": "GoalArea",
+			"x": 390,
+			"y": 200,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_2-1.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": 150,
+			"y": 490,
+			"width": 10,
+			"height": 60,
+			"color": "BLUE"
+		}
+	]
+}

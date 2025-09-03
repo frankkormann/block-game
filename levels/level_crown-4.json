@@ -4,7 +4,10 @@
 	"width": 800,
 	"height": 500,
 	"solution": "/level_crown-4.rec",
-	"newTitle": "/title_crown.json",
+	"storeValues": {
+		"current_level": "/level_crown-4.json",
+		"title_screen": "/title_crown.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
@@ -115,6 +118,14 @@
 		},
 		{
 			"type": "WallRectangle",
+			"x": 640,
+			"y": 270,
+			"width": 20,
+			"height": 220,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
 			"x": 0,
 			"y": 490,
 			"width": 800,
@@ -145,7 +156,7 @@
 	"hints": [
 		{
 			"type": "HintRectangle",
-			"x": 600,
+			"x": 610,
 			"y": 310,
 			"width": 30,
 			"height": 180,
@@ -153,7 +164,7 @@
 		},
 		{
 			"type": "HintRectangle",
-			"x": 570,
+			"x": 580,
 			"y": 370,
 			"width": 30,
 			"height": 120,
@@ -161,7 +172,7 @@
 		},
 		{
 			"type": "HintRectangle",
-			"x": 540,
+			"x": 550,
 			"y": 430,
 			"width": 30,
 			"height": 60,

@@ -5,8 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,19 +53,23 @@ import blockgame.util.Pair;
  * @author Frank Kormann
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = GoalArea.class, name = "GoalArea"),
+@JsonSubTypes({
 		@JsonSubTypes.Type(value = AntigravityArea.class, name = "AntigravityArea"),
+		@JsonSubTypes.Type(value = JumpArea.class, name = "JumpArea"),
+		@JsonSubTypes.Type(value = GoalArea.class, name = "GoalArea"),
 		@JsonSubTypes.Type(value = GrowArea.class, name = "GrowArea"),
 		@JsonSubTypes.Type(value = ImageArea.class, name = "ImageArea"),
+		@JsonSubTypes.Type(value = RevealingArea.class, name = "RevealingArea"),
 		@JsonSubTypes.Type(value = ShrinkArea.class, name = "ShrinkArea"),
 		@JsonSubTypes.Type(value = SwitchArea.class, name = "SwitchArea"),
+		@JsonSubTypes.Type(value = GhostRectangle.class, name = "GhostRectangle"),
 		@JsonSubTypes.Type(value = HintRectangle.class, name = "HintRectangle"),
 		@JsonSubTypes.Type(value = MovingRectangle.class, name = "MovingRectangle"),
 		@JsonSubTypes.Type(value = SwitchRectangle.class, name = "SwitchRectangle"),
 		@JsonSubTypes.Type(value = WallRectangle.class, name = "WallRectangle") })
 public abstract class Rectangle implements Drawable {
 
-	private static final float BORDER_DARKNESS = 1.2f;
+	private static final float BORDER_DARKNESS = 0.8f;
 	private static final int BORDER_THICKNESS = 1;
 
 	/**
@@ -135,7 +142,7 @@ public abstract class Rectangle implements Drawable {
 	private Colors colorEnum;
 	private int x, y, width, height;
 	private ResizeBehavior resizeBehavior;
-	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
+	private Map<Area, Set<AttachmentOption>> attachedAreas;
 
 	public Rectangle(int x, int y, int width, int height, Colors colorEnum,
 			ResizeBehavior resizeBehavior) {
@@ -145,7 +152,7 @@ public abstract class Rectangle implements Drawable {
 		this.width = width;
 		this.height = height;
 		this.resizeBehavior = resizeBehavior;
-		attachedAreas = new ArrayList<>();
+		attachedAreas = new HashMap<>();
 	}
 
 	public static void setColorMapper(ColorMapper colorMapper) {
@@ -160,15 +167,10 @@ public abstract class Rectangle implements Drawable {
 	public void draw(Graphics g) {
 		g = g.create();
 
-		Color color = getColor();
-
-		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
-				(int) (color.getGreen() / BORDER_DARKNESS),
-				(int) (color.getBlue() / BORDER_DARKNESS), color.getAlpha());
-		g.setColor(border);
+		g.setColor(getBorderColor());
 		drawRectOutline(g, BORDER_THICKNESS);
 
-		g.setColor(color);
+		g.setColor(getColor());
 		g.fillRect(x + BORDER_THICKNESS, y + BORDER_THICKNESS,
 				width - 2 * BORDER_THICKNESS, height - 2 * BORDER_THICKNESS);
 
@@ -288,11 +290,11 @@ public abstract class Rectangle implements Drawable {
 	 * Moves and resizes all attached {@code Area}s to conform with their
 	 * attachment options.
 	 */
-	private void updateAttachments() {
-
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			Area attached = areaPair.first;
-			Set<AttachmentOption> options = areaPair.second;
+	protected void updateAttachments() {
+		for (Entry<Area, Set<AttachmentOption>> areaPair : attachedAreas
+				.entrySet()) {
+			Area attached = areaPair.getKey();
+			Set<AttachmentOption> options = areaPair.getValue();
 
 			if (options.contains(AttachmentOption.SAME_WIDTH)) {
 				attached.setWidth(width);
@@ -321,9 +323,7 @@ public abstract class Rectangle implements Drawable {
 				attached.setX(x + width);
 				attached.setY(y);
 			}
-
 		}
-
 	}
 
 	/**
@@ -519,6 +519,13 @@ public abstract class Rectangle implements Drawable {
 		return getColor(colorEnum);
 	}
 
+	public Color getBorderColor() {
+		Color color = getColor();
+		return new Color((int) (color.getRed() * BORDER_DARKNESS),
+				(int) (color.getGreen() * BORDER_DARKNESS),
+				(int) (color.getBlue() * BORDER_DARKNESS), color.getAlpha());
+	}
+
 	public Color getColor(Enum<?> colorEnum) {
 		Color color = colorMapper.getColor(colorEnum);
 		if (color == null) {
@@ -530,8 +537,7 @@ public abstract class Rectangle implements Drawable {
 	public void addAttachment(Area attachment, AttachmentOption... options) {
 		Set<AttachmentOption> optionsSet = new HashSet<AttachmentOption>(
 				Arrays.asList(options));
-		attachedAreas.add(
-				new Pair<Area, Set<AttachmentOption>>(attachment, optionsSet));
+		attachedAreas.put(attachment, optionsSet);
 		updateAttachments();
 	}
 
@@ -539,18 +545,17 @@ public abstract class Rectangle implements Drawable {
 	public void addAllAttachments(
 			List<Pair<Area, Set<AttachmentOption>>> attachments) {
 		for (Pair<Area, Set<AttachmentOption>> pair : attachments) {
-			addAttachment(pair.first,
-					pair.second.toArray(new AttachmentOption[] {}));
+			attachedAreas.put(pair.first, pair.second);
 		}
+		updateAttachments();
+	}
+
+	public void removeAttachment(Area attachment) {
+		attachedAreas.remove(attachment);
 	}
 
 	public List<Area> getAttachments() {
-		List<Area> result = new ArrayList<>();
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			result.add(areaPair.first);
-		}
-
-		return result;
+		return new ArrayList<>(attachedAreas.keySet());
 	}
 
 	@Override

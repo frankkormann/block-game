@@ -1,0 +1,256 @@
+{
+	"name": "Doubly Blocked [6-★]",
+	"number": 46,
+	"width": 600,
+	"height": 500,
+	"solution": "/level_6-star.rec",
+	"storeValues": {
+		"current_level": "/level_6-star.json",
+		"title_screen": "/title_6.json"
+	},
+	"movingRectangles": [
+		{
+			"type": "MovingRectangle",
+			"x": 265,
+			"y": 100,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": "SwitchRectangle",
+			"x": 500,
+			"y": 230,
+			"width": 80,
+			"height": 10,
+			"color": "ORANGE",
+			"key": "orange"
+		},
+		{
+			"type": "GhostRectangle",
+			"x": 470,
+			"y": 160,
+			"width": 10,
+			"height": 80,
+			"color": "BLUE"
+		},
+		{
+			"type": "SwitchRectangle",
+			"x": 80,
+			"y": 260,
+			"width": 10,
+			"height": 80,
+			"color": "ORANGE",
+			"key": "orange"
+		},
+		{
+			"type": "GhostRectangle",
+			"x": 110,
+			"y": 330,
+			"width": 80,
+			"height": 10,
+			"color": "GREEN"
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 250,
+			"y": 140,
+			"width": 100,
+			"height": 100,
+			"color": "RED"
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 250,
+			"y": 260,
+			"width": 100,
+			"height": 100,
+			"color": "RED"
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": 230,
+			"y": 0,
+			"width": 140,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 230,
+			"y": 20,
+			"width": 20,
+			"height": 120,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 350,
+			"y": 20,
+			"width": 20,
+			"height": 120,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 250,
+			"y": 120,
+			"width": 70,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 350,
+			"y": 140,
+			"width": 250,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 350,
+			"y": 160,
+			"width": 20,
+			"height": 70,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 580,
+			"y": 160,
+			"width": 20,
+			"height": 80,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 340,
+			"y": 240,
+			"width": 260,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 240,
+			"width": 250,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 260,
+			"width": 20,
+			"height": 80,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 230,
+			"y": 260,
+			"width": 20,
+			"height": 70,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 340,
+			"width": 250,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 230,
+			"y": 360,
+			"width": 20,
+			"height": 120,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 350,
+			"y": 360,
+			"width": 20,
+			"height": 120,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 250,
+			"y": 360,
+			"width": 10,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 230,
+			"y": 480,
+			"width": 140,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": "SwitchArea",
+			"x": 300,
+			"y": 20,
+			"width": 50,
+			"height": 100,
+			"color": "TRANSLUCENT_ORANGE",
+			"key": "orange"
+		},
+		{
+			"type": "GoalArea",
+			"x": 275,
+			"y": 430,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_crown-1.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": 310,
+			"y": 230,
+			"width": 80,
+			"height": 10,
+			"color": "ORANGE"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 470,
+			"y": 160,
+			"width": 10,
+			"height": 80,
+			"color": "BLUE"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 200,
+			"y": 260,
+			"width": 10,
+			"height": 80,
+			"color": "ORANGE"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 210,
+			"y": 330,
+			"width": 80,
+			"height": 10,
+			"color": "GREEN"
+		}
+	]
+}

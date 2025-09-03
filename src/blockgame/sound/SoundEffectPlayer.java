@@ -19,7 +19,6 @@ import blockgame.input.VolumeMapper;
 import blockgame.input.VolumeMapper.Volume;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
-import blockgame.physics.MovingRectangle.State;
 import blockgame.physics.SwitchRectangle;
 
 /**
@@ -31,15 +30,16 @@ import blockgame.physics.SwitchRectangle;
  * 
  * @author Frank Kormann
  */
-public class SoundEffectMonitor {
+public class SoundEffectPlayer {
 
-	private static final int MIN_FALL_DISTANCE = 20;
+	private static final int MIN_LAND_VELOCITY = 10;
 
 	/**
 	 * Sound effect containing a {@code Clip} which is pre-loaded with its data.
 	 */
 	public enum SoundEffect {
-		LEVEL_COMPLETE("/level_complete.wav"), GROW("/grow.wav"),
+		GAME_START("/start_up.wav"), LEVEL_COMPLETE("/level_complete.wav"),
+		LEVEL_COMPLETE_SPECIAL("/nananana.wav"), GROW("/grow.wav"),
 		SHRINK("/shrink.wav"), LAND("/land.wav"), SWITCH_ON("/switch_on.wav");
 
 		public final Clip clip;
@@ -69,20 +69,20 @@ public class SoundEffectMonitor {
 	private List<SwitchRectangle> switchRectangles;
 	private List<GoalArea> goals;
 
-	private Map<MovingRectangle, State> rectStates;
-	private Map<MovingRectangle, Integer> fallDistances;
+	private Map<MovingRectangle, Integer> rectYVelocities;
+	private Map<GoalArea, Boolean> goalsActivated;
 
 	VolumeMapper volumeMapper;
 
 	/**
-	 * Creates a new {@code SoundEffectMonitor} with no objects.
+	 * Creates a new {@code SoundEffectPlayer} with no objects.
 	 */
-	public SoundEffectMonitor(VolumeMapper volumeMapper) {
+	public SoundEffectPlayer(VolumeMapper volumeMapper) {
 		movingRectangles = new ArrayList<>();
 		switchRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
-		rectStates = new HashMap<>();
-		fallDistances = new HashMap<>();
+		rectYVelocities = new HashMap<>();
+		goalsActivated = new HashMap<>();
 		this.volumeMapper = volumeMapper;
 	}
 
@@ -95,11 +95,15 @@ public class SoundEffectMonitor {
 
 	public void add(GoalArea goal) {
 		goals.add(goal);
+		goalsActivated.put(goal, false);
 	}
 
 	public void clear() {
 		movingRectangles.clear();
+		switchRectangles.clear();
 		goals.clear();
+		rectYVelocities.clear();
+		goalsActivated.clear();
 	}
 
 	/**
@@ -107,25 +111,32 @@ public class SoundEffectMonitor {
 	 * need to be played.
 	 */
 	public void playSounds() {
-		playIfAnyMatch(goals, g -> g.playingLevelFinish(),
-				SoundEffect.LEVEL_COMPLETE.clip, false);
+		playIfAnyMatch(goals,
+				g -> g.playingLevelFinish() && !g.isSpecial()
+						&& !goalsActivated.get(g),
+				SoundEffect.LEVEL_COMPLETE, false);
+		playIfAnyMatch(goals,
+				g -> g.playingLevelFinish() && g.isSpecial()
+						&& !goalsActivated.get(g),
+				SoundEffect.LEVEL_COMPLETE_SPECIAL, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() > r.getLastWidth()
 						|| r.getHeight() > r.getLastHeight(),
-				SoundEffect.GROW.clip, false);
+				SoundEffect.GROW, false);
 		playIfAnyMatch(movingRectangles,
 				r -> r.getWidth() < r.getLastWidth()
 						|| r.getHeight() < r.getLastHeight(),
-				SoundEffect.SHRINK.clip, false);
+				SoundEffect.SHRINK, false);
 		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
-				SoundEffect.SWITCH_ON.clip, true);
+				SoundEffect.SWITCH_ON, true);
 		playIfAnyMatch(movingRectangles,
-				r -> fallDistances.containsKey(r)
-						&& fallDistances.get(r) >= MIN_FALL_DISTANCE
-						&& r.getState() == State.ON_GROUND,
-				SoundEffect.LAND.clip, true);
+				r -> rectYVelocities.containsKey(r)
+						&& rectYVelocities.get(r) >= MIN_LAND_VELOCITY
+						&& r.getYVelocity() == 0,  // So it has now landed
+				SoundEffect.LAND, true);
 
-		updateFallDistances();
+		updateRectVelocities();
+		updateGoalsActivated();
 	}
 
 	/**
@@ -140,46 +151,45 @@ public class SoundEffectMonitor {
 	 * @param <T>             type of objects to test
 	 * @param objects         {@code Collection} of objects to test
 	 * @param condition       {@code Predicate} to test against
-	 * @param clip            sound {@code Clip} to play
+	 * @param soundEffect     {@code SoundEffect} to play
 	 * @param restartPrevious {@code true} if {@code clip} should be restarted
 	 *                        if it is already running
 	 */
 	private <T> void playIfAnyMatch(Collection<T> objects,
-			Predicate<T> condition, Clip clip, boolean restartPrevious) {
+			Predicate<T> condition, SoundEffect soundEffect,
+			boolean restartPrevious) {
 		if (objects.stream().anyMatch(condition)) {
 			if (restartPrevious) {
-				clip.stop();
+				soundEffect.clip.stop();
 			}
-			if (!clip.isRunning()) {
-				clip.setFramePosition(0);
-				while (!clip.isRunning()) {  // Make sure it starts (sometimes
-					clip.start();			  // it won't start right away soon
-				}							  // after being stopped)
-				VolumeChanger.setVolume(clip,
-						volumeMapper.get(Volume.SFX).floatValue());
+			if (!soundEffect.clip.isRunning()) {
+				play(soundEffect);
 			}
 		}
 	}
 
-	private void updateFallDistances() {
-		for (MovingRectangle rect : movingRectangles) {
-			if (rectStates.get(rect) == State.ON_GROUND
-					&& rect.getState() == State.IN_AIR) {
-				fallDistances.put(rect, 0);
-			}
-			if (fallDistances.containsKey(rect)) {
-				if (rect.getState() == State.ON_GROUND) {
-					fallDistances.remove(rect);
-					continue;
-				}
+	/**
+	 * Plays {@code soundEffect} with the volume set by this's
+	 * {@code VolumeMapper}.
+	 * 
+	 * @param soundEffect {@code SoundEffect} to play
+	 */
+	public void play(SoundEffect soundEffect) {
+		Clip clip = soundEffect.clip;
+		clip.setFramePosition(0);
+		while (!clip.isRunning()) {  // Make sure it starts (sometimes
+			clip.start();			  // it won't start right away soon
+		}							  // after being stopped)
+		VolumeChanger.setVolume(clip,
+				volumeMapper.get(Volume.SFX).floatValue());
+	}
 
-				int dist = fallDistances.get(rect);
-				dist += rect.getY() - rect.getLastY();
-				dist = Math.max(dist, 0);
-				fallDistances.put(rect, dist);
-			}
-		}
-		movingRectangles.forEach(r -> rectStates.put(r, r.getState()));
+	private void updateRectVelocities() {
+		movingRectangles.forEach(r -> rectYVelocities.put(r, r.getYVelocity()));
+	}
+
+	private void updateGoalsActivated() {
+		goals.forEach(g -> goalsActivated.put(g, g.playingLevelFinish()));
 	}
 
 }

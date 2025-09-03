@@ -24,6 +24,12 @@ public class SideRectangle extends MovingRectangle {
 		super(x, y, width, height);
 		this.direction = direction;
 		actingLikeWall = true;
+
+		if (direction != Direction.SOUTH) {
+			getAttachments().stream()
+					.filter(a -> a instanceof JumpArea)
+					.forEach(a -> removeAttachment(a));
+		}
 	}
 
 	@Override

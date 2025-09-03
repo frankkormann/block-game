@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import blockgame.gui.ImageArea;
+
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
  * then it cannot interact with other {@code Rectangle}s (except
@@ -19,7 +21,6 @@ public class SwitchRectangle extends MovingRectangle {
 
 	private static final int DASH_SIZE = 5;
 	private static final int BORDER_THICKNESS = 2;
-	private static final float BORDER_DARKNESS = 1.2f;
 
 	private boolean isActive;
 	private boolean wasActive;
@@ -40,17 +41,13 @@ public class SwitchRectangle extends MovingRectangle {
 	public void draw(Graphics g) {
 		g = g.create();
 
-		Color color = new Color(getColor().getRed(), getColor().getGreen(),
-				getColor().getBlue(), isActive ? 255 : 0);
+		Color innerColor = isActive ? getColor() : getColor(Colors.TRANSPARENT);
 
-		Color border = new Color((int) (color.getRed() / BORDER_DARKNESS),
-				(int) (color.getGreen() / BORDER_DARKNESS),
-				(int) (color.getBlue() / BORDER_DARKNESS));
-		g.setColor(border);
-		drawDashedRectangle(g, color, DASH_SIZE, BORDER_THICKNESS, getX(),
+		g.setColor(getBorderColor());
+		drawDashedRectangle(g, innerColor, DASH_SIZE, BORDER_THICKNESS, getX(),
 				getY(), getWidth(), getHeight());
 
-		g.setColor(color);
+		g.setColor(innerColor);
 		g.fillRect(getX() + BORDER_THICKNESS, getY() + BORDER_THICKNESS,
 				getWidth() - 2 * BORDER_THICKNESS,
 				getHeight() - 2 * BORDER_THICKNESS);
@@ -94,6 +91,9 @@ public class SwitchRectangle extends MovingRectangle {
 	 * @return {@code true} if this can interact with {@code other}'s type
 	 */
 	private boolean canAlwaysInteractWith(Rectangle other) {
+		if (other instanceof ImageArea) {
+			return canAlwaysInteractWith(((ImageArea) other).getImitatedArea());
+		}
 		if (other instanceof SwitchArea) {
 			return ((SwitchArea) other).getKey().equals(key);
 		}
@@ -101,9 +101,9 @@ public class SwitchRectangle extends MovingRectangle {
 	}
 
 	@Override
-	public void addAttachment(Area attachment, AttachmentOption... options) {
-		super.addAttachment(attachment, options);
-		attachment.setActive(isActive);
+	protected void updateAttachments() {
+		super.updateAttachments();
+		getAttachments().forEach(a -> a.setActive(isActive));
 	}
 
 	/**

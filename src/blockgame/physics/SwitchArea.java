@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {@code Area} that reports to {@code SwitchController}. As long as there is a
  * {@code MovingRectangle} within this, all the children of its
  * {@code SwitchContoller} will be active.
+ * <p>
+ * If no {@code SwitchController} is set, this does nothing except draw itself.
  *
  * @author Frank Kormann
  */
@@ -17,7 +19,6 @@ public class SwitchArea extends Area {
 
 	private static final int DASH_SIZE = 10;
 	private static final int DASH_THICKNESS = 3;
-	private static final float INNER_RECT_DARKNESS = 1.2f;
 
 	private String key;
 	private SwitchController controller;
@@ -31,6 +32,7 @@ public class SwitchArea extends Area {
 			@JsonProperty("key") String key) {
 		super(x, y, width, height, colorEnum);
 		this.key = key;
+		controller = null;
 		numberInside = 0;
 	}
 
@@ -39,12 +41,7 @@ public class SwitchArea extends Area {
 		super.draw(g);
 		g = g.create();
 
-		Color innerRectColor = new Color(
-				(int) (getColor().getRed() / INNER_RECT_DARKNESS),
-				(int) (getColor().getGreen() / INNER_RECT_DARKNESS),
-				(int) (getColor().getBlue() / INNER_RECT_DARKNESS),
-				getColor().getAlpha());
-		g.setColor(innerRectColor);
+		g.setColor(getBorderColor());
 		int quarterWidth = getWidth() / 4;
 		int quarterHeight = getHeight() / 4;
 		// Calculate the width/height by subtracting 2 quarters so that there is
@@ -65,6 +62,9 @@ public class SwitchArea extends Area {
 	 */
 	@Override
 	public void onEnter(MovingRectangle rect) {
+		if (controller == null) {
+			return;
+		}
 		numberInside++;
 		if (numberInside == 1) {
 			controller.areaActivated();
@@ -79,6 +79,9 @@ public class SwitchArea extends Area {
 	 */
 	@Override
 	public void onExit(MovingRectangle rect) {
+		if (controller == null) {
+			return;
+		}
 		numberInside--;
 		if (numberInside == 0) {
 			controller.areaDeactivated();

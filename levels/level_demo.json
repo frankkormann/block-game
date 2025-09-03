@@ -2,6 +2,9 @@
 	"name": "Playground",
 	"width": 800,
 	"height": 500,
+	"storeValues": {
+		"title_screen": "/level_demo.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
@@ -22,7 +25,7 @@
 			"key": "red"
 		},
 		{
-			"type": "MovingRectangle",
+			"type": "GhostRectangle",
 			"x": 130,
 			"y": 400,
 			"width": 20,
@@ -118,9 +121,23 @@
 	],
 	"areas": [
 		{
-			"type": "AntigravityArea",
+			"type": "RevealingArea",
 			"x": 300,
 			"y": 300,
+			"width": 150,
+			"height": 70,
+			"area": {
+				"type": "AntigravityArea",
+				"x": 300,
+				"y": 300,
+				"width": 150,
+				"height": 70
+			}
+		},
+		{
+			"type": "JumpArea",
+			"x": 300,
+			"y": 230,
 			"width": 150,
 			"height": 70
 		},
@@ -132,6 +149,32 @@
 			"height": 70,
 			"color": "TRANSLUCENT_RED",
 			"key": "red"
+		},
+		{
+			"type": "RevealingArea",
+			"x": 470,
+			"y": 370,
+			"width": 60,
+			"height": 120,
+			"area": {
+				"type": "ImageArea",
+				"x": 530,
+				"y": 300,
+				"source": "/title_screen_E.png",
+				"color": "TRANSLUCENT_RED",
+				"imitatedArea": {
+					"type": "RevealingArea",
+					"area": {
+						"type": "SwitchArea",
+						"x": 470,
+						"y": 370,
+						"width": 60,
+						"height": 120,
+						"color": "TRANSLUCENT_RED",
+						"key": "red"
+					}
+				}
+			}
 		},
 		{
 			"type": "GrowArea",

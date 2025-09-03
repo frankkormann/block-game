@@ -1,15 +1,18 @@
 {
-	"name": "Width Before Height [2-3]",
+	"name": "Don't Grow Up [2-3]",
 	"number": 7,
 	"width": 800,
-	"height": 500,
+	"height": 400,
 	"solution": "/level_2-3.rec",
-	"newTitle": "/title_2.json",
+	"storeValues": {
+		"current_level": "/level_2-3.json",
+		"title_screen": "/title_2.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
-			"x": 110,
-			"y": 330,
+			"x": 180,
+			"y": 380,
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER",
@@ -17,102 +20,93 @@
 		},
 		{
 			"type": "MovingRectangle",
-			"x": 150,
-			"y": 330,
-			"width": 30,
-			"height": 20,
-			"color": "BLUE"
-		},
-		{
-			"type": "MovingRectangle",
-			"x": 620,
-			"y": 350,
+			"x": 320,
+			"y": 230,
 			"width": 20,
-			"height": 140,
+			"height": 150,
 			"color": "RED"
 		}
 	],
 	"walls": [
 		{
 			"type": "WallRectangle",
-			"x": 100,
-			"y": 350,
-			"width": 200,
+			"x": 320,
+			"y": 170,
+			"width": 240,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
-			"x": 610,
-			"y": 220,
-			"width": 10,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 640,
-			"y": 220,
-			"width": 70,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 690,
-			"y": 240,
+			"x": 320,
+			"y": 190,
 			"width": 20,
-			"height": 110,
-			"resizeBehavior": "PREVENT_Y"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 610,
-			"y": 370,
-			"width": 10,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
-			"x": 640,
-			"y": 350,
-			"width": 70,
-			"height": 40,
+			"x": 300,
+			"y": 210,
+			"width": 40,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
-			"x": 620,
-			"y": 490,
+			"x": 300,
+			"y": 230,
 			"width": 20,
-			"height": 10,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 540,
+			"y": 190,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 540,
+			"y": 210,
+			"width": 260,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 780,
+			"y": 230,
+			"width": 20,
+			"height": 150,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 300,
+			"y": 380,
+			"width": 500,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		}
 	],
 	"areas": [
 		{
 			"type": "GrowArea",
-			"x": 200,
-			"y": 300,
-			"width": 100,
-			"height": 50,
-			"xGrowth": 1,
-			"yGrowth": 0
-		},
-		{
-			"type": "GrowArea",
-			"x": 640,
-			"y": 240,
-			"width": 50,
-			"height": 110,
+			"x": 340,
+			"y": 190,
+			"width": 200,
+			"height": 100,
 			"xGrowth": 0,
 			"yGrowth": 1
 		},
 		{
 			"type": "GoalArea",
-			"x": 230,
-			"y": 150,
+			"x": 640,
+			"y": 330,
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_2-4.json",
@@ -122,19 +116,11 @@
 	"hints": [
 		{
 			"type": "HintRectangle",
-			"x": 230,
-			"y": 280,
-			"width": 460,
-			"height": 70,
-			"color": "BLUE"
-		},
-		{
-			"type": "HintRectangle",
-			"x": 590,
-			"y": 240,
-			"width": 100,
-			"height": 40,
-			"color": "PLAYER"
+			"x": 540,
+			"y": 230,
+			"width": 20,
+			"height": 150,
+			"color": "RED"
 		}
 	]
 }

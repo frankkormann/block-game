@@ -10,8 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import blockgame.physics.MovingRectangle.State;
-
 class MovingRectangleTest {
 
 	MovingRectangle rect;
@@ -27,16 +25,15 @@ class MovingRectangleTest {
 	}
 
 	@Test
-	void state_is_IN_AIR_by_default() {
-		assertTrue(rect.getState() == State.IN_AIR);
+	void cannot_jump_by_default() {
+		assertFalse(rect.canJump());
 	}
 
 	@Test
 	void comes_with_a_GroundingArea_by_default() {
 		List<Area> attachments = rect.getAttachments();
 
-		assertTrue(
-				attachments.stream().anyMatch(a -> a instanceof GroundingArea));
+		assertTrue(attachments.stream().anyMatch(a -> a instanceof JumpArea));
 	}
 
 	@Test
@@ -65,7 +62,7 @@ class MovingRectangleTest {
 	void moveCollision_moves_by_collision_amounts() {
 		int collisionX = 5, collisionY = 7;
 		int initialX = rect.getX(), initialY = rect.getY();
-		rect.moveCollision(collisionX, collisionY);
+		rect.moveCollision(collisionX, collisionY, true);
 
 		assertEquals(initialX + collisionX, rect.getX());
 		assertEquals(initialY + collisionY, rect.getY());
@@ -75,7 +72,7 @@ class MovingRectangleTest {
 	void moveCollision_sets_x_velocity_to_zero_when_it_moves_against_it() {
 		rect.setXVelocity(5);
 		rect.setYVelocity(5);
-		rect.moveCollision(-2, 7);
+		rect.moveCollision(-2, 7, true);
 
 		assertEquals(0, rect.getXVelocity());
 		assertEquals(5, rect.getYVelocity());
@@ -85,7 +82,7 @@ class MovingRectangleTest {
 	void moveCollision_sets_y_velocity_to_zero_when_it_moves_against_it() {
 		rect.setXVelocity(5);
 		rect.setYVelocity(5);
-		rect.moveCollision(2, -7);
+		rect.moveCollision(2, -7, true);
 
 		assertEquals(5, rect.getXVelocity());
 		assertEquals(0, rect.getYVelocity());

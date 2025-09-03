@@ -3,6 +3,7 @@ package blockgame.sound;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.function.Supplier;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
@@ -88,12 +89,14 @@ public class MusicPlayer implements ValueChangeListener {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to read audio data", e)
+			new ErrorDialog("Error",
+					"Failed to read audio data for '" + song.resource + "'", e)
 					.setVisible(true);
 		}
 		catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Song file is not an audio file", e)
+			new ErrorDialog("Error",
+					"Song file '" + song.resource + "' is not an audio file", e)
 					.setVisible(true);
 		}
 		catch (LineUnavailableException e) {
@@ -107,6 +110,8 @@ public class MusicPlayer implements ValueChangeListener {
 	 * Starts a {@code Thread} to copy audio data from {@code stream} to
 	 * {@code line}. The {@code Thread} will terminate when
 	 * {@code currentThread} changes.
+	 * <p>
+	 * {@code stream} must support {@code mark} and {@code reset} operations.
 	 * 
 	 * @param line   {@code SourceDataLine} to move audio data into
 	 * @param stream {@code InputStream} to take audio data from
@@ -114,24 +119,36 @@ public class MusicPlayer implements ValueChangeListener {
 	private void startThread(SourceDataLine line, InputStream stream) {
 		currentThread++;
 		int threadNumber = currentThread;
+		Supplier<Boolean> continueCondition = () -> currentThread == threadNumber;
 		new Thread(() -> {
-			try {
-				while (currentThread == threadNumber) {
+
+			while (continueCondition.get()) {
+				try {
 					stream.mark(Integer.MAX_VALUE);
-					while (currentThread == threadNumber
-							&& stream.available() > 0) {
-						byte[] buffer = new byte[line.available()];
+					while (stream.available() > 0 && continueCondition.get()) {
+						// Need a small buffer size to remain responsive to
+						// music stopping
+						byte[] buffer = new byte[line.getFormat()
+								.getFrameSize()];
 						int num = stream.read(buffer, 0, buffer.length);
 						line.write(buffer, 0, num);
 					}
 					stream.reset();
 				}
-				line.close();
+				catch (IOException e) {
+					e.printStackTrace();
+					new ErrorDialog("Error", "Failed to read audio stream", e)
+							.setVisible(true);
+					break;
+				}
+			}
+			line.close();
+			try {
 				stream.close();
 			}
 			catch (IOException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Failed to read audio data", e)
+				new ErrorDialog("Error", "Failed to close audio stream", e)
 						.setVisible(true);
 			}
 		}).start();

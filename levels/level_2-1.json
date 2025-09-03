@@ -4,7 +4,12 @@
 	"width": 1100,
 	"height": 400,
 	"solution": "/level_2-1.rec",
-	"newTitle": "/title_2.json",
+	"popup": "Level select now unlocked in the title bar!",
+	"storeValues": {
+		"current_level": "/level_2-1.json",
+		"title_screen": "/title_2.json",
+		"level_select_unlocked": "true"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
@@ -37,7 +42,15 @@
 			"type": "WallRectangle",
 			"x": 475,
 			"y": 200,
-			"width": 150,
+			"width": 60,
+			"height": 20,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 565,
+			"y": 200,
+			"width": 60,
 			"height": 20,
 			"resizeBehavior": "PREVENT_Y"
 		},
@@ -93,6 +106,23 @@
 			"height": 50,
 			"nextLevel": "/level_2-2.json",
 			"hasParticles": true
+		},
+		{
+			"type": "RevealingArea",
+			"x": 455,
+			"y": 220,
+			"width": 190,
+			"height": 100,
+			"area": {
+				"type": "GoalArea",
+				"x": 525,
+				"y": 270,
+				"width": 50,
+				"height": 50,
+				"nextLevel": "/level_2-star.json",
+				"hasParticles": true,
+				"special": true
+			}
 		}
 	],
 	"hints": [

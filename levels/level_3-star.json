@@ -1,0 +1,135 @@
+{
+	"name": "Deleted Off-screen [3-★]",
+	"number": 43,
+	"width": 700,
+	"height": 450,
+	"solution": "/level_3-star.rec",
+	"storeValues": {
+		"current_level": "/level_3-star.json",
+		"title_screen": "/title_3.json"
+	},
+	"movingRectangles": [
+		{
+			"type": "MovingRectangle",
+			"x": 150,
+			"y": 280,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 270,
+			"y": 110,
+			"width": 80,
+			"height": 150,
+			"color": "RED"
+		},
+		{
+			"type": "GhostRectangle",
+			"x": 180,
+			"y": 260,
+			"width": 270,
+			"height": 40,
+			"color": "BLUE"
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": 250,
+			"y": 90,
+			"width": 350,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 250,
+			"y": 110,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 350,
+			"y": 110,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 580,
+			"y": 110,
+			"width": 20,
+			"height": 190,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 480,
+			"y": 250,
+			"width": 100,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 100,
+			"y": 300,
+			"width": 170,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 350,
+			"y": 300,
+			"width": 250,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": "GrowArea",
+			"x": 270,
+			"y": 110,
+			"width": 210,
+			"height": 150,
+			"xGrowth": 1,
+			"yGrowth": 0
+		},
+		{
+			"type": "ShrinkArea",
+			"x": 480,
+			"y": 260,
+			"width": 100,
+			"height": 40,
+			"xShrink": 1,
+			"yShrink": 0
+		},
+		{
+			"type": "GoalArea",
+			"x": 505,
+			"y": 200,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_4-1.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": 350,
+			"y": 0,
+			"width": 5,
+			"height": 450,
+			"color": "ORANGE"
+		}
+	]
+}

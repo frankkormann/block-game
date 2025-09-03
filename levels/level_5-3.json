@@ -4,7 +4,10 @@
 	"width": 800,
 	"height": 500,
 	"solution": "/level_5-3.rec",
-	"newTitle": "/title_5.json",
+	"storeValues": {
+		"current_level": "/level_5-3.json",
+		"title_screen": "/title_5.json"
+	},
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
@@ -96,7 +99,7 @@
 			"x": 300,
 			"y": 0,
 			"width": 300,
-			"height": 300
+			"height": 280
 		},
 		{
 			"type": "AntigravityArea",
@@ -113,6 +116,23 @@
 			"height": 50,
 			"nextLevel": "/level_5-4.json",
 			"hasParticles": true
+		},
+		{
+			"type": "RevealingArea",
+			"x": 300,
+			"y": -50,
+			"width": 300,
+			"height": 50,
+			"area": {
+				"type": "GoalArea",
+				"x": 675,
+				"y": -50,
+				"width": 50,
+				"height": 50,
+				"nextLevel": "/level_5-star.json",
+				"hasParticles": true,
+				"special": true
+			}
 		}
 	],
 	"hints": [

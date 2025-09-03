@@ -53,7 +53,7 @@ import blockgame.input.ValueChangeListener;
 public class MainFrame extends JFrame implements ValueChangeListener {
 
 	private static final String TASKBAR_ICON = "/taskbar_icon.png";
-	private static final String WINDOW_TITLE = "Block Game";
+	private static final String WINDOW_TITLE = "Resizer";
 	private static final int DEFAULT_FONT_SIZE = 13;
 
 	private static final int WIDTH_MINIMUM = 150;

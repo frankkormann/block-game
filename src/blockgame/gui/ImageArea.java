@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import blockgame.input.ColorMapper;
 import blockgame.input.ValueChangeListener;
 import blockgame.physics.Area;
 import blockgame.physics.MovingRectangle;
@@ -32,8 +31,6 @@ import blockgame.physics.MovingRectangle;
  * @author Frank Kormann
  */
 public class ImageArea extends Area implements ValueChangeListener {
-
-	private static ColorMapper colorMapper;
 
 	private BufferedImage baseImage;
 	private BufferedImage imageToDraw;
@@ -66,10 +63,6 @@ public class ImageArea extends Area implements ValueChangeListener {
 			new ErrorDialog("Error", "Failed to read image '" + source + "'", e)
 					.setVisible(true);
 		}
-	}
-
-	public static void setColorMapper(ColorMapper colorMapper) {
-		ImageArea.colorMapper = colorMapper;
 	}
 
 	@Override

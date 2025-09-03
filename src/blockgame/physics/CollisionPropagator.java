@@ -108,7 +108,13 @@ public class CollisionPropagator {
 			}
 
 			if (collisionData[0] != 0 && collisionData[1] != 0) {
-				collisionData[1] = 0;
+				if (collisionData[1] < 0 || (rect instanceof SwitchRectangle
+						&& ((SwitchRectangle) rect).becameActive())) {
+					collisionData[1] = 0;
+				}
+				else {
+					collisionData[0] = 0;
+				}
 			}
 
 			collisionData[0] = -correctGrowthForCollision(rect,
@@ -121,7 +127,10 @@ public class CollisionPropagator {
 			collisionData[1] = correctGrowthForCollision(other,
 					collisionData[1], false);
 
-			other.moveCollision(collisionData[0], collisionData[1]);
+			other.moveCollision(collisionData[0], collisionData[1], false);
+			if (collisionData[1] < 0) {  // Fixes issue with jumping into blocks
+				other.setYVelocity(0);   // from below
+			}
 			collisionMap.put(other,
 					new Pair<MovingRectangle, int[]>(rect, collisionData));
 
@@ -129,11 +138,11 @@ public class CollisionPropagator {
 
 			if (collisionData[0] != 0) {  // rect should only be pushed back in
 										  // the direction it pushed other
-				rect.moveCollision(pushback[0], 0);
+				rect.moveCollision(pushback[0], 0, true);
 				pushedAmount[0] += pushback[0];
 			}
 			else {
-				rect.moveCollision(0, pushback[1]);
+				rect.moveCollision(0, pushback[1], true);
 				pushedAmount[1] += pushback[1];
 			}
 
@@ -187,7 +196,7 @@ public class CollisionPropagator {
 						&& !other.usedToIntersectX(rect))) {
 			yChange = -pushedAmount[1];
 		}
-		other.moveCollision(xChange, yChange);
+		other.moveCollision(xChange, yChange, false);
 
 		for (MovingRectangle c : collisionMap.keySet()) {
 			if (collisionMap.get(c).first == other) {
@@ -269,15 +278,13 @@ public class CollisionPropagator {
 					WALL_COLLISION_LEEWAY_X, true);
 		}
 
-		// This does not check whether the fudged collision would push another
-		// MovingRectangle into a wall, but any examples I could think of where
-		// that would cause a problem are too contrived to worry about
-		// Also, implementing that check would be much more difficult
+		// TODO Check whether the fudged collision would push another
+		// MovingRectangle into a wall
 		if (wouldIntersectAWall(rect, collisionData[0], collisionData[1])) {
 			collisionData = originalMovement;
 		}
 
-		rect.moveCollision(collisionData[0], collisionData[1]);
+		rect.moveCollision(collisionData[0], collisionData[1], true);
 
 		return collisionData;
 	}
