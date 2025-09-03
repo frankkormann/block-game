@@ -121,6 +121,20 @@
 	],
 	"areas": [
 		{
+			"type": "AntigravityArea",
+			"x": 350,
+			"y": 300,
+			"width": 30,
+			"height": 70
+		},
+		{
+			"type": "AntigravityArea",
+			"x": 400,
+			"y": 300,
+			"width": 30,
+			"height": 70
+		},
+		{
 			"type": "RevealingArea",
 			"x": 300,
 			"y": 300,
@@ -130,7 +144,7 @@
 				"type": "AntigravityArea",
 				"x": 300,
 				"y": 300,
-				"width": 150,
+				"width": 30,
 				"height": 70
 			}
 		},
