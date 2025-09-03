@@ -1,11 +1,11 @@
 {
-	"name": "Remix: 5-5",
+	"name": "Remix: 4-5",
 	"number": 38,
 	"width": 800,
 	"height": 400,
-	"solution": "/level_remix-5-5.rec",
+	"solution": "/level_remix-4-5.rec",
 	"storeValues": {
-		"current_level": "/level_remix-5-5.json",
+		"current_level": "/level_remix-4-5.json",
 		"title_screen": "/title_remix.json"
 	},
 	"movingRectangles": [

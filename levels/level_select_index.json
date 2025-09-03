@@ -78,53 +78,53 @@
 		}
 	},
 	"World 4": {
-		"4-1: Move": {
+		"4-1: Non-Newtonian": {
 			"path": "/level_4-1.json",
 			"number": 15
 		},
-		"4-2: Extension": {
+		"4-2: Round Trip": {
 			"path": "/level_4-2.json",
 			"number": 16
 		},
-		"4-3: Revisiting": {
+		"4-3: Floating Platform": {
 			"path": "/level_4-3.json",
 			"number": 17
 		},
-		"4-4: Revisiting II": {
+		"4-4: Pick Up and Put Down": {
 			"path": "/level_4-4.json",
 			"number": 18
 		},
-		"4-5: Inevitably Tall": {
+		"4-5: Long Pink": {
 			"path": "/level_4-5.json",
 			"number": 19
 		},
-		"4-★: Red Herring": {
+		"4-★: Past the Edge": {
 			"path": "/level_4-star.json",
 			"number": 44
 		}
 	},
 	"World 5": {
-		"5-1: Non-Newtonian": {
+		"5-1: Move": {
 			"path": "/level_5-1.json",
 			"number": 20
 		},
-		"5-2: Round Trip": {
+		"5-2: Extension": {
 			"path": "/level_5-2.json",
 			"number": 21
 		},
-		"5-3: Floating Platform": {
+		"5-3: Revisiting": {
 			"path": "/level_5-3.json",
 			"number": 22
 		},
-		"5-4: Pick Up and Put Down": {
+		"5-4: Revisiting II": {
 			"path": "/level_5-4.json",
 			"number": 23
 		},
-		"5-5: Long Pink": {
+		"5-5: Inevitably Tall": {
 			"path": "/level_5-5.json",
 			"number": 24
 		},
-		"5-★: Past the Edge": {
+		"5-★: Red Herring": {
 			"path": "/level_5-star.json",
 			"number": 45
 		}
@@ -194,8 +194,8 @@
 			"path": "/level_remix-3-4.json",
 			"number": 37
 		},
-		"Remix: 5-5": {
-			"path": "/level_remix-5-5.json",
+		"Remix: 4-5": {
+			"path": "/level_remix-4-5.json",
 			"number": 38
 		},
 		"Remix: 6-4": {
