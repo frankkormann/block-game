@@ -206,31 +206,54 @@ public abstract class Rectangle implements Drawable {
 	protected void drawDashedRectangle(Graphics g, Color emptyColor,
 			int dashSize, int thickness, int x, int y, int width, int height) {
 		g = g.create();
-		g.clipRect(x, y, width, height);
-		Color dashColor = g.getColor();
 
 		boolean isEmptyDash = false;
+		int overflow = -0;
 		for (int dashX = x; dashX < x + width; dashX += dashSize) {
-			g.setColor(isEmptyDash ? emptyColor : dashColor);
-
-			dashX = Math.min(dashX, x + width - dashSize);
-			g.fillRect(dashX, y, dashSize, thickness);
-			g.fillRect(dashX + dashSize / 2, y + height - thickness, dashSize,
-					thickness);
-
+			g.setColor(isEmptyDash ? emptyColor : getBorderColor());
 			isEmptyDash = !isEmptyDash;
+
+			int length = Math.min(dashSize, x + width - dashX);
+			overflow = dashSize - length;
+			g.fillRect(dashX, y, length, thickness);
 		}
 
-		isEmptyDash = false;
-		for (int dashY = y; dashY < y + height; dashY += dashSize) {
-			g.setColor(isEmptyDash ? emptyColor : dashColor);
+		g.fillRect(x + width - thickness, y + thickness, thickness, overflow);
 
-			dashY = Math.min(dashY, y + height - dashSize);
-			g.fillRect(x, dashY, thickness, dashSize);
-			g.fillRect(x + width - thickness, dashY + dashSize / 2, thickness,
-					dashSize);
-
+		for (int dashY = y + thickness + overflow; dashY < y + height
+				- thickness; dashY += dashSize) {
+			g.setColor(isEmptyDash ? emptyColor : getBorderColor());
 			isEmptyDash = !isEmptyDash;
+
+			int length = Math.min(dashSize, y + height - thickness - dashY);
+			overflow = dashSize - length;
+			g.fillRect(x + width - thickness, dashY, thickness, length);
+		}
+
+		g.fillRect(x + width - overflow, y + height - thickness, overflow,
+				thickness);
+
+		for (int dashX = x + width - overflow - dashSize; dashX >= x
+				- dashSize; dashX -= dashSize) {
+			g.setColor(isEmptyDash ? emptyColor : getBorderColor());
+			isEmptyDash = !isEmptyDash;
+
+			int length = Math.min(dashSize, dashX + dashSize - x);
+			overflow = dashSize - length;
+			g.fillRect(Math.max(x, dashX), y + height - thickness, length,
+					thickness);
+		}
+
+		g.fillRect(x, y + height - thickness - overflow, thickness, overflow);
+
+		for (int dashY = y + height - thickness - overflow
+				- dashSize; dashY >= y + thickness
+						- dashSize; dashY -= dashSize) {
+			g.setColor(isEmptyDash ? emptyColor : getBorderColor());
+			isEmptyDash = !isEmptyDash;
+
+			int length = Math.min(dashSize, dashY + dashSize - y - thickness);
+			g.fillRect(x, Math.max(y + thickness, dashY), thickness, length);
 		}
 
 		g.dispose();
@@ -256,6 +279,7 @@ public abstract class Rectangle implements Drawable {
 	 * @param tailWidth  size of base of tail
 	 * @param direction  orientation arrow tip is pointing towards
 	 */
+
 	protected void drawArrow(Graphics g, int tipX, int tipY, int headLength,
 			int headWidth, int tailLength, int tailWidth, Direction direction) {
 
