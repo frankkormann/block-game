@@ -548,9 +548,9 @@ public abstract class Rectangle implements Drawable {
 	public void addAllAttachments(
 			List<Pair<Area, Set<AttachmentOption>>> attachments) {
 		for (Pair<Area, Set<AttachmentOption>> pair : attachments) {
-			addAttachment(pair.first,
-					pair.second.toArray(new AttachmentOption[] {}));
+			attachedAreas.put(pair.first, pair.second);
 		}
+		updateAttachments();
 	}
 
 	public void removeAttachment(Area attachment) {
