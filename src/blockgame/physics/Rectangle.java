@@ -5,8 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -139,7 +142,7 @@ public abstract class Rectangle implements Drawable {
 	private Colors colorEnum;
 	private int x, y, width, height;
 	private ResizeBehavior resizeBehavior;
-	private List<Pair<Area, Set<AttachmentOption>>> attachedAreas;
+	private Map<Area, Set<AttachmentOption>> attachedAreas;
 
 	public Rectangle(int x, int y, int width, int height, Colors colorEnum,
 			ResizeBehavior resizeBehavior) {
@@ -149,7 +152,7 @@ public abstract class Rectangle implements Drawable {
 		this.width = width;
 		this.height = height;
 		this.resizeBehavior = resizeBehavior;
-		attachedAreas = new ArrayList<>();
+		attachedAreas = new HashMap<>();
 	}
 
 	public static void setColorMapper(ColorMapper colorMapper) {
@@ -289,9 +292,10 @@ public abstract class Rectangle implements Drawable {
 	 */
 	private void updateAttachments() {
 
-		for (Pair<Area, Set<AttachmentOption>> areaPair : attachedAreas) {
-			Area attached = areaPair.first;
-			Set<AttachmentOption> options = areaPair.second;
+		for (Entry<Area, Set<AttachmentOption>> areaPair : attachedAreas
+				.entrySet()) {
+			Area attached = areaPair.getKey();
+			Set<AttachmentOption> options = areaPair.getValue();
 
 			if (options.contains(AttachmentOption.SAME_WIDTH)) {
 				attached.setWidth(width);
@@ -536,8 +540,7 @@ public abstract class Rectangle implements Drawable {
 	public void addAttachment(Area attachment, AttachmentOption... options) {
 		Set<AttachmentOption> optionsSet = new HashSet<AttachmentOption>(
 				Arrays.asList(options));
-		attachedAreas.add(
-				new Pair<Area, Set<AttachmentOption>>(attachment, optionsSet));
+		attachedAreas.put(attachment, optionsSet);
 		updateAttachments();
 	}
 
@@ -550,10 +553,12 @@ public abstract class Rectangle implements Drawable {
 		}
 	}
 
+	public void removeAttachment(Area attachment) {
+		attachedAreas.remove(attachment);
+	}
+
 	public List<Area> getAttachments() {
-		List<Area> result = new ArrayList<>();
-		attachedAreas.stream().map(p -> p.first).forEach(result::add);
-		return result;
+		return new ArrayList<>(attachedAreas.keySet());
 	}
 
 	@Override
