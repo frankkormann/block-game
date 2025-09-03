@@ -1,0 +1,117 @@
+{
+	"name": "No Left [♛-★]",
+	"number": 47,
+	"width": 600,
+	"height": 400,
+	"solution": "/level_crown-star.rec",
+	"storeValues": {
+		"current_level": "/level_crown-star.json",
+		"title_screen": "/title_crown.json"
+	},
+	"movingRectangles": [
+		{
+			"type": "GhostRectangle",
+			"x": 200,
+			"y": 370,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 0,
+			"y": 330,
+			"width": 30,
+			"height": 60,
+			"color": "GREEN"
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": -100,
+			"y": 0,
+			"width": 700,
+			"height": 10,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": -100,
+			"y": 10,
+			"width": 10,
+			"height": 380,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 590,
+			"y": 10,
+			"width": 10,
+			"height": 380,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": -100,
+			"y": 390,
+			"width": 700,
+			"height": 10,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": "WallRectangle",
+			"x": -11,
+			"y": 10,
+			"width": 10,
+			"height": 100,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 10,
+			"width": 10,
+			"height": 100,
+			"resizeBehavior": "PREVENT_X"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 440,
+			"y": 270,
+			"width": 150,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 440,
+			"y": 290,
+			"width": 20,
+			"height": 100,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": "GoalArea",
+			"x": 490,
+			"y": 220,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_crown-5.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": -10,
+			"y": 310,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"
+		}
+	]
+}
