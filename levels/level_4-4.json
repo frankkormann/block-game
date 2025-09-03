@@ -1,0 +1,99 @@
+{
+	"name": "The Sky is Falling [4-4]",
+	"number": 18,
+	"width": 700,
+	"height": 500,
+	"solution": "/level_4-4.rec",
+	"storeValues": {
+		"current_level": "/level_4-4.json",
+		"title_screen": "/title_4.json"
+	},
+	"movingRectangles": [
+		{
+			"type": "MovingRectangle",
+			"x": 640,
+			"y": 380,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER",
+			"controlledByPlayer": true
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 400,
+			"y": 390,
+			"width": 200,
+			"height": 10,
+			"color": "GREEN"
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": 70,
+			"y": 340,
+			"width": 30,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 230,
+			"y": 150,
+			"width": 30,
+			"height": 250,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 500,
+			"y": 400,
+			"width": 200,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		}
+	],
+	"areas": [
+		{
+			"type": "AntigravityArea",
+			"x": 400,
+			"y": 150,
+			"width": 200,
+			"height": 250
+		},
+		{
+			"type": "AntigravityArea",
+			"x": 0,
+			"y": 0,
+			"width": 600,
+			"height": 150
+		},
+		{
+			"type": "GoalArea",
+			"x": 135,
+			"y": 280,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/level_4-5.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": 30,
+			"y": 150,
+			"width": 200,
+			"height": 10,
+			"color": "GREEN"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 0,
+			"y": 145,
+			"width": 700,
+			"height": 5,
+			"color": "ORANGE"
+		}
+	]
+}
