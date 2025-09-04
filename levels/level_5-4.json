@@ -20,7 +20,7 @@
 		},
 		{
 			"type": "MovingRectangle",
-			"x": 40,
+			"x": 70,
 			"y": 190,
 			"width": 40,
 			"height": 40,
@@ -28,7 +28,7 @@
 		},
 		{
 			"type": "MovingRectangle",
-			"x": 225,
+			"x": 240,
 			"y": 190,
 			"width": 40,
 			"height": 40,
@@ -54,7 +54,7 @@
 					"area": {
 						"type": "GrowArea",
 						"height": 120,
-						"xGrowth": 1,
+						"xGrowth": 2,
 						"yGrowth": 0
 					},
 					"options": ["GLUED_SOUTH", "SAME_WIDTH"]
@@ -142,54 +142,6 @@
 			"width": 20,
 			"height": 190,
 			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 830,
-			"y": 420,
-			"width": 15,
-			"height": 10,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 875,
-			"y": 360,
-			"width": 15,
-			"height": 10,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 830,
-			"y": 300,
-			"width": 15,
-			"height": 10,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 875,
-			"y": 240,
-			"width": 15,
-			"height": 10,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 830,
-			"y": 180,
-			"width": 15,
-			"height": 10,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 875,
-			"y": 120,
-			"width": 15,
-			"height": 10,
-			"resizeBehavior": "STAY"
 		}
 	],
 	"areas": [
@@ -199,8 +151,15 @@
 			"y": 130,
 			"width": 200,
 			"height": 100,
-			"xShrink": 1,
+			"xShrink": 2,
 			"yShrink": 0
+		},
+		{
+			"type": "AntigravityArea",
+			"x": 830,
+			"y": 100,
+			"width": 60,
+			"height": 330
 		},
 		{
 			"type": "GoalArea",
