@@ -1,11 +1,11 @@
 # Resizer
 
-This is a puzzle game about moving blocks around. Solve 47 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 48 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ### Features
 
-- 35 main levels + 12 bonus levels
+- 35 main levels + 13 bonus levels
 - Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
