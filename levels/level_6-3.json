@@ -82,7 +82,7 @@
 			"type": "WallRectangle",
 			"x": 640,
 			"y": 230,
-			"width": 310,
+			"width": 160,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		}
@@ -114,16 +114,6 @@
 			"height": 50,
 			"nextLevel": "/level_6-4.json",
 			"hasParticles": true
-		},
-		{
-			"type": "GoalArea",
-			"x": 850,
-			"y": 180,
-			"width": 50,
-			"height": 50,
-			"nextLevel": "/level_6-star.json",
-			"hasParticles": true,
-			"special": true
 		}
 	],
 	"hints": [
