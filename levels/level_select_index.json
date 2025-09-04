@@ -182,10 +182,6 @@
 		}
 	},
 	"Post-credits": {
-		"Credits": {
-			"path": "/credits.json",
-			"number": 35
-		},
 		"Remix: 1-1": {
 			"path": "/level_remix-1-1.json",
 			"number": 36
@@ -193,10 +189,6 @@
 		"Remix: 3-4": {
 			"path": "/level_remix-3-4.json",
 			"number": 37
-		},
-		"Remix: TODO": {
-			"path": "TODO",
-			"number": 38
 		},
 		"Remix: 6-4": {
 			"path": "/level_remix-6-4.json",
