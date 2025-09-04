@@ -208,7 +208,7 @@ public abstract class Rectangle implements Drawable {
 		g = g.create();
 
 		boolean isEmptyDash = false;
-		int overflow = -0;
+		int overflow = 0;
 		for (int dashX = x; dashX < x + width; dashX += dashSize) {
 			g.setColor(isEmptyDash ? emptyColor : getBorderColor());
 			isEmptyDash = !isEmptyDash;
