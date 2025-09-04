@@ -156,11 +156,11 @@
 		}
 	},
 	"World ♛": {
-		"♛-1: Thick and Thin": {
+		"♛-1: Too Tall or Too Low": {
 			"path": "/level_crown-1.json",
 			"number": 30
 		},
-		"♛-2: Too Tall or Too Low": {
+		"♛-2: Only Down": {
 			"path": "/level_crown-2.json",
 			"number": 31
 		},
@@ -168,7 +168,7 @@
 			"path": "/level_crown-3.json",
 			"number": 32
 		},
-		"♛-4: Only Down": {
+		"♛-4: Jump On It": {
 			"path": "/level_crown-4.json",
 			"number": 33
 		},
