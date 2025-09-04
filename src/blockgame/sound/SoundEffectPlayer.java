@@ -177,11 +177,11 @@ public class SoundEffectPlayer {
 	public void play(SoundEffect soundEffect) {
 		Clip clip = soundEffect.clip;
 		clip.setFramePosition(0);
+		VolumeChanger.setVolume(clip,
+				volumeMapper.get(Volume.SFX).floatValue());
 		while (!clip.isRunning()) {  // Make sure it starts (sometimes
 			clip.start();			  // it won't start right away soon
 		}							  // after being stopped)
-		VolumeChanger.setVolume(clip,
-				volumeMapper.get(Volume.SFX).floatValue());
 	}
 
 	private void updateRectVelocities() {
