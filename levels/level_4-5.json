@@ -1,5 +1,5 @@
 {
-	"name": "Stuck Above [4-5]",
+	"name": "LLL [4-5]",
 	"number": 19,
 	"width": 650,
 	"height": 400,
@@ -20,7 +20,7 @@
 		},
 		{
 			"type": "MovingRectangle",
-			"x": 160,
+			"x": 150,
 			"y": 160,
 			"width": 30,
 			"height": 10,
@@ -28,7 +28,7 @@
 		},
 		{
 			"type": "MovingRectangle",
-			"x": 510,
+			"x": 500,
 			"y": 120,
 			"width": 60,
 			"height": 70,
@@ -55,15 +55,15 @@
 		{
 			"type": "WallRectangle",
 			"x": 280,
-			"y": 130,
-			"width": 10,
-			"height": 10,
-			"resizeBehavior": "STAY"
+			"y": 0,
+			"width": 20,
+			"height": 130,
+			"resizeBehavior": "PREVENT_X"
 		},
 		{
 			"type": "WallRectangle",
 			"x": 280,
-			"y": 90,
+			"y": 130,
 			"width": 150,
 			"height": 10,
 			"resizeBehavior": "STAY"
@@ -71,18 +71,10 @@
 		{
 			"type": "WallRectangle",
 			"x": 490,
-			"y": 0,
-			"width": 20,
-			"height": 160,
-			"resizeBehavior": "PREVENT_X"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 490,
 			"y": 170,
-			"width": 20,
+			"width": 10,
 			"height": 20,
-			"resizeBehavior": "PREVENT_X"
+			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
@@ -104,7 +96,7 @@
 			"type": "WallRectangle",
 			"x": 490,
 			"y": 190,
-			"width": 80,
+			"width": 70,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		}
@@ -122,13 +114,13 @@
 		{
 			"type": "AntigravityArea",
 			"x": 280,
-			"y": 100,
+			"y": 130,
 			"width": 150,
-			"height": 260
+			"height": 230
 		},
 		{
 			"type": "GoalArea",
-			"x": 575,
+			"x": 570,
 			"y": 280,
 			"width": 50,
 			"height": 50,
