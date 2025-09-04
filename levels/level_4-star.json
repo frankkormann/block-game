@@ -1,8 +1,8 @@
 {
-	"name": "Red Herring [4-★]",
+	"name": "Past the Edge [4-★]",
 	"number": 44,
-	"width": 800,
-	"height": 400,
+	"width": 600,
+	"height": 500,
 	"solution": "/level_4-star.rec",
 	"storeValues": {
 		"current_level": "/level_4-star.json",
@@ -11,96 +11,100 @@
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
-			"x": 710,
-			"y": 310,
+			"x": 130,
+			"y": 400,
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER",
 			"controlledByPlayer": true
 		},
 		{
-			"type": "MovingRectangle",
-			"x": 460,
-			"y": 300,
-			"width": 60,
-			"height": 30,
+			"type": "GhostRectangle",
+			"x": 190,
+			"y": 410,
+			"width": 100,
+			"height": 10,
 			"color": "GREEN"
 		},
 		{
 			"type": "GhostRectangle",
-			"x": 680,
-			"y": 250,
-			"width": 10,
-			"height": 80,
-			"color": "ORANGE",
-			"attachments": [
-				{
-					"area": {
-						"type": "GrowArea",
-						"width": 100,
-						"xGrowth": 1,
-						"yGrowth": 0
-					},
-					"options": ["GLUED_WEST", "SAME_HEIGHT"]
-				}
-			]
+			"x": 310,
+			"y": 160,
+			"width": 100,
+			"height": 150,
+			"color": "RED"
 		}
 	],
 	"walls": [
 		{
 			"type": "WallRectangle",
-			"x": 80,
-			"y": 120,
-			"width": 250,
+			"x": 290,
+			"y": 140,
+			"width": 20,
+			"height": 80,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 290,
+			"y": 230,
+			"width": 20,
+			"height": 190,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 390,
+			"y": 140,
+			"width": 210,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
-			"x": 80,
-			"y": 140,
+			"x": 580,
+			"y": 160,
 			"width": 20,
-			"height": 100,
+			"height": 260,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
 			"x": 310,
-			"y": 140,
-			"width": 20,
-			"height": 100,
+			"y": 310,
+			"width": 100,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
-			"x": 80,
-			"y": 240,
-			"width": 170,
+			"x": 90,
+			"y": 420,
+			"width": 150,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
 			"x": 290,
-			"y": 240,
-			"width": 40,
+			"y": 420,
+			"width": 310,
 			"height": 20,
 			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 460,
-			"y": 330,
-			"width": 300,
-			"height": 20,
-			"resizeBehavior": "PREVENT_Y"
 		}
 	],
 	"areas": [
 		{
+			"type": "AntigravityArea",
+			"x": 90,
+			"y": 140,
+			"width": 200,
+			"height": 300
+		},
+		{
 			"type": "GoalArea",
-			"x": 150,
-			"y": 190,
+			"x": 340,
+			"y": 370,
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_5-1.json",
@@ -110,32 +114,24 @@
 	"hints": [
 		{
 			"type": "HintRectangle",
-			"x": 580,
-			"y": 250,
-			"width": 10,
-			"height": 80,
+			"x": 0,
+			"y": 225,
+			"width": 600,
+			"height": 5,
 			"color": "ORANGE"
 		},
 		{
 			"type": "HintRectangle",
-			"x": 480,
-			"y": 250,
+			"x": 190,
+			"y": 220,
 			"width": 100,
-			"height": 80,
-			"color": "TRANSLUCENT_GREEN"
+			"height": 10,
+			"color": "GREEN"
 		},
 		{
 			"type": "HintRectangle",
-			"x": 520,
-			"y": 0,
-			"width": 5,
-			"height": 400,
-			"color": "ORANGE"
-		},
-		{
-			"type": "HintRectangle",
-			"x": 200,
-			"y": 380,
+			"x": 260,
+			"y": 230,
 			"width": 20,
 			"height": 20,
 			"color": "PLAYER"
