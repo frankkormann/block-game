@@ -201,6 +201,10 @@
 		"Remix: ♛-4": {
 			"path": "/level_remix-crown-4.json",
 			"number": 40
+		},
+		"Remix: 2-★": {
+			"path": "/level_remix-2-star.json",
+			"number": 48
 		}
 	}
 }
