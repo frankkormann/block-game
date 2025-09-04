@@ -21,6 +21,7 @@ public class IntMapper extends Mapper<Integer> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Class<? extends Enum<?>>[] getEnumClasses() {
 		return new Class[] { Colors.class };
 	}

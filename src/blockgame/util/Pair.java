@@ -31,8 +31,8 @@ public class Pair<F, S> {
 		if (!(other instanceof Pair)) {
 			return false;
 		}
-		return first.equals(((Pair) other).first)
-				&& second.equals(((Pair) other).second);
+		return first.equals(((Pair<?, ?>) other).first)
+				&& second.equals(((Pair<?, ?>) other).second);
 	}
 
 }

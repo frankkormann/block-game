@@ -43,6 +43,7 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Class<? extends Enum<?>>[] getEnumClasses() {
 		return new Class[] { MovementInput.class, DirectionSelectorInput.class,
 				ResizingInput.class, MetaInput.class };

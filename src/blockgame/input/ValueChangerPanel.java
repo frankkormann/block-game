@@ -140,6 +140,7 @@ public abstract class ValueChangerPanel<T> extends JPanel
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void valueChanged(Enum<?> key, Object newValue) {
 		if (enumToGetterSetter.containsKey(key)) {
 			enumToGetterSetter.get(key).set((T) newValue);

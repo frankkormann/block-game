@@ -113,7 +113,8 @@ public class ControlsChangerPanel
 	 * @return {@code Pair} of the {@code JPanel} which holds the cards and the
 	 *         {@code JComboBox} which controls it
 	 */
-	private Pair<JPanel, JComboBox<String>> createCardsPanel(
+	@SafeVarargs
+	private final Pair<JPanel, JComboBox<String>> createCardsPanel(
 			Pair<JPanel, String>... panels) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new CardLayout());
@@ -292,7 +293,6 @@ public class ControlsChangerPanel
 	private class InputButton extends JButton
 			implements GetterSetter<Pair<Integer, Integer>> {
 
-		private Enum<?> input;
 		private Pair<Integer, Integer> keybind;
 
 		public InputButton(Enum<?> input) {
