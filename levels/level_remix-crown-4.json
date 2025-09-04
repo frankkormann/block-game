@@ -1,0 +1,157 @@
+{
+	"name": "Remix: ♛-4",
+	"number": 40,
+	"width": 700,
+	"height": 400,
+	"solution": "/level_remix-crown-4.rec",
+	"storeValues": {
+		"current_level": "/level_remix-crown-4.json",
+		"title_screen": "/title_remix.json"
+	},
+	"movingRectangles": [
+		{
+			"type": "MovingRectangle",
+			"x": 30,
+			"y": 70,
+			"width": 20,
+			"height": 20,
+			"color": "PLAYER"
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 260,
+			"y": 80,
+			"width": 40,
+			"height": 10,
+			"color": "GREEN",
+			"controlledByPlayer": true
+		},
+		{
+			"type": "MovingRectangle",
+			"x": 100,
+			"y": 50,
+			"width": 60,
+			"height": 40,
+			"color": "ORANGE",
+			"attachments": [
+				{
+					"area": {
+						"type": "ShrinkArea",
+						"height": 40,
+						"xShrink": 1,
+						"yShrink": 0
+					},
+					"options": ["GLUED_NORTH", "SAME_WIDTH"]
+				},
+				{
+					"area": {
+						"type": "GrowArea",
+						"width": 60,
+						"xGrowth": 1,
+						"yGrowth": 0
+					},
+					"options": ["GLUED_EAST", "SAME_HEIGHT"]
+				}
+			]
+		}
+	],
+	"walls": [
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 0,
+			"width": 700,
+			"height": 10,
+			"resizeBehavior": "PREVENT_Y"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 10,
+			"width": 10,
+			"height": 80,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 0,
+			"y": 90,
+			"width": 300,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 690,
+			"y": 10,
+			"width": 10,
+			"height": 350,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 530,
+			"y": 260,
+			"width": 30,
+			"height": 100,
+			"resizeBehavior": "PREVENT_Y"
+		}
+	],
+	"areas": [
+		{
+			"type": "AntigravityArea",
+			"x": 330,
+			"y": 10,
+			"width": 60,
+			"height": 350
+		},
+		{
+			"type": "AntigravityArea",
+			"x": 420,
+			"y": 10,
+			"width": 60,
+			"height": 100
+		},
+		{
+			"type": "AntigravityArea",
+			"x": 510,
+			"y": 10,
+			"width": 60,
+			"height": 100
+		},
+		{
+			"type": "AntigravityArea",
+			"x": 600,
+			"y": 10,
+			"width": 60,
+			"height": 100
+		},
+		{
+			"type": "GoalArea",
+			"x": 600,
+			"y": 200,
+			"width": 50,
+			"height": 50,
+			"nextLevel": "/credits.json",
+			"hasParticles": true
+		}
+	],
+	"hints": [
+		{
+			"type": "HintRectangle",
+			"x": 530,
+			"y": 70,
+			"width": 160,
+			"height": 20,
+			"color": "PLAYER"
+		},
+		{
+			"type": "HintRectangle",
+			"x": 580,
+			"y": 50,
+			"width": 10,
+			"height": 20,
+			"color": "GREEN"
+		}
+	]
+}
