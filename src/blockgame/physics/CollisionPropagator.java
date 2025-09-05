@@ -284,7 +284,11 @@ public class CollisionPropagator {
 			collisionData = originalMovement;
 		}
 
-		rect.moveCollision(collisionData[0], collisionData[1], true);
+		// Canceling velocity only if the collision wasn't fudged leads to more
+		// natural-looking trajectory when brushing against walls during a jump
+		boolean wasntFudged = collisionData[0] == originalMovement[0]
+				&& collisionData[1] == originalMovement[1];
+		rect.moveCollision(collisionData[0], collisionData[1], wasntFudged);
 
 		return collisionData;
 	}
