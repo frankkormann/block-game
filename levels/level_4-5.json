@@ -28,9 +28,9 @@
 		},
 		{
 			"type": "MovingRectangle",
-			"x": 500,
+			"x": 530,
 			"y": 120,
-			"width": 60,
+			"width": 50,
 			"height": 70,
 			"color": "RED"
 		}
@@ -70,7 +70,7 @@
 		},
 		{
 			"type": "WallRectangle",
-			"x": 490,
+			"x": 520,
 			"y": 170,
 			"width": 10,
 			"height": 20,
@@ -94,9 +94,9 @@
 		},
 		{
 			"type": "WallRectangle",
-			"x": 490,
+			"x": 520,
 			"y": 190,
-			"width": 70,
+			"width": 60,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		}
@@ -120,7 +120,7 @@
 		},
 		{
 			"type": "GoalArea",
-			"x": 570,
+			"x": 580,
 			"y": 280,
 			"width": 50,
 			"height": 50,
@@ -131,7 +131,7 @@
 	"hints": [
 		{
 			"type": "HintRectangle",
-			"x": 410,
+			"x": 430,
 			"y": 160,
 			"width": 100,
 			"height": 10,
