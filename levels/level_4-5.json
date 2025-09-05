@@ -116,7 +116,14 @@
 			"x": 280,
 			"y": 130,
 			"width": 150,
-			"height": 230
+			"height": 60
+		},
+		{
+			"type": "AntigravityArea",
+			"x": 280,
+			"y": 190,
+			"width": 60,
+			"height": 170
 		},
 		{
 			"type": "GoalArea",
