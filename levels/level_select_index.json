@@ -104,11 +104,11 @@
 		}
 	},
 	"World 5": {
-		"5-1: Move": {
+		"5-1: Extension": {
 			"path": "/level_5-1.json",
 			"number": 20
 		},
-		"5-2: Extension": {
+		"5-2: TODO": {
 			"path": "/level_5-2.json",
 			"number": 21
 		},
