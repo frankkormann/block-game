@@ -1,5 +1,5 @@
 {
-	"name": "Don't Trap Yourself [3-2]",
+	"name": "Fill the Mold [3-2]",
 	"number": 11,
 	"width": 900,
 	"height": 400,
@@ -11,7 +11,7 @@
 	"movingRectangles": [
 		{
 			"type": "MovingRectangle",
-			"x": 810,
+			"x": 850,
 			"y": 370,
 			"width": 20,
 			"height": 20,
@@ -21,7 +21,7 @@
 		{
 			"type": "MovingRectangle",
 			"x": 10,
-			"y": 90,
+			"y": 230,
 			"width": 200,
 			"height": 40,
 			"color": "GREEN"
@@ -29,7 +29,7 @@
 		{
 			"type": "MovingRectangle",
 			"x": 210,
-			"y": 90,
+			"y": 230,
 			"width": 200,
 			"height": 40,
 			"color": "BLUE"
@@ -37,7 +37,7 @@
 		{
 			"type": "MovingRectangle",
 			"x": 410,
-			"y": 90,
+			"y": 230,
 			"width": 200,
 			"height": 40,
 			"color": "RED"
@@ -58,7 +58,7 @@
 			"y": 390,
 			"width": 900,
 			"height": 10,
-			"resizeBehavior": "PREVENT_Y"
+			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
@@ -79,25 +79,81 @@
 		{
 			"type": "WallRectangle",
 			"x": 10,
-			"y": 130,
+			"y": 210,
 			"width": 600,
 			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
-			"x": 810,
-			"y": 10,
-			"width": 20,
-			"height": 320,
+			"x": 10,
+			"y": 270,
+			"width": 600,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		},
 		{
 			"type": "WallRectangle",
 			"x": 590,
-			"y": 200,
+			"y": 90,
 			"width": 20,
-			"height": 190,
+			"height": 120,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 710,
+			"y": 150,
+			"width": 120,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 660,
+			"y": 110,
+			"width": 70,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 810,
+			"y": 170,
+			"width": 20,
+			"height": 220,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 590,
+			"y": 70,
+			"width": 90,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 760,
+			"y": 170,
+			"width": 50,
+			"height": 40,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 710,
+			"y": 130,
+			"width": 20,
+			"height": 20,
+			"resizeBehavior": "STAY"
+		},
+		{
+			"type": "WallRectangle",
+			"x": 660,
+			"y": 90,
+			"width": 20,
+			"height": 20,
 			"resizeBehavior": "STAY"
 		}
 	],
@@ -105,16 +161,16 @@
 		{
 			"type": "ShrinkArea",
 			"x": 610,
-			"y": 10,
+			"y": 210,
 			"width": 200,
-			"height": 120,
+			"height": 80,
 			"xShrink": 1,
 			"yShrink": 0
 		},
 		{
 			"type": "GoalArea",
 			"x": 265,
-			"y": 340,
+			"y": 160,
 			"width": 50,
 			"height": 50,
 			"nextLevel": "/level_3-3.json",
@@ -126,7 +182,7 @@
 			"type": "HintRectangle",
 			"x": 610,
 			"y": 350,
-			"width": 160,
+			"width": 130,
 			"height": 40,
 			"color": "RED"
 		},
@@ -134,7 +190,7 @@
 			"type": "HintRectangle",
 			"x": 610,
 			"y": 310,
-			"width": 100,
+			"width": 80,
 			"height": 40,
 			"color": "BLUE"
 		},
@@ -142,7 +198,7 @@
 			"type": "HintRectangle",
 			"x": 610,
 			"y": 270,
-			"width": 40,
+			"width": 30,
 			"height": 40,
 			"color": "GREEN"
 		}
