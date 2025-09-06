@@ -29,7 +29,7 @@
 		{
 			"type": "SwitchRectangle",
 			"x": 310,
-			"y": 170,
+			"y": 190,
 			"width": 120,
 			"height": 60,
 			"color": "RED",
@@ -56,7 +56,7 @@
 				{
 					"area": {
 						"type": "AntigravityArea",
-						"height": 200
+						"height": 180
 					},
 					"options": ["GLUED_NORTH", "SAME_WIDTH"]
 				}
@@ -67,15 +67,7 @@
 		{
 			"type": "WallRectangle",
 			"x": 310,
-			"y": 230,
-			"width": 10,
-			"height": 20,
-			"resizeBehavior": "STAY"
-		},
-		{
-			"type": "WallRectangle",
-			"x": 310,
-			"y": 150,
+			"y": 170,
 			"width": 490,
 			"height": 20,
 			"resizeBehavior": "STAY"
@@ -99,9 +91,9 @@
 		{
 			"type": "WallRectangle",
 			"x": 780,
-			"y": 170,
+			"y": 190,
 			"width": 20,
-			"height": 210,
+			"height": 190,
 			"resizeBehavior": "STAY"
 		},
 		{
@@ -135,9 +127,9 @@
 		{
 			"type": "SwitchArea",
 			"x": 350,
-			"y": 330,
+			"y": 320,
 			"width": 100,
-			"height": 50,
+			"height": 60,
 			"color": "TRANSLUCENT_RED",
 			"key": "red"
 		},
@@ -163,15 +155,15 @@
 		{
 			"type": "HintRectangle",
 			"x": 380,
-			"y": 170,
+			"y": 190,
 			"width": 100,
-			"height": 200,
+			"height": 180,
 			"color": "TRANSLUCENT_PINK"
 		},
 		{
 			"type": "HintRectangle",
 			"x": 380,
-			"y": 220,
+			"y": 240,
 			"width": 100,
 			"height": 10,
 			"color": "GREEN"
