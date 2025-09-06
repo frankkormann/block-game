@@ -1,6 +1,6 @@
 {
 	"name": "Remix: ♛-3",
-	"number": 40,
+	"number": 39,
 	"width": 800,
 	"height": 500,
 	"solution": "/level_remix-crown-3.rec",
@@ -155,7 +155,7 @@
 			"y": 180,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/credits.json",
+			"nextLevel": "/level_remix-crown-4.json",
 			"hasParticles": true
 		}
 	],

@@ -481,6 +481,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void valueChanged(Enum<?> input, Object newKeybind) {
 		if (inputToMenuItem.containsKey(input)) {
 			Pair<Integer, Integer> keybind = (Pair<Integer, Integer>) newKeybind;

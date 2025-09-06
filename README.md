@@ -1,11 +1,11 @@
 # Resizer
 
-This is a puzzle game about moving blocks around. Solve 47 hand-crafted levels
+This is a puzzle game about moving blocks around. Solve 48 hand-crafted levels
 by interacting with the environment in varied, creative ways.
 
 ### Features
 
-- 35 main levels + 12 bonus levels
+- 35 main levels + 13 bonus levels
 - Interactive title screen
 - Hint system
     - Ability to see the solution if you are really stuck
@@ -137,8 +137,8 @@ Each level is built from a `JSON` file. See
 requirements. See `level_demo.json` for an example level that creates every type
 of rectangle.
 
-The game will automatically load `level_1-1.json` as its first level. Subsequent
-level filenames are read from the activated Goal Area.
+When the game starts, it will automatically load the level path stored in the savedata value `title_screen`. If there is nothing set there, it will load `title_0.json`.
+Subsequent level paths are read from the activated Goal Area.
 
 
 ### Name

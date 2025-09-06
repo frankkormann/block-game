@@ -1,12 +1,12 @@
 {
-	"name": "Jump On It [♛-4]",
-	"number": 33,
+	"name": "Remix: ♛-4",
+	"number": 40,
 	"width": 700,
 	"height": 400,
-	"solution": "/level_crown-4.rec",
+	"solution": "/level_remix-crown-4.rec",
 	"storeValues": {
-		"current_level": "/level_crown-4.json",
-		"title_screen": "/title_crown.json"
+		"current_level": "/level_remix-crown-4.json",
+		"title_screen": "/title_remix.json"
 	},
 	"movingRectangles": [
 		{
@@ -15,8 +15,7 @@
 			"y": 70,
 			"width": 20,
 			"height": 20,
-			"color": "PLAYER",
-			"controlledByPlayer": true
+			"color": "PLAYER"
 		},
 		{
 			"type": "MovingRectangle",
@@ -24,7 +23,8 @@
 			"y": 80,
 			"width": 40,
 			"height": 10,
-			"color": "GREEN"
+			"color": "GREEN",
+			"controlledByPlayer": true
 		},
 		{
 			"type": "MovingRectangle",
@@ -132,7 +132,7 @@
 			"y": 200,
 			"width": 50,
 			"height": 50,
-			"nextLevel": "/level_crown-5.json",
+			"nextLevel": "/credits.json",
 			"hasParticles": true
 		}
 	],
@@ -140,18 +140,18 @@
 		{
 			"type": "HintRectangle",
 			"x": 530,
-			"y": 80,
+			"y": 70,
 			"width": 160,
-			"height": 10,
-			"color": "GREEN"
+			"height": 20,
+			"color": "PLAYER"
 		},
 		{
 			"type": "HintRectangle",
 			"x": 580,
-			"y": 60,
+			"y": 50,
 			"width": 10,
 			"height": 20,
-			"color": "PLAYER"
+			"color": "GREEN"
 		}
 	]
 }
