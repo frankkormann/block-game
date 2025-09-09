@@ -386,12 +386,13 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 			}
 
 		}
-		if (drawingPane != null)
+		if (drawingPane != null) {
 			drawingPane.setBounds(0, 0,
 					(int) Math.min(getContentPane().getWidth(),
 							idealWidth * scale),
 					(int) Math.max(getContentPane().getHeight(),
 							idealHeight * scale));
+		}
 	}
 
 	private int getPreferredX() {
@@ -458,7 +459,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	/**
 	 * Returns the buffered ideal x-offset.
 	 * 
-	 * @return Current x offset + pending changes
+	 * @return Current x-offset + pending changes
 	 */
 	public int getNextXOffset() {
 		return idealXOffset + xChange;
@@ -467,7 +468,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	/**
 	 * Returns the buffered ideal y-offset.
 	 * 
-	 * @return Current y offset + pending changes
+	 * @return Current y-offset + pending changes
 	 */
 	public int getNextYOffset() {
 		return idealYOffset + yChange;
