@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.gui.ImageArea;
+import blockgame.util.DrawUtils;
 
 /**
  * {@code MovingRectangle} with activity and a key. If this is not "active",
@@ -44,8 +45,8 @@ public class SwitchRectangle extends MovingRectangle {
 		Color innerColor = isActive ? getColor() : getColor(Colors.TRANSPARENT);
 
 		g.setColor(getBorderColor());
-		drawDashedRectangle(g, innerColor, DASH_SIZE, BORDER_THICKNESS, getX(),
-				getY(), getWidth(), getHeight());
+		DrawUtils.drawDashedRectangle(g, innerColor, DASH_SIZE,
+				BORDER_THICKNESS, getX(), getY(), getWidth(), getHeight());
 
 		g.setColor(innerColor);
 		g.fillRect(getX() + BORDER_THICKNESS, getY() + BORDER_THICKNESS,

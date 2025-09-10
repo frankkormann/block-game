@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.gui.MainFrame.Direction;
+import blockgame.util.DrawUtils;
 
 /**
  * Increases a {@code MovingRectangle}'s width and/or height to match the
@@ -55,22 +56,23 @@ public class GrowArea extends Area {
 
 		g.setColor(getColor().darker());
 		if (xGrowth != 0) {
-			drawArrow(g, getX() + ARROW_INSET, getY() + getHeight() / 2,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+			DrawUtils.drawArrow(g, getX() + ARROW_INSET,
+					getY() + getHeight() / 2, ARROW_HEAD_LENGTH,
+					ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
 					ARROW_TAIL_WIDTH, Direction.WEST);
-			drawArrow(g, getX() + getWidth() - ARROW_INSET,
+			DrawUtils.drawArrow(g, getX() + getWidth() - ARROW_INSET,
 					getY() + getHeight() / 2, ARROW_HEAD_LENGTH,
 					ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
 					ARROW_TAIL_WIDTH, Direction.EAST);
 		}
 		if (yGrowth != 0) {
-			drawArrow(g, getX() + getWidth() / 2, getY() + ARROW_INSET,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+			DrawUtils.drawArrow(g, getX() + getWidth() / 2,
+					getY() + ARROW_INSET, ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
 					ARROW_TAIL_WIDTH, Direction.NORTH);
-			drawArrow(g, getX() + getWidth() / 2,
+			DrawUtils.drawArrow(g, getX() + getWidth() / 2,
 					getY() + getHeight() - ARROW_INSET, ARROW_HEAD_LENGTH,
 					ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,

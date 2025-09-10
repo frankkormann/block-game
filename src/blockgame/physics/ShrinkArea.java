@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.gui.MainFrame.Direction;
+import blockgame.util.DrawUtils;
 
 /**
  * Decreases a {@code MovingRectangle}'s width and/or height to match the
@@ -57,22 +58,26 @@ public class ShrinkArea extends Area {
 
 		g.setColor(getColor().darker());
 		if (xShrink != 0) {
-			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+			DrawUtils.drawArrow(g, getX() + getWidth() / 2,
+					getY() + getHeight() / 2, ARROW_HEAD_LENGTH,
+					ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
 					ARROW_TAIL_WIDTH, Direction.WEST);
-			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+			DrawUtils.drawArrow(g, getX() + getWidth() / 2,
+					getY() + getHeight() / 2, ARROW_HEAD_LENGTH,
+					ARROW_HEAD_WIDTH,
 					getWidth() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
 					ARROW_TAIL_WIDTH, Direction.EAST);
 		}
 		if (yShrink != 0) {
-			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+			DrawUtils.drawArrow(g, getX() + getWidth() / 2,
+					getY() + getHeight() / 2, ARROW_HEAD_LENGTH,
+					ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
 					ARROW_TAIL_WIDTH, Direction.SOUTH);
-			drawArrow(g, getX() + getWidth() / 2, getY() + getHeight() / 2,
-					ARROW_HEAD_LENGTH, ARROW_HEAD_WIDTH,
+			DrawUtils.drawArrow(g, getX() + getWidth() / 2,
+					getY() + getHeight() / 2, ARROW_HEAD_LENGTH,
+					ARROW_HEAD_WIDTH,
 					getHeight() / 2 - ARROW_INSET - ARROW_HEAD_LENGTH,
 					ARROW_TAIL_WIDTH, Direction.NORTH);
 		}

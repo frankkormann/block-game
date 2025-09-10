@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import blockgame.util.DrawUtils;
+
 /**
  * {@code Rectangle} to represent immovable walls. Default
  * {@code ResizeBehavior} is {@code STAY}.
@@ -56,9 +58,9 @@ public class WallRectangle extends Rectangle {
 		}
 
 		if (getResizeBehavior() != ResizeBehavior.STAY) {
-			fillStripes(g, getColor(Colors.TRANSPARENT), PREVENT_STRIPE_SIZE,
-					PREVENT_STRIPE_SIZE * 2, getX(), getY(), getWidth(),
-					getHeight());
+			DrawUtils.fillStripes(g, getColor(Colors.TRANSPARENT),
+					PREVENT_STRIPE_SIZE, PREVENT_STRIPE_SIZE * 2, getX(),
+					getY(), getWidth(), getHeight());
 		}
 
 		g.dispose();

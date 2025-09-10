@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.ParameterMapper.Parameter;
+import blockgame.util.DrawUtils;
 
 /**
  * {@code MovingRectangle} which does not interact with {@code SideRectangle}s
@@ -35,7 +36,8 @@ public class GhostRectangle extends MovingRectangle {
 
 		g.clipRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(getBorderColor());
-		drawRectOutline(g, BORDER_THICKNESS);
+		DrawUtils.drawRectOutline(g, BORDER_THICKNESS, getX(), getY(),
+				getWidth(), getHeight());
 
 		Color translucentColor = new Color(getColor().getRed(),
 				getColor().getGreen(), getColor().getBlue(),
@@ -58,7 +60,7 @@ public class GhostRectangle extends MovingRectangle {
 //
 //			isTranslucentStripe = !isTranslucentStripe;
 //		}
-		fillStripes(g, translucentColor, STRIPE_THICKNESS_OPAQUE,
+		DrawUtils.fillStripes(g, translucentColor, STRIPE_THICKNESS_OPAQUE,
 				STRIPE_THICKNESS_TRANSLUCENT, getX() + BORDER_THICKNESS,
 				getY() + BORDER_THICKNESS, getWidth() - 2 * BORDER_THICKNESS,
 				getHeight() - 2 * BORDER_THICKNESS);

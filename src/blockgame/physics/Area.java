@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
+import blockgame.util.DrawUtils;
+
 /**
  * {@code Rectangle} that manipulates {@code MovingRectangle}s within its
  * bounds. {@code Areas} have no collision. Default {@code ResizeBehavior} is
@@ -44,7 +46,8 @@ public abstract class Area extends Rectangle {
 			g.fillRect(getX(), getY(), getWidth(), getHeight());
 		}
 		else {
-			drawRectOutline(g, INACTIVE_OUTLINE_THICKNESS);
+			DrawUtils.drawRectOutline(g, INACTIVE_OUTLINE_THICKNESS, getX(),
+					getY(), getWidth(), getHeight());
 		}
 
 		g.dispose();
