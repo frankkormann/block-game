@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WallRectangle extends Rectangle {
 
-	private static final int TICK_MARK_SIZE = 4;
+	private static final int PREVENT_STRIPE_SIZE = 2;
 	private static final int PREVENT_BORDER_THICKNESS = 2;
 
 	public WallRectangle(int x, int y, int width, int height) {
@@ -56,8 +56,9 @@ public class WallRectangle extends Rectangle {
 		}
 
 		if (getResizeBehavior() != ResizeBehavior.STAY) {
-			fillStripes(g, getColor(Colors.TRANSPARENT), TICK_MARK_SIZE,
-					TICK_MARK_SIZE, getX(), getY(), getWidth(), getHeight());
+			fillStripes(g, getColor(Colors.TRANSPARENT), PREVENT_STRIPE_SIZE,
+					PREVENT_STRIPE_SIZE * 2, getX(), getY(), getWidth(),
+					getHeight());
 		}
 
 		g.dispose();
