@@ -207,6 +207,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				// Move centerX|Y such that getPreferredX|Y() is getX|Y()
+				// so that this will not be moved back by arrangeComponents()
 				if (getX() != getPreferredX()) {
 					centerX = getX() - (int) (idealXOffset * scale);
 				}
