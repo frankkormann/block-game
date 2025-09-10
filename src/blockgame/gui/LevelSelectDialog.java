@@ -45,6 +45,7 @@ public class LevelSelectDialog extends JDialog {
 	private static final String TITLE = "Level Select";
 	private static final String LEVEL_INDEX = "/level_select_index.json";
 	private static final int SPACE = 3;
+	private static final int MINIMUM_WIDTH = 400;
 
 	private static final String UNVISITED_LEVEL_NAME = "???";
 	private static final String UNVISITED_LEVEL_TOOLTIP = "Find the path to this level to unlock it";
@@ -91,10 +92,8 @@ public class LevelSelectDialog extends JDialog {
 			tabbedPane.addTab(world.getKey(),
 					createWorldPanel(world.getValue()));
 		}
-		// Manually chosen so that no tabs overflow
-		// TODO Automatically detect the right size
-		tabbedPane.setPreferredSize(
-				new Dimension(UIScale.scale(585), UIScale.scale(195)));
+
+		setTabbedPanePreferredSize(tabbedPane);
 		add(tabbedPane);
 
 		registerDisposeOnKeypress(KeyEvent.VK_ESCAPE);
@@ -140,6 +139,16 @@ public class LevelSelectDialog extends JDialog {
 		}
 
 		return panel;
+	}
+
+	private void setTabbedPanePreferredSize(JTabbedPane tabbedPane) {
+		int width = 0;
+		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+			width += tabbedPane.getUI().getTabBounds(tabbedPane, i).width;
+		}
+		tabbedPane.setPreferredSize(
+				new Dimension(Math.max(width, UIScale.scale(MINIMUM_WIDTH)),
+						tabbedPane.getPreferredSize().height));
 	}
 
 	private JPanel createLevelButtonPanel(String name, String path,
