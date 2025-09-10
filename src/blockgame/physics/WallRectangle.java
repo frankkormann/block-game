@@ -16,6 +16,7 @@ import blockgame.util.DrawUtils;
 public class WallRectangle extends Rectangle {
 
 	private static final int PREVENT_STRIPE_SIZE = 2;
+	private static final int PREVENT_STRIPE_THICKNESS = 6;
 	private static final int PREVENT_BORDER_THICKNESS = 2;
 
 	public WallRectangle(int x, int y, int width, int height) {
@@ -45,22 +46,35 @@ public class WallRectangle extends Rectangle {
 		g.clipRect(getX(), getY(), getWidth(), getHeight());
 
 		g.setColor(getColor(Colors.DARK_GRAY));
+
 		if (getResizeBehavior() == ResizeBehavior.PREVENT_X) {
 			g.fillRect(getX(), getY(), PREVENT_BORDER_THICKNESS, getHeight());
 			g.fillRect(getX() + getWidth() - PREVENT_BORDER_THICKNESS, getY(),
 					PREVENT_BORDER_THICKNESS, getHeight());
+			DrawUtils.fillStripes(g, getColor(Colors.TRANSPARENT),
+					PREVENT_STRIPE_SIZE, PREVENT_STRIPE_SIZE * 3,
+					getX() + PREVENT_BORDER_THICKNESS, getY(),
+					PREVENT_STRIPE_THICKNESS, getHeight());
+			DrawUtils.fillStripes(g, getColor(Colors.TRANSPARENT),
+					PREVENT_STRIPE_SIZE, PREVENT_STRIPE_SIZE * 3,
+					getX() + getWidth() - PREVENT_STRIPE_THICKNESS
+							- PREVENT_BORDER_THICKNESS,
+					getY(), PREVENT_STRIPE_THICKNESS, getHeight());
 		}
 
 		if (getResizeBehavior() == ResizeBehavior.PREVENT_Y) {
 			g.fillRect(getX(), getY(), getWidth(), PREVENT_BORDER_THICKNESS);
 			g.fillRect(getX(), getY() + getHeight() - PREVENT_BORDER_THICKNESS,
 					getWidth(), PREVENT_BORDER_THICKNESS);
-		}
-
-		if (getResizeBehavior() != ResizeBehavior.STAY) {
 			DrawUtils.fillStripes(g, getColor(Colors.TRANSPARENT),
-					PREVENT_STRIPE_SIZE, PREVENT_STRIPE_SIZE * 2, getX(),
-					getY(), getWidth(), getHeight());
+					PREVENT_STRIPE_SIZE, PREVENT_STRIPE_SIZE * 3, getX(),
+					getY() + PREVENT_BORDER_THICKNESS, getWidth(),
+					PREVENT_STRIPE_THICKNESS);
+			DrawUtils.fillStripes(g, getColor(Colors.TRANSPARENT),
+					PREVENT_STRIPE_SIZE, PREVENT_STRIPE_SIZE * 3, getX(),
+					getY() + getHeight() - PREVENT_STRIPE_THICKNESS
+							- PREVENT_BORDER_THICKNESS,
+					getWidth(), PREVENT_STRIPE_THICKNESS);
 		}
 
 		g.dispose();
