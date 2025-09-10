@@ -13,7 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WallRectangle extends Rectangle {
 
-	private static final int TICK_MARK_SIZE = 5;
+	private static final int TICK_MARK_SIZE = 4;
+	private static final int PREVENT_BORDER_THICKNESS = 2;
 
 	public WallRectangle(int x, int y, int width, int height) {
 		this(x, y, width, height, Colors.GRAY, ResizeBehavior.STAY);
@@ -35,40 +36,28 @@ public class WallRectangle extends Rectangle {
 		super(x, y, width, height, colorEnum, resizeBehavior);
 	}
 
-	// TODO Fix overlap with other rectangles in the PREVENT_X/PREVENT_Y border
-	// drawing, and improve how inner lines are drawn
 	@Override
 	public void draw(Graphics g) {
 		super.draw(g);
 		g = g.create();
+		g.clipRect(getX(), getY(), getWidth(), getHeight());
 
 		g.setColor(getColor(Colors.DARK_GRAY));
 		if (getResizeBehavior() == ResizeBehavior.PREVENT_X) {
-			g.drawLine(getX(), getY(), getX(), getY() + getHeight() - 1);
-			g.drawLine(getX() + getWidth() - 1, getY(), getX() + getWidth() - 1,
-					getY() + getHeight() - 1);
-
-			for (int y = getY(); y < getY()
-					+ getHeight(); y += TICK_MARK_SIZE) {
-				g.drawLine(getX() + TICK_MARK_SIZE, y, getX(),
-						y + TICK_MARK_SIZE);
-				g.drawLine(getX() + getWidth() - 1, y,
-						getX() + getWidth() - TICK_MARK_SIZE - 1,
-						y + TICK_MARK_SIZE);
-			}
+			g.fillRect(getX(), getY(), PREVENT_BORDER_THICKNESS, getHeight());
+			g.fillRect(getX() + getWidth() - PREVENT_BORDER_THICKNESS, getY(),
+					PREVENT_BORDER_THICKNESS, getHeight());
 		}
 
 		if (getResizeBehavior() == ResizeBehavior.PREVENT_Y) {
-			g.drawLine(getX(), getY(), getX() + getWidth() - 1, getY());
-			g.drawLine(getX(), getY() + getHeight() - 1,
-					getX() + getWidth() - 1, getY() + getHeight() - 1);
+			g.fillRect(getX(), getY(), getWidth(), PREVENT_BORDER_THICKNESS);
+			g.fillRect(getX(), getY() + getHeight() - PREVENT_BORDER_THICKNESS,
+					getWidth(), PREVENT_BORDER_THICKNESS);
+		}
 
-			for (int x = getX(); x < getX() + getWidth(); x += TICK_MARK_SIZE) {
-				g.drawLine(x, getY() + TICK_MARK_SIZE, x + TICK_MARK_SIZE,
-						getY());
-				g.drawLine(x, getY() + getHeight() - 1, x + TICK_MARK_SIZE,
-						getY() + getHeight() - TICK_MARK_SIZE - 1);
-			}
+		if (getResizeBehavior() != ResizeBehavior.STAY) {
+			fillStripes(g, getColor(Colors.TRANSPARENT), TICK_MARK_SIZE,
+					TICK_MARK_SIZE, getX(), getY(), getWidth(), getHeight());
 		}
 
 		g.dispose();

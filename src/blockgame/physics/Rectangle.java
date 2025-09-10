@@ -260,6 +260,47 @@ public abstract class Rectangle implements Drawable {
 	}
 
 	/**
+	 * Fills a rectangle bounded by {@code x}, {@code y}, {@code width}, and
+	 * {@code height} with stripes. Their color alternates between {@code g}'s
+	 * color and {@code altColor}.
+	 * 
+	 * @param g             {@code Graphics} to draw with
+	 * @param altColor      {@code Color} of alternating stripes
+	 * @param stripSize     width of main stripes
+	 * @param altStripeSize width of alternating stripes
+	 * @param x             position of bounding rectangle
+	 * @param y             position of bounding rectangle
+	 * @param width         size of bounding rectangle
+	 * @param height        size of bounding rectangle
+	 */
+	protected void fillStripes(Graphics g, Color altColor, int stripSize,
+			int altStripeSize, int x, int y, int width, int height) {
+		g = g.create();
+		g.clipRect(x, y, width, height);
+
+		boolean isAltStripe = true;
+		Color normalColor = g.getColor();
+		int thickness = stripSize;
+		// Multiply width/height by 2 to capture both halves of the rectangle
+		for (int stripeX = x, stripeY = y; stripeX + thickness < getX()
+				+ getWidth() * 2
+				|| stripeY + thickness < getY() + getHeight()
+						* 2; stripeX += thickness, stripeY += thickness) {
+
+			thickness = isAltStripe ? altStripeSize : stripSize;
+			g.setColor(isAltStripe ? altColor : normalColor);
+			g.fillPolygon(
+					new int[] { getX(), stripeX, stripeX + thickness, getX() },
+					new int[] { stripeY, getY(), getY(), stripeY + thickness },
+					4);
+
+			isAltStripe = !isAltStripe;
+		}
+
+		g.dispose();
+	}
+
+	/**
 	 * Draws an arrow pointing at ({@code tipX}, {@code tipY}) in
 	 * {@code direction}.
 	 * <p>
