@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -58,7 +59,6 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 	private static final int WIDTH_MINIMUM = 150;
 	private static final int HEIGHT_MINIMUM = 150;
-	// TODO Figure out how to work around maximum window size
 
 	private float scale;
 	private int idealWidth, idealHeight, idealXOffset, idealYOffset;
@@ -273,13 +273,24 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 			change *= -1;
 		}
 
-		if ((direction == Direction.NORTH || direction == Direction.SOUTH)
-				&& (idealHeight + change < HEIGHT_MINIMUM)) {
-			change = HEIGHT_MINIMUM - idealHeight;
+		if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+			if (idealHeight + change < HEIGHT_MINIMUM) {
+				change = HEIGHT_MINIMUM - idealHeight;
+			}
+			int screenHeight = Toolkit.getDefaultToolkit()
+					.getScreenSize().height;
+			if (getHeight() + (int) (change * scale) > screenHeight) {
+				change = (int) (screenHeight - getHeight() / scale);
+			}
 		}
-		if ((direction == Direction.WEST || direction == Direction.EAST)
-				&& (idealWidth + change < WIDTH_MINIMUM)) {
-			change = WIDTH_MINIMUM - idealWidth;
+		if (direction == Direction.WEST || direction == Direction.EAST) {
+			if (idealWidth + change < WIDTH_MINIMUM) {
+				change = WIDTH_MINIMUM - idealWidth;
+			}
+			int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+			if (getWidth() + (int) (change * scale) > screenWidth) {
+				change = (int) ((screenWidth - getWidth()) / scale);
+			}
 		}
 
 		switch (direction) {
