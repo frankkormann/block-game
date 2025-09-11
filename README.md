@@ -130,15 +130,20 @@ All sound effects are from Davit Masia's Free SFX pack:
 The most up-to-date documentation can be found through the wiki:
 [https://github.com/frankkormann/block-game/wiki](https://github.com/frankkormann/block-game/wiki).
 
-### Creating / editing levels
+### Creating custom levels
 
-Each level is built from a `JSON` file. See
+Alternate level packs can be loaded by providing their path on the command line,
+like so. Each level pack is a `zip` file which contains all the level files and
+associated recordings and images.
+
+Each level, and the level select menu, is built from a `JSON` file. See
 [the wiki](https://github.com/frankkormann/block-game/wiki) for formatting
 requirements. See `level_demo.json` for an example level that creates every type
-of rectangle.
+of Rectangle.
 
-When the game starts, it will automatically load the level path stored in the savedata value `title_screen`. If there is nothing set there, it will load `title_0.json`.
-Subsequent level paths are read from the activated Goal Area.
+When the game starts, it will automatically load the level path stored in the
+savedata value `title_screen`. If there is nothing set there, it will load
+`title_0.json`. Subsequent level paths are read from the activated Goal Area.
 
 
 ### Name
