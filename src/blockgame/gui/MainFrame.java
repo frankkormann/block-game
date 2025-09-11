@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -368,15 +369,14 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 				int resizingSideThickness = paramMapper
 						.getInt(Parameter.RESIZING_AREA_WIDTH);
+				int northThickness = Math.min(resizingSideThickness,
+						getTitlePaneHeight() / 2);
 
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
-						if (resizingSideThickness > getTitlePaneHeight() / 2) {
-							resizingSideThickness = getTitlePaneHeight() / 2;
-						}
 						comp.setBounds(0, 0, getWidth()
 								- getTitlePaneButtonsWidth() - insetsX,
-								resizingSideThickness);
+								northThickness);
 						break;
 					case SOUTH:
 						comp.setBounds(0,
@@ -384,16 +384,16 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 								getWidth(), resizingSideThickness);
 						break;
 					case WEST:
-						comp.setBounds(0, resizingSideThickness,
-								resizingSideThickness,
-								getHeight() - resizingSideThickness);
+						comp.setBounds(0, northThickness, resizingSideThickness,
+								getHeight() - resizingSideThickness
+										- northThickness - insetsY);
 						break;
 					case EAST:
 						comp.setBounds(
 								getWidth() - resizingSideThickness - insetsX,
 								getTitlePaneHeight(), resizingSideThickness,
 								getHeight() - resizingSideThickness
-										- getTitlePaneHeight());
+										- getTitlePaneHeight() - insetsY);
 				}
 			}
 
