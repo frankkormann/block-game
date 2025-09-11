@@ -170,11 +170,9 @@ public class SaveManager {
 	 * Saves all values to disk.
 	 */
 	private static void saveToFile() {
-		OutputStream outstream = writeFile(SAVE_FILE_NAME);
 		ObjectMapper mapper = new ObjectMapper();
-		try {
+		try (OutputStream outstream = writeFile(SAVE_FILE_NAME);) {
 			mapper.writeValue(outstream, cachedValues);
-			outstream.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();

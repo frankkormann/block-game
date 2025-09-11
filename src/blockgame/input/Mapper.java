@@ -93,15 +93,8 @@ public abstract class Mapper<T> {
 		ObjectMapper mapper = new ObjectMapper();
 		EnumValues<T> json = new EnumValues<>();
 		json.values = enumMap;
-		try {
-			OutputStream out = SaveManager.writeFile(savePath);
+		try (OutputStream out = SaveManager.writeFile(savePath)) {
 			mapper.writeValue(out, json);
-			try {
-				out.close();
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -155,8 +148,9 @@ public abstract class Mapper<T> {
 	 * Sets all values to their default values.
 	 */
 	public void setToDefaults() {
-		try {
-			load(getClass().getResourceAsStream(defaultValuesResource));
+		try (InputStream stream = getClass()
+				.getResourceAsStream(defaultValuesResource)) {
+			load(stream);
 		}
 		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
@@ -203,9 +197,9 @@ public abstract class Mapper<T> {
 		}
 
 		if (!allowUnset()) {
-			try {
-				loadUnset(
-						getClass().getResourceAsStream(defaultValuesResource));
+			try (InputStream stream = getClass()
+					.getResourceAsStream(defaultValuesResource)) {
+				loadUnset(stream);
 			}
 			catch (IOException | IllegalArgumentException e) {
 				e.printStackTrace();
