@@ -31,6 +31,7 @@ import com.formdev.flatlaf.util.UIScale;
 
 import blockgame.GameController;
 import blockgame.gui.MenuBar.MetaInput;
+import blockgame.util.FileSource;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
@@ -106,7 +107,7 @@ public class LevelSelectDialog extends JDialog {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			Map<String, Map<String, Pair<String, Integer>>> map = mapper
-					.readValue(getClass().getResourceAsStream(LEVEL_INDEX),
+					.readValue(FileSource.getStream(LEVEL_INDEX),
 							new TypeReference<Map<String, Map<String, Pair<String, Integer>>>>() {});
 			return map;
 		}

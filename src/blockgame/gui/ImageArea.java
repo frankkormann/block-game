@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import blockgame.input.ValueChangeListener;
 import blockgame.physics.Area;
 import blockgame.physics.MovingRectangle;
+import blockgame.util.FileSource;
 
 /**
  * {@code Area} which draws an image from a resource as its texture.
@@ -46,8 +47,7 @@ public class ImageArea extends Area implements ValueChangeListener {
 		colorMapper.addListener(this);
 
 		try {
-			baseImage = ImageIO
-					.read(ImageArea.class.getResourceAsStream(source));
+			baseImage = ImageIO.read(FileSource.getStream(source));
 			imageToDraw = new BufferedImage(baseImage.getWidth(),
 					baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			setWidth(baseImage.getWidth());

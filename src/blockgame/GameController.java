@@ -58,6 +58,7 @@ import blockgame.physics.WallRectangle;
 import blockgame.sound.MusicPlayer;
 import blockgame.sound.SoundEffectPlayer;
 import blockgame.sound.SoundEffectPlayer.SoundEffect;
+import blockgame.util.FileSource;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
@@ -104,7 +105,12 @@ public class GameController extends WindowAdapter
 				UIManager.get("TitlePane.foreground"));
 		UIManager.put("TitlePane.menuBarTitleMinimumGap", 0);
 		System.setProperty("flatlaf.uiScale.allowScaleDown", "true");
+
 		SaveManager.setDirectory(System.getenv(DIRECTORY_ENV_VAR));
+		if (args.length > 0) {
+			FileSource.setSource(args[0]);
+		}
+
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
 			// enable custom window decorations
@@ -297,7 +303,7 @@ public class GameController extends WindowAdapter
 	private Level readLevel(String resource) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			return mapper.readValue(getClass().getResourceAsStream(resource),
+			return mapper.readValue(FileSource.getStream(resource),
 					Level.class);
 		}
 		catch (Exception e) {
@@ -598,8 +604,7 @@ public class GameController extends WindowAdapter
 			return;
 		}
 
-		InputStream solutionStream = getClass()
-				.getResourceAsStream(currentSolution);
+		InputStream solutionStream = FileSource.getStream(currentSolution);
 
 		if (solutionStream == null) {
 			JOptionPane.showMessageDialog(mainFrame,
@@ -619,8 +624,7 @@ public class GameController extends WindowAdapter
 
 		reloadLevel();
 
-		gameInputHandler
-				.beginReading(getClass().getResourceAsStream(currentSolution));
+		gameInputHandler.beginReading(solutionStream);
 	}
 
 	/**
