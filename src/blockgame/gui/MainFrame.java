@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
