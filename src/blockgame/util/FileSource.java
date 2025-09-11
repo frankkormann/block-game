@@ -37,17 +37,52 @@ public class FileSource {
 		}
 
 		try {
-			@SuppressWarnings("resource")
-			ZipFile zfile = new ZipFile(source);
-			if (name.startsWith("/")) {
+			if (name.startsWith("/") || name.startsWith("\\")) {
 				name = name.substring(1);
 			}
-			return zfile.getInputStream(zfile.getEntry(name));
+			return new ZipStream(source, name);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private static class ZipStream extends InputStream {
+
+		private ZipFile parentFile;
+		private InputStream wrappedStream;
+
+		public ZipStream(String zipName, String entryName) throws IOException {
+			parentFile = new ZipFile(zipName);
+			wrappedStream = parentFile
+					.getInputStream(parentFile.getEntry(entryName));
+		}
+
+		@Override
+		public int read(byte[] b, int off, int len) throws IOException {
+			return wrappedStream.read(b, off, len);
+		}
+
+		@Override
+		public int read() throws IOException {
+			return wrappedStream.read();
+		}
+
+		@Override
+		public long skip(long n) throws IOException {
+			return wrappedStream.skip(n);
+		}
+
+		@Override
+		public void close() throws IOException {
+			wrappedStream.close();
+			parentFile.close();
+		}
+
 	}
 
 }

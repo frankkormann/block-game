@@ -9,6 +9,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -105,9 +106,9 @@ public class LevelSelectDialog extends JDialog {
 
 	private Map<String, Map<String, Pair<String, Integer>>> loadLevelMap() {
 		ObjectMapper mapper = new ObjectMapper();
-		try {
+		try (InputStream source = FileSource.getStream(LEVEL_INDEX)) {
 			Map<String, Map<String, Pair<String, Integer>>> map = mapper
-					.readValue(FileSource.getStream(LEVEL_INDEX),
+					.readValue(source,
 							new TypeReference<Map<String, Map<String, Pair<String, Integer>>>>() {});
 			return map;
 		}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -46,8 +47,8 @@ public class ImageArea extends Area implements ValueChangeListener {
 		imitatedArea = null;
 		colorMapper.addListener(this);
 
-		try {
-			baseImage = ImageIO.read(FileSource.getStream(source));
+		try (InputStream imgSource = FileSource.getStream(source)) {
+			baseImage = ImageIO.read(imgSource);
 			imageToDraw = new BufferedImage(baseImage.getWidth(),
 					baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			setWidth(baseImage.getWidth());

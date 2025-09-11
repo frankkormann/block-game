@@ -301,10 +301,9 @@ public class GameController extends WindowAdapter
 	 * @return the {@code Level}
 	 */
 	private Level readLevel(String resource) {
-		try {
+		try (InputStream levelSource = FileSource.getStream(resource)) {
 			ObjectMapper mapper = new ObjectMapper();
-			return mapper.readValue(FileSource.getStream(resource),
-					Level.class);
+			return mapper.readValue(levelSource, Level.class);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
