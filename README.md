@@ -26,8 +26,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Operating system</td>
-		<td>Developed and tested on Windows 11. It probably works on other
-			platforms supported by Java, but this is not guaranteed.</td>
+		<td>Windows 10/11, Linux (probably)</td>
 	</tr>
 	<tr>
 		<td>Processor</td>
@@ -35,7 +34,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Memory</td>
-		<td>256 MB RAM</td>
+		<td>Minimum 256 MB; more memory may be used to increase performance</td>
 	</tr>
 	<tr>
 		<td>Storage</td>
