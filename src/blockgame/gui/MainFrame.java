@@ -184,7 +184,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		try {
 			setIconImage(ImageIO.read(getClass().getResource(TASKBAR_ICON)));
 		}
-		catch (IOException e) {
+		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 			new ErrorDialog("Error", "Failed to load resource for taskbar icon",
 					e).setVisible(true);

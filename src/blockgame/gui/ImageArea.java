@@ -59,7 +59,7 @@ public class ImageArea extends Area implements ValueChangeListener {
 				}
 			}
 		}
-		catch (IOException e) {
+		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 			new ErrorDialog("Error", "Failed to read image '" + source + "'", e)
 					.setVisible(true);
