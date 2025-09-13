@@ -44,6 +44,38 @@
 			"first": 76,
 			"second": 0
 		},
+		"NORTH_UP" : {
+			"first": 73,
+			"second": 0
+		},
+		"NORTH_DOWN" : {
+			"first": 73,
+			"second": 64
+		},
+		"SOUTH_UP" : {
+			"first": 75,
+			"second": 64
+		},
+		"SOUTH_DOWN" : {
+			"first": 75,
+			"second": 0
+		},
+		"WEST_LEFT" : {
+			"first": 74,
+			"second": 0
+		},
+		"WEST_RIGHT": {
+			"first": 74,
+			"second": 64
+		},
+		"EAST_LEFT": {
+			"first": 76,
+			"second": 64
+		},
+		"EAST_RIGHT": {
+			"first": 76,
+			"second": 0
+		},
 		"PLAY_RECORDING": {
 			"first": 80,
 			"second": 192

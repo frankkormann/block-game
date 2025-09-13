@@ -12,7 +12,7 @@ import org.junit.jupiter.api.io.TempDir;
 import blockgame.gui.MenuBar.MetaInput;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
-import blockgame.input.GameInputHandler.ResizingInput;
+import blockgame.input.GameInputHandler.SelectedSideResizingInput;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
@@ -36,7 +36,7 @@ public class InputMapperTest {
 		assertEquals(4, mapper.getEnumClasses().length);
 		assertEquals(MovementInput.class, mapper.getEnumClasses()[0]);
 		assertEquals(DirectionSelectorInput.class, mapper.getEnumClasses()[1]);
-		assertEquals(ResizingInput.class, mapper.getEnumClasses()[2]);
+		assertEquals(SelectedSideResizingInput.class, mapper.getEnumClasses()[2]);
 		assertEquals(MetaInput.class, mapper.getEnumClasses()[3]);
 	}
 

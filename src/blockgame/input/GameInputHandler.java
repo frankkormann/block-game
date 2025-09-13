@@ -18,6 +18,7 @@ import blockgame.gui.ErrorDialog;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.util.Pair;
+import blockgame.util.SaveManager;
 
 /**
  * Get inputs from the user or a stream. Optionally write inputs to a stream.
@@ -52,8 +53,13 @@ public class GameInputHandler extends KeyAdapter
 		SELECT_NORTH, SELECT_SOUTH, SELECT_WEST, SELECT_EAST
 	}
 
-	public enum ResizingInput {
+	public enum SelectedSideResizingInput {
 		MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
+	}
+
+	public enum AbsoluteResizingInput {
+		NORTH_UP, NORTH_DOWN, SOUTH_UP, SOUTH_DOWN, WEST_LEFT, WEST_RIGHT,
+		EAST_LEFT, EAST_RIGHT
 	}
 
 	private InputMapper inputMapper;
@@ -125,7 +131,7 @@ public class GameInputHandler extends KeyAdapter
 	private Map<Direction, Integer> getResizes() throws IOException {
 		Map<Direction, Integer> resizes = new HashMap<>();
 		if (reader == null) {
-			addResizesFromKeyboard(resizes);
+			addResizesFromKeyboard();
 			float scale = paramMapper.getFloat(Parameter.GAME_SCALING);
 			for (Entry<Direction, Integer> entry : resizesSinceLastFrame
 					.entrySet()) {
@@ -154,11 +160,25 @@ public class GameInputHandler extends KeyAdapter
 
 	/**
 	 * Adds any resizes from the keyboard.
-	 * 
-	 * @param resizes {@code Map} to add resizes to
 	 */
-	private void addResizesFromKeyboard(Map<Direction, Integer> resizes) {
-		for (ResizingInput inp : ResizingInput.values()) {
+	private void addResizesFromKeyboard() {
+		String resizingMode = SaveManager.getValue("resizing_mode", "select");
+		if (resizingMode.equals("select")) {
+			addResizesUsingSelectedSide();
+		}
+		else if (resizingMode.equals("absolute")) {
+			addResizesUsingAbsoluteMode();
+		}
+		else {
+			System.err.println(
+					"In GameInputHandler#addResizesFromKeyboard: Unrecognized saved"
+							+ " resizing mode " + resizingMode);
+		}
+	}
+
+	private void addResizesUsingSelectedSide() {
+		for (SelectedSideResizingInput inp : SelectedSideResizingInput
+				.values()) {
 			Pair<Integer, Integer> keybind = inputMapper.get(inp);
 			if (keybind != null && keysPressed.contains(keybind.first)
 					&& containsMask(keysPressed, keybind.second)) {
@@ -185,6 +205,40 @@ public class GameInputHandler extends KeyAdapter
 						else {
 							resize(amount, Direction.EAST);
 						}
+						break;
+				}
+			}
+		}
+	}
+
+	private void addResizesUsingAbsoluteMode() {
+		for (AbsoluteResizingInput inp : AbsoluteResizingInput.values()) {
+			Pair<Integer, Integer> keybind = inputMapper.get(inp);
+			if (keybind != null && keysPressed.contains(keybind.first)
+					&& containsMask(keysPressed, keybind.second)) {
+				int amount = paramMapper
+						.getInt(Parameter.KEYBOARD_RESIZING_AMOUNT);
+
+				switch (inp) {
+					case NORTH_UP:
+						amount *= -1;
+					case NORTH_DOWN:
+						resize(amount, Direction.NORTH);
+						break;
+					case SOUTH_UP:
+						amount *= -1;
+					case SOUTH_DOWN:
+						resize(amount, Direction.SOUTH);
+						break;
+					case WEST_LEFT:
+						amount *= -1;
+					case WEST_RIGHT:
+						resize(amount, Direction.WEST);
+						break;
+					case EAST_LEFT:
+						amount *= -1;
+					case EAST_RIGHT:
+						resize(amount, Direction.EAST);
 						break;
 				}
 			}
@@ -355,7 +409,9 @@ public class GameInputHandler extends KeyAdapter
 	 * @return {@code true} if a new direction was selected
 	 */
 	private boolean selectDirection(int keyCode, int modifiers) {
-
+		if (!SaveManager.getValue("resizing_mode", "select").equals("select")) {
+			return false;
+		}
 		for (DirectionSelectorInput inp : DirectionSelectorInput.values()) {
 			if (inputMatches(inp, keyCode, modifiers)) {
 				switch (inp) {

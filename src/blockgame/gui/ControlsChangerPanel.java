@@ -1,6 +1,7 @@
 package blockgame.gui;
 
 import java.awt.CardLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
@@ -20,13 +21,15 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
 import blockgame.gui.MenuBar.MetaInput;
+import blockgame.input.GameInputHandler.AbsoluteResizingInput;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
-import blockgame.input.GameInputHandler.ResizingInput;
+import blockgame.input.GameInputHandler.SelectedSideResizingInput;
 import blockgame.input.GetterSetter;
 import blockgame.input.InputMapper;
 import blockgame.input.ValueChangerPanel;
 import blockgame.util.Pair;
+import blockgame.util.SaveManager;
 
 /**
  * {@code JPanel} which allows the user to rebind keyboard inputs in
@@ -45,7 +48,11 @@ public class ControlsChangerPanel
 	private static final String RESIZING_CONTROLS_TITLE = "Window Resizing";
 	private static final String META_CONTROLS_TITLE = "Menu Shortcuts";
 
-	private static final int VERTICAL_SPACE = 3;
+	private static final String RESIZING_MODE_LABEL = "Resizing Mode";
+	private static final String RESIZING_MODE_SELECT_SIDE = "Select a side";
+	private static final String RESIZING_MODE_ABSOLUTE = "Direct";
+
+	private static final int SPACE = 3;
 
 	private InputMapper inputMapper;
 	private Enum<?> currentlyRebindingInput;
@@ -84,18 +91,15 @@ public class ControlsChangerPanel
 						createInputsPanel(getterSetters,
 								MovementInput.values()),
 						MOVEMENT_CONTROLS_TITLE),
-				new Pair<>(
-						createInputsPanel(getterSetters,
-								DirectionSelectorInput.values(),
-								ResizingInput.values()),
+				new Pair<>(createResizingPanel(getterSetters),
 						RESIZING_CONTROLS_TITLE),
 				new Pair<>(createInputsPanel(getterSetters, MetaInput.values()),
 						META_CONTROLS_TITLE));
 
-		add(Box.createVerticalStrut(VERTICAL_SPACE));
+		add(Box.createVerticalStrut(SPACE));
 		add(cardsPanelComponents.second);
 		add(cardsPanelComponents.first);
-		add(Box.createVerticalStrut(VERTICAL_SPACE));
+		add(Box.createVerticalStrut(SPACE));
 
 		return panel;
 	}
@@ -139,6 +143,73 @@ public class ControlsChangerPanel
 	}
 
 	/**
+	 * Creates the {@code JPanel} responsible for displaying
+	 * {@code GetterSetter}s for the window resizing controls.
+	 * 
+	 * @param getterSetters from {@link #createGetterSetterPanel(Map)}
+	 * 
+	 * @return the {@code JPanel}
+	 */
+	private JPanel createResizingPanel(
+			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> getterSetters) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		Pair<JPanel, JComboBox<String>> modeSelectorComponents = createCardsPanel(
+				new Pair<>(
+						createInputsPanel(getterSetters,
+								DirectionSelectorInput.values(),
+								SelectedSideResizingInput.values()),
+						RESIZING_MODE_SELECT_SIDE),
+				new Pair<>(
+						createInputsPanel(getterSetters,
+								AbsoluteResizingInput.values()),
+						RESIZING_MODE_ABSOLUTE));
+
+		JComboBox<String> modeController = modeSelectorComponents.second;
+		String savedMode = SaveManager.getValue("resizing_mode", "select");
+		if (savedMode.equals("select")) {
+			modeController.setSelectedItem(RESIZING_MODE_SELECT_SIDE);
+		}
+		else if (savedMode.equals("absolute")) {
+			modeController.setSelectedItem(RESIZING_MODE_ABSOLUTE);
+		}
+		else {
+			System.err.println(
+					"In ControlsChangerPanel#createResizingPanel: Unrecognized saved"
+							+ " resizing mode " + savedMode);
+		}
+		modeController.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getItem().equals(RESIZING_MODE_SELECT_SIDE)) {
+					SaveManager.putValue("resizing_mode", "select");
+				}
+				if (e.getItem().equals(RESIZING_MODE_ABSOLUTE)) {
+					SaveManager.putValue("resizing_mode", "absolute");
+				}
+			}
+		});
+
+		JPanel selectorPanel = new JPanel();
+
+		JLabel selectorLabel = new JLabel(RESIZING_MODE_LABEL);
+		selectorLabel.setFont(selectorLabel.getFont().deriveFont(Font.BOLD));
+
+		selectorPanel.add(Box.createHorizontalStrut(SPACE));
+		selectorPanel.setLayout(new BoxLayout(selectorPanel, BoxLayout.X_AXIS));
+		selectorPanel.add(selectorLabel);
+		selectorPanel.add(Box.createHorizontalGlue());
+		selectorPanel.add(modeController);
+
+		panel.add(Box.createVerticalStrut(SPACE));
+		panel.add(selectorPanel);
+		panel.add(modeSelectorComponents.first);
+
+		return panel;
+	}
+
+	/**
 	 * Creates a {@code JPanel} which displays all the inputs in
 	 * {@code inputsList} with a {@code InputButton} to rebind them.
 	 * 
@@ -169,7 +240,7 @@ public class ControlsChangerPanel
 				inputPanel.add(label);
 				inputPanel.add((InputButton) inputButtons.get(input));
 
-				panel.add(Box.createVerticalStrut(VERTICAL_SPACE));
+				panel.add(Box.createVerticalStrut(SPACE));
 				panel.add(inputPanel);
 			}
 		}
@@ -207,17 +278,41 @@ public class ControlsChangerPanel
 		if (input == DirectionSelectorInput.SELECT_EAST) {
 			return "Select right edge";
 		}
-		if (input == ResizingInput.MOVE_UP) {
+		if (input == SelectedSideResizingInput.MOVE_UP) {
 			return "Move selected edge up";
 		}
-		if (input == ResizingInput.MOVE_DOWN) {
+		if (input == SelectedSideResizingInput.MOVE_DOWN) {
 			return "Move selected edge down";
 		}
-		if (input == ResizingInput.MOVE_LEFT) {
+		if (input == SelectedSideResizingInput.MOVE_LEFT) {
 			return "Move selected edge left";
 		}
-		if (input == ResizingInput.MOVE_RIGHT) {
+		if (input == SelectedSideResizingInput.MOVE_RIGHT) {
 			return "Move selected edge right";
+		}
+		if (input == AbsoluteResizingInput.NORTH_UP) {
+			return "Move top edge up";
+		}
+		if (input == AbsoluteResizingInput.NORTH_DOWN) {
+			return "Move top edge down";
+		}
+		if (input == AbsoluteResizingInput.SOUTH_UP) {
+			return "Move bottom edge up";
+		}
+		if (input == AbsoluteResizingInput.SOUTH_DOWN) {
+			return "Move bottom edge down";
+		}
+		if (input == AbsoluteResizingInput.WEST_LEFT) {
+			return "Move left edge left";
+		}
+		if (input == AbsoluteResizingInput.WEST_RIGHT) {
+			return "Move left edge right";
+		}
+		if (input == AbsoluteResizingInput.EAST_LEFT) {
+			return "Move right edge left";
+		}
+		if (input == AbsoluteResizingInput.EAST_RIGHT) {
+			return "Move right edge right";
 		}
 		if (input == MetaInput.FRAME_ADVANCE) {
 			return "Advance frame";
