@@ -22,7 +22,8 @@ import blockgame.sound.MusicPlayer.Song;
 public class MusicPanel extends JPanel {
 
 	private static final String MUSIC_LABEL = "Music";
-	private static int EDGE_SPACE = 3;
+	private static final String NULL_SONG_NAME = "None";
+	private static final int EDGE_SPACE = 3;
 
 	private MusicPlayer player;
 
@@ -50,7 +51,7 @@ public class MusicPanel extends JPanel {
 		JComboBox<String> selector = new JComboBox<>();
 		Map<String, Song> nameToSong = new HashMap<>();
 
-		selector.addItem("None");
+		selector.addItem(NULL_SONG_NAME);
 		for (Song song : Song.values()) {
 			if (getClass().getResource(song.resource) == null) {
 				continue;
@@ -58,11 +59,12 @@ public class MusicPanel extends JPanel {
 			selector.addItem(song.name);
 			nameToSong.put(song.name, song);
 		}
-		selector.setSelectedItem(player.getCurrentSong() == null ? "None"
-				: player.getCurrentSong().name);
+		selector.setSelectedItem(
+				player.getCurrentSong() == null ? NULL_SONG_NAME
+						: player.getCurrentSong().name);
 
 		selector.addItemListener(e -> {
-			if (e.getItem().equals("None")) {
+			if (e.getItem().equals(NULL_SONG_NAME)) {
 				player.stop();
 			}
 			else {
