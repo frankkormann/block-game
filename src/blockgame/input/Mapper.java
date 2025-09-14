@@ -56,14 +56,14 @@ public abstract class Mapper<T> {
 	 * Returns a {@code TypeReference} of type
 	 * {@code TypeReference<EnumValues<T>>}.
 	 * <p>
-	 * This is necessary due to Java type erasure. The {@code Mapper} superclass
-	 * does not know what type {@code T} is, so it cannot construct a suitable
+	 * This is necessary due to type erasure. The {@code Mapper} superclass does
+	 * not know what type {@code T} is, so it cannot construct a suitable
 	 * {@code TypeReference}.
 	 * <p>
 	 * An example implementation would be, if {@code T} is {@code Integer}:
 	 * 
 	 * <pre>
-	 * public TypeReference&lt;EnumValues&lt;T&gt;&gt; getJsonTypeReference() {
+	 * public TypeReference&lt;EnumValues&lt;Integer&gt;&gt; getJsonTypeReference() {
 	 * 	return new TypeReference&lt;EnumValues&lt;Integer&gt;&gt;() {};
 	 * }
 	 * </pre>
