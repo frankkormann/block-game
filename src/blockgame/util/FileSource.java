@@ -2,7 +2,10 @@ package blockgame.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import blockgame.gui.ErrorDialog;
 
 /**
  * Methods to manage reading files either from a user-defined zip file or Java
@@ -26,10 +29,11 @@ public class FileSource {
 
 	/**
 	 * Retrieve an {@code InputStream} to read from the file named {@code name}.
+	 * If the file does not exist or cannot be accessed, returns {@code null}.
 	 * 
 	 * @param name name of the file to get
 	 * 
-	 * @return the {@code InputStream}
+	 * @return the {@code InputStream} or {@code null}
 	 */
 	public static InputStream getStream(String name) {
 		if (source == null) {
@@ -44,12 +48,16 @@ public class FileSource {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+			new ErrorDialog("Error",
+					"Can't read zip file " + name + " in " + source + ".", e)
+					.setVisible(true);
 			return null;
 		}
 	}
 
 	/**
-	 * 
+	 * Wraps {@link ZipFile#getInputStream(ZipEntry)} to close the
+	 * {@code ZipFile} when the {@code InputStream} is closed.
 	 */
 	private static class ZipStream extends InputStream {
 
