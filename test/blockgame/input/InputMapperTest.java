@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import blockgame.gui.MenuBar.MetaInput;
+import blockgame.input.GameInputHandler.AbsoluteResizingInput;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
 import blockgame.input.GameInputHandler.SelectedSideResizingInput;
@@ -33,11 +34,13 @@ public class InputMapperTest {
 
 	@Test
 	void has_correct_enum_class() {
-		assertEquals(4, mapper.getEnumClasses().length);
+		assertEquals(5, mapper.getEnumClasses().length);
 		assertEquals(MovementInput.class, mapper.getEnumClasses()[0]);
 		assertEquals(DirectionSelectorInput.class, mapper.getEnumClasses()[1]);
-		assertEquals(SelectedSideResizingInput.class, mapper.getEnumClasses()[2]);
-		assertEquals(MetaInput.class, mapper.getEnumClasses()[3]);
+		assertEquals(SelectedSideResizingInput.class,
+				mapper.getEnumClasses()[2]);
+		assertEquals(AbsoluteResizingInput.class, mapper.getEnumClasses()[3]);
+		assertEquals(MetaInput.class, mapper.getEnumClasses()[4]);
 	}
 
 	@Test
