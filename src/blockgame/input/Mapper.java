@@ -254,7 +254,8 @@ public abstract class Mapper<T> {
 	/**
 	 * Removes {@code key} and its associated value.
 	 * <p>
-	 * Throws {@code UnsupportedOperationException} if values must be set.
+	 * Throws {@code UnsupportedOperationException} if values must be set (that
+	 * is, if {@link #allowUnset()} returns {@code false}).
 	 * 
 	 * @param key enum value to remove
 	 * 
