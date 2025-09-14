@@ -85,6 +85,11 @@ public class FileSource {
 		}
 
 		@Override
+		public int available() throws IOException {
+			return wrappedStream.available();
+		}
+
+		@Override
 		public void close() throws IOException {
 			wrappedStream.close();
 			parentFile.close();
