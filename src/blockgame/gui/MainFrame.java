@@ -186,8 +186,8 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		}
 		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to load resource for taskbar icon",
-					e).setVisible(true);
+			ErrorDialog.showDialog("Failed to load resource for taskbar icon",
+					e);
 		}
 
 		addKeyListener(gameInputHandler);

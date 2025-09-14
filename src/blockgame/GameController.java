@@ -212,8 +212,7 @@ public class GameController extends WindowAdapter
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Something went wrong", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Something went wrong", e);
 		}
 	}
 
@@ -252,8 +251,7 @@ public class GameController extends WindowAdapter
 			}
 			catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e)
-						.setVisible(true);
+				ErrorDialog.showDialog("Something went wrong", e);
 			}
 		}
 		else {
@@ -307,10 +305,8 @@ public class GameController extends WindowAdapter
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Could not load level '" + resource
-							+ "', file is corrupt or does not exist",
-					e).setVisible(true);
+			ErrorDialog.showDialog("Could not load level '" + resource
+					+ "', file is corrupt or does not exist", e);
 
 			if (mainFrame.isVisible()) {
 				physicsSimulator.resetNextlevel();
@@ -499,8 +495,7 @@ public class GameController extends WindowAdapter
 			}
 			catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e)
-						.setVisible(true);
+				ErrorDialog.showDialog("Something went wrong", e);
 			}
 		}
 		else {
@@ -667,9 +662,8 @@ public class GameController extends WindowAdapter
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Could not " + errorWord + " file '" + file + "'", e)
-					.setVisible(true);
+			ErrorDialog.showDialog(
+					"Could not " + errorWord + " file '" + file + "'", e);
 		}
 	}
 

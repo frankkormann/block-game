@@ -48,9 +48,8 @@ public class FileSource {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Can't read zip file " + name + " in " + source + ".", e)
-					.setVisible(true);
+			ErrorDialog.showDialog(
+					"Can't read zip file " + name + " in " + source, e);
 			return null;
 		}
 	}

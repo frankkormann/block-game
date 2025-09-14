@@ -45,8 +45,7 @@ public abstract class Mapper<T> {
 		}
 		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Default values file is unavailable", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Default values file is unavailable", e);
 		}
 
 		loadFromFile();
@@ -107,8 +106,7 @@ public abstract class Mapper<T> {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to save to " + savePath, e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Failed to save to " + savePath, e);
 		}
 	}
 
@@ -200,9 +198,8 @@ public abstract class Mapper<T> {
 			}
 			catch (IOException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error",
-						"Can't read saved values, resetting to defaults", e)
-						.setVisible(true);
+				ErrorDialog.showDialog(
+						"Can't read saved values, resetting to defaults", e);
 				setToDefaults();
 				save();
 			}

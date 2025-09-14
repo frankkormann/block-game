@@ -89,20 +89,17 @@ public class MusicPlayer implements ValueChangeListener {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Failed to read audio data for '" + song.resource + "'", e)
-					.setVisible(true);
+			ErrorDialog.showDialog(
+					"Failed to read audio data for '" + song.resource + "'", e);
 		}
 		catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Song file '" + song.resource + "' is not an audio file", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Song file '" + song.resource
+					+ "' is not a  valid audio file", e);
 		}
 		catch (LineUnavailableException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't get a line for playing music", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't get a line for playing music", e);
 		}
 	}
 
@@ -136,8 +133,7 @@ public class MusicPlayer implements ValueChangeListener {
 				}
 				catch (IOException e) {
 					e.printStackTrace();
-					new ErrorDialog("Error", "Failed to read audio stream", e)
-							.setVisible(true);
+					ErrorDialog.showDialog("Failed to read audio stream", e);
 					break;
 				}
 			}
@@ -147,8 +143,7 @@ public class MusicPlayer implements ValueChangeListener {
 			}
 			catch (IOException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Failed to close audio stream", e)
-						.setVisible(true);
+				ErrorDialog.showDialog("Failed to close audio stream", e);
 			}
 		}).start();
 	}

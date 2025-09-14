@@ -111,8 +111,7 @@ public class GameInputHandler extends KeyAdapter
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Malformed recording data", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Malformed recording data", e);
 			endReading();
 			return new Pair<>(new HashMap<>(), new HashSet<>());
 		}
@@ -291,8 +290,7 @@ public class GameInputHandler extends KeyAdapter
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Couldn't open stream for reading", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Couldn't open stream for reading", e);
 		}
 	}
 
@@ -321,8 +319,7 @@ public class GameInputHandler extends KeyAdapter
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Couldn't close reading stream", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Couldn't close reading stream", e);
 		}
 	}
 
@@ -393,9 +390,9 @@ public class GameInputHandler extends KeyAdapter
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Potential error",
+			ErrorDialog.showDialog(
 					"Couldn't flush output stream, output file may be corrupted",
-					e).setVisible(true);
+					e);
 		}
 	}
 

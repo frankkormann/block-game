@@ -114,8 +114,7 @@ public class LevelSelectDialog extends JDialog {
 		}
 		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to read level index data", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Failed to read level index data", e);
 
 			return new HashMap<>();
 		}

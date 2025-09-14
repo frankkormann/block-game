@@ -27,6 +27,22 @@ import javax.swing.KeyStroke;
  */
 public class ErrorDialog extends JDialog {
 
+	private static final String DEFAULT_TITLE = "Error";
+
+	/**
+	 * Shows an {@code ErrorDialog} with a default title.
+	 * <p>
+	 * {@code message} and {@code err}'s short form are shown in the dialog's
+	 * body, and {@code err}'s full stack trace is hidden behind a "Details"
+	 * button.
+	 * 
+	 * @param message short error message to display in the dialog body
+	 * @param err     {@code Exception} to extract stack trace information from
+	 */
+	public static void showDialog(String message, Exception err) {
+		new ErrorDialog(DEFAULT_TITLE, message, err).setVisible(true);
+	}
+
 	/**
 	 * Creates an {@code ErrorDialog} for {@code err}.
 	 * <p>
@@ -68,12 +84,11 @@ public class ErrorDialog extends JDialog {
 
 		registerDisposeOnKeypress(KeyEvent.VK_ESCAPE);
 
-		messageArea.setSize(messageArea.getPreferredSize());  // Fix issue where
-		pack();												  // wrapped line
-		setLocationRelativeTo(null);						  // height is not
-															  // taken into
-															  // account by
-															  // pack()
+		// Fix issue where wrapped line height is not taken into account by
+		// pack()
+		messageArea.setSize(messageArea.getPreferredSize());
+		pack();
+		setLocationRelativeTo(null);
 	}
 
 	private JTextArea createMessageArea(String message, Exception err) {

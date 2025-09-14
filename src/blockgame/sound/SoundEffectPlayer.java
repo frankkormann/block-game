@@ -58,8 +58,7 @@ public class SoundEffectPlayer {
 			catch (IOException | UnsupportedAudioFileException
 					| LineUnavailableException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Failed to load sound effect", e)
-						.setVisible(true);
+				ErrorDialog.showDialog("Failed to load sound effect", e);
 				return null;
 			}
 		}

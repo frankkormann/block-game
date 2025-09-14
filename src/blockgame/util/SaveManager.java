@@ -73,8 +73,7 @@ public class SaveManager {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't open save file " + name, e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't open save file " + name, e);
 			return null;
 		}
 	}
@@ -98,8 +97,7 @@ public class SaveManager {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't write to save file " + name, e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't write to save file " + name, e);
 			return null;
 		}
 	}
@@ -159,8 +157,7 @@ public class SaveManager {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't read save data", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't read save data", e);
 			cachedValues = new HashMap<>();
 			return;
 		}
@@ -176,8 +173,7 @@ public class SaveManager {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't write save data", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't write save data", e);
 		}
 	}
 
