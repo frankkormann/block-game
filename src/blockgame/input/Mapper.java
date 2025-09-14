@@ -195,20 +195,20 @@ public abstract class Mapper<T> {
 		if (fileStream == null) {
 			setToDefaults();
 			save();
-			fileStream = SaveManager.readFile(savePath);
 		}
-
-		try {
-			load(fileStream);
-			fileStream.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Can't read saved values, resetting to defaults", e)
-					.setVisible(true);
-			setToDefaults();
-			save();
+		else {
+			try {
+				load(fileStream);
+				fileStream.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				new ErrorDialog("Error",
+						"Can't read saved values, resetting to defaults", e)
+						.setVisible(true);
+				setToDefaults();
+				save();
+			}
 		}
 
 		if (!allowUnset()) {
