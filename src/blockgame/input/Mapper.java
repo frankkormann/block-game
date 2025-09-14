@@ -169,6 +169,24 @@ public abstract class Mapper<T> {
 	}
 
 	/**
+	 * Sets the value associated with {@code key} to its default value.
+	 * 
+	 * @param key enum value to reset
+	 */
+	public void setToDefault(Enum<?> key) {
+		try (InputStream stream = getClass()
+				.getResourceAsStream(defaultValuesResource)) {
+			EnumValues<T> defaultValues = readValues(stream);
+			set(key, defaultValues.values.get(key));
+		}
+		catch (IOException | IllegalArgumentException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Default values file is unavailable", e)
+					.setVisible(true);
+		}
+	}
+
+	/**
 	 * Reload keybinds without saving changes.
 	 */
 	public void reload() {

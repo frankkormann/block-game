@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -85,14 +86,15 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 
 	@Override
 	protected JPanel createGetterSetterPanel(
-			Map<Enum<?>, GetterSetter<Number>> getterSetters) {
+			Map<Enum<?>, GetterSetter<Number>> getterSetters,
+			Map<Enum<?>, JButton> resetButtons) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
-		c.insets = new Insets(EDGE_SPACE, EDGE_SPACE, EDGE_SPACE, EDGE_SPACE);
+		c.insets = new Insets(EDGE_SPACE, EDGE_SPACE, 0, 0);
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 
@@ -113,6 +115,10 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 			panel.add(sliderSpinner.getSlider(), c);
 			c.gridx = 2;
 			panel.add(sliderSpinner.getSpinner(), c);
+			c.gridx = 3;
+			c.weightx = 0;
+			panel.add(resetButtons.get(enumValue), c);
+			c.weightx = 0.5;
 
 			c.gridy++;
 		}

@@ -1,5 +1,6 @@
 package blockgame.gui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -82,19 +83,20 @@ public class ControlsChangerPanel
 
 	@Override
 	protected JPanel createGetterSetterPanel(
-			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> getterSetters) {
+			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> getterSetters,
+			Map<Enum<?>, JButton> resetButtons) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		Pair<JPanel, JComboBox<String>> cardsPanelComponents = createCardsPanel(
 				new Pair<>(
-						createInputsPanel(getterSetters,
+						createInputsPanel(getterSetters, resetButtons,
 								MovementInput.values()),
 						MOVEMENT_CONTROLS_TITLE),
-				new Pair<>(createResizingPanel(getterSetters),
+				new Pair<>(createResizingPanel(getterSetters, resetButtons),
 						RESIZING_CONTROLS_TITLE),
-				new Pair<>(createInputsPanel(getterSetters, MetaInput.values()),
-						META_CONTROLS_TITLE));
+				new Pair<>(createInputsPanel(getterSetters, resetButtons,
+						MetaInput.values()), META_CONTROLS_TITLE));
 
 		add(Box.createVerticalStrut(SPACE));
 		add(cardsPanelComponents.second);
@@ -146,23 +148,25 @@ public class ControlsChangerPanel
 	 * Creates the {@code JPanel} responsible for displaying
 	 * {@code GetterSetter}s for the window resizing controls.
 	 * 
-	 * @param getterSetters from {@link #createGetterSetterPanel(Map)}
+	 * @param getterSetters from {@link #createGetterSetterPanel(Map, Map)}
+	 * @param resetButtons  from {@link #createGetterSetterPanel(Map, Map)}
 	 * 
 	 * @return the {@code JPanel}
 	 */
 	private JPanel createResizingPanel(
-			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> getterSetters) {
+			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> getterSetters,
+			Map<Enum<?>, JButton> resetButtons) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		Pair<JPanel, JComboBox<String>> modeSelectorComponents = createCardsPanel(
 				new Pair<>(
-						createInputsPanel(getterSetters,
+						createInputsPanel(getterSetters, resetButtons,
 								DirectionSelectorInput.values(),
 								SelectedSideResizingInput.values()),
 						RESIZING_MODE_SELECT_SIDE),
 				new Pair<>(
-						createInputsPanel(getterSetters,
+						createInputsPanel(getterSetters, resetButtons,
 								AbsoluteResizingInput.values()),
 						RESIZING_MODE_ABSOLUTE));
 
@@ -215,13 +219,15 @@ public class ControlsChangerPanel
 	 * 
 	 * @param inputButtons {@code Map} of enum values to their
 	 *                     {@code InputButton}
+	 * @param resetButtons {@code Map} of enum values to the {@code JButton}
+	 *                     which resets each one
 	 * @param inputsList   enum values to display
 	 * 
 	 * @return the {@code JPanel}
 	 */
 	private JPanel createInputsPanel(
 			Map<Enum<?>, GetterSetter<Pair<Integer, Integer>>> inputButtons,
-			Enum<?>[]... inputsList) {
+			Map<Enum<?>, JButton> resetButtons, Enum<?>[]... inputsList) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -237,8 +243,14 @@ public class ControlsChangerPanel
 				JLabel label = new JLabel(inputToName(input));
 				label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
 
+				JPanel subPanel = new JPanel();
+				subPanel.setLayout(new BorderLayout(SPACE, 0));
+				subPanel.add((InputButton) inputButtons.get(input),
+						BorderLayout.CENTER);
+				subPanel.add(resetButtons.get(input), BorderLayout.EAST);
+
 				inputPanel.add(label);
-				inputPanel.add((InputButton) inputButtons.get(input));
+				inputPanel.add(subPanel);
 
 				panel.add(Box.createVerticalStrut(SPACE));
 				panel.add(inputPanel);
