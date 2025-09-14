@@ -33,13 +33,11 @@ public abstract class Mapper<T> {
 	private List<ValueChangeListener> changeListeners;
 
 	private String savePath;
-	private String defaultValuesResource;
 
 	public Mapper(String savePath, String defaultValuesResource) {
 		enumMap = new HashMap<>();
 		changeListeners = new ArrayList<>();
 		this.savePath = savePath;
-		this.defaultValuesResource = defaultValuesResource;
 
 		try (InputStream stream = getClass()
 				.getResourceAsStream(defaultValuesResource)) {
@@ -131,19 +129,14 @@ public abstract class Mapper<T> {
 	}
 
 	/**
-	 * Loads values from {@code stream} if the value is not already set.
-	 * 
-	 * @param stream {@code InputStream} to read from
-	 * 
-	 * @throws IOException if an I/O error occurs
+	 * For each key, if it not already set, loads its default value.
 	 */
-	private void loadUnset(InputStream stream) throws IOException {
-		EnumValues<T> json = readValues(stream);
-
-		for (Enum<?> key : json.values.keySet()) {
-			if (get(key) == null) {
-				T value = json.values.get(key);
-				set(key, value);
+	private void loadUnset() {
+		for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
+			for (Enum<?> key : enumClass.getEnumConstants()) {
+				if (get(key) == null) {
+					setToDefault(key);
+				}
 			}
 		}
 	}
@@ -161,15 +154,7 @@ public abstract class Mapper<T> {
 	public void setToDefaults() {
 		for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
 			for (Enum<?> key : enumClass.getEnumConstants()) {
-				if (defaultValues.containsKey(key)) {
-					set(key, defaultValues.get(key));
-				}
-				else {
-					System.err.println(
-							"In Mapper#setToDefaults: No default value set for "
-									+ key);
-					set(key, getDefaultValue());
-				}
+				setToDefault(key);
 			}
 		}
 	}
@@ -180,6 +165,18 @@ public abstract class Mapper<T> {
 	 * @param key enum value to reset
 	 */
 	public void setToDefault(Enum<?> key) {
+		if (defaultValues == null) {
+			System.err.println(
+					"defaultValues is null in " + getClass().getSimpleName());
+			set(key, getDefaultValue());
+			return;
+		}
+		if (!defaultValues.containsKey(key)) {
+			System.err.println("No default value set for " + key + " in "
+					+ getClass().getSimpleName());
+			set(key, getDefaultValue());
+			return;
+		}
 		set(key, defaultValues.get(key));
 	}
 
@@ -212,16 +209,7 @@ public abstract class Mapper<T> {
 		}
 
 		if (!allowUnset()) {
-			try (InputStream stream = getClass()
-					.getResourceAsStream(defaultValuesResource)) {
-				loadUnset(stream);
-			}
-			catch (IOException | IllegalArgumentException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error",
-						"Can't read default values file. Some values may not be set.",
-						e).setVisible(true);
-			}
+			loadUnset();
 		}
 	}
 
