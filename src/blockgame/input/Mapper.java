@@ -29,6 +29,7 @@ import blockgame.util.SaveManager;
 public abstract class Mapper<T> {
 
 	private Map<Enum<?>, T> enumMap;
+	private Map<Enum<?>, T> defaultValues;
 	private List<ValueChangeListener> changeListeners;
 
 	private String savePath;
@@ -39,6 +40,16 @@ public abstract class Mapper<T> {
 		changeListeners = new ArrayList<>();
 		this.savePath = savePath;
 		this.defaultValuesResource = defaultValuesResource;
+
+		try (InputStream stream = getClass()
+				.getResourceAsStream(defaultValuesResource)) {
+			defaultValues = readValues(stream).values;
+		}
+		catch (IOException | IllegalArgumentException e) {
+			e.printStackTrace();
+			new ErrorDialog("Error", "Default values file is unavailable", e)
+					.setVisible(true);
+		}
 
 		loadFromFile();
 	}
@@ -148,21 +159,16 @@ public abstract class Mapper<T> {
 	 * Sets all values to their default values.
 	 */
 	public void setToDefaults() {
-		try (InputStream stream = getClass()
-				.getResourceAsStream(defaultValuesResource)) {
-			load(stream);
-		}
-		catch (IOException | IllegalArgumentException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Default values file is unavailable, go to Options to set values manually",
-					e).setVisible(true);
-
-			if (!allowUnset()) {
-				for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
-					for (Enum<?> key : enumClass.getEnumConstants()) {
-						set(key, getDefaultValue());
-					}
+		for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
+			for (Enum<?> key : enumClass.getEnumConstants()) {
+				if (defaultValues.containsKey(key)) {
+					set(key, defaultValues.get(key));
+				}
+				else {
+					System.err.println(
+							"In Mapper#setToDefaults: No default value set for "
+									+ key);
+					set(key, getDefaultValue());
 				}
 			}
 		}
@@ -174,16 +180,7 @@ public abstract class Mapper<T> {
 	 * @param key enum value to reset
 	 */
 	public void setToDefault(Enum<?> key) {
-		try (InputStream stream = getClass()
-				.getResourceAsStream(defaultValuesResource)) {
-			EnumValues<T> defaultValues = readValues(stream);
-			set(key, defaultValues.values.get(key));
-		}
-		catch (IOException | IllegalArgumentException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error", "Default values file is unavailable", e)
-					.setVisible(true);
-		}
+		set(key, defaultValues.get(key));
 	}
 
 	/**
