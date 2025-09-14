@@ -28,14 +28,14 @@ import blockgame.util.SaveManager;
  */
 public abstract class Mapper<T> {
 
-	private Map<Enum<?>, T> enumMap;
+	private Map<Enum<?>, T> valuesMap;
 	private Map<Enum<?>, T> defaultValues;
 	private List<ValueChangeListener> changeListeners;
 
 	private String savePath;
 
 	public Mapper(String savePath, String defaultValuesResource) {
-		enumMap = new HashMap<>();
+		valuesMap = new HashMap<>();
 		changeListeners = new ArrayList<>();
 		this.savePath = savePath;
 
@@ -101,7 +101,7 @@ public abstract class Mapper<T> {
 	public void save() {
 		ObjectMapper mapper = new ObjectMapper();
 		EnumValues<T> json = new EnumValues<>();
-		json.values = enumMap;
+		json.values = valuesMap;
 		try (OutputStream out = SaveManager.writeFile(savePath)) {
 			mapper.writeValue(out, json);
 		}
@@ -220,7 +220,7 @@ public abstract class Mapper<T> {
 	 * @param value value to set
 	 */
 	public void set(Enum<?> key, T value) {
-		enumMap.put(key, value);
+		valuesMap.put(key, value);
 
 		for (ValueChangeListener listener : changeListeners) {
 			listener.valueChanged(key, value);
@@ -236,7 +236,7 @@ public abstract class Mapper<T> {
 	 * @return value of type {@code T}
 	 */
 	public T get(Enum<?> key) {
-		return enumMap.get(key);
+		return valuesMap.get(key);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public abstract class Mapper<T> {
 		if (!allowUnset()) {
 			throw new UnsupportedOperationException("Values must be set");
 		}
-		enumMap.remove(key);
+		valuesMap.remove(key);
 
 		for (ValueChangeListener listener : changeListeners) {
 			listener.valueRemoved(key);
