@@ -198,6 +198,7 @@ public class ErrorDialog extends JDialog {
 	 * element of the trace is on a new line.
 	 * 
 	 * @param err {@code Exception} to take stack trace from
+	 * 
 	 * @return multi-line {@code String} representation of {@code err}'s stack
 	 *         trace
 	 */

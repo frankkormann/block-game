@@ -23,7 +23,8 @@ import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.util.SaveManager;
 
-// These tests will skip if in a headless environment (an environment that doesn't
+// These tests will skip if in a headless environment (an environment that
+// doesn't
 // support keyboard, display, etc.)
 class MainFrameTest {
 

@@ -225,6 +225,7 @@ public abstract class Rectangle implements Drawable {
 	 * {@code other.canInteract(this)} is {@code false}.
 	 * 
 	 * @param other {@code Rectangle} which is to be tested against
+	 * 
 	 * @return {@code true} if this thinks it can interact with {@code other}
 	 */
 	public boolean canInteract(Rectangle other) {

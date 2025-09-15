@@ -23,8 +23,9 @@ import blockgame.mocks.ValueChangerPanelMock;
 import blockgame.physics.Rectangle.Colors;
 import blockgame.util.SaveManager;
 
-//These tests will skip if in a headless environment (an environment that doesn't
-//support keyboard, display, etc.)
+// These tests will skip if in a headless environment (an environment that
+// doesn't
+// support keyboard, display, etc.)
 public class ValueChangerPanelTest {
 
 	ValueChangerPanelMock panel;

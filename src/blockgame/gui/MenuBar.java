@@ -85,8 +85,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * @param listener     {@code GameController} which will process inputs
 	 */
 	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
-	        ParameterMapper paramMapper, VolumeMapper volumeMapper,
-	        MusicPlayer musicPlayer, GameController listener) {
+			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			MusicPlayer musicPlayer, GameController listener) {
 		this.listener = listener;
 		this.inputMapper = inputMapper;
 		inputToMenuItem = new HashMap<>();
@@ -97,7 +97,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		// if they open it multiple times
 		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(
-		        new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
+				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 
 		inputMapper.addListener(this);
 		hintMenu = createHintMenu();
@@ -108,7 +108,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		add(createPauseRestartMenu());
 		add(createRecordingMenu());
 		add(createOptionsButton(colorMapper, paramMapper, volumeMapper,
-		        musicPlayer));
+				musicPlayer));
 		add(levelSelectButton);
 		super.add(moreMenu);
 	}
@@ -149,7 +149,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 			int nextMenuWidth = 0;
 			if (nextMenu != null && nextMenu.isVisible()) {
 				nextMenuWidth = Math.min(menuWidths.get(nextMenu),
-				        menuWidths.get(moreMenu));
+						menuWidths.get(moreMenu));
 			}
 			if (x + menuWidths.get(menu) + nextMenuWidth > getWidth()) {
 				overflowing = true;
@@ -232,13 +232,13 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		JMenu menu = new JMenu("Hint");
 
 		showHintItem = createMenuItem("Show hint", MetaInput.TOGGLE_HINTS,
-		        this::hintsAction, true);
+				this::hintsAction, true);
 
 		showSolutionItem = createMenuItem("Show solution",
-		        MetaInput.PLAY_SOLUTION, this::showSolutionAction, false);
+				MetaInput.PLAY_SOLUTION, this::showSolutionAction, false);
 		showSolutionItem.addPropertyChangeListener("enabled", e -> {
 			showSolutionItem.setToolTipText(showSolutionItem.isEnabled() ? null
-			        : "Please view the hint before using this option");
+					: "Please view the hint before using this option");
 		});
 		showSolutionItem.setEnabled(false);
 
@@ -252,13 +252,13 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		JMenu menu = new JMenu("Recordings");
 
 		JMenuItem openItem = createMenuItem("Open", MetaInput.PLAY_RECORDING,
-		        this::openRecordingAction, false);
+				this::openRecordingAction, false);
 
 		JMenuItem saveItem = createMenuItem("Save current",
-		        MetaInput.SAVE_RECORDING, this::saveRecordingAction, false);
+				MetaInput.SAVE_RECORDING, this::saveRecordingAction, false);
 
 		JMenuItem stopItem = createMenuItem("Stop", MetaInput.STOP_RECORDING,
-		        this::stopRecordingAction, false);
+				this::stopRecordingAction, false);
 
 		menu.add(openItem);
 		menu.add(saveItem);
@@ -271,13 +271,13 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		JMenu menu = new JMenu("Pause/Retry");
 
 		pauseItem = createMenuItem("Pause", MetaInput.PAUSE, this::pauseAction,
-		        true);
+				true);
 
 		JMenuItem restartItem = createMenuItem("Retry", MetaInput.RELOAD_LEVEL,
-		        this::restartAction, false);
+				this::restartAction, false);
 
 		frameAdvanceItem = createMenuItem("Frame advance",
-		        MetaInput.FRAME_ADVANCE, this::frameAdvanceAction, false);
+				MetaInput.FRAME_ADVANCE, this::frameAdvanceAction, false);
 
 		menu.add(pauseItem);
 		menu.add(restartItem);
@@ -287,12 +287,12 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private JMenu createOptionsButton(ColorMapper colorMapper,
-	        ParameterMapper paramMapper, VolumeMapper volumeMapper,
-	        MusicPlayer musicPlayer) {
+			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			MusicPlayer musicPlayer) {
 		Runnable openDialog = () -> {
 			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
-			        inputMapper, colorMapper, paramMapper, volumeMapper,
-			        musicPlayer).setVisible(true);
+					inputMapper, colorMapper, paramMapper, volumeMapper,
+					musicPlayer).setVisible(true);
 		};
 
 		return createMenuButton("Options", openDialog);
@@ -301,7 +301,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	private JMenu createLevelSelectButton(GameController gameController) {
 		Runnable openDialog = () -> {
 			new LevelSelectDialog(SwingUtilities.getWindowAncestor(this),
-			        gameController).setVisible(true);
+					gameController).setVisible(true);
 		};
 
 		return createMenuButton("Level Select", openDialog);
@@ -321,7 +321,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * @return the {@code JMenuItem}
 	 */
 	private JMenuItem createMenuItem(String text, MetaInput metaInput,
-	        Runnable action, boolean isCheckBox) {
+			Runnable action, boolean isCheckBox) {
 
 		JMenuItem menuItem;
 		if (isCheckBox) {
@@ -335,7 +335,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		menuItem.addActionListener(e -> action.run());
 		if (keybind != null && keybind.first != 0) {
 			menuItem.setAccelerator(
-			        KeyStroke.getKeyStroke(keybind.first, keybind.second));
+					KeyStroke.getKeyStroke(keybind.first, keybind.second));
 		}
 
 		inputToMenuItem.put(metaInput, menuItem);
@@ -358,8 +358,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 			@Override
 			public void menuKeyPressed(MenuKeyEvent e) {
 				if ((e.getKeyCode() == KeyEvent.VK_ENTER
-				        || e.getKeyCode() == KeyEvent.VK_SPACE)
-				        && button.isSelected()) {
+						|| e.getKeyCode() == KeyEvent.VK_SPACE)
+						&& button.isSelected()) {
 					action.run();
 				}
 			}
@@ -395,7 +395,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 			fileChooser.setSelectedFile(new File("Untitled.rec"));
 
 			fileChooserResult = fileChooser
-			        .showSaveDialog(SwingUtilities.getWindowAncestor(this));
+					.showSaveDialog(SwingUtilities.getWindowAncestor(this));
 			saveFile = fileChooser.getSelectedFile();
 			if (saveFile == null) {
 				return null;
@@ -406,12 +406,12 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 			}
 
 			if (fileChooserResult == JFileChooser.APPROVE_OPTION
-			        && saveFile.exists()) {
+					&& saveFile.exists()) {
 				String message = saveFile.getName()
-				        + " already exists.\nDo you want to replace it?";
+						+ " already exists.\nDo you want to replace it?";
 				canSave = JOptionPane.showConfirmDialog(fileChooser, message,
-				        "Confirm save",
-				        JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION;
+						"Confirm save",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION;
 			}
 		} while (!canSave);
 
@@ -424,7 +424,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 
 	private File promptFileOpenLocation() {
 		int result = fileChooser
-		        .showOpenDialog(SwingUtilities.getWindowAncestor(this));
+				.showOpenDialog(SwingUtilities.getWindowAncestor(this));
 		File openFile = fileChooser.getSelectedFile();
 
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -482,8 +482,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		if (inputToMenuItem.containsKey(input)) {
 			Pair<Integer, Integer> keybind = (Pair<Integer, Integer>) newKeybind;
 			inputToMenuItem.get(input)
-			        .setAccelerator(KeyStroke.getKeyStroke(keybind.first,
-			                keybind.second));
+					.setAccelerator(KeyStroke.getKeyStroke(keybind.first,
+							keybind.second));
 		}
 	}
 

@@ -48,8 +48,8 @@ public class OptionsDialog extends JDialog {
 	 * @param musicPlayer  {@code MusicPlayer} to play music with
 	 */
 	public OptionsDialog(Window owner, InputMapper inputMapper,
-	        ColorMapper colorMapper, ParameterMapper paramMapper,
-	        VolumeMapper volumeMapper, MusicPlayer musicPlayer) {
+			ColorMapper colorMapper, ParameterMapper paramMapper,
+			VolumeMapper volumeMapper, MusicPlayer musicPlayer) {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 
 		// Ensure that content pane is a JPanel so it can have a border
@@ -61,13 +61,13 @@ public class OptionsDialog extends JDialog {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("General",
-		        new ParameterChangerPanel(getRootPane(), paramMapper));
+				new ParameterChangerPanel(getRootPane(), paramMapper));
 		tabbedPane.addTab("Controls",
-		        new ControlsChangerPanel(getRootPane(), inputMapper));
+				new ControlsChangerPanel(getRootPane(), inputMapper));
 		tabbedPane.addTab("Colors",
-		        new ColorChangerPanel(getRootPane(), colorMapper));
+				new ColorChangerPanel(getRootPane(), colorMapper));
 		tabbedPane.addTab("Sound",
-		        new MusicPanel(getRootPane(), volumeMapper, musicPlayer));
+				new MusicPanel(getRootPane(), volumeMapper, musicPlayer));
 
 		JButton closeButton = new JButton("OK");
 		closeButton.addActionListener(e -> dispose());
@@ -102,7 +102,7 @@ public class OptionsDialog extends JDialog {
 		};
 
 		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-		        .put(KeyStroke.getKeyStroke(keyCode, 0), "close");
+				.put(KeyStroke.getKeyStroke(keyCode, 0), "close");
 		getRootPane().getActionMap().put("close", dispose);
 	}
 
