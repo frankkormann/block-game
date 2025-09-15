@@ -131,9 +131,9 @@ The most up-to-date documentation can be found through the wiki:
 
 ### Creating custom levels
 
-Alternate level packs can be loaded by providing their path on the command line,
-like so. Each level pack is a `zip` file which contains all the level files and
-associated recordings and images.
+Alternate level packs can be loaded by providing the their path as a command
+line argument. Each level pack is a `zip` file which contains all the level
+files and associated recordings and images.
 
 Each level, and the level select menu, is built from a `JSON` file. See
 [the wiki](https://github.com/frankkormann/block-game/wiki) for formatting
@@ -144,17 +144,10 @@ When the game starts, it will automatically load the level path stored in the
 savedata value `title_screen`. If there is nothing set there, it will load
 `title_0.json`. Subsequent level paths are read from the activated Goal Area.
 
-
 ### Name
 
 The project's name is "Block Game" internally because that was its original name,
 and the maintainer has no interest in changing it everywhere.
-
-## Contributing
-
-Outside contributions are not accepted because this is primarily a personal
-project. However, feedback in all forms is welcomed. You are also free to extend
-the project on your own.
 
 ## License
 
