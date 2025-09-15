@@ -50,13 +50,13 @@ public class SoundEffectPlayer {
 
 		private Clip loadClip(String resource) {
 			try (AudioInputStream stream = AudioSystem
-					.getAudioInputStream(getClass().getResource(resource))) {
+			        .getAudioInputStream(getClass().getResource(resource))) {
 				Clip clip = AudioSystem.getClip();
 				clip.open(stream);
 				return clip;
 			}
 			catch (IOException | UnsupportedAudioFileException
-					| LineUnavailableException e) {
+			        | LineUnavailableException e) {
 				e.printStackTrace();
 				ErrorDialog.showDialog("Failed to load sound effect", e);
 				return null;
@@ -111,28 +111,28 @@ public class SoundEffectPlayer {
 	 */
 	public void playSounds() {
 		playIfAnyMatch(goals,
-				g -> g.playingLevelFinish() && !g.isSpecial()
-						&& !goalsActivated.get(g),
-				SoundEffect.LEVEL_COMPLETE, false);
+		        g -> g.playingLevelFinish() && !g.isSpecial()
+		                && !goalsActivated.get(g),
+		        SoundEffect.LEVEL_COMPLETE, false);
 		playIfAnyMatch(goals,
-				g -> g.playingLevelFinish() && g.isSpecial()
-						&& !goalsActivated.get(g),
-				SoundEffect.LEVEL_COMPLETE_SPECIAL, false);
+		        g -> g.playingLevelFinish() && g.isSpecial()
+		                && !goalsActivated.get(g),
+		        SoundEffect.LEVEL_COMPLETE_SPECIAL, false);
 		playIfAnyMatch(movingRectangles,
-				r -> r.getWidth() > r.getLastWidth()
-						|| r.getHeight() > r.getLastHeight(),
-				SoundEffect.GROW, false);
+		        r -> r.getWidth() > r.getLastWidth()
+		                || r.getHeight() > r.getLastHeight(),
+		        SoundEffect.GROW, false);
 		playIfAnyMatch(movingRectangles,
-				r -> r.getWidth() < r.getLastWidth()
-						|| r.getHeight() < r.getLastHeight(),
-				SoundEffect.SHRINK, false);
+		        r -> r.getWidth() < r.getLastWidth()
+		                || r.getHeight() < r.getLastHeight(),
+		        SoundEffect.SHRINK, false);
 		playIfAnyMatch(switchRectangles, r -> r.becameActive(),
-				SoundEffect.SWITCH_ON, true);
+		        SoundEffect.SWITCH_ON, true);
 		playIfAnyMatch(movingRectangles,
-				r -> rectYVelocities.containsKey(r)
-						&& rectYVelocities.get(r) >= MIN_LAND_VELOCITY
-						&& r.getYVelocity() == 0,  // So it has now landed
-				SoundEffect.LAND, true);
+		        r -> rectYVelocities.containsKey(r)
+		                && rectYVelocities.get(r) >= MIN_LAND_VELOCITY
+		                && r.getYVelocity() == 0,  // So it has now landed
+		        SoundEffect.LAND, true);
 
 		updateRectVelocities();
 		updateGoalsActivated();
@@ -155,8 +155,8 @@ public class SoundEffectPlayer {
 	 *                        if it is already running
 	 */
 	private <T> void playIfAnyMatch(Collection<T> objects,
-			Predicate<T> condition, SoundEffect soundEffect,
-			boolean restartPrevious) {
+	        Predicate<T> condition, SoundEffect soundEffect,
+	        boolean restartPrevious) {
 		if (objects.stream().anyMatch(condition)) {
 			if (restartPrevious) {
 				soundEffect.clip.stop();
@@ -177,10 +177,12 @@ public class SoundEffectPlayer {
 		Clip clip = soundEffect.clip;
 		clip.setFramePosition(0);
 		VolumeChanger.setVolume(clip,
-				volumeMapper.get(Volume.SFX).floatValue());
-		while (!clip.isRunning()) {  // Make sure it starts (sometimes
-			clip.start();			  // it won't start right away soon
-		}							  // after being stopped)
+		        volumeMapper.get(Volume.SFX).floatValue());
+		// Make sure it starts (sometimesit won't start right away soon after
+		// being stopped)
+		while (!clip.isRunning()) {
+			clip.start();
+		}
 	}
 
 	private void updateRectVelocities() {

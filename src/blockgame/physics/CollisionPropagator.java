@@ -50,8 +50,8 @@ public class CollisionPropagator {
 	 *                  interact with
 	 */
 	public CollisionPropagator(MovingRectangle thatMoved,
-			List<MovingRectangle> colliders, List<WallRectangle> walls,
-			Map<Direction, SideRectangle> sides) {
+	        List<MovingRectangle> colliders, List<WallRectangle> walls,
+	        Map<Direction, SideRectangle> sides) {
 		initialRect = thatMoved;
 		completed = false;
 		this.colliders = new ArrayList<>(colliders);
@@ -88,8 +88,8 @@ public class CollisionPropagator {
 	 * and how much
 	 */
 	private int[] propagateCollision(MovingRectangle rect,
-			List<MovingRectangle> colliders,
-			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
+	        List<MovingRectangle> colliders,
+	        Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
 
 		int[] collisionData;
 		int[] pushedAmount = { 0, 0 };
@@ -109,7 +109,7 @@ public class CollisionPropagator {
 
 			if (collisionData[0] != 0 && collisionData[1] != 0) {
 				if (collisionData[1] < 0 || (rect instanceof SwitchRectangle
-						&& ((SwitchRectangle) rect).becameActive())) {
+				        && ((SwitchRectangle) rect).becameActive())) {
 					collisionData[1] = 0;
 				}
 				else {
@@ -118,26 +118,27 @@ public class CollisionPropagator {
 			}
 
 			collisionData[0] = -correctGrowthForCollision(rect,
-					-collisionData[0], true);
+			        -collisionData[0], true);
 			collisionData[1] = -correctGrowthForCollision(rect,
-					-collisionData[1], false);
+			        -collisionData[1], false);
 
 			collisionData[0] = correctGrowthForCollision(other,
-					collisionData[0], true);
+			        collisionData[0], true);
 			collisionData[1] = correctGrowthForCollision(other,
-					collisionData[1], false);
+			        collisionData[1], false);
 
 			other.moveCollision(collisionData[0], collisionData[1], false);
-			if (collisionData[1] < 0) {  // Fixes issue with jumping into blocks
-				other.setYVelocity(0);   // from below
+			// Fixes issue with jumping into blocks from below
+			if (collisionData[1] < 0) {
+				other.setYVelocity(0);
 			}
 			collisionMap.put(other,
-					new Pair<MovingRectangle, int[]>(rect, collisionData));
+			        new Pair<MovingRectangle, int[]>(rect, collisionData));
 
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
-			if (collisionData[0] != 0) {  // rect should only be pushed back in
-										  // the direction it pushed other
+			// rect should only be pushed back in the direction it pushed othe
+			if (collisionData[0] != 0) {
 				rect.moveCollision(pushback[0], 0, true);
 				pushedAmount[0] += pushback[0];
 			}
@@ -173,7 +174,7 @@ public class CollisionPropagator {
 	 *                     much it was pushed in each direction
 	 */
 	private void pullback(Rectangle rect, MovingRectangle other,
-			Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
+	        Map<MovingRectangle, Pair<MovingRectangle, int[]>> collisionMap) {
 		int xChange = 0;
 		int yChange = 0;
 
@@ -187,13 +188,13 @@ public class CollisionPropagator {
 		}
 
 		if (Math.abs(xChange) > Math.abs(pushedAmount[0])
-				|| (!other.intersectsY(rect)
-						&& !other.usedToIntersectY(other))) {
+		        || (!other.intersectsY(rect)
+		                && !other.usedToIntersectY(other))) {
 			xChange = -pushedAmount[0];
 		}
 		if (Math.abs(yChange) > Math.abs(pushedAmount[1])
-				|| (!other.intersectsX(rect)
-						&& !other.usedToIntersectX(rect))) {
+		        || (!other.intersectsX(rect)
+		                && !other.usedToIntersectX(rect))) {
 			yChange = -pushedAmount[1];
 		}
 		other.moveCollision(xChange, yChange, false);
@@ -217,12 +218,12 @@ public class CollisionPropagator {
 		int[] pushedBack = { 0, 0 };
 
 		Stream.concat(sides.values().stream().filter(s -> s.isActingLikeWall()),
-				walls.stream())
-				.map(w -> collideWithWall(rect, w))
-				.forEach(a -> {
-					pushedBack[0] += a[0];
-					pushedBack[1] += a[1];
-				});
+		        walls.stream())
+		        .map(w -> collideWithWall(rect, w))
+		        .forEach(a -> {
+			        pushedBack[0] += a[0];
+			        pushedBack[1] += a[1];
+		        });
 
 		return pushedBack;
 	}
@@ -255,27 +256,27 @@ public class CollisionPropagator {
 		}
 
 		collisionData[0] = correctGrowthForCollision(rect, collisionData[0],
-				true);
+		        true);
 		collisionData[1] = correctGrowthForCollision(rect, collisionData[1],
-				false);
+		        false);
 
 		int[] originalMovement = { collisionData[0], collisionData[1] };
 
 		if (collisionData[0] != 0) {
 			fudgeCollision(collisionData,
-					wall.getY() - rect.getY() - rect.getHeight(),
-					WALL_COLLISION_LEEWAY_Y, false);
+			        wall.getY() - rect.getY() - rect.getHeight(),
+			        WALL_COLLISION_LEEWAY_Y, false);
 			fudgeCollision(collisionData,
-					wall.getY() + wall.getHeight() - rect.getY(),
-					WALL_COLLISION_LEEWAY_Y, false);
+			        wall.getY() + wall.getHeight() - rect.getY(),
+			        WALL_COLLISION_LEEWAY_Y, false);
 		}
 		else if (collisionData[1] > 0) {
 			fudgeCollision(collisionData,
-					wall.getX() - rect.getX() - rect.getWidth(),
-					WALL_COLLISION_LEEWAY_X, true);
+			        wall.getX() - rect.getX() - rect.getWidth(),
+			        WALL_COLLISION_LEEWAY_X, true);
 			fudgeCollision(collisionData,
-					wall.getX() + wall.getWidth() - rect.getX(),
-					WALL_COLLISION_LEEWAY_X, true);
+			        wall.getX() + wall.getWidth() - rect.getX(),
+			        WALL_COLLISION_LEEWAY_X, true);
 		}
 
 		// TODO Check whether the fudged collision would push another
@@ -287,7 +288,7 @@ public class CollisionPropagator {
 		// Canceling velocity only if the collision wasn't fudged leads to more
 		// natural-looking trajectory when brushing against walls during a jump
 		boolean wasntFudged = collisionData[0] == originalMovement[0]
-				&& collisionData[1] == originalMovement[1];
+		        && collisionData[1] == originalMovement[1];
 		rect.moveCollision(collisionData[0], collisionData[1], wasntFudged);
 
 		return collisionData;
@@ -311,7 +312,7 @@ public class CollisionPropagator {
 	 *                   {@code threshold} represent values in the x direction
 	 */
 	private void fudgeCollision(int[] movement, int sliverSize, int threshold,
-			boolean isX) {
+	        boolean isX) {
 		if (Math.abs(sliverSize) <= threshold) {
 			movement[isX ? 0 : 1] = sliverSize;
 			movement[isX ? 1 : 0] = 0;
@@ -329,14 +330,14 @@ public class CollisionPropagator {
 	 * @return {@code true} if {@code rect} would intersect a wall
 	 */
 	private boolean wouldIntersectAWall(MovingRectangle rect, int xChange,
-			int yChange) {
+	        int yChange) {
 		MovingRectangle potentialRect = new MovingRectangle(
-				rect.getX() + xChange, rect.getY() + yChange, rect.getWidth(),
-				rect.getHeight());
+		        rect.getX() + xChange, rect.getY() + yChange, rect.getWidth(),
+		        rect.getHeight());
 
 		for (WallRectangle wall : walls) {
 			if (wall.intersectsX(potentialRect)
-					&& wall.intersectsY(potentialRect)) {
+			        && wall.intersectsY(potentialRect)) {
 				return true;
 			}
 		}
@@ -378,9 +379,9 @@ public class CollisionPropagator {
 		// "Used to be" values so Rectangles can tell whether they should be
 		// moved in x or y direction
 		boolean usedToBeInBoundsX = rect.usedToIntersectX(other)
-				&& other.usedToIntersectX(rect);
+		        && other.usedToIntersectX(rect);
 		boolean usedToBeInBoundsY = rect.usedToIntersectY(other)
-				&& other.usedToIntersectY(rect);
+		        && other.usedToIntersectY(rect);
 
 		if (inBoundsX && inBoundsY) {
 			if (usedToBeInBoundsX) {
@@ -408,15 +409,15 @@ public class CollisionPropagator {
 			int xSign = (int) Math.signum(rect.getX() - other.getX());
 			int ySign = (int) Math.signum(rect.getY() - other.getY());
 			int xOldSign = (int) Math
-					.signum(rect.getLastX() - other.getLastX());
+			        .signum(rect.getLastX() - other.getLastX());
 			int yOldSign = (int) Math
-					.signum(rect.getLastY() - other.getLastY());
+			        .signum(rect.getLastY() - other.getLastY());
 			if ((xSign != xOldSign) && (inBoundsY || usedToBeInBoundsY)
-					&& xOldSign != 0) {
+			        && xOldSign != 0) {
 				xChange = pullToX(rect, other);
 			}
 			if ((ySign != yOldSign) && (inBoundsX || usedToBeInBoundsX)
-					&& yOldSign != 0) {
+			        && yOldSign != 0) {
 				yChange = pullToY(rect, other);
 			}
 		}
@@ -443,19 +444,19 @@ public class CollisionPropagator {
 	 * @return how much to move {@code rect} in the given direction
 	 */
 	private int correctGrowthForCollision(MovingRectangle rect, int movement,
-			boolean isX) {
+	        boolean isX) {
 
 		int lowerSideChange, upperSideChange;
 
 		if (isX) {
 			lowerSideChange = rect.getLeftWidthChange();
 			upperSideChange = rect.getWidth() - rect.getLastWidth()
-					- rect.getLeftWidthChange();
+			        - rect.getLeftWidthChange();
 		}
 		else {
 			lowerSideChange = rect.getTopHeightChange();
 			upperSideChange = rect.getHeight() - rect.getLastHeight()
-					- rect.getTopHeightChange();
+			        - rect.getTopHeightChange();
 		}
 
 		if (movement > 0 && lowerSideChange > 0) {
@@ -492,11 +493,10 @@ public class CollisionPropagator {
 	 */
 	private int pullToX(Rectangle rect, Rectangle other) {
 		boolean moveLeft = rect.getLastX() > other.getLastX();
-		if (rect.getLastX() == other.getLastX()) { // If they were in the exact
-													 // same spot, only move
-													 // right if there is room
+		// If they were in the exact same spot, only move right if there is room
+		if (rect.getLastX() == other.getLastX()) {
 			moveLeft = rect.getX() + rect.getWidth()
-					+ other.getWidth() > sides.get(Direction.EAST).getX();
+			        + other.getWidth() > sides.get(Direction.EAST).getX();
 		}
 		if (moveLeft) {
 			return rect.getX() - other.getX() - other.getWidth();
@@ -515,11 +515,10 @@ public class CollisionPropagator {
 	 */
 	private int pullToY(Rectangle rect, Rectangle other) {
 		boolean moveUp = rect.getLastY() > other.getLastY();
-		if (rect.getLastY() == other.getLastY()) {  // If they were in the exact
-													  // same spot, only move
-													  // down if there is room
+		// If they were in the exact same spot, only move down if there is room
+		if (rect.getLastY() == other.getLastY()) {
 			moveUp = rect.getY() + rect.getHeight()
-					+ other.getHeight() > sides.get(Direction.SOUTH).getY();
+			        + other.getHeight() > sides.get(Direction.SOUTH).getY();
 		}
 		if (moveUp) {
 			return rect.getY() - other.getY() - other.getHeight();

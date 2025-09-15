@@ -68,8 +68,9 @@ public class LevelSelectDialog extends JDialog {
 		super(owner, TITLE, Dialog.DEFAULT_MODALITY_TYPE);
 		this.gameController = gameController;
 
-		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
-		setContentPane(contentPanePanel);	   // JPanel so it can have a border
+		// Ensure that content pane is a JPanel so it can have a border
+		JPanel contentPanePanel = new JPanel();
+		setContentPane(contentPanePanel);
 		contentPanePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		setLayout(new BorderLayout());

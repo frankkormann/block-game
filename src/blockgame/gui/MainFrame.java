@@ -108,7 +108,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 *                         from
 	 */
 	public MainFrame(GameInputHandler gameInputHandler,
-			ParameterMapper paramMapper) {
+	        ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
 
 		// idealXxx, width, height are instantiated in
@@ -148,9 +148,9 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		int newHeight = (int) (idealHeight * scale);
 
 		centerX -= (newWidth - getWidth() + getInsets().left
-				+ getInsets().right) / 2;
+		        + getInsets().right) / 2;
 		centerY -= (newHeight - getHeight() + getTitlePaneHeight()
-				+ getInsets().top + getInsets().bottom) / 2;
+		        + getInsets().top + getInsets().bottom) / 2;
 		if (getPreferredY() < 0) {
 			centerY = -(int) (idealYOffset * scale);
 		}
@@ -174,7 +174,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	private void setGuiScale(float scale) {
 		Font font = UIManager.getFont("defaultFont");
 		UIManager.put("defaultFont",
-				font.deriveFont(DEFAULT_FONT_SIZE * scale));
+		        font.deriveFont(DEFAULT_FONT_SIZE * scale));
 
 		updateTitleBarText(title);
 		arrangeComponents();
@@ -187,22 +187,22 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 			ErrorDialog.showDialog("Failed to load resource for taskbar icon",
-					e);
+			        e);
 		}
 
 		addKeyListener(gameInputHandler);
 		addFocusListener(gameInputHandler);
 		// Always return false so the event also gets dispatched to menu bar
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
-				.addKeyEventDispatcher(e -> {
-					if (e.getID() == KeyEvent.KEY_PRESSED) {
-						gameInputHandler.keyPressed(e);
-					}
-					else if (e.getID() == KeyEvent.KEY_RELEASED) {
-						gameInputHandler.keyReleased(e);
-					}
-					return false;
-				});
+		        .addKeyEventDispatcher(e -> {
+			        if (e.getID() == KeyEvent.KEY_PRESSED) {
+				        gameInputHandler.keyPressed(e);
+			        }
+			        else if (e.getID() == KeyEvent.KEY_RELEASED) {
+				        gameInputHandler.keyReleased(e);
+			        }
+			        return false;
+		        });
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
@@ -245,7 +245,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		idealXOffset = 0;
 		idealYOffset = 0;
 		getContentPane().setPreferredSize(new Dimension(
-				(int) (idealWidth * scale), (int) (idealHeight * scale)));
+		        (int) (idealWidth * scale), (int) (idealHeight * scale)));
 		pack();
 		titlePaneHeight = getTitlePaneHeight();
 
@@ -278,7 +278,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 				change = HEIGHT_MINIMUM - idealHeight;
 			}
 			int screenHeight = Toolkit.getDefaultToolkit()
-					.getScreenSize().height;
+			        .getScreenSize().height;
 			if (getHeight() + (int) (change * scale) > screenHeight) {
 				change = (int) (screenHeight - getHeight() / scale);
 			}
@@ -357,7 +357,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		}
 
 		setBounds(getPreferredX(), getPreferredY(), getPreferredWidth(),
-				getPreferredHeight());
+		        getPreferredHeight());
 
 		int insetsX = getInsets().left + getInsets().right;
 		int insetsY = getInsets().top + getInsets().bottom;
@@ -367,42 +367,42 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 			if (comp instanceof ResizingSide) {
 
 				int resizingSideThickness = paramMapper
-						.getInt(Parameter.RESIZING_AREA_WIDTH);
+				        .getInt(Parameter.RESIZING_AREA_WIDTH);
 				int northThickness = Math.min(resizingSideThickness,
-						getTitlePaneHeight() / 2);
+				        getTitlePaneHeight() / 2);
 
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
 						comp.setBounds(0, 0, getWidth()
-								- getTitlePaneButtonsWidth() - insetsX,
-								northThickness);
+						        - getTitlePaneButtonsWidth() - insetsX,
+						        northThickness);
 						break;
 					case SOUTH:
 						comp.setBounds(0,
-								getHeight() - resizingSideThickness - insetsY,
-								getWidth(), resizingSideThickness);
+						        getHeight() - resizingSideThickness - insetsY,
+						        getWidth(), resizingSideThickness);
 						break;
 					case WEST:
 						comp.setBounds(0, northThickness, resizingSideThickness,
-								getHeight() - resizingSideThickness
-										- northThickness - insetsY);
+						        getHeight() - resizingSideThickness
+						                - northThickness - insetsY);
 						break;
 					case EAST:
 						comp.setBounds(
-								getWidth() - resizingSideThickness - insetsX,
-								getTitlePaneHeight(), resizingSideThickness,
-								getHeight() - resizingSideThickness
-										- getTitlePaneHeight() - insetsY);
+						        getWidth() - resizingSideThickness - insetsX,
+						        getTitlePaneHeight(), resizingSideThickness,
+						        getHeight() - resizingSideThickness
+						                - getTitlePaneHeight() - insetsY);
 				}
 			}
 
 		}
 		if (drawingPane != null) {
 			drawingPane.setBounds(0, 0,
-					(int) Math.min(getContentPane().getWidth(),
-							idealWidth * scale),
-					(int) Math.max(getContentPane().getHeight(),
-							idealHeight * scale));
+			        (int) Math.min(getContentPane().getWidth(),
+			                idealWidth * scale),
+			        (int) Math.max(getContentPane().getHeight(),
+			                idealHeight * scale));
 		}
 	}
 
@@ -416,12 +416,12 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 	private int getPreferredWidth() {
 		return (int) (idealWidth * scale) + getInsets().left
-				+ getInsets().bottom;
+		        + getInsets().bottom;
 	}
 
 	private int getPreferredHeight() {
 		return (int) (idealHeight * scale) + getTitlePaneHeight()
-				+ getInsets().top + getInsets().bottom;
+		        + getInsets().top + getInsets().bottom;
 	}
 
 	/**
@@ -431,21 +431,22 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 */
 	private void updateTitleBarText(String newText) {
 		int textWidth = getFontMetrics(
-				UIManager.getFont("TitlePane.font").deriveFont(Font.BOLD))
-				.stringWidth(newText)
-				+ UIManager.getInt("TitlePane.buttonMinimumWidth");
-		UIManager.put("TitlePane.titleMinimumWidth",  // Need to unscale it
-				UIScale.unscale(textWidth));		  // because FlatLaf
-													  // re-scales it
+		        UIManager.getFont("TitlePane.font").deriveFont(Font.BOLD))
+		        .stringWidth(newText)
+		        + UIManager.getInt("TitlePane.buttonMinimumWidth");
+		// Need to unscale it because FlatLaf re-scales it
+		UIManager.put("TitlePane.titleMinimumWidth",
+		        UIScale.unscale(textWidth)); // Need to unscale it because
+		                                     // FlatLaf re-scales it
 		SwingUtilities.updateComponentTreeUI(this);
 
 		newText = "<html><b>" + newText + "</b></html>";
 		newText = newText.replace(' ', ' ');
-//                   Normal space -^    ^- Non-breaking space
+// Normal space -^ ^- Non-breaking space
 		String taskbarText = getTitle();
 		setTitle(newText);
-		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
-		setTitle(taskbarText);  				// setting its text back
+		interceptPropertyChangeEvent = true; // Block FlatTitlePane from
+		setTitle(taskbarText);               // setting its text back
 		interceptPropertyChangeEvent = false;
 	}
 
@@ -488,7 +489,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	private int getTitlePaneHeight() {
 		getContentPane().validate();
 		return getHeight() - getContentPane().getHeight() - getInsets().top
-				- getInsets().bottom;
+		        - getInsets().bottom;
 	}
 
 	private int getTitlePaneButtonsWidth() {
@@ -497,7 +498,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 	@Override
 	protected void firePropertyChange(String propertyName, Object oldValue,
-			Object newValue) {
+	        Object newValue) {
 		if (interceptPropertyChangeEvent) {
 			return;
 		}

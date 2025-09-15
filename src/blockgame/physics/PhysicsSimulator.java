@@ -78,13 +78,13 @@ public class PhysicsSimulator {
 	 */
 	public void setUp(int width, int height, int xOffset, int yOffset) {
 		sides.put(Direction.NORTH,
-				new SideRectangle(xOffset, yOffset, width, 1, Direction.NORTH));
+		        new SideRectangle(xOffset, yOffset, width, 1, Direction.NORTH));
 		sides.put(Direction.SOUTH, new SideRectangle(xOffset, yOffset + height,
-				width, 1, Direction.SOUTH));
+		        width, 1, Direction.SOUTH));
 		sides.put(Direction.WEST,
-				new SideRectangle(xOffset, yOffset, 1, height, Direction.WEST));
+		        new SideRectangle(xOffset, yOffset, 1, height, Direction.WEST));
 		sides.put(Direction.EAST, new SideRectangle(xOffset + width, yOffset, 1,
-				height, Direction.EAST));
+		        height, Direction.EAST));
 
 		for (SideRectangle side : sides.values()) {
 			for (Area attached : side.getAttachments()) {
@@ -145,7 +145,7 @@ public class PhysicsSimulator {
 	 * @param yOffset        Y coordinate of top left corner
 	 */
 	public void updateAndMoveObjects(Set<MovementInput> movementInputs,
-			int width, int height, int xOffset, int yOffset) {
+	        int width, int height, int xOffset, int yOffset) {
 		areasToAdd.forEach(a -> addArea(a));
 		areasToAdd.clear();
 
@@ -164,7 +164,7 @@ public class PhysicsSimulator {
 	 *                       this frame
 	 */
 	private void applyInputsToPlayerRectangles(
-			Set<MovementInput> movementInputs) {
+	        Set<MovementInput> movementInputs) {
 		for (MovingRectangle rect : movingRectangles) {
 			if (!rect.isControlledByPlayer()) {
 				continue;
@@ -211,7 +211,7 @@ public class PhysicsSimulator {
 		for (SwitchRectangle rect : switchRectangles) {
 			if (rect.becameActive()) {
 				new CollisionPropagator(rect, movingRectangles, walls, sides)
-						.propagateCollision();
+				        .propagateCollision();
 			}
 		}
 
@@ -220,14 +220,14 @@ public class PhysicsSimulator {
 			applyNaturalForces(rect);
 
 			if (rect.getXVelocity() == 0 && rect.getYVelocity() == 0
-					&& !rect.hasMoved()) {
+			        && !rect.hasMoved()) {
 				continue;
 			}
 
 			rect.moveVelocity();
 
 			new CollisionPropagator(rect, movingRectangles, walls, sides)
-					.propagateCollision();
+			        .propagateCollision();
 		}
 	}
 
@@ -316,28 +316,28 @@ public class PhysicsSimulator {
 				case NORTH:
 					movingRectangles.sort((r1, r2) -> r1.getY() - r2.getY());
 					difference = calculateCollisionForSide(side,
-							xOffset - 50 * width, yOffset - side.getHeight(),
-							101 * width, side.getHeight());
+					        xOffset - 50 * width, yOffset - side.getHeight(),
+					        101 * width, side.getHeight());
 					break;
 				case SOUTH:
 					movingRectangles.sort((r1, r2) -> r2.getY() + r2.getHeight()
-							- r1.getY() - r1.getHeight());
+					        - r1.getY() - r1.getHeight());
 					difference = calculateCollisionForSide(side,
-							xOffset - 50 * width, yOffset + height, 101 * width,
-							side.getHeight());
+					        xOffset - 50 * width, yOffset + height, 101 * width,
+					        side.getHeight());
 					break;
 				case WEST:
 					movingRectangles.sort((r1, r2) -> r1.getX() - r2.getX());
 					difference = calculateCollisionForSide(side,
-							xOffset - side.getWidth(), yOffset - 50 * height,
-							side.getWidth(), 101 * height);
+					        xOffset - side.getWidth(), yOffset - 50 * height,
+					        side.getWidth(), 101 * height);
 					break;
 				case EAST:
 					movingRectangles.sort((r1, r2) -> r2.getX() + r2.getWidth()
-							- r1.getX() - r1.getWidth());
+					        - r1.getX() - r1.getWidth());
 					difference = calculateCollisionForSide(side,
-							xOffset + width, yOffset - 50 * height,
-							side.getWidth(), 101 * height);
+					        xOffset + width, yOffset - 50 * height,
+					        side.getWidth(), 101 * height);
 					break;
 			}
 			sideRectangleResizes.put(direction, difference);
@@ -361,7 +361,7 @@ public class PhysicsSimulator {
 	 * @return Amount side was pushed back during collision
 	 */
 	private int calculateCollisionForSide(SideRectangle side, int newX,
-			int newY, int newWidth, int newHeight) {
+	        int newY, int newWidth, int newHeight) {
 		side.setX(newX);
 		side.setY(newY);
 		side.setWidth(newWidth);
@@ -370,12 +370,13 @@ public class PhysicsSimulator {
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(true);
 
 		int[] pushedBack = new CollisionPropagator(side, movingRectangles,
-				walls, sides).propagateCollision();
+		        walls, sides).propagateCollision();
 
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(false);
 
-		if (pushedBack[0] != 0) {  // Infer side's direction based on how it
-			return pushedBack[0];  // collided
+		// Infer side's direction based on how it collided
+		if (pushedBack[0] != 0) {
+			return pushedBack[0];
 		}
 		return pushedBack[1];
 	}
