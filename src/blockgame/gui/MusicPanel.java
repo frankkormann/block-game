@@ -1,5 +1,6 @@
 package blockgame.gui;
 
+import java.awt.event.ItemEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,11 +65,13 @@ public class MusicPanel extends JPanel {
 						: player.getCurrentSong().name);
 
 		selector.addItemListener(e -> {
-			if (e.getItem().equals(NULL_SONG_NAME)) {
-				player.stop();
-			}
-			else {
-				player.play(nameToSong.get(e.getItem()));
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				if (e.getItem().equals(NULL_SONG_NAME)) {
+					player.stop();
+				}
+				else {
+					player.play(nameToSong.get(e.getItem()));
+				}
 			}
 		});
 
