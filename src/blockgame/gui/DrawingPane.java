@@ -44,7 +44,7 @@ public class DrawingPane extends JPanel implements ValueChangeListener {
 		this.colorMapper = colorMapper;
 		scale = 1;
 
-		setBackground(colorMapper.getColor(Colors.WHITE));
+		setBackground(colorMapper.getColor(Colors.BACKGROUND));
 		colorMapper.addListener(this);
 
 		drawableLists = new TreeMap<>();
@@ -114,8 +114,8 @@ public class DrawingPane extends JPanel implements ValueChangeListener {
 
 	@Override
 	public void valueChanged(Enum<?> key, Object newValue) {
-		if (key == Colors.WHITE) {
-			setBackground(colorMapper.getColor(Colors.WHITE));
+		if (key == Colors.BACKGROUND) {
+			setBackground(colorMapper.getColor(Colors.BACKGROUND));
 		}
 	}
 
