@@ -17,6 +17,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import blockgame.Level;
 import blockgame.gui.MainFrame.Direction;
+import blockgame.input.ColorMapper;
 import blockgame.input.GameInputHandler;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
@@ -47,7 +48,7 @@ class MainFrameTest {
 
 		GameInputHandler inputHandler = new GameInputHandler(new InputMapper(),
 				paramMapper);
-		mainFrame = new MainFrame(inputHandler, paramMapper);
+		mainFrame = new MainFrame(inputHandler, new ColorMapper(), paramMapper);
 
 		level = new Level();
 		level.width = 800;

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import blockgame.input.ColorMapper;
 import blockgame.mocks.DrawableMock;
 import blockgame.util.SaveManager;
 
@@ -24,7 +25,7 @@ class DrawingPaneTest {
 	@BeforeEach
 	void setUp(@TempDir Path dir) {
 		SaveManager.setDirectory(dir.toString());
-		drawingPane = new DrawingPane();
+		drawingPane = new DrawingPane(new ColorMapper());
 		bufferedImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
 		drawable = new DrawableMock(10, 10, 10, 10, Color.GREEN);
 
