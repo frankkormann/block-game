@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.util.UIScale;
 
 import blockgame.Level;
+import blockgame.input.ColorMapper;
 import blockgame.input.GameInputHandler;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
@@ -104,10 +105,11 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * to this as a {@code KeyListener} and {@code FocusListener}.
 	 * 
 	 * @param gameInputHandler {@code GameInputHandler} to register
+	 * @param colorMapper      {@code ColorMapper} to take background color from
 	 * @param paramMapper      {@code ParameterMapper} to take parameter values
 	 *                         from
 	 */
-	public MainFrame(GameInputHandler gameInputHandler,
+	public MainFrame(GameInputHandler gameInputHandler, ColorMapper colorMapper,
 			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
 
@@ -122,7 +124,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 		interceptPropertyChangeEvent = false;
 
-		drawingPane = new DrawingPane();
+		drawingPane = new DrawingPane(colorMapper);
 		this.paramMapper = paramMapper;
 		paramMapper.addListener(this);
 

@@ -136,7 +136,7 @@ public class GameController extends WindowAdapter
 		MusicPlayer musicPlayer = new MusicPlayer(volumeMapper);
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
-		mainFrame = new MainFrame(gameInputHandler, paramMapper);
+		mainFrame = new MainFrame(gameInputHandler, colorMapper, paramMapper);
 		sfxPlayer = new SoundEffectPlayer(volumeMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
 				volumeMapper, musicPlayer, this);
