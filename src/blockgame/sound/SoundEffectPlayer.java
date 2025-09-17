@@ -75,6 +75,8 @@ public class SoundEffectPlayer {
 
 	/**
 	 * Creates a new {@code SoundEffectPlayer} with no objects.
+	 * 
+	 * @param volumeMapper {@code VolumeMapper} to take volume information from
 	 */
 	public SoundEffectPlayer(VolumeMapper volumeMapper) {
 		movingRectangles = new ArrayList<>();
