@@ -15,8 +15,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import blockgame.gui.ErrorDialog;
-import blockgame.input.VolumeMapper;
-import blockgame.input.VolumeMapper.Volume;
+import blockgame.input.SoundMapper;
+import blockgame.input.SoundMapper.SoundControl;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
 import blockgame.physics.SwitchRectangle;
@@ -71,20 +71,20 @@ public class SoundEffectPlayer {
 	private Map<MovingRectangle, Integer> rectYVelocities;
 	private Map<GoalArea, Boolean> goalsActivated;
 
-	VolumeMapper volumeMapper;
+	SoundMapper soundMapper;
 
 	/**
 	 * Creates a new {@code SoundEffectPlayer} with no objects.
 	 * 
-	 * @param volumeMapper {@code VolumeMapper} to take volume information from
+	 * @param soundMapper {@code SoundMapper} to take volume information from
 	 */
-	public SoundEffectPlayer(VolumeMapper volumeMapper) {
+	public SoundEffectPlayer(SoundMapper soundMapper) {
 		movingRectangles = new ArrayList<>();
 		switchRectangles = new ArrayList<>();
 		goals = new ArrayList<>();
 		rectYVelocities = new HashMap<>();
 		goalsActivated = new HashMap<>();
-		this.volumeMapper = volumeMapper;
+		this.soundMapper = soundMapper;
 	}
 
 	public void add(MovingRectangle rect) {
@@ -171,17 +171,17 @@ public class SoundEffectPlayer {
 
 	/**
 	 * Plays {@code soundEffect} with the volume set by this's
-	 * {@code VolumeMapper}.
+	 * {@code SoundMapper}.
 	 * 
 	 * @param soundEffect {@code SoundEffect} to play
 	 */
 	public void play(SoundEffect soundEffect) {
 		Clip clip = soundEffect.clip;
 		clip.setFramePosition(0);
-		VolumeChanger.setVolume(clip,
-				volumeMapper.get(Volume.SFX).floatValue());
-		VolumeChanger.setLeftRightPosition(clip,
-				volumeMapper.get(Volume.LR_BALANCE).floatValue());
+		SoundChanger.setVolume(clip,
+				soundMapper.get(SoundControl.SFX).floatValue());
+		SoundChanger.setLeftRightPosition(clip,
+				soundMapper.get(SoundControl.LR_BALANCE).floatValue());
 		// Make sure it starts (sometimes it) won't start right away soon after
 		// being stopped)
 		while (!clip.isRunning()) {

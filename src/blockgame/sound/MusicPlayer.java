@@ -12,8 +12,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import blockgame.gui.ErrorDialog;
 import blockgame.input.ValueChangeListener;
-import blockgame.input.VolumeMapper;
-import blockgame.input.VolumeMapper.Volume;
+import blockgame.input.SoundMapper;
+import blockgame.input.SoundMapper.SoundControl;
 import blockgame.util.SaveManager;
 
 /**
@@ -43,14 +43,14 @@ public class MusicPlayer implements ValueChangeListener {
 	private int currentThread;
 	private Song currentSong;
 	private SourceDataLine currentLine;
-	private VolumeMapper volumeMapper;
+	private SoundMapper soundMapper;
 
-	public MusicPlayer(VolumeMapper volumeMapper) {
+	public MusicPlayer(SoundMapper soundMapper) {
 		currentThread = 0;
 		currentSong = null;
 		currentLine = null;
-		this.volumeMapper = volumeMapper;
-		volumeMapper.addListener(this);
+		this.soundMapper = soundMapper;
+		soundMapper.addListener(this);
 	}
 
 	/**
@@ -79,10 +79,10 @@ public class MusicPlayer implements ValueChangeListener {
 					AudioSystem.getAudioFileFormat(stream).getFormat());
 			line.open();
 			line.start();
-			VolumeChanger.setVolume(line,
-					volumeMapper.get(Volume.MUSIC).floatValue());
-			VolumeChanger.setLeftRightPosition(line,
-					volumeMapper.get(Volume.LR_BALANCE).floatValue());
+			SoundChanger.setVolume(line,
+					soundMapper.get(SoundControl.MUSIC).floatValue());
+			SoundChanger.setLeftRightPosition(line,
+					soundMapper.get(SoundControl.LR_BALANCE).floatValue());
 
 			currentSong = song;
 			currentLine = line;
@@ -173,12 +173,12 @@ public class MusicPlayer implements ValueChangeListener {
 	@Override
 	public void valueChanged(Enum<?> key, Object newValue) {
 		if (currentLine != null) {
-			if (key == Volume.MUSIC) {
-				VolumeChanger.setVolume(currentLine,
+			if (key == SoundControl.MUSIC) {
+				SoundChanger.setVolume(currentLine,
 						((Number) newValue).floatValue());
 			}
-			if (key == Volume.LR_BALANCE) {
-				VolumeChanger.setLeftRightPosition(currentLine,
+			if (key == SoundControl.LR_BALANCE) {
+				SoundChanger.setLeftRightPosition(currentLine,
 						((Number) newValue).floatValue());
 			}
 		}

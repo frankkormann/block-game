@@ -2,35 +2,35 @@ package blockgame.gui;
 
 import javax.swing.JRootPane;
 
-import blockgame.input.VolumeMapper;
-import blockgame.input.VolumeMapper.Volume;
+import blockgame.input.SoundMapper;
+import blockgame.input.SoundMapper.SoundControl;
 
 /**
  * {@code NumberChangerPanel} which allows the user to remap values in
- * {@code VolumeMapper}. Automatically calls {@code Mapper.save} the parent
+ * {@code SoundMapper}. Automatically calls {@code Mapper.save} the parent
  * window is closed.
  * 
  * @author Frank Kormann
  */
-public class VolumeChangerPanel extends NumberChangerPanel {
+public class SoundChangerPanel extends NumberChangerPanel {
 
 	/**
-	 * Creates a {@code VolumeChangerPanel} which will alter
+	 * Creates a {@code SoundChangerPanel} which will alter
 	 * {@code volumeMapper}.
 	 * 
-	 * @param rootPane     {@code JRootPane} of parent window
-	 * @param volumeMapper {@code VolumeMapper} to alter
+	 * @param rootPane    {@code JRootPane} of parent window
+	 * @param soundMapper {@code SoundMapper} to alter
 	 */
-	public VolumeChangerPanel(JRootPane rootPane, VolumeMapper volumeMapper) {
-		super(rootPane, volumeMapper);
+	public SoundChangerPanel(JRootPane rootPane, SoundMapper soundMapper) {
+		super(rootPane, soundMapper);
 	}
 
 	@Override
 	protected SliderSpinner createSliderSpinner(Enum<?> enumValue) {
-		if (enumValue == Volume.SFX || enumValue == Volume.MUSIC) {
+		if (enumValue == SoundControl.SFX || enumValue == SoundControl.MUSIC) {
 			return new SliderSpinner(0, 200, 0, 200, 5, true, "%");
 		}
-		if (enumValue == Volume.LR_BALANCE) {
+		if (enumValue == SoundControl.LR_BALANCE) {
 			return new SliderSpinner(-100, 100, -100, 100, 10, true, null);
 		}
 
@@ -39,13 +39,13 @@ public class VolumeChangerPanel extends NumberChangerPanel {
 
 	@Override
 	protected String paramToName(Enum<?> enumValue) {
-		if (enumValue == Volume.SFX) {
+		if (enumValue == SoundControl.SFX) {
 			return "Sound Effects Volume";
 		}
-		if (enumValue == Volume.MUSIC) {
+		if (enumValue == SoundControl.MUSIC) {
 			return "Music Volume";
 		}
-		if (enumValue == Volume.LR_BALANCE) {
+		if (enumValue == SoundControl.LR_BALANCE) {
 			return "Left/right Stereo Balance";
 		}
 
@@ -54,11 +54,11 @@ public class VolumeChangerPanel extends NumberChangerPanel {
 
 	@Override
 	protected String paramToTooltip(Enum<?> enumValue) {
-		if (enumValue == Volume.SFX || enumValue == Volume.MUSIC) {
+		if (enumValue == SoundControl.SFX || enumValue == SoundControl.MUSIC) {
 			return "0% is muted, 100% is default, 200% is twice as loud\nLarge"
 					+ " values may not play correctly on some devices";
 		}
-		if (enumValue == Volume.LR_BALANCE) {
+		if (enumValue == SoundControl.LR_BALANCE) {
 			return "Distribution of sound between left and right speakers\n-100"
 					+ " is fully left and 100 is fully right";
 		}
@@ -68,7 +68,7 @@ public class VolumeChangerPanel extends NumberChangerPanel {
 
 	@Override
 	protected Enum<?>[] getEnumValues() {
-		return Volume.values();
+		return SoundControl.values();
 	}
 
 }

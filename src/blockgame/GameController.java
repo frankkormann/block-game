@@ -44,7 +44,7 @@ import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
-import blockgame.input.VolumeMapper;
+import blockgame.input.SoundMapper;
 import blockgame.physics.Area;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
@@ -128,18 +128,18 @@ public class GameController extends WindowAdapter
 		InputMapper inputMapper = new InputMapper();
 		ColorMapper colorMapper = new ColorMapper();
 		ParameterMapper paramMapper = new ParameterMapper();
-		VolumeMapper volumeMapper = new VolumeMapper();
+		SoundMapper soundMapper = new SoundMapper();
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
 
-		MusicPlayer musicPlayer = new MusicPlayer(volumeMapper);
+		MusicPlayer musicPlayer = new MusicPlayer(soundMapper);
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
 		mainFrame = new MainFrame(gameInputHandler, colorMapper, paramMapper);
-		sfxPlayer = new SoundEffectPlayer(volumeMapper);
+		sfxPlayer = new SoundEffectPlayer(soundMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
-				volumeMapper, musicPlayer, this);
+				soundMapper, musicPlayer, this);
 		menuBar.showLevelSelect(
 				SaveManager.getValue("level_select_unlocked", "false")
 						.equals("true"));

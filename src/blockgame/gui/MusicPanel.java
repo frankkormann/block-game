@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import blockgame.input.VolumeMapper;
+import blockgame.input.SoundMapper;
 import blockgame.sound.MusicPlayer;
 import blockgame.sound.MusicPlayer.Song;
 
@@ -31,18 +31,18 @@ public class MusicPanel extends JPanel {
 	/**
 	 * Creates a {@code MusicPanel} to set the song in {@code player}.
 	 * 
-	 * @param rootPane     {@code JRootPane} of the {@code Window} this will be
-	 *                     added to
-	 * @param volumeMapper {@code VolumeMapper} to take volume settings from
-	 * @param player       {@code MusicPlayer} to alter
+	 * @param rootPane    {@code JRootPane} of the {@code Window} this will be
+	 *                    added to
+	 * @param soundMapper {@code SoundMapper} to take volume settings from
+	 * @param player      {@code MusicPlayer} to alter
 	 */
-	public MusicPanel(JRootPane rootPane, VolumeMapper volumeMapper,
+	public MusicPanel(JRootPane rootPane, SoundMapper soundMapper,
 			MusicPlayer player) {
 		this.player = player;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(Box.createVerticalStrut(EDGE_SPACE));
 		add(createMusicSelector());
-		add(new VolumeChangerPanel(rootPane, volumeMapper));
+		add(new SoundChangerPanel(rootPane, soundMapper));
 	}
 
 	private JPanel createMusicSelector() {

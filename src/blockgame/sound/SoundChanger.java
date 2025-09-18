@@ -4,12 +4,11 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Line;
 
 /**
- * Contains a single static method, {@link #setVolume(Line, float)}, to adjust
- * the volume of a {@code Line}.
+ * Collection of methods to alter {@code Line} properties.
  * 
  * @author Frank Kormann
  */
-public class VolumeChanger {
+public class SoundChanger {
 
 	/**
 	 * Sets the volume of {@code line} to {@code percent} of its default volume.
@@ -25,7 +24,7 @@ public class VolumeChanger {
 	public static void setVolume(Line line, float percent) {
 		if (!line.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
 			System.err.println(
-					"In VolumeChanger.java#setVolume: MASTER_GAIN control is not"
+					"In SoundChanger.java#setVolume: MASTER_GAIN control is not"
 							+ " supported for " + line);
 			return;
 		}
@@ -55,7 +54,7 @@ public class VolumeChanger {
 		}
 		else {
 			System.err.println(
-					"In VolumeChanger.java#setVolume: neither PAN nor BALANCE control"
+					"In SoundChanger.java#setVolume: neither PAN nor BALANCE control"
 							+ " is supported for " + line);
 			return;
 		}
