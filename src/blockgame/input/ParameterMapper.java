@@ -49,8 +49,8 @@ public class ParameterMapper extends Mapper<Number> {
 		SQUARE('[', ']'), ANGLE('❮', '❯'), PARENTHESIS('(', ')'),
 		CURLY('{', '}'), GUILLEMET('«', '»'), LENTICULAR('【', '】'),
 		TORTOISE('〘', '〙'), CORNER('「', '」'), PIPE('|', '|'), QUOTE('“', '”'),
-		SIGMOID('⟆', '⟅'), BULBOUS('⸦', '⸧'), MASTERWORK('☼', '☼'),
-		NOTHING('\0', '\0');
+		SIGMOID('⟆', '⟅'), BULBOUS('⸦', '⸧'), QUESTION('¿', '?'),
+		MASTERWORK('☼', '☼'), NOTHING('\0', '\0');
 
 		public final char left;
 		public final char right;
