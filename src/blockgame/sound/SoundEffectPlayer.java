@@ -180,7 +180,9 @@ public class SoundEffectPlayer {
 		clip.setFramePosition(0);
 		VolumeChanger.setVolume(clip,
 				volumeMapper.get(Volume.SFX).floatValue());
-		// Make sure it starts (sometimesit won't start right away soon after
+		VolumeChanger.setLeftRightPosition(clip,
+				volumeMapper.get(Volume.LR_BALANCE).floatValue());
+		// Make sure it starts (sometimes it) won't start right away soon after
 		// being stopped)
 		while (!clip.isRunning()) {
 			clip.start();

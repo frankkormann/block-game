@@ -81,6 +81,8 @@ public class MusicPlayer implements ValueChangeListener {
 			line.start();
 			VolumeChanger.setVolume(line,
 					volumeMapper.get(Volume.MUSIC).floatValue());
+			VolumeChanger.setLeftRightPosition(line,
+					volumeMapper.get(Volume.LR_BALANCE).floatValue());
 
 			currentSong = song;
 			currentLine = line;
@@ -170,9 +172,13 @@ public class MusicPlayer implements ValueChangeListener {
 
 	@Override
 	public void valueChanged(Enum<?> key, Object newValue) {
-		if (key == Volume.MUSIC) {
-			if (currentLine != null) {
+		if (currentLine != null) {
+			if (key == Volume.MUSIC) {
 				VolumeChanger.setVolume(currentLine,
+						((Number) newValue).floatValue());
+			}
+			if (key == Volume.LR_BALANCE) {
+				VolumeChanger.setLeftRightPosition(currentLine,
 						((Number) newValue).floatValue());
 			}
 		}
