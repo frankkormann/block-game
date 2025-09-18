@@ -2,6 +2,7 @@ package blockgame.gui;
 
 import javax.swing.JRootPane;
 
+import blockgame.input.GetterSetter;
 import blockgame.input.SoundMapper;
 import blockgame.input.SoundMapper.SoundControl;
 
@@ -26,7 +27,7 @@ public class SoundChangerPanel extends NumberChangerPanel {
 	}
 
 	@Override
-	protected SliderSpinner createSliderSpinner(Enum<?> enumValue) {
+	protected GetterSetter<Number> createGetterSetter(Enum<?> enumValue) {
 		if (enumValue == SoundControl.SFX || enumValue == SoundControl.MUSIC) {
 			return new SliderSpinner(0, 200, 0, 200, 5, true, "%");
 		}

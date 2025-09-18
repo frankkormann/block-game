@@ -1,5 +1,6 @@
 package blockgame.gui;
 
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -44,16 +45,6 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 	}
 
 	/**
-	 * Returns a {@code SliderSpinner} with suitable bounds and settings for
-	 * {@code enumValue}.
-	 * 
-	 * @param enumValue value to create a {@code SliderSpinner} for
-	 * 
-	 * @return the {@code SliderSpinner}
-	 */
-	protected abstract SliderSpinner createSliderSpinner(Enum<?> enumValue);
-
-	/**
 	 * Returns a user-understandable for {@code enumValue}.
 	 * 
 	 * @param enumValue value to create a name for
@@ -80,11 +71,6 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 	protected abstract Enum<?>[] getEnumValues();
 
 	@Override
-	protected GetterSetter<Number> createGetterSetter(Enum<?> enumValue) {
-		return createSliderSpinner(enumValue);
-	}
-
-	@Override
 	protected JPanel createGetterSetterPanel(
 			Map<Enum<?>, GetterSetter<Number>> getterSetters,
 			Map<Enum<?>, JButton> resetButtons) {
@@ -106,15 +92,23 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 			JLabel label = new JLabel(paramToName(enumValue));
 			label.setToolTipText(paramToTooltip(enumValue));
 
-			SliderSpinner sliderSpinner = (SliderSpinner) getterSetters
-					.get(enumValue);
+			GetterSetter getterSetter = getterSetters.get(enumValue);
 
 			c.gridx = 0;
 			panel.add(label, c);
-			c.gridx = 1;
-			panel.add(sliderSpinner.getSlider(), c);
-			c.gridx = 2;
-			panel.add(sliderSpinner.getSpinner(), c);
+
+			if (getterSetter instanceof SliderSpinner) {
+				SliderSpinner sliderSpinner = (SliderSpinner) getterSetter;
+
+				c.gridx = 1;
+				panel.add(sliderSpinner.getSlider(), c);
+				c.gridx = 2;
+				panel.add(sliderSpinner.getSpinner(), c);
+			}
+			else {
+				c.gridx = 2;
+				panel.add((Component) getterSetter, c);
+			}
 			c.gridx = 3;
 			c.weightx = 0;
 			panel.add(resetButtons.get(enumValue), c);

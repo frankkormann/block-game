@@ -22,6 +22,7 @@ import blockgame.Level;
 import blockgame.input.ColorMapper;
 import blockgame.input.GameInputHandler;
 import blockgame.input.ParameterMapper;
+import blockgame.input.ParameterMapper.BracketType;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
 
@@ -447,7 +448,11 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 		newText = "<html><b>" + newText + "</b></html>";
 		newText = newText.replace(' ', ' ');
-// Normal space -^ ^- Non-breaking space
+//                   Normal space -^    ^- Non-breaking space
+		BracketType brackets = paramMapper
+				.getBracketType(Parameter.BRACKET_TYPE);
+		newText = newText.replace('[', brackets.left);
+		newText = newText.replace(']', brackets.right);
 		String taskbarText = getTitle();
 		setTitle(newText);
 		interceptPropertyChangeEvent = true; // Block FlatTitlePane from
@@ -518,6 +523,9 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		}
 		if (key == Parameter.GAME_SCALING) {
 			setGameScale(((Number) newValue).floatValue());
+		}
+		if (key == Parameter.BRACKET_TYPE) {
+			updateTitleBarText(title);
 		}
 	}
 

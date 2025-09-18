@@ -180,8 +180,8 @@ public class ControlsChangerPanel
 		}
 		else {
 			System.err.println(
-					"In ControlsChangerPanel#createResizingPanel: Unrecognized saved"
-							+ " resizing mode " + savedMode);
+					"In ControlsChangerPanel#createResizingPanel: Unrecognized"
+							+ " saved resizing mode " + savedMode);
 		}
 		modeController.addItemListener(new ItemListener() {
 			@Override
@@ -196,12 +196,12 @@ public class ControlsChangerPanel
 		});
 
 		JPanel selectorPanel = new JPanel();
+		selectorPanel.setLayout(new BoxLayout(selectorPanel, BoxLayout.X_AXIS));
 
 		JLabel selectorLabel = new JLabel(RESIZING_MODE_LABEL);
 		selectorLabel.setFont(selectorLabel.getFont().deriveFont(Font.BOLD));
 
 		selectorPanel.add(Box.createHorizontalStrut(SPACE));
-		selectorPanel.setLayout(new BoxLayout(selectorPanel, BoxLayout.X_AXIS));
 		selectorPanel.add(selectorLabel);
 		selectorPanel.add(Box.createHorizontalGlue());
 		selectorPanel.add(modeController);
