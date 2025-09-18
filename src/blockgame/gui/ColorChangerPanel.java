@@ -27,7 +27,7 @@ import blockgame.physics.Rectangle.Colors;
  */
 public class ColorChangerPanel extends ValueChangerPanel<Integer> {
 
-	private static final int VERTICAL_SPACE = 3;
+	private static final int EDGE_SPACE = 3;
 	private static final Colors DISALLOW_CHANGING = Colors.TRANSPARENT;
 
 	/**
@@ -52,14 +52,15 @@ public class ColorChangerPanel extends ValueChangerPanel<Integer> {
 
 	@Override
 	protected JPanel createGetterSetterPanel(
-			Map<Enum<?>, GetterSetter<Integer>> getterSetters) {
+			Map<Enum<?>, GetterSetter<Integer>> getterSetters,
+			Map<Enum<?>, JButton> resetButtons) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
-		c.insets = new Insets(VERTICAL_SPACE, 0, 0, 0);
+		c.insets = new Insets(EDGE_SPACE, EDGE_SPACE, 0, 0);
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 
@@ -75,6 +76,10 @@ public class ColorChangerPanel extends ValueChangerPanel<Integer> {
 			panel.add(label, c);
 			c.gridx = 1;
 			panel.add((ColorButton) getterSetters.get(color), c);
+			c.gridx = 2;
+			c.weightx = 0;
+			panel.add(resetButtons.get(color), c);
+			c.weightx = 0.5;
 
 			c.gridy++;
 		}

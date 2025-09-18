@@ -3,21 +3,21 @@ package blockgame.input;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Simple {@code Mapper} to control volume settings. Volume is stored on a
- * linear scale where 0.0 represents muted and 1.0 represents normal volume.
+ * Simple {@code Mapper} to control sound settings. Volume is stored on a linear
+ * scale where 0.0 represents muted and 1.0 represents normal volume.
  * 
  * @author Frank Kormann
  */
-public class VolumeMapper extends Mapper<Number> {
+public class SoundMapper extends Mapper<Number> {
 
-	public enum Volume {
-		MUSIC, SFX
+	public enum SoundControl {
+		MUSIC, SFX, LR_BALANCE
 	}
 
-	private static final String SAVE_PATH = "/volume.json";
-	private static final String DEFAULT_RESOURCE = "/volume_default.json";
+	private static final String SAVE_PATH = "/sound.json";
+	private static final String DEFAULT_RESOURCE = "/sound_default.json";
 
-	public VolumeMapper() {
+	public SoundMapper() {
 		super(SAVE_PATH, DEFAULT_RESOURCE);
 	}
 
@@ -29,7 +29,7 @@ public class VolumeMapper extends Mapper<Number> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<? extends Enum<?>>[] getEnumClasses() {
-		return new Class[] { Volume.class };
+		return new Class[] { SoundControl.class };
 	}
 
 	@Override

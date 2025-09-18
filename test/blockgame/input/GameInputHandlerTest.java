@@ -23,7 +23,7 @@ import org.junit.jupiter.api.io.TempDir;
 import blockgame.gui.MainFrame.Direction;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
-import blockgame.input.GameInputHandler.ResizingInput;
+import blockgame.input.GameInputHandler.SelectedSideResizingInput;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
@@ -133,10 +133,10 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized_north() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
-		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
+		SelectedSideResizingInput selectedSideResizingInput = SelectedSideResizingInput.MOVE_DOWN;
 
 		pressKey(selection);
-		pressKey(resizingInput);
+		pressKey(selectedSideResizingInput);
 
 		inputs = inputHandler.poll();
 
@@ -146,10 +146,10 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized__south() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_SOUTH;
-		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
+		SelectedSideResizingInput selectedSideResizingInput = SelectedSideResizingInput.MOVE_DOWN;
 
 		pressKey(selection);
-		pressKey(resizingInput);
+		pressKey(selectedSideResizingInput);
 
 		inputs = inputHandler.poll();
 
@@ -159,10 +159,10 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized_west() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
-		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
+		SelectedSideResizingInput selectedSideResizingInput = SelectedSideResizingInput.MOVE_RIGHT;
 
 		pressKey(selection);
-		pressKey(resizingInput);
+		pressKey(selectedSideResizingInput);
 
 		inputs = inputHandler.poll();
 
@@ -172,10 +172,10 @@ class GameInputHandlerTest {
 	@Test
 	void selected_side_is_resized_east() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_EAST;
-		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
+		SelectedSideResizingInput selectedSideResizingInput = SelectedSideResizingInput.MOVE_RIGHT;
 
 		pressKey(selection);
-		pressKey(resizingInput);
+		pressKey(selectedSideResizingInput);
 
 		inputs = inputHandler.poll();
 
@@ -185,10 +185,10 @@ class GameInputHandlerTest {
 	@Test
 	void no_vertical_resizing_when_a_horizontal_increase_is_used() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_NORTH;
-		ResizingInput resizingInput = ResizingInput.MOVE_RIGHT;
+		SelectedSideResizingInput selectedSideResizingInput = SelectedSideResizingInput.MOVE_RIGHT;
 
 		pressKey(selection);
-		pressKey(resizingInput);
+		pressKey(selectedSideResizingInput);
 
 		inputs = inputHandler.poll();
 
@@ -198,10 +198,10 @@ class GameInputHandlerTest {
 	@Test
 	void no_horizontal_resizing_when_a_vertical_increase_is_used() {
 		DirectionSelectorInput selection = DirectionSelectorInput.SELECT_WEST;
-		ResizingInput resizingInput = ResizingInput.MOVE_DOWN;
+		SelectedSideResizingInput selectedSideResizingInput = SelectedSideResizingInput.MOVE_DOWN;
 
 		pressKey(selection);
-		pressKey(resizingInput);
+		pressKey(selectedSideResizingInput);
 
 		inputs = inputHandler.poll();
 

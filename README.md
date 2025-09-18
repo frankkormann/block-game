@@ -26,8 +26,7 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Operating system</td>
-		<td>Developed and tested on Windows 11. It probably works on other
-			platforms supported by Java, but this is not guaranteed.</td>
+		<td>Windows 10/11, Linux (probably)</td>
 	</tr>
 	<tr>
 		<td>Processor</td>
@@ -35,11 +34,11 @@ by interacting with the environment in varied, creative ways.
 	</tr>
 	<tr>
 		<td>Memory</td>
-		<td>256 MB RAM</td>
+		<td>Minimum 256 MB; more memory may be used to increase performance</td>
 	</tr>
 	<tr>
 		<td>Storage</td>
-		<td>3.58 MB (22.6 MB with optional music) jar file; ~2 KB save data</td>
+		<td>3.59 MB (22.6 MB with optional music) jar file; ~2 KB save data</td>
 	</tr>
 </table>
 
@@ -130,12 +129,16 @@ All sound effects are from Davit Masia's Free SFX pack:
 The most up-to-date documentation can be found through the wiki:
 [https://github.com/frankkormann/block-game/wiki](https://github.com/frankkormann/block-game/wiki).
 
-### Creating / editing levels
+### Creating custom levels
 
-Each level is built from a `JSON` file. See
+Alternate level packs can be loaded by providing the their path as a command
+line argument. Each level pack is a `zip` file which contains all the level
+files and associated recordings and images.
+
+Each level, and the level select menu, is built from a `JSON` file. See
 [the wiki](https://github.com/frankkormann/block-game/wiki) for formatting
 requirements. See `level_demo.json` for an example level that creates every type
-of rectangle.
+of Rectangle.
 
 When the game starts, it will automatically load the level path stored in the
 savedata value `title_screen`. If there is nothing set there, it will load
@@ -145,12 +148,6 @@ savedata value `title_screen`. If there is nothing set there, it will load
 
 The project's name is "Block Game" internally because that was its original name,
 and the maintainer has no interest in changing it everywhere.
-
-## Contributing
-
-Outside contributions are not accepted because this is primarily a personal
-project. However, feedback in all forms is welcomed. You are also free to extend
-the project on your own.
 
 ## License
 

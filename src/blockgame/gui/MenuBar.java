@@ -26,8 +26,8 @@ import blockgame.GameController;
 import blockgame.input.ColorMapper;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
+import blockgame.input.SoundMapper;
 import blockgame.input.ValueChangeListener;
-import blockgame.input.VolumeMapper;
 import blockgame.sound.MusicPlayer;
 import blockgame.util.Pair;
 
@@ -74,18 +74,17 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 * {@code inputMapper}, {@code colorMapper}, and {@code paramMaper}, and to
 	 * change song in {@code musicPlayer}.
 	 * 
-	 * @param inputMapper  {@code InputMapper} to take keybinds from and to
-	 *                     alter in {@code OptionsDialog}
-	 * @param colorMapper  {@code ColorMapper} to alter in {@code OptionsDialog}
-	 * @param paramMapper  {@code ParameterMapper} to alter in
-	 *                     {@code OptionsDialog}
-	 * @param volumeMapper {@code VolumeMapper} to alter in
-	 *                     {@code OptionsDialog}
-	 * @param musicPlayer  {@code MusicPlayer} to play music
-	 * @param listener     {@code GameController} which will process inputs
+	 * @param inputMapper {@code InputMapper} to take keybinds from and to alter
+	 *                    in {@code OptionsDialog}
+	 * @param colorMapper {@code ColorMapper} to alter in {@code OptionsDialog}
+	 * @param paramMapper {@code ParameterMapper} to alter in
+	 *                    {@code OptionsDialog}
+	 * @param soundMapper {@code SoundMapper} to alter in {@code OptionsDialog}
+	 * @param musicPlayer {@code MusicPlayer} to play music
+	 * @param listener    {@code GameController} which will process inputs
 	 */
 	public MenuBar(InputMapper inputMapper, ColorMapper colorMapper,
-			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			ParameterMapper paramMapper, SoundMapper soundMapper,
 			MusicPlayer musicPlayer, GameController listener) {
 		this.listener = listener;
 		this.inputMapper = inputMapper;
@@ -93,10 +92,9 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		menus = new ArrayList<>();
 		menuWidths = new HashMap<>();
 
-		fileChooser = new JFileChooser();  // global file chooser so it
-											  // remembers which directory the
-											  // user was in if they open it
-											  // multiple times
+		// Global file chooser so it remembers which directory the user was in
+		// if they open it multiple times
+		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(
 				new FileNameExtensionFilter("Recording Files (.rec)", "rec"));
 
@@ -108,7 +106,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		add(hintMenu);
 		add(createPauseRestartMenu());
 		add(createRecordingMenu());
-		add(createOptionsButton(colorMapper, paramMapper, volumeMapper,
+		add(createOptionsButton(colorMapper, paramMapper, soundMapper,
 				musicPlayer));
 		add(levelSelectButton);
 		super.add(moreMenu);
@@ -191,9 +189,8 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	public void updateUI() {
 		super.updateUI();
 		if (menus != null) {
-			menus.forEach(m -> super.add(m));  // Make sure preferredSize
-												  // reflects size as a
-												  // top-level menu
+			// Make sure preferredSize reflects size as a top-level menu
+			menus.forEach(m -> super.add(m));
 			menus.forEach(m -> menuWidths.put(m, m.getPreferredSize().width));
 			menuWidths.put(moreMenu, moreMenu.getPreferredSize().width);
 		}
@@ -289,11 +286,11 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	}
 
 	private JMenu createOptionsButton(ColorMapper colorMapper,
-			ParameterMapper paramMapper, VolumeMapper volumeMapper,
+			ParameterMapper paramMapper, SoundMapper soundMapper,
 			MusicPlayer musicPlayer) {
 		Runnable openDialog = () -> {
 			new OptionsDialog(SwingUtilities.getWindowAncestor(this),
-					inputMapper, colorMapper, paramMapper, volumeMapper,
+					inputMapper, colorMapper, paramMapper, soundMapper,
 					musicPlayer).setVisible(true);
 		};
 
@@ -375,12 +372,10 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new Thread(action).start();  // In a new thread to fix a problem
-											  // related to updating component
-											  // UI while in a dialog; AWT tries
-											  // to send a mouse pressed event
-											  // to the old UI, but its
-											  // component is now null
+				// In a new thread to fix a problem related to updating
+				// component UI while in a dialog; AWT tries to send a mouse
+				// pressed event to the old UI, but its component is now null
+				new Thread(action).start();
 			}
 		});
 

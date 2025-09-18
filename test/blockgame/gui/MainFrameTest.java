@@ -17,13 +17,15 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import blockgame.Level;
 import blockgame.gui.MainFrame.Direction;
+import blockgame.input.ColorMapper;
 import blockgame.input.GameInputHandler;
 import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.util.SaveManager;
 
-// These tests will skip if in a headless environment (an environment that doesn't
+// These tests will skip if in a headless environment (an environment that
+// doesn't
 // support keyboard, display, etc.)
 class MainFrameTest {
 
@@ -46,7 +48,7 @@ class MainFrameTest {
 
 		GameInputHandler inputHandler = new GameInputHandler(new InputMapper(),
 				paramMapper);
-		mainFrame = new MainFrame(inputHandler, paramMapper);
+		mainFrame = new MainFrame(inputHandler, new ColorMapper(), paramMapper);
 
 		level = new Level();
 		level.width = 800;

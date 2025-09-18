@@ -28,7 +28,8 @@ public abstract class ValueChangerPanel<T> extends JPanel
 		implements ValueChangeListener {
 
 	private static final String UNDO_TEXT = "Undo changes";
-	private static final String RESET_TEXT = "Reset to defaults";
+	private static final String RESET_ALL_TEXT = "Reset to defaults";
+	private static final String RESET_TEXT = "↺";
 
 	private Mapper<T> mapper;
 	private Map<Enum<?>, GetterSetter<T>> enumToGetterSetter;
@@ -40,6 +41,8 @@ public abstract class ValueChangerPanel<T> extends JPanel
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		Map<Enum<?>, JButton> resetButtons = new HashMap<>();
+
 		for (Class<? extends Enum<?>> enumClass : mapper.getEnumClasses()) {
 			for (Enum<?> enumValue : enumClass.getEnumConstants()) {
 				GetterSetter<T> getterSetter = createGetterSetter(enumValue);
@@ -47,9 +50,15 @@ public abstract class ValueChangerPanel<T> extends JPanel
 					continue;
 				}
 				bindComponent(getterSetter, enumValue);
+
+				JButton resetButton = new JButton(RESET_TEXT);
+				resetButton.addActionListener(e -> {
+					mapper.setToDefault(enumValue);
+				});
+				resetButtons.put(enumValue, resetButton);
 			}
 		}
-		add(createGetterSetterPanel(enumToGetterSetter));
+		add(createGetterSetterPanel(enumToGetterSetter, resetButtons));
 		add(createUndoResetButtonPanel());
 
 		Window window = SwingUtilities.getWindowAncestor(rootPane);
@@ -85,13 +94,17 @@ public abstract class ValueChangerPanel<T> extends JPanel
 	 * {@code GetterSetter}, there will be no mapping for that enum in
 	 * {@code getterSetters}.
 	 * 
-	 * @param getterSetters {@code Map} from the enum value for this
-	 *                      {@code GetterSetter} to the {@code GetterSetter}
+	 * @param getterSetters {@code Map} from each enum value to the
+	 *                      {@code GetterSetter} that controls it
+	 * @param resetButtons  {@code Map} from each enum value to the
+	 *                      {@code JButton} which will reset it to its default
+	 *                      value
 	 * 
 	 * @return the {@code JPanel}
 	 */
 	protected abstract JPanel createGetterSetterPanel(
-			Map<Enum<?>, GetterSetter<T>> getterSetters);
+			Map<Enum<?>, GetterSetter<T>> getterSetters,
+			Map<Enum<?>, JButton> resetButtons);
 
 	/**
 	 * Sets {@code component} to stick to and change the value of
@@ -123,7 +136,7 @@ public abstract class ValueChangerPanel<T> extends JPanel
 			mapper.reload();
 		});
 
-		JButton resetButton = new JButton(RESET_TEXT);
+		JButton resetButton = new JButton(RESET_ALL_TEXT);
 		resetButton.addActionListener(e -> {
 			mapper.setToDefaults();
 		});

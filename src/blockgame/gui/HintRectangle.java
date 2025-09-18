@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.physics.Rectangle;
+import blockgame.util.DrawUtils;
 
 /**
  * Translucent {@code Rectangle} which can be toggled visible or not visible.
@@ -44,7 +45,8 @@ public class HintRectangle extends Rectangle {
 		g = g.create();
 
 		g.setColor(getBorderColor());
-		drawRectOutline(g, OUTLINE_THICKNESS);
+		DrawUtils.drawRectOutline(g, OUTLINE_THICKNESS, getX(), getY(),
+				getWidth(), getHeight());
 
 		g.setColor(new Color(getColor().getRed(), getColor().getGreen(),
 				getColor().getBlue(), (int) (getColor().getAlpha()

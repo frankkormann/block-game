@@ -128,16 +128,17 @@ public class CollisionPropagator {
 					collisionData[1], false);
 
 			other.moveCollision(collisionData[0], collisionData[1], false);
-			if (collisionData[1] < 0) {  // Fixes issue with jumping into blocks
-				other.setYVelocity(0);   // from below
+			// Fixes issue with jumping into blocks from below
+			if (collisionData[1] < 0) {
+				other.setYVelocity(0);
 			}
 			collisionMap.put(other,
 					new Pair<MovingRectangle, int[]>(rect, collisionData));
 
 			int[] pushback = propagateCollision(other, colliders, collisionMap);
 
-			if (collisionData[0] != 0) {  // rect should only be pushed back in
-										  // the direction it pushed other
+			// rect should only be pushed back in the direction it pushed othe
+			if (collisionData[0] != 0) {
 				rect.moveCollision(pushback[0], 0, true);
 				pushedAmount[0] += pushback[0];
 			}
@@ -492,9 +493,8 @@ public class CollisionPropagator {
 	 */
 	private int pullToX(Rectangle rect, Rectangle other) {
 		boolean moveLeft = rect.getLastX() > other.getLastX();
-		if (rect.getLastX() == other.getLastX()) { // If they were in the exact
-													 // same spot, only move
-													 // right if there is room
+		// If they were in the exact same spot, only move right if there is room
+		if (rect.getLastX() == other.getLastX()) {
 			moveLeft = rect.getX() + rect.getWidth()
 					+ other.getWidth() > sides.get(Direction.EAST).getX();
 		}
@@ -515,9 +515,8 @@ public class CollisionPropagator {
 	 */
 	private int pullToY(Rectangle rect, Rectangle other) {
 		boolean moveUp = rect.getLastY() > other.getLastY();
-		if (rect.getLastY() == other.getLastY()) {  // If they were in the exact
-													  // same spot, only move
-													  // down if there is room
+		// If they were in the exact same spot, only move down if there is room
+		if (rect.getLastY() == other.getLastY()) {
 			moveUp = rect.getY() + rect.getHeight()
 					+ other.getHeight() > sides.get(Direction.SOUTH).getY();
 		}

@@ -44,7 +44,7 @@ import blockgame.input.InputMapper;
 import blockgame.input.ParameterMapper;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
-import blockgame.input.VolumeMapper;
+import blockgame.input.SoundMapper;
 import blockgame.physics.Area;
 import blockgame.physics.GoalArea;
 import blockgame.physics.MovingRectangle;
@@ -58,6 +58,7 @@ import blockgame.physics.WallRectangle;
 import blockgame.sound.MusicPlayer;
 import blockgame.sound.SoundEffectPlayer;
 import blockgame.sound.SoundEffectPlayer.SoundEffect;
+import blockgame.util.FileSource;
 import blockgame.util.Pair;
 import blockgame.util.SaveManager;
 
@@ -104,7 +105,12 @@ public class GameController extends WindowAdapter
 				UIManager.get("TitlePane.foreground"));
 		UIManager.put("TitlePane.menuBarTitleMinimumGap", 0);
 		System.setProperty("flatlaf.uiScale.allowScaleDown", "true");
+
 		SaveManager.setDirectory(System.getenv(DIRECTORY_ENV_VAR));
+		if (args.length > 0) {
+			FileSource.setSource(args[0]);
+		}
+
 		// Stolen from https://www.formdev.com/flatlaf/window-decorations/
 		if (SystemInfo.isLinux) {
 			// enable custom window decorations
@@ -122,18 +128,18 @@ public class GameController extends WindowAdapter
 		InputMapper inputMapper = new InputMapper();
 		ColorMapper colorMapper = new ColorMapper();
 		ParameterMapper paramMapper = new ParameterMapper();
-		VolumeMapper volumeMapper = new VolumeMapper();
+		SoundMapper soundMapper = new SoundMapper();
 
 		Rectangle.setColorMapper(colorMapper);
 		Rectangle.setParameterMapper(paramMapper);
 
-		MusicPlayer musicPlayer = new MusicPlayer(volumeMapper);
+		MusicPlayer musicPlayer = new MusicPlayer(soundMapper);
 		gameInputHandler = new GameInputHandler(inputMapper, paramMapper);
 		// physicsSimulator is instantiated when the first level is loaded
-		mainFrame = new MainFrame(gameInputHandler, paramMapper);
-		sfxPlayer = new SoundEffectPlayer(volumeMapper);
+		mainFrame = new MainFrame(gameInputHandler, colorMapper, paramMapper);
+		sfxPlayer = new SoundEffectPlayer(soundMapper);
 		menuBar = new MenuBar(inputMapper, colorMapper, paramMapper,
-				volumeMapper, musicPlayer, this);
+				soundMapper, musicPlayer, this);
 		menuBar.showLevelSelect(
 				SaveManager.getValue("level_select_unlocked", "false")
 						.equals("true"));
@@ -157,8 +163,8 @@ public class GameController extends WindowAdapter
 			}
 		});
 
-		if (isLevelInField("visited_levels", 5)) {  // Update saves from older
-													  // versions
+		// Update saves from older versions
+		if (isLevelInField("visited_levels", 5)) {
 			SaveManager.putValue("level_select_unlocked", "true");
 		}
 
@@ -206,8 +212,7 @@ public class GameController extends WindowAdapter
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Something went wrong", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Something went wrong", e);
 		}
 	}
 
@@ -246,8 +251,7 @@ public class GameController extends WindowAdapter
 			}
 			catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e)
-						.setVisible(true);
+				ErrorDialog.showDialog("Something went wrong", e);
 			}
 		}
 		else {
@@ -295,17 +299,14 @@ public class GameController extends WindowAdapter
 	 * @return the {@code Level}
 	 */
 	private Level readLevel(String resource) {
-		try {
+		try (InputStream levelSource = FileSource.getStream(resource)) {
 			ObjectMapper mapper = new ObjectMapper();
-			return mapper.readValue(getClass().getResourceAsStream(resource),
-					Level.class);
+			return mapper.readValue(levelSource, Level.class);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Could not load level '" + resource
-							+ "', file is corrupt or does not exist",
-					e).setVisible(true);
+			ErrorDialog.showDialog("Could not load level '" + resource
+					+ "', file is corrupt or does not exist", e);
 
 			if (mainFrame.isVisible()) {
 				physicsSimulator.resetNextlevel();
@@ -494,8 +495,7 @@ public class GameController extends WindowAdapter
 			}
 			catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
-				new ErrorDialog("Error", "Something went wrong", e)
-						.setVisible(true);
+				ErrorDialog.showDialog("Something went wrong", e);
 			}
 		}
 		else {
@@ -598,8 +598,7 @@ public class GameController extends WindowAdapter
 			return;
 		}
 
-		InputStream solutionStream = getClass()
-				.getResourceAsStream(currentSolution);
+		InputStream solutionStream = FileSource.getStream(currentSolution);
 
 		if (solutionStream == null) {
 			JOptionPane.showMessageDialog(mainFrame,
@@ -619,8 +618,7 @@ public class GameController extends WindowAdapter
 
 		reloadLevel();
 
-		gameInputHandler
-				.beginReading(getClass().getResourceAsStream(currentSolution));
+		gameInputHandler.beginReading(solutionStream);
 	}
 
 	/**
@@ -664,9 +662,8 @@ public class GameController extends WindowAdapter
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Could not " + errorWord + " file '" + file + "'", e)
-					.setVisible(true);
+			ErrorDialog.showDialog(
+					"Could not " + errorWord + " file '" + file + "'", e);
 		}
 	}
 

@@ -38,7 +38,27 @@ public class ParameterMapper extends Mapper<Number> {
 		/**
 		 * Amount each {@code ResizingSide} extends into the frame
 		 */
-		RESIZING_AREA_WIDTH
+		RESIZING_AREA_WIDTH,
+		/**
+		 * Which {@code BracketType} to use for bracket symbols
+		 */
+		BRACKET_TYPE
+	}
+
+	public enum BracketType {
+		SQUARE('[', ']'), ANGLE('❮', '❯'), PARENTHESIS('(', ')'),
+		CURLY('{', '}'), GUILLEMET('«', '»'), LENTICULAR('【', '】'),
+		TORTOISE('〘', '〙'), CORNER('「', '」'), PIPE('|', '|'), QUOTE('“', '”'),
+		SIGMOID('⟆', '⟅'), BULBOUS('⸦', '⸧'), QUESTION('¿', '?'),
+		MASTERWORK('☼', '☼'), NOTHING('\0', '\0');
+
+		public final char left;
+		public final char right;
+
+		private BracketType(char left, char right) {
+			this.left = left;
+			this.right = right;
+		}
 	}
 
 	private static final String SAVE_PATH = "/parameters.json";
@@ -93,6 +113,10 @@ public class ParameterMapper extends Mapper<Number> {
 	 */
 	public float getFloat(Enum<?> parameter) {
 		return get(parameter) == null ? 0 : get(parameter).floatValue();
+	}
+
+	public BracketType getBracketType(Enum<?> parameter) {
+		return BracketType.values()[get(parameter).intValue()];
 	}
 
 }

@@ -27,6 +27,22 @@ import javax.swing.KeyStroke;
  */
 public class ErrorDialog extends JDialog {
 
+	private static final String DEFAULT_TITLE = "Error";
+
+	/**
+	 * Shows an {@code ErrorDialog} with a default title.
+	 * <p>
+	 * {@code message} and {@code err}'s short form are shown in the dialog's
+	 * body, and {@code err}'s full stack trace is hidden behind a "Details"
+	 * button.
+	 * 
+	 * @param message short error message to display in the dialog body
+	 * @param err     {@code Exception} to extract stack trace information from
+	 */
+	public static void showDialog(String message, Exception err) {
+		new ErrorDialog(DEFAULT_TITLE, message, err).setVisible(true);
+	}
+
 	/**
 	 * Creates an {@code ErrorDialog} for {@code err}.
 	 * <p>
@@ -44,8 +60,9 @@ public class ErrorDialog extends JDialog {
 	public ErrorDialog(String title, String message, Exception err) {
 		super((Frame) null, title, true);
 
-		JPanel contentPanePanel = new JPanel(); // Ensure that content pane is a
-		setContentPane(contentPanePanel);	   // JPanel so it can have a border
+		// Ensure that content pane is a JPanel so it can have a border
+		JPanel contentPanePanel = new JPanel();
+		setContentPane(contentPanePanel);
 		contentPanePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -68,12 +85,11 @@ public class ErrorDialog extends JDialog {
 
 		registerDisposeOnKeypress(KeyEvent.VK_ESCAPE);
 
-		messageArea.setSize(messageArea.getPreferredSize());  // Fix issue where
-		pack();												  // wrapped line
-		setLocationRelativeTo(null);						  // height is not
-															  // taken into
-															  // account by
-															  // pack()
+		// Fix issue where wrapped line height is not taken into account by
+		// pack()
+		messageArea.setSize(messageArea.getPreferredSize());
+		pack();
+		setLocationRelativeTo(null);
 	}
 
 	private JTextArea createMessageArea(String message, Exception err) {
@@ -182,6 +198,7 @@ public class ErrorDialog extends JDialog {
 	 * element of the trace is on a new line.
 	 * 
 	 * @param err {@code Exception} to take stack trace from
+	 * 
 	 * @return multi-line {@code String} representation of {@code err}'s stack
 	 *         trace
 	 */

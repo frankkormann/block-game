@@ -374,8 +374,9 @@ public class PhysicsSimulator {
 
 		sides.get(side.getDirection().getOpposite()).setActLikeWall(false);
 
-		if (pushedBack[0] != 0) {  // Infer side's direction based on how it
-			return pushedBack[0];  // collided
+		// Infer side's direction based on how it collided
+		if (pushedBack[0] != 0) {
+			return pushedBack[0];
 		}
 		return pushedBack[1];
 	}

@@ -3,6 +3,7 @@ package blockgame.mocks;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
@@ -30,7 +31,8 @@ public class ValueChangerPanelMock extends ValueChangerPanel<Integer> {
 
 	@Override
 	protected JPanel createGetterSetterPanel(
-			Map<Enum<?>, GetterSetter<Integer>> getterSetters) {
+			Map<Enum<?>, GetterSetter<Integer>> getterSetters,
+			Map<Enum<?>, JButton> resetButtons) {
 		return new JPanel();  // TODO Figure out a way to test GUI elements
 	}
 

@@ -1,6 +1,5 @@
 package blockgame.gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -11,6 +10,10 @@ import java.util.TreeMap;
 
 import javax.swing.JPanel;
 
+import blockgame.input.ColorMapper;
+import blockgame.input.ValueChangeListener;
+import blockgame.physics.Rectangle.Colors;
+
 /**
  * Draws all {@code Drawable}s to the window using their {@code draw} methods.
  * 
@@ -20,25 +23,29 @@ import javax.swing.JPanel;
  *
  * @author Frank Kormann
  */
-public class DrawingPane extends JPanel {
+public class DrawingPane extends JPanel implements ValueChangeListener {
 
 	private SortedMap<Integer, List<Drawable>> drawableLists;
 
 	private int xOffset, yOffset;
 	private float scale;
+	private ColorMapper colorMapper;
 
 	/**
-	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0}
-	 * and a white background.
+	 * Creates an empty {@code DrawingPane} with both offsets set to {@code 0}.
+	 * 
+	 * @param colorMapper {@code ColorMapper} to take background color from
 	 */
-	public DrawingPane() {
+	public DrawingPane(ColorMapper colorMapper) {
 		super();
 
 		this.xOffset = 0;
 		this.yOffset = 0;
+		this.colorMapper = colorMapper;
 		scale = 1;
 
-		setBackground(Color.WHITE);
+		setBackground(colorMapper.getColor(Colors.BACKGROUND));
+		colorMapper.addListener(this);
 
 		drawableLists = new TreeMap<>();
 	}
@@ -104,5 +111,15 @@ public class DrawingPane extends JPanel {
 	public int getYOffset() {
 		return yOffset;
 	}
+
+	@Override
+	public void valueChanged(Enum<?> key, Object newValue) {
+		if (key == Colors.BACKGROUND) {
+			setBackground(colorMapper.getColor(Colors.BACKGROUND));
+		}
+	}
+
+	@Override
+	public void valueRemoved(Enum<?> key) {}
 
 }

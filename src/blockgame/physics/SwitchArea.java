@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import blockgame.util.DrawUtils;
+
 /**
  * {@code Area} that reports to {@code SwitchController}. As long as there is a
  * {@code MovingRectangle} within this, all the children of its
@@ -47,8 +49,8 @@ public class SwitchArea extends Area {
 		// Calculate the width/height by subtracting 2 quarters so that there is
 		// equal distance from each side of the inner rectangle to the side of
 		// the outer rectangle, taking into account float rounding
-		drawDashedRectangle(g, new Color(0, 0, 0, 0), DASH_SIZE, DASH_THICKNESS,
-				getX() + quarterWidth, getY() + quarterHeight,
+		DrawUtils.drawDashedRectangle(g, new Color(0, 0, 0, 0), DASH_SIZE,
+				DASH_THICKNESS, getX() + quarterWidth, getY() + quarterHeight,
 				getWidth() - 2 * quarterWidth, getHeight() - 2 * quarterHeight);
 
 		g.dispose();

@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -18,8 +19,10 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.util.UIScale;
 
 import blockgame.Level;
+import blockgame.input.ColorMapper;
 import blockgame.input.GameInputHandler;
 import blockgame.input.ParameterMapper;
+import blockgame.input.ParameterMapper.BracketType;
 import blockgame.input.ParameterMapper.Parameter;
 import blockgame.input.ValueChangeListener;
 
@@ -58,7 +61,6 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 	private static final int WIDTH_MINIMUM = 150;
 	private static final int HEIGHT_MINIMUM = 150;
-	// TODO Figure out how to work around maximum window size
 
 	private float scale;
 	private int idealWidth, idealHeight, idealXOffset, idealYOffset;
@@ -104,10 +106,11 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	 * to this as a {@code KeyListener} and {@code FocusListener}.
 	 * 
 	 * @param gameInputHandler {@code GameInputHandler} to register
+	 * @param colorMapper      {@code ColorMapper} to take background color from
 	 * @param paramMapper      {@code ParameterMapper} to take parameter values
 	 *                         from
 	 */
-	public MainFrame(GameInputHandler gameInputHandler,
+	public MainFrame(GameInputHandler gameInputHandler, ColorMapper colorMapper,
 			ParameterMapper paramMapper) {
 		super(WINDOW_TITLE);
 
@@ -122,7 +125,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 		interceptPropertyChangeEvent = false;
 
-		drawingPane = new DrawingPane();
+		drawingPane = new DrawingPane(colorMapper);
 		this.paramMapper = paramMapper;
 		paramMapper.addListener(this);
 
@@ -184,10 +187,10 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		try {
 			setIconImage(ImageIO.read(getClass().getResource(TASKBAR_ICON)));
 		}
-		catch (IOException e) {
+		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to load resource for taskbar icon",
-					e).setVisible(true);
+			ErrorDialog.showDialog("Failed to load resource for taskbar icon",
+					e);
 		}
 
 		addKeyListener(gameInputHandler);
@@ -207,6 +210,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				// Move centerX|Y such that getPreferredX|Y() is getX|Y()
+				// so that this will not be moved back by arrangeComponents()
 				if (getX() != getPreferredX()) {
 					centerX = getX() - (int) (idealXOffset * scale);
 				}
@@ -268,17 +272,31 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	public void resize(int change, Direction direction) {
+		if (change == 0) {
+			return;
+		}
 		if (direction == Direction.NORTH || direction == Direction.WEST) {
 			change *= -1;
 		}
 
-		if ((direction == Direction.NORTH || direction == Direction.SOUTH)
-				&& (idealHeight + change < HEIGHT_MINIMUM)) {
-			change = HEIGHT_MINIMUM - idealHeight;
+		if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+			if (idealHeight + change < HEIGHT_MINIMUM) {
+				change = HEIGHT_MINIMUM - idealHeight;
+			}
+			int screenHeight = Toolkit.getDefaultToolkit()
+					.getScreenSize().height;
+			if (getHeight() + (int) (change * scale) > screenHeight) {
+				change = (int) ((screenHeight - getHeight()) / scale);
+			}
 		}
-		if ((direction == Direction.WEST || direction == Direction.EAST)
-				&& (idealWidth + change < WIDTH_MINIMUM)) {
-			change = WIDTH_MINIMUM - idealWidth;
+		if (direction == Direction.WEST || direction == Direction.EAST) {
+			if (idealWidth + change < WIDTH_MINIMUM) {
+				change = WIDTH_MINIMUM - idealWidth;
+			}
+			int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+			if (getWidth() + (int) (change * scale) > screenWidth) {
+				change = (int) ((screenWidth - getWidth()) / scale);
+			}
 		}
 
 		switch (direction) {
@@ -356,15 +374,14 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 				int resizingSideThickness = paramMapper
 						.getInt(Parameter.RESIZING_AREA_WIDTH);
+				int northThickness = Math.min(resizingSideThickness,
+						getTitlePaneHeight() / 2);
 
 				switch (((ResizingSide) comp).getDirection()) {
 					case NORTH:
-						if (resizingSideThickness > getTitlePaneHeight() / 2) {
-							resizingSideThickness = getTitlePaneHeight() / 2;
-						}
 						comp.setBounds(0, 0, getWidth()
 								- getTitlePaneButtonsWidth() - insetsX,
-								resizingSideThickness);
+								northThickness);
 						break;
 					case SOUTH:
 						comp.setBounds(0,
@@ -372,26 +389,27 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 								getWidth(), resizingSideThickness);
 						break;
 					case WEST:
-						comp.setBounds(0, resizingSideThickness,
-								resizingSideThickness,
-								getHeight() - resizingSideThickness);
+						comp.setBounds(0, northThickness, resizingSideThickness,
+								getHeight() - resizingSideThickness
+										- northThickness - insetsY);
 						break;
 					case EAST:
 						comp.setBounds(
 								getWidth() - resizingSideThickness - insetsX,
 								getTitlePaneHeight(), resizingSideThickness,
 								getHeight() - resizingSideThickness
-										- getTitlePaneHeight());
+										- getTitlePaneHeight() - insetsY);
 				}
 			}
 
 		}
-		if (drawingPane != null)
+		if (drawingPane != null) {
 			drawingPane.setBounds(0, 0,
 					(int) Math.min(getContentPane().getWidth(),
 							idealWidth * scale),
 					(int) Math.max(getContentPane().getHeight(),
 							idealHeight * scale));
+		}
 	}
 
 	private int getPreferredX() {
@@ -404,7 +422,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 	private int getPreferredWidth() {
 		return (int) (idealWidth * scale) + getInsets().left
-				+ getInsets().bottom;
+				+ getInsets().right;
 	}
 
 	private int getPreferredHeight() {
@@ -422,18 +440,23 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 				UIManager.getFont("TitlePane.font").deriveFont(Font.BOLD))
 				.stringWidth(newText)
 				+ UIManager.getInt("TitlePane.buttonMinimumWidth");
-		UIManager.put("TitlePane.titleMinimumWidth",  // Need to unscale it
-				UIScale.unscale(textWidth));		  // because FlatLaf
-													  // re-scales it
+		// Need to unscale it because FlatLaf re-scales it
+		UIManager.put("TitlePane.titleMinimumWidth",
+				UIScale.unscale(textWidth)); // Need to unscale it because
+											 // FlatLaf re-scales it
 		SwingUtilities.updateComponentTreeUI(this);
 
 		newText = "<html><b>" + newText + "</b></html>";
 		newText = newText.replace(' ', ' ');
 //                   Normal space -^    ^- Non-breaking space
+		BracketType brackets = paramMapper
+				.getBracketType(Parameter.BRACKET_TYPE);
+		newText = newText.replace('[', brackets.left);
+		newText = newText.replace(']', brackets.right);
 		String taskbarText = getTitle();
 		setTitle(newText);
-		interceptPropertyChangeEvent = true;  // Block FlatTitlePane from
-		setTitle(taskbarText);  				// setting its text back
+		interceptPropertyChangeEvent = true; // Block FlatTitlePane from
+		setTitle(taskbarText);               // setting its text back
 		interceptPropertyChangeEvent = false;
 	}
 
@@ -458,7 +481,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	/**
 	 * Returns the buffered ideal x-offset.
 	 * 
-	 * @return Current x offset + pending changes
+	 * @return Current x-offset + pending changes
 	 */
 	public int getNextXOffset() {
 		return idealXOffset + xChange;
@@ -467,7 +490,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	/**
 	 * Returns the buffered ideal y-offset.
 	 * 
-	 * @return Current y offset + pending changes
+	 * @return Current y-offset + pending changes
 	 */
 	public int getNextYOffset() {
 		return idealYOffset + yChange;
@@ -500,6 +523,9 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 		}
 		if (key == Parameter.GAME_SCALING) {
 			setGameScale(((Number) newValue).floatValue());
+		}
+		if (key == Parameter.BRACKET_TYPE) {
+			updateTitleBarText(title);
 		}
 	}
 

@@ -28,17 +28,25 @@ import blockgame.util.SaveManager;
  */
 public abstract class Mapper<T> {
 
-	private Map<Enum<?>, T> enumMap;
+	private Map<Enum<?>, T> valuesMap;
+	private Map<Enum<?>, T> defaultValues;
 	private List<ValueChangeListener> changeListeners;
 
 	private String savePath;
-	private String defaultValuesResource;
 
 	public Mapper(String savePath, String defaultValuesResource) {
-		enumMap = new HashMap<>();
+		valuesMap = new HashMap<>();
 		changeListeners = new ArrayList<>();
 		this.savePath = savePath;
-		this.defaultValuesResource = defaultValuesResource;
+
+		try (InputStream stream = getClass()
+				.getResourceAsStream(defaultValuesResource)) {
+			defaultValues = readValues(stream).values;
+		}
+		catch (IOException | IllegalArgumentException e) {
+			e.printStackTrace();
+			ErrorDialog.showDialog("Default values file is unavailable", e);
+		}
 
 		loadFromFile();
 	}
@@ -47,14 +55,14 @@ public abstract class Mapper<T> {
 	 * Returns a {@code TypeReference} of type
 	 * {@code TypeReference<EnumValues<T>>}.
 	 * <p>
-	 * This is necessary due to Java type erasure. The {@code Mapper} superclass
-	 * does not know what type {@code T} is, so it cannot construct a suitable
+	 * This is necessary due to type erasure. The {@code Mapper} superclass does
+	 * not know what type {@code T} is, so it cannot construct a suitable
 	 * {@code TypeReference}.
 	 * <p>
 	 * An example implementation would be, if {@code T} is {@code Integer}:
 	 * 
 	 * <pre>
-	 * public TypeReference&lt;EnumValues&lt;T&gt;&gt; getJsonTypeReference() {
+	 * public TypeReference&lt;EnumValues&lt;Integer&gt;&gt; getJsonTypeReference() {
 	 * 	return new TypeReference&lt;EnumValues&lt;Integer&gt;&gt;() {};
 	 * }
 	 * </pre>
@@ -92,21 +100,13 @@ public abstract class Mapper<T> {
 	public void save() {
 		ObjectMapper mapper = new ObjectMapper();
 		EnumValues<T> json = new EnumValues<>();
-		json.values = enumMap;
-		try {
-			OutputStream out = SaveManager.writeFile(savePath);
+		json.values = valuesMap;
+		try (OutputStream out = SaveManager.writeFile(savePath)) {
 			mapper.writeValue(out, json);
-			try {
-				out.close();
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to save to " + savePath, e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Failed to save to " + savePath, e);
 		}
 	}
 
@@ -127,19 +127,14 @@ public abstract class Mapper<T> {
 	}
 
 	/**
-	 * Loads values from {@code stream} if the value is not already set.
-	 * 
-	 * @param stream {@code InputStream} to read from
-	 * 
-	 * @throws IOException if an I/O error occurs
+	 * For each key, if it not already set, loads its default value.
 	 */
-	private void loadUnset(InputStream stream) throws IOException {
-		EnumValues<T> json = readValues(stream);
-
-		for (Enum<?> key : json.values.keySet()) {
-			if (get(key) == null) {
-				T value = json.values.get(key);
-				set(key, value);
+	private void loadUnset() {
+		for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
+			for (Enum<?> key : enumClass.getEnumConstants()) {
+				if (get(key) == null) {
+					setToDefault(key);
+				}
 			}
 		}
 	}
@@ -155,23 +150,32 @@ public abstract class Mapper<T> {
 	 * Sets all values to their default values.
 	 */
 	public void setToDefaults() {
-		try {
-			load(getClass().getResourceAsStream(defaultValuesResource));
-		}
-		catch (IOException | IllegalArgumentException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Default values file is unavailable, go to Options to set values manually",
-					e).setVisible(true);
-
-			if (!allowUnset()) {
-				for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
-					for (Enum<?> key : enumClass.getEnumConstants()) {
-						set(key, getDefaultValue());
-					}
-				}
+		for (Class<? extends Enum<?>> enumClass : getEnumClasses()) {
+			for (Enum<?> key : enumClass.getEnumConstants()) {
+				setToDefault(key);
 			}
 		}
+	}
+
+	/**
+	 * Sets the value associated with {@code key} to its default value.
+	 * 
+	 * @param key enum value to reset
+	 */
+	public void setToDefault(Enum<?> key) {
+		if (defaultValues == null) {
+			System.err.println(
+					"defaultValues is null in " + getClass().getSimpleName());
+			set(key, getDefaultValue());
+			return;
+		}
+		if (!defaultValues.containsKey(key)) {
+			System.err.println("No default value set for " + key + " in "
+					+ getClass().getSimpleName());
+			set(key, getDefaultValue());
+			return;
+		}
+		set(key, defaultValues.get(key));
 	}
 
 	/**
@@ -186,33 +190,23 @@ public abstract class Mapper<T> {
 		if (fileStream == null) {
 			setToDefaults();
 			save();
-			fileStream = SaveManager.readFile(savePath);
 		}
-
-		try {
-			load(fileStream);
-			fileStream.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			new ErrorDialog("Error",
-					"Can't read saved values, resetting to defaults", e)
-					.setVisible(true);
-			setToDefaults();
-			save();
+		else {
+			try {
+				load(fileStream);
+				fileStream.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				ErrorDialog.showDialog(
+						"Can't read saved values, resetting to defaults", e);
+				setToDefaults();
+				save();
+			}
 		}
 
 		if (!allowUnset()) {
-			try {
-				loadUnset(
-						getClass().getResourceAsStream(defaultValuesResource));
-			}
-			catch (IOException | IllegalArgumentException e) {
-				e.printStackTrace();
-				new ErrorDialog("Error",
-						"Can't read default values file. Some values may not be set.",
-						e).setVisible(true);
-			}
+			loadUnset();
 		}
 	}
 
@@ -223,7 +217,7 @@ public abstract class Mapper<T> {
 	 * @param value value to set
 	 */
 	public void set(Enum<?> key, T value) {
-		enumMap.put(key, value);
+		valuesMap.put(key, value);
 
 		for (ValueChangeListener listener : changeListeners) {
 			listener.valueChanged(key, value);
@@ -239,13 +233,14 @@ public abstract class Mapper<T> {
 	 * @return value of type {@code T}
 	 */
 	public T get(Enum<?> key) {
-		return enumMap.get(key);
+		return valuesMap.get(key);
 	}
 
 	/**
 	 * Removes {@code key} and its associated value.
 	 * <p>
-	 * Throws {@code UnsupportedOperationException} if values must be set.
+	 * Throws {@code UnsupportedOperationException} if values must be set (that
+	 * is, if {@link #allowUnset()} returns {@code false}).
 	 * 
 	 * @param key enum value to remove
 	 * 
@@ -255,7 +250,7 @@ public abstract class Mapper<T> {
 		if (!allowUnset()) {
 			throw new UnsupportedOperationException("Values must be set");
 		}
-		enumMap.remove(key);
+		valuesMap.remove(key);
 
 		for (ValueChangeListener listener : changeListeners) {
 			listener.valueRemoved(key);

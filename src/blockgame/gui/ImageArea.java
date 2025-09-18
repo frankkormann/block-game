@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import blockgame.input.ValueChangeListener;
 import blockgame.physics.Area;
 import blockgame.physics.MovingRectangle;
+import blockgame.util.FileSource;
 
 /**
  * {@code Area} which draws an image from a resource as its texture.
@@ -45,9 +47,8 @@ public class ImageArea extends Area implements ValueChangeListener {
 		imitatedArea = null;
 		colorMapper.addListener(this);
 
-		try {
-			baseImage = ImageIO
-					.read(ImageArea.class.getResourceAsStream(source));
+		try (InputStream imgSource = FileSource.getStream(source)) {
+			baseImage = ImageIO.read(imgSource);
 			imageToDraw = new BufferedImage(baseImage.getWidth(),
 					baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			setWidth(baseImage.getWidth());
@@ -58,10 +59,9 @@ public class ImageArea extends Area implements ValueChangeListener {
 				}
 			}
 		}
-		catch (IOException e) {
+		catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Failed to read image '" + source + "'", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Failed to read image '" + source + "'", e);
 		}
 	}
 

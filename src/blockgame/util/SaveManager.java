@@ -73,8 +73,7 @@ public class SaveManager {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't open save file " + name, e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't open save file " + name, e);
 			return null;
 		}
 	}
@@ -98,8 +97,7 @@ public class SaveManager {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't write to save file " + name, e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't write to save file " + name, e);
 			return null;
 		}
 	}
@@ -159,8 +157,7 @@ public class SaveManager {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't read save data", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't read save data", e);
 			cachedValues = new HashMap<>();
 			return;
 		}
@@ -170,16 +167,13 @@ public class SaveManager {
 	 * Saves all values to disk.
 	 */
 	private static void saveToFile() {
-		OutputStream outstream = writeFile(SAVE_FILE_NAME);
 		ObjectMapper mapper = new ObjectMapper();
-		try {
+		try (OutputStream outstream = writeFile(SAVE_FILE_NAME);) {
 			mapper.writeValue(outstream, cachedValues);
-			outstream.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			new ErrorDialog("Error", "Can't write save data", e)
-					.setVisible(true);
+			ErrorDialog.showDialog("Can't write save data", e);
 		}
 	}
 

@@ -3,9 +3,10 @@ package blockgame.input;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import blockgame.gui.MenuBar.MetaInput;
+import blockgame.input.GameInputHandler.AbsoluteResizingInput;
 import blockgame.input.GameInputHandler.DirectionSelectorInput;
 import blockgame.input.GameInputHandler.MovementInput;
-import blockgame.input.GameInputHandler.ResizingInput;
+import blockgame.input.GameInputHandler.SelectedSideResizingInput;
 import blockgame.util.Pair;
 
 /**
@@ -46,7 +47,8 @@ public class InputMapper extends Mapper<Pair<Integer, Integer>> {
 	@SuppressWarnings("unchecked")
 	public Class<? extends Enum<?>>[] getEnumClasses() {
 		return new Class[] { MovementInput.class, DirectionSelectorInput.class,
-				ResizingInput.class, MetaInput.class };
+				SelectedSideResizingInput.class, AbsoluteResizingInput.class,
+				MetaInput.class };
 	}
 
 	@Override
