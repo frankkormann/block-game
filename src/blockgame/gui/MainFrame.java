@@ -271,6 +271,9 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 	}
 
 	public void resize(int change, Direction direction) {
+		if (change == 0) {
+			return;
+		}
 		if (direction == Direction.NORTH || direction == Direction.WEST) {
 			change *= -1;
 		}
@@ -282,7 +285,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 			int screenHeight = Toolkit.getDefaultToolkit()
 					.getScreenSize().height;
 			if (getHeight() + (int) (change * scale) > screenHeight) {
-				change = (int) (screenHeight - getHeight() / scale);
+				change = (int) ((screenHeight - getHeight()) / scale);
 			}
 		}
 		if (direction == Direction.WEST || direction == Direction.EAST) {
@@ -418,7 +421,7 @@ public class MainFrame extends JFrame implements ValueChangeListener {
 
 	private int getPreferredWidth() {
 		return (int) (idealWidth * scale) + getInsets().left
-				+ getInsets().bottom;
+				+ getInsets().right;
 	}
 
 	private int getPreferredHeight() {
