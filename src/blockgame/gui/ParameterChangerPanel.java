@@ -24,8 +24,6 @@ import blockgame.input.ParameterMapper.Parameter;
  */
 public class ParameterChangerPanel extends NumberChangerPanel {
 
-	private static final int SPACE = 3;
-
 	/**
 	 * Creates a {@code ParameterChangerPanel} which will alter
 	 * {@code paramMapper}.

@@ -92,7 +92,7 @@ public abstract class NumberChangerPanel extends ValueChangerPanel<Number> {
 			JLabel label = new JLabel(paramToName(enumValue));
 			label.setToolTipText(paramToTooltip(enumValue));
 
-			GetterSetter getterSetter = getterSetters.get(enumValue);
+			GetterSetter<Number> getterSetter = getterSetters.get(enumValue);
 
 			c.gridx = 0;
 			panel.add(label, c);
