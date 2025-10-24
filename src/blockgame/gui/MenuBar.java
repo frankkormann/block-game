@@ -135,6 +135,7 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	 */
 	@Override
 	public void doLayout() {
+		putMenuWidths();
 		int x = 0;
 		JMenu menu, nextMenu;
 		boolean overflowing = false;
@@ -188,6 +189,10 @@ public class MenuBar extends JMenuBar implements ValueChangeListener {
 	@Override
 	public void updateUI() {
 		super.updateUI();
+		putMenuWidths();
+	}
+
+	private void putMenuWidths() {
 		if (menus != null) {
 			// Make sure preferredSize reflects size as a top-level menu
 			menus.forEach(m -> super.add(m));
